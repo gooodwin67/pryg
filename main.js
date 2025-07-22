@@ -36,9 +36,9 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
 
-// let controls = new OrbitControls(camera, labelRenderer.domElement);
-// controls.enableDamping = true;
-// controls.target.set(0, 0, 0);
+let controls = new OrbitControls(camera);
+controls.enableDamping = true;
+controls.target.set(0, 0, 0);
 
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
@@ -48,6 +48,12 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
 
 async function initClases() {
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  camera.position.z = 5;
 }
 initClases();
 
