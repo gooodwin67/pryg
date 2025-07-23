@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.18.0-beta.0",
     "three": "^0.178.0"
   },
   "devDependencies": {
