@@ -7,6 +7,8 @@ export class PhysicsClass {
 
   this.dynamicBodies = [];
   this.allWallBodyCollision = [];
+  this.playersHandles = [];
+
  }
 
  addPhysicsToObject(obj) {
@@ -36,7 +38,8 @@ export class PhysicsClass {
 
    let playerCollider = this.world.createCollider(shape, body)
 
-   obj.userData.handle = playerBody.handle;
+   obj.userData.handle = playerBody.handle.toString();
+   this.playersHandles.push(playerBody.handle)
 
    this.dynamicBodies.push([obj, body, obj.id])
 
@@ -55,7 +58,7 @@ export class PhysicsClass {
    obj.userData.orgRotation = originalRotation;
 
    body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.fixed().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
-   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.4).setFriction(10);
+   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.0).setFriction(0.3);
 
 
 

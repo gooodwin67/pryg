@@ -5,14 +5,20 @@ export class PlayerClass {
  constructor() {
   this.playerHeight = 0.5;
   this.playerWidth = 0.3;
-  this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshStandardMaterial({ color: 0xff0000, transparent: true, opacity: 0.5 }));
+  this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshStandardMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
   this.player.rotation.y = Math.PI;
   this.player.userData.name = 'player';
   this.player.userData.readyJump = false;
   this.player.userData.jumping = false;
   this.player.userData.playerPowerJump = 1;
   this.player.userData.body = 0;
+  this.player.userData.onGround = false;
   this.playerModel;
+
+  this.playerOut = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight + 0.1, this.playerWidth1), new THREE.MeshStandardMaterial({ color: 0xffff00, transparent: true, opacity: 0.0 }));
+
+  this.playerOut.userData.id = this.player.uuid;
+
 
   this.leftHand;
   this.rightHand;
@@ -45,9 +51,21 @@ export class PlayerClass {
  }
 
  playerMove() {
+
+
+
+
   this.playerModel.position.x = this.player.position.x;
   this.playerModel.position.y = this.player.position.y - this.playerHeight / 2;
   this.playerModel.position.z = this.player.position.z;
+
+
+  this.playerOut.position.copy(this.player.position);
+  this.playerOut.rotation.copy(this.player.rotation);
+
+
+
+
 
   //this.playerModel.quaternion.copy(this.player.userData.body.rotation())
 
@@ -89,7 +107,7 @@ export class PlayerClass {
   }
 
   if (this.player.userData.jumping) {
-   //this.player.userData.body.applyImpulse({ x: this.player.userData.playerPowerJump / 2, y: this.player.userData.playerPowerJump, z: 0 }, true);
+   this.player.userData.body.applyImpulse({ x: this.player.userData.playerPowerJump / 3.0, y: this.player.userData.playerPowerJump, z: 0 }, true);
    this.player.userData.playerPowerJump = 1;
    this.player.userData.jumping = false;
   }

@@ -77,6 +77,7 @@ let physicsClass;
 
 
 let plane;
+let planes = [];
 
 
 async function initClases() {
@@ -96,18 +97,31 @@ async function initClases() {
 
   players.push(new PlayerClass());
   players.push(new PlayerClass());
+  players.push(new PlayerClass());
 
   physicsClass.addPhysicsToObject(players[0].player)
   physicsClass.addPhysicsToObject(players[1].player)
+  physicsClass.addPhysicsToObject(players[2].player)
 
   await players[0].loadPlayerModel();
   await players[1].loadPlayerModel();
+  await players[2].loadPlayerModel();
 
   scene.add(players[0].player)
   scene.add(players[1].player)
+  scene.add(players[2].player)
+
+  scene.add(players[0].playerOut)
+  scene.add(players[1].playerOut)
+  scene.add(players[2].playerOut)
+
+  planes.push(players[0].playerOut)
+  planes.push(players[1].playerOut)
+  planes.push(players[2].playerOut)
 
   scene.add(players[0].playerModel)
   scene.add(players[1].playerModel)
+  scene.add(players[2].playerModel)
 
 
   const geometryPlane = new THREE.BoxGeometry(2, 10, 1);
@@ -118,11 +132,23 @@ async function initClases() {
   scene.add(plane);
   physicsClass.addPhysicsToObject(plane)
 
+  let planeTop = new THREE.Mesh(new THREE.BoxGeometry(2, 0.1, 1), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 }));
+  planeTop.position.y = -1.02;
+  scene.add(planeTop);
+  planes.push(planeTop);
+
   for (let i = 0; i < 50; i++) {
     let newPlane = plane.clone();
-    newPlane.position.x = (i + 1) * getRandomNumber(3, 4);
-    newPlane.position.y = getRandomNumber(-4, -7);
+    let newPlaneTop = planeTop.clone();
+    let randomX = (i + 1) * getRandomNumber(3, 4);
+    let randomY = getRandomNumber(-4, -7);
+    newPlane.position.x = randomX;
+    newPlane.position.y = randomY;
+    newPlaneTop.position.x = randomX;
+    newPlaneTop.position.y = randomY + 5;
     scene.add(newPlane);
+    scene.add(newPlaneTop);
+    planes.push(newPlaneTop);
 
     physicsClass.addPhysicsToObject(newPlane)
   }
@@ -152,25 +178,88 @@ async function initMatch() {
 
 
 
+function maxSpeed(players) {
+  if (players.length === 0) return -1; // Если массив пустой, возвращаем -1
 
+  let maxIndex = 0; // Начинаем с первого элемента
+  let maxValue = players[0].player.position.x; // Сохраняем значение первого элемента
+
+  for (let i = 1; i < players.length; i++) {
+    // Проверяем, существует ли player и его position
+    if (players[i].player && players[i].player.position) {
+      if (players[i].player.position.x > maxValue) {
+        maxValue = players[i].player.position.x; // Обновляем максимальное значение
+        maxIndex = i; // Обновляем индекс максимального значения
+      }
+    } else {
+      console.warn(`Player at index ${i} is missing player or position properties.`);
+    }
+  }
+
+  return maxIndex; // Возвращаем индекс элемента с максимальным значением
+}
 
 
 
 function animate() {
   if (dataLoaded) {
 
+    //console.log(players[0].player.userData.onGround)
+
     players.forEach((value, index, array) => {
       value.playerMove()
     })
 
 
-    camera.position.set(players[0].player.position.x + 0, players[0].player.position.y + 1, 15)
+    camera.position.set(players[maxSpeed(players)].player.position.x - 0, 0 + 0, 15)
+    //camera.lookAt(players[maxSpeed(players)].player.position)
+
+
+
+
+
+    // camera.position.set(players[0].player.position.x + 0, players[0].player.position.y + 1, 15)
     //camera.lookAt(player.position)
-    //camera.position.x += 0.03;
+    // camera.position.x += 0.03;
+    // camera.position.y = 1;
+
+
+
+
+    players.forEach((value, index, array) => {
+      if (detectCollisionCubeAndArray(value.player, planes)) {
+        value.player.userData.onGround = true;
+      }
+      else {
+        value.player.userData.onGround = false;
+      }
+    })
+
 
 
 
     eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+
+      //console.log(physicsClass.playersHandles.includes(handle2))
+      // console.log(physicsClass.playersHandles)
+      // console.log(physicsClass.playersHandles)
+      // console.log(handle1)
+
+
+      // if (physicsClass.playersHandles.indexOf(handle1.toString())) {
+      //   players[handle1].player.userData.onGround = true;
+      // }
+
+
+      // if ((handle2 == value.handle && started) || ((physicsClass.playersHandles.includes(handle2) && started))) {
+      //   players.forEach((value, index, array) => {
+
+      //     value.player.userData.onGround = true;
+
+
+      //   })
+      // }
+
 
 
       allWallBodyCollision.forEach((value, index) => {
@@ -222,18 +311,19 @@ function onKeyDown(event) {
 
   switch (event.code) {
     case undefined:
-      players[0].player.userData.readyJump = true;
+      downKeys(players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
 
       break;
-    case 'KeyS':
+    case 'KeyZ':
     case 'ArrowDown':
-      players[1].player.userData.readyJump = true;
+      downKeys(players[1].player);
       break;
-    case 'KeyA':
+    case 'KeyM':
     case 'ArrowLeft':
+      downKeys(players[2].player);
       break;
     case 'KeyD':
     case 'ArrowRight':
@@ -244,20 +334,18 @@ function onKeyDown(event) {
 function onKeyUp(event) {
   switch (event.code) {
     case undefined:
-      if (players[0].player.userData.readyJump) players[0].player.userData.jumping = true;
-      players[0].player.userData.readyJump = false;
+      upKeys(players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
-
       break;
-    case 'KeyS':
+    case 'KeyZ':
     case 'ArrowDown':
-      if (players[1].player.userData.readyJump) players[1].player.userData.jumping = true;
-      players[1].player.userData.readyJump = false;
+      upKeys(players[1].player);
       break;
-    case 'KeyA':
+    case 'KeyM':
     case 'ArrowLeft':
+      upKeys(players[2].player);
       break;
     case 'KeyD':
     case 'ArrowRight':
@@ -265,9 +353,85 @@ function onKeyUp(event) {
   }
 }
 
+function downKeys(player) {
+  if (player.userData.onGround) {
+    player.userData.readyJump = true;
+  }
+}
+function upKeys(player) {
+  if (player.userData.readyJump) {
+    player.userData.jumping = true;
+    player.userData.readyJump = false;
 
+    player.userData.onGround = false;
+
+
+  }
+}
 
 
 function getRandomNumber(min, max) {
   return Math.random() * (max - min) + min
+}
+
+export function detectCollisionCubes(object1, object2) {
+  object1.geometry.computeBoundingBox();
+  object2.geometry.computeBoundingBox();
+  object1.updateMatrixWorld();
+  object2.updateMatrixWorld();
+  let box1 = object1.geometry.boundingBox.clone();
+  box1.applyMatrix4(object1.matrixWorld);
+  let box2 = object2.geometry.boundingBox.clone();
+  box2.applyMatrix4(object2.matrixWorld);
+
+  //if (box1.intersectsBox(box2)) $('.info').text(1);
+  return box1.intersectsBox(box2);
+}
+
+
+export function detectCollisionCubeAndArray(object1, array) {
+  object1.geometry.computeBoundingBox();
+
+  array.forEach(function (item, index, array) {
+    item.geometry.computeBoundingBox();
+  });
+
+  object1.updateMatrixWorld();
+  array.forEach(function (item, index, array) {
+    item.updateMatrixWorld();
+  });
+
+  let box1 = object1.geometry.boundingBox.clone();
+  box1.applyMatrix4(object1.matrixWorld);
+
+  var intersect = false;
+
+  // array.forEach(function (item, index, array) {
+  for (let i = array.length - 1; i > -1; i--) {
+
+    if (array[i].userData.id == undefined || array[i].userData.id != object1.uuid) {
+      let box2 = array[i].geometry.boundingBox.clone();
+      box2.applyMatrix4(array[i].matrixWorld);
+
+      if (box2.intersectsBox(box1)) {
+        intersect = array[i];
+      }
+    }
+
+  }
+  // });
+
+
+
+  //if (intersect.userData.id == object1.uuid) {
+  // console.log(object1.uuid)
+  // console.log(intersect.userData.id)
+  //}
+
+
+
+  return intersect;
+
+
+
 }
