@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export class PlayerClass {
- constructor() {
+ constructor(audioClass) {
+    this.audioClass = audioClass;
   this.playerHeight = 0.5;
   this.playerWidth = 0.3;
   this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
@@ -15,6 +16,7 @@ export class PlayerClass {
   this.player.userData.playerPowerJump = 1;
   this.player.userData.body = 0;
   this.player.userData.onGround = false;
+  this.player.userData.audio = [];
   this.playerModel;
 
   this.playerOut = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight + 0.1, this.playerWidth1), new THREE.MeshStandardMaterial({ color: 0xffff00, transparent: true, opacity: 0.0 }));

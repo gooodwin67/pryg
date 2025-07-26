@@ -20,6 +20,8 @@ import { PlayerClass } from "./player";
 import { LevelClass } from "./level";
 import { PhysicsClass } from "./physics";
 
+import { AudioClass } from "./audio";
+
 
 console.clear();
 
@@ -137,6 +139,8 @@ let players = [];
 let physicsClass;
 let levelClass;
 
+let audioClass;
+
 
 
 
@@ -151,14 +155,16 @@ async function initClases() {
 
 
 
+  audioClass = new AudioClass();
 
+  await audioClass.loadAudio();
 
   physicsClass = new PhysicsClass(world, RAPIER);
   levelClass = new LevelClass();
+  
 
-
-  players.push(new PlayerClass());
-  players.push(new PlayerClass());
+  players.push(new PlayerClass(audioClass));
+  players.push(new PlayerClass(audioClass));
 
 
   const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
@@ -185,6 +191,9 @@ async function initClases() {
     else {
       colors.splice(colors.length, 0, ...colors);
     }
+
+    player.player.userData.audio.push(audioClass.readyJumpAudio.clone())
+    player.player.userData.audio.push(audioClass.jumpAudio.clone())
   }
 
 
@@ -484,17 +493,23 @@ function onKeyUp(event) {
 
 function downKeys(player) {
 
-  if (player.userData.onGround) player.userData.readyJump = true;
+  if (player.userData.onGround) {
+    player.userData.readyJump = true;
+    player.userData.audio[0].play();
+  }
 
 }
 function upKeys(player) {
   if (player.userData.readyJump && player.userData.onGround) {
     player.userData.jumping = true;
     player.userData.readyJump = false;
+    player.userData.audio[0].stop();
+    player.userData.audio[1].play();
     player.userData.onGround = false;
   }
   else if (!player.userData.onGround) {
     player.userData.readyJump = false;
+    player.userData.audio[0].stop();
   }
 }
 
