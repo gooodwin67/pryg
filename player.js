@@ -5,8 +5,10 @@ export class PlayerClass {
  constructor() {
   this.playerHeight = 0.5;
   this.playerWidth = 0.3;
-  this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshStandardMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
+  this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
+  this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
   this.player.rotation.y = Math.PI;
+  this.player.position.y = 2;
   this.player.userData.name = 'player';
   this.player.userData.readyJump = false;
   this.player.userData.jumping = false;
@@ -16,6 +18,7 @@ export class PlayerClass {
   this.playerModel;
 
   this.playerOut = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight + 0.1, this.playerWidth1), new THREE.MeshStandardMaterial({ color: 0xffff00, transparent: true, opacity: 0.0 }));
+  this.playerOut.material.depthWrite = false; // Отключаем запись в буфер глубины
 
   this.playerOut.userData.id = this.player.uuid;
 
@@ -35,6 +38,17 @@ export class PlayerClass {
   await gltfLoader.loadAsync(url).then((gltf) => {
    const root = gltf.scene;
    this.playerModel = root;
+
+   this.playerModel.traverse(function (child) {
+    if (child.isMesh) {
+     child.castShadow = true;
+    }
+   });
+   this.playerModel.children[0].traverse(function (child) {
+    if (child.isMesh) {
+     child.castShadow = true;
+    }
+   });
 
 
 
@@ -103,11 +117,11 @@ export class PlayerClass {
   });
 
   if (this.player.userData.readyJump) {
-   if (this.player.userData.playerPowerJump < 5) this.player.userData.playerPowerJump += 0.1;
+   if (this.player.userData.playerPowerJump < 8) this.player.userData.playerPowerJump += 0.2;
   }
 
   if (this.player.userData.jumping) {
-   this.player.userData.body.applyImpulse({ x: this.player.userData.playerPowerJump / 3.0, y: this.player.userData.playerPowerJump, z: 0 }, true);
+   this.player.userData.body.applyImpulse({ x: this.player.userData.playerPowerJump / 3.0, y: this.player.userData.playerPowerJump / 1.4, z: 0 }, true);
    this.player.userData.playerPowerJump = 1;
    this.player.userData.jumping = false;
   }

@@ -13,7 +13,11 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 import RAPIER from '@dimforge/rapier3d-compat';
 
+import { detectDevice } from "./functions";
+
+
 import { PlayerClass } from "./player";
+import { LevelClass } from "./level";
 import { PhysicsClass } from "./physics";
 
 
@@ -22,15 +26,18 @@ console.clear();
 let world;
 let dataLoaded = false;
 
+let mouse = new THREE.Vector3;
+let raycaster = new THREE.Raycaster;
+
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
 // scene.fog = new THREE.Fog(scene.background, 1, 60);
 
-const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 1000);
-camera.position.z = 15;
+const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
+camera.position.z = 7;
 camera.position.y = 2;
 
-
+const isMobile = detectDevice();
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
@@ -41,25 +48,74 @@ document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
+window.addEventListener('resize', onWindowResize, false);
+function onWindowResize() {
+  // if (isMobile) {
+  //   camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+  //   camera.updateProjectionMatrix();
+  //   renderer.setSize(innerWidth, innerHeight);
+  // }
+  // else {
+  //   camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+  //   camera.updateProjectionMatrix();
+  //   renderer.setSize(document.body.offsetWidth, document.body.offsetHeight);
+  // }
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
 const ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
 //scene.add(ambientLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
 hemiLight.color.setHSL(0.6, 1, 0.6);
 hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-hemiLight.position.set(0, 100, 0);
+hemiLight.position.set(0, 10, 0);
 scene.add(hemiLight);
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 3);
-//dirLight.color.setHSL(0.1, 1, 0.95);
-dirLight.position.set(1, 2, 0.2);
-dirLight.position.multiplyScalar(120);
+const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+dirLight.color.setHSL(0.1, 1, 0.95);
+dirLight.position.set(0, 5, 5); // Измените позицию
+dirLight.castShadow = true;
+dirLight.shadow.camera.far = 10; // Убедитесь, что это значение достаточно велико
+
+
+
 scene.add(dirLight);
 
+const targetObject = new THREE.Object3D();
+scene.add(targetObject);
+
+dirLight.target = targetObject;
 
 
 
-//let controls = new OrbitControls(camera, renderer.domElement);
+const helper = new THREE.DirectionalLightHelper(dirLight, 3);
+// scene.add(helper);
+
+function updateLighting() {
+
+  dirLight.target.position.set(players[maxSpeed(players)].player.position.x - 4, -20, -10)
+
+
+
+  dirLight.position.set(players[maxSpeed(players)].player.position.x, players[maxSpeed(players)].player.position.y + 2, players[1].player.position.z);
+
+
+  // // Обновление камеры теней
+  const d = 10; // Размер камеры теней
+  dirLight.shadow.camera.left = -d;
+  dirLight.shadow.camera.right = d;
+  dirLight.shadow.camera.top = d;
+  dirLight.shadow.camera.bottom = -d;
+
+  // dirLight.shadow.camera.far = 5000; // Убедитесь, что это значение достаточно велико
+}
+
+
+// let controls = new OrbitControls(camera, renderer.domElement);
 
 
 
@@ -74,10 +130,10 @@ let eventQueue;
 let players = [];
 
 let physicsClass;
+let levelClass;
 
 
-let plane;
-let planes = [];
+
 
 
 async function initClases() {
@@ -93,73 +149,74 @@ async function initClases() {
 
 
   physicsClass = new PhysicsClass(world, RAPIER);
+  levelClass = new LevelClass();
 
 
   players.push(new PlayerClass());
   players.push(new PlayerClass());
-  players.push(new PlayerClass());
-
-  physicsClass.addPhysicsToObject(players[0].player)
-  physicsClass.addPhysicsToObject(players[1].player)
-  physicsClass.addPhysicsToObject(players[2].player)
-
-  await players[0].loadPlayerModel();
-  await players[1].loadPlayerModel();
-  await players[2].loadPlayerModel();
-
-  scene.add(players[0].player)
-  scene.add(players[1].player)
-  scene.add(players[2].player)
-
-  scene.add(players[0].playerOut)
-  scene.add(players[1].playerOut)
-  scene.add(players[2].playerOut)
-
-  planes.push(players[0].playerOut)
-  planes.push(players[1].playerOut)
-  planes.push(players[2].playerOut)
-
-  scene.add(players[0].playerModel)
-  scene.add(players[1].playerModel)
-  scene.add(players[2].playerModel)
 
 
-  const geometryPlane = new THREE.BoxGeometry(2, 10, 1);
-  const materialPlane = new THREE.MeshStandardMaterial({ color: 0x00cc00 });
-  plane = new THREE.Mesh(geometryPlane, materialPlane);
-  plane.userData.name = 'plane';
-  plane.position.y = -6;
-  scene.add(plane);
-  physicsClass.addPhysicsToObject(plane)
+  const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
 
-  let planeTop = new THREE.Mesh(new THREE.BoxGeometry(2, 0.1, 1), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 }));
-  planeTop.position.y = -1.02;
-  scene.add(planeTop);
-  planes.push(planeTop);
 
-  for (let i = 0; i < 50; i++) {
-    let newPlane = plane.clone();
-    let newPlaneTop = planeTop.clone();
-    let randomX = (i + 1) * getRandomNumber(3, 4);
-    let randomY = getRandomNumber(-4, -7);
-    newPlane.position.x = randomX;
-    newPlane.position.y = randomY;
-    newPlaneTop.position.x = randomX;
-    newPlaneTop.position.y = randomY + 5;
-    scene.add(newPlane);
-    scene.add(newPlaneTop);
-    planes.push(newPlaneTop);
 
-    physicsClass.addPhysicsToObject(newPlane)
+  for (let i = 0; i < players.length; i++) {
+    let player = players[i];
+    physicsClass.addPhysicsToObject(player.player);
+    await player.loadPlayerModel();
+
+    scene.add(player.player);
+    scene.add(player.playerOut);
+    scene.add(player.playerModel);
+
+    levelClass.topPlanes.push(player.playerOut);
+
+    scene.add(player.playerModel)
+
+
+    if (i < colors.length) {
+      player.head.children[0].material.color.set(colors[i]);
+    }
+    else {
+      colors.splice(colors.length, 0, ...colors);
+    }
   }
+
+
+
+
+
+
 
 
 
   dataLoaded = true;
 }
-initClases();
+
 
 async function initEntity() {
+
+  //scene.add(levelClass.plane);
+  //console.log(levelClass.planes)
+
+  await levelClass.createLevel();
+
+  for (let i = 0; i < levelClass.planes.length; i++) {
+    scene.add(levelClass.planes[i]);
+    physicsClass.addPhysicsToObject(levelClass.planes[i]);
+
+    scene.add(levelClass.grassPlanes[i]);
+    physicsClass.addPhysicsToObject(levelClass.grassPlanes[i]);
+
+    scene.add(levelClass.topPlanes[i]);
+  }
+
+
+
+  //scene.add(levelClass.planeTop);
+
+
+
 
 }
 
@@ -169,12 +226,14 @@ async function initScenes() {
 
 async function initMatch() {
   //toggleLoader();
-
+  await initClases();
   await initEntity();
   await initScenes();
 
   //toggleLoader();
 }
+
+initMatch();
 
 
 
@@ -210,24 +269,33 @@ function animate() {
       value.playerMove()
     })
 
-
-    camera.position.set(players[maxSpeed(players)].player.position.x - 0, 0 + 0, 15)
-    //camera.lookAt(players[maxSpeed(players)].player.position)
+    updateLighting()
 
 
 
 
+    // camera.position.set(players[maxSpeed(players)].player.position.x - 0, 0 + 1, 15)
+    // camera.lookAt(players[maxSpeed(players)].player.position)
 
-    // camera.position.set(players[0].player.position.x + 0, players[0].player.position.y + 1, 15)
-    //camera.lookAt(player.position)
-    // camera.position.x += 0.03;
-    // camera.position.y = 1;
+
+
+
+
+    // camera.position.set(players[0].player.position.x + 2, players[0].player.position.y + 5, 15)
+    // camera.lookAt(players[0].player.position)
+
+
+    //camera.position.x += 0.03;
+    camera.position.x = players[maxSpeed(players)].player.position.x;
+    camera.position.y = 3;
+    camera.position.z = 15;
+    camera.lookAt(camera.position.x, camera.position.y - 2, 0)
 
 
 
 
     players.forEach((value, index, array) => {
-      if (detectCollisionCubeAndArray(value.player, planes)) {
+      if (detectCollisionCubeAndArray(value.player, levelClass.topPlanes)) {
         value.player.userData.onGround = true;
       }
       else {
@@ -306,8 +374,41 @@ window.addEventListener('keyup', onKeyUp);
 window.addEventListener('mousedown', onKeyDown);
 window.addEventListener('mouseup', onKeyUp);
 
+document.addEventListener('touchend', onTapUp);
+document.addEventListener('touchstart', onTapDown);
+
+function onTapDown(event) {
+
+  let rect = renderer.domElement.getBoundingClientRect();
+
+  event = event.changedTouches[0];
+
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  if (mouse.x > 0) {
+    downKeys(players[0].player);
+  }
+  else {
+    downKeys(players[1].player);
+  }
+
+}
+function onTapUp(event) {
+  if (mouse.x > 0) {
+    upKeys(players[0].player);
+  }
+  else {
+    upKeys(players[1].player);
+  }
+}
+
 
 function onKeyDown(event) {
+
+
 
   switch (event.code) {
     case undefined:
@@ -329,9 +430,13 @@ function onKeyDown(event) {
     case 'ArrowRight':
       break;
   }
+
 }
 
 function onKeyUp(event) {
+
+
+
   switch (event.code) {
     case undefined:
       upKeys(players[0].player);
@@ -351,28 +456,27 @@ function onKeyUp(event) {
     case 'ArrowRight':
       break;
   }
+
 }
 
 function downKeys(player) {
-  if (player.userData.onGround) {
-    player.userData.readyJump = true;
-  }
+
+  if (player.userData.onGround) player.userData.readyJump = true;
+
 }
 function upKeys(player) {
-  if (player.userData.readyJump) {
+  if (player.userData.readyJump && player.userData.onGround) {
     player.userData.jumping = true;
     player.userData.readyJump = false;
-
     player.userData.onGround = false;
-
-
+  }
+  else if (!player.userData.onGround) {
+    player.userData.readyJump = false;
   }
 }
 
 
-function getRandomNumber(min, max) {
-  return Math.random() * (max - min) + min
-}
+
 
 export function detectCollisionCubes(object1, object2) {
   object1.geometry.computeBoundingBox();
