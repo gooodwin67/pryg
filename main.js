@@ -26,6 +26,11 @@ console.clear();
 let world;
 let dataLoaded = false;
 
+let delta = 0;
+let deltaTime;
+let interval = 1 / 60;
+let clock = new THREE.Clock();
+
 let mouse = new THREE.Vector3;
 let raycaster = new THREE.Raycaster;
 
@@ -352,7 +357,17 @@ function animate() {
 
 }
 
-renderer.setAnimationLoop(animate);
+renderer.setAnimationLoop(() => {
+
+  delta += clock.getDelta();
+
+  if (delta > interval/* && !pause*/) {
+    animate()
+    renderer.render(scene, camera);
+    delta = delta % interval;
+  }
+
+});
 
 
 
