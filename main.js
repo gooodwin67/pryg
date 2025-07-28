@@ -437,10 +437,10 @@ function onTapDown(event) {
   raycaster.setFromCamera(mouse, camera);
 
   if (mouse.x > 0) {
-    downKeys(players[0].player);
+    downKeys(levelClass.players[0].player);
   }
   else {
-    downKeys(players[1].player);
+    downKeys(levelClass.players[1].player);
   }
 
 }
@@ -454,6 +454,7 @@ function onTapUp(event) {
 
   raycaster.setFromCamera(mouse, camera);
   if (mouse.x > 0) {
+
     upKeys(levelClass.players[0].player);
   }
   else {
@@ -467,8 +468,9 @@ function onKeyDown(event) {
 
 
   switch (event.code) {
+
     case undefined:
-      downKeys(levelClass.players[0].player);
+      if (event instanceof MouseEvent) downKeys(levelClass.players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
