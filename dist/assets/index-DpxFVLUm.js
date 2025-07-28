@@ -88,8 +88,8 @@ class ye {
       }, void 0, function(u) {
         console.error("An error happened.");
       });
-      let p = z(this.planeWidth / 4, this.planeWidth), N = z(2, 4), b = e + p / 2 + N, E = z(-1, 1) - this.planeHeight / 2;
-      s > 0 && (this.changeMeshWidth(a, p), this.changeMeshWidth(i, p + 0.3), this.changeMeshWidth(r, p + 0.3)), a.position.x = b, a.position.y = E, i.position.x = b, i.position.y = E + this.planeHeight / 2 + 0.1, r.position.x = b, r.position.y = E + this.planeHeight / 2, this.planes.push(a), this.topPlanes.push(i), this.grassPlanes.push(r), e = b + p / 2;
+      let p = z(this.planeWidth / 4, this.planeWidth), N = z(2, 4), b = e + p / 2 + N, W = z(-1, 1) - this.planeHeight / 2;
+      s > 0 && (this.changeMeshWidth(a, p), this.changeMeshWidth(i, p + 0.3), this.changeMeshWidth(r, p + 0.3)), a.position.x = b, a.position.y = W, i.position.x = b, i.position.y = W + this.planeHeight / 2 + 0.1, r.position.x = b, r.position.y = W + this.planeHeight / 2, this.planes.push(a), this.topPlanes.push(i), this.grassPlanes.push(r), e = b + p / 2;
     }
   }
   changeMeshWidth(e, s) {
@@ -186,11 +186,11 @@ function ge() {
   d.aspect = window.innerWidth / window.innerHeight, d.updateProjectionMatrix(), c.setSize(window.innerWidth, window.innerHeight);
 }
 new re(11184810, 1);
-const W = new ne(16777215, 16777215, 2);
-W.color.setHSL(0.6, 1, 0.6);
-W.groundColor.setHSL(0.095, 1, 0.75);
-W.position.set(0, 10, 0);
-l.add(W);
+const E = new ne(16777215, 16777215, 2);
+E.color.setHSL(0.6, 1, 0.6);
+E.groundColor.setHSL(0.095, 1, 0.75);
+E.position.set(0, 10, 0);
+l.add(E);
 const h = new le(16777215, 2);
 h.color.setHSL(0.1, 1, 0.95);
 h.position.set(0, 5, 5);
@@ -265,7 +265,7 @@ document.addEventListener("touchend", Le);
 document.addEventListener("touchstart", be);
 function be(t) {
   let e = c.domElement.getBoundingClientRect();
-  t = t.changedTouches[0], m.x = (t.clientX - e.left) / e.width * 2 - 1, m.y = -((t.clientY - e.top) / e.height) * 2 + 1, G.setFromCamera(m, d), m.x > 0 ? A(players[0].player) : A(players[1].player);
+  t = t.changedTouches[0], m.x = (t.clientX - e.left) / e.width * 2 - 1, m.y = -((t.clientY - e.top) / e.height) * 2 + 1, G.setFromCamera(m, d), m.x > 0 ? A(o.players[0].player) : A(o.players[1].player);
 }
 function Le(t) {
   let e = c.domElement.getBoundingClientRect();
@@ -274,7 +274,7 @@ function Le(t) {
 function V(t) {
   switch (t.code) {
     case void 0:
-      A(o.players[0].player);
+      t instanceof MouseEvent && A(o.players[0].player);
       break;
     case "KeyW":
     case "ArrowUp":
