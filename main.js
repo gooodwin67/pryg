@@ -13,7 +13,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 import RAPIER from '@dimforge/rapier3d-compat';
 
-import { detectDevice } from "./functions";
+import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray } from "./functions";
 
 
 import { PlayerClass } from "./player";
@@ -104,11 +104,11 @@ const helper = new THREE.DirectionalLightHelper(dirLight, 3);
 
 function updateLighting() {
 
-  dirLight.target.position.set(players[maxSpeed(players)].player.position.x - 4, -20, -10)
+  dirLight.target.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x - 4, -20, -10)
 
 
 
-  dirLight.position.set(players[maxSpeed(players)].player.position.x, players[maxSpeed(players)].player.position.y + 2, players[1].player.position.z);
+  dirLight.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x, levelClass.players[maxSpeed(levelClass.players)].player.position.y + 2, levelClass.players[1].player.position.z);
 
 
   // // Обновление камеры теней
@@ -133,8 +133,6 @@ function updateLighting() {
 
 
 let eventQueue;
-
-let players = [];
 
 let physicsClass;
 let levelClass;
@@ -161,40 +159,12 @@ async function initClases() {
 
   physicsClass = new PhysicsClass(world, RAPIER);
   levelClass = new LevelClass();
-  
-
-  players.push(new PlayerClass(audioClass));
-  players.push(new PlayerClass(audioClass));
 
 
-  const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
-
-
-
-  for (let i = 0; i < players.length; i++) {
-    let player = players[i];
-    physicsClass.addPhysicsToObject(player.player);
-    await player.loadPlayerModel();
-
-    scene.add(player.player);
-    scene.add(player.playerOut);
-    scene.add(player.playerModel);
-
-    levelClass.topPlanes.push(player.playerOut);
-
-    scene.add(player.playerModel)
-
-
-    if (i < colors.length) {
-      player.head.children[0].material.color.set(colors[i]);
-    }
-    else {
-      colors.splice(colors.length, 0, ...colors);
-    }
-
-    player.player.userData.audio.push(audioClass.readyJumpAudio.clone())
-    player.player.userData.audio.push(audioClass.jumpAudio.clone())
-  }
+  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
+  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
+  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
+  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
 
 
 
@@ -204,7 +174,14 @@ async function initClases() {
 
 
 
-  dataLoaded = true;
+
+
+
+
+
+
+
+
 }
 
 
@@ -225,12 +202,58 @@ async function initEntity() {
     scene.add(levelClass.topPlanes[i]);
   }
 
+  for (let i = 1; i < 10; i++) {
+    let newBoostHatModel = levelClass.boostHatModel.clone();
+    newBoostHatModel.position.x = i * 3;
+    scene.add(newBoostHatModel);
+    levelClass.boostHatModels.push(newBoostHatModel);
+    levelClass.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
+  }
+
+
+
+  levelClass.clouds.forEach((value, index, array) => {
+    scene.add(value);
+  })
+
 
 
   //scene.add(levelClass.planeTop);
 
+  const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
 
 
+  for (let i = 0; i < levelClass.players.length; i++) {
+    let player = levelClass.players[i];
+    physicsClass.addPhysicsToObject(player.player);
+    await player.loadPlayerModel();
+
+    player.player.userData.startPos = player.player.position.clone();
+
+    scene.add(player.player);
+    scene.add(player.playerOut);
+    scene.add(player.playerModel);
+
+    levelClass.topPlanes.push(player.playerOut);
+
+
+
+    scene.add(player.playerModel)
+
+
+    if (i < colors.length) {
+      player.head.children[0].material.color.set(colors[i]);
+    }
+    else {
+      colors.splice(colors.length, 0, ...colors);
+    }
+
+    player.player.userData.audio.push(audioClass.readyJumpAudio.clone())
+    player.player.userData.audio.push(audioClass.quacks[i].clone())
+  }
+
+
+  dataLoaded = true;
 
 }
 
@@ -279,11 +302,12 @@ function animate() {
 
     //console.log(players[0].player.userData.onGround)
 
-    players.forEach((value, index, array) => {
+    levelClass.players.forEach((value, index, array) => {
       value.playerMove()
     })
 
     updateLighting()
+    levelClass.levelAnimate(camera);
 
 
 
@@ -300,7 +324,7 @@ function animate() {
 
 
     //camera.position.x += 0.03;
-    camera.position.x = players[maxSpeed(players)].player.position.x;
+    camera.position.x = levelClass.players[maxSpeed(levelClass.players)].player.position.x;
     camera.position.y = 3;
     camera.position.z = 15;
     camera.lookAt(camera.position.x, camera.position.y - 2, 0)
@@ -308,7 +332,7 @@ function animate() {
 
 
 
-    players.forEach((value, index, array) => {
+    levelClass.players.forEach((value, index, array) => {
       if (detectCollisionCubeAndArray(value.player, levelClass.topPlanes)) {
         value.player.userData.onGround = true;
       }
@@ -430,10 +454,10 @@ function onTapUp(event) {
 
   raycaster.setFromCamera(mouse, camera);
   if (mouse.x > 0) {
-    upKeys(players[0].player);
+    upKeys(levelClass.players[0].player);
   }
   else {
-    upKeys(players[1].player);
+    upKeys(levelClass.players[1].player);
   }
 }
 
@@ -444,7 +468,7 @@ function onKeyDown(event) {
 
   switch (event.code) {
     case undefined:
-      downKeys(players[0].player);
+      downKeys(levelClass.players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
@@ -452,11 +476,11 @@ function onKeyDown(event) {
       break;
     case 'KeyZ':
     case 'ArrowDown':
-      downKeys(players[1].player);
+      downKeys(levelClass.players[1].player);
       break;
     case 'KeyM':
     case 'ArrowLeft':
-      downKeys(players[2].player);
+      downKeys(levelClass.players[2].player);
       break;
     case 'KeyD':
     case 'ArrowRight':
@@ -471,18 +495,18 @@ function onKeyUp(event) {
 
   switch (event.code) {
     case undefined:
-      upKeys(players[0].player);
+      upKeys(levelClass.players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
       break;
     case 'KeyZ':
     case 'ArrowDown':
-      upKeys(players[1].player);
+      upKeys(levelClass.players[1].player);
       break;
     case 'KeyM':
     case 'ArrowLeft':
-      upKeys(players[2].player);
+      upKeys(levelClass.players[2].player);
       break;
     case 'KeyD':
     case 'ArrowRight':
@@ -493,10 +517,19 @@ function onKeyUp(event) {
 
 function downKeys(player) {
 
+
   if (player.userData.onGround) {
     player.userData.readyJump = true;
     player.userData.audio[0].play();
   }
+  else if (player.userData.canFly) {
+    player.userData.readyJump = true;
+    player.userData.audio[0].play();
+
+  }
+
+  // player.userData.readyJump = true;
+  // player.userData.audio[0].play();
 
 }
 function upKeys(player) {
@@ -504,76 +537,30 @@ function upKeys(player) {
     player.userData.jumping = true;
     player.userData.readyJump = false;
     player.userData.audio[0].stop();
-    player.userData.audio[1].play();
+    if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
     player.userData.onGround = false;
   }
   else if (!player.userData.onGround) {
-    player.userData.readyJump = false;
-    player.userData.audio[0].stop();
-  }
-}
-
-
-
-
-export function detectCollisionCubes(object1, object2) {
-  object1.geometry.computeBoundingBox();
-  object2.geometry.computeBoundingBox();
-  object1.updateMatrixWorld();
-  object2.updateMatrixWorld();
-  let box1 = object1.geometry.boundingBox.clone();
-  box1.applyMatrix4(object1.matrixWorld);
-  let box2 = object2.geometry.boundingBox.clone();
-  box2.applyMatrix4(object2.matrixWorld);
-
-  //if (box1.intersectsBox(box2)) $('.info').text(1);
-  return box1.intersectsBox(box2);
-}
-
-
-export function detectCollisionCubeAndArray(object1, array) {
-  object1.geometry.computeBoundingBox();
-
-  array.forEach(function (item, index, array) {
-    item.geometry.computeBoundingBox();
-  });
-
-  object1.updateMatrixWorld();
-  array.forEach(function (item, index, array) {
-    item.updateMatrixWorld();
-  });
-
-  let box1 = object1.geometry.boundingBox.clone();
-  box1.applyMatrix4(object1.matrixWorld);
-
-  var intersect = false;
-
-  // array.forEach(function (item, index, array) {
-  for (let i = array.length - 1; i > -1; i--) {
-
-    if (array[i].userData.id == undefined || array[i].userData.id != object1.uuid) {
-      let box2 = array[i].geometry.boundingBox.clone();
-      box2.applyMatrix4(array[i].matrixWorld);
-
-      if (box2.intersectsBox(box1)) {
-        intersect = array[i];
+    if (player.userData.canFly) {
+      player.userData.jumping = true;
+      player.userData.readyJump = false;
+      player.userData.audio[0].stop();
+      if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
+      player.userData.onGround = false;
+      player.userData.hatBoost--;
+      if (player.userData.hatBoost == 0) {
+        player.userData.canFly = false;
+        levelClass.boostHatModels[player.userData.numHatBoost].fly = false;
       }
     }
-
+    else {
+      player.userData.readyJump = false;
+      player.userData.audio[0].stop();
+    }
   }
-  // });
-
-
-
-  //if (intersect.userData.id == object1.uuid) {
-  // console.log(object1.uuid)
-  // console.log(intersect.userData.id)
-  //}
-
-
-
-  return intersect;
-
-
-
 }
+
+
+
+
+
