@@ -23,6 +23,9 @@ import { PhysicsClass } from "./physics";
 import { AudioClass } from "./audio";
 
 
+import { Water } from 'three/addons/objects/Water.js';
+
+
 console.clear();
 
 let world;
@@ -38,7 +41,7 @@ let raycaster = new THREE.Raycaster;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
-// scene.fog = new THREE.Fog(scene.background, 1, 60);
+scene.fog = new THREE.Fog(scene.background, 1, 300);
 
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
 camera.position.z = 7;
@@ -74,10 +77,11 @@ function onWindowResize() {
 }
 
 const ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
-//scene.add(ambientLight);
+scene.add(ambientLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
-hemiLight.color.setHSL(0.6, 1, 0.6);
+// hemiLight.color.setHSL(0.6, 1, 0.6);
+
 hemiLight.groundColor.setHSL(0.095, 1, 0.75);
 hemiLight.position.set(0, 10, 0);
 scene.add(hemiLight);
@@ -104,7 +108,7 @@ const helper = new THREE.DirectionalLightHelper(dirLight, 3);
 
 function updateLighting() {
 
-  dirLight.target.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x - 4, -20, -10)
+  dirLight.target.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x - 4, -20, 10)
 
 
 
@@ -122,7 +126,7 @@ function updateLighting() {
 }
 
 
-// let controls = new OrbitControls(camera, renderer.domElement);
+let controls = new OrbitControls(camera, renderer.domElement);
 
 
 
@@ -140,8 +144,36 @@ let levelClass;
 let audioClass;
 
 
+let water;
+const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
 
+water = new Water(
+  waterGeometry,
+  {
+    textureWidth: 51,
+    textureHeight: 51,
+    waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', function (texture) {
 
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+    }),
+    sunDirection: new THREE.Vector3(),
+    sunColor: 0xffffff,
+    waterColor: 0x001e4f,
+    distortionScale: 3.7,
+    fog: scene.fog !== undefined
+  }
+);
+
+water.rotation.x = - Math.PI / 2;
+water.position.y = - 30;
+
+scene.add(water);
+
+function waterUpdate() {
+  const time = performance.now() * 0.001;
+  water.material.uniforms['time'].value += 1.0 / 60.0;
+}
 
 async function initClases() {
 
@@ -163,18 +195,6 @@ async function initClases() {
 
   levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
   levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -218,13 +238,18 @@ async function initEntity() {
 
 
 
-  //scene.add(levelClass.planeTop);
+
+
+  /*////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
 
   const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
 
 
   for (let i = 0; i < levelClass.players.length; i++) {
     let player = levelClass.players[i];
+    player.player.position.x = player.player.position.x + i * 1;
     physicsClass.addPhysicsToObject(player.player);
     await player.loadPlayerModel();
 
@@ -300,6 +325,8 @@ function maxSpeed(players) {
 function animate() {
   if (dataLoaded) {
 
+    waterUpdate();
+
     //console.log(players[0].player.userData.onGround)
 
     levelClass.players.forEach((value, index, array) => {
@@ -327,7 +354,7 @@ function animate() {
     camera.position.x = levelClass.players[maxSpeed(levelClass.players)].player.position.x;
     camera.position.y = 3;
     camera.position.z = 15;
-    camera.lookAt(camera.position.x, camera.position.y - 2, 0)
+    camera.lookAt(camera.position.x, camera.position.y - 2, 0);
 
 
 
@@ -406,55 +433,43 @@ renderer.setAnimationLoop(() => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 window.addEventListener('keydown', onKeyDown);
 window.addEventListener('keyup', onKeyUp);
 window.addEventListener('mousedown', onKeyDown);
 window.addEventListener('mouseup', onKeyUp);
-
 document.addEventListener('touchend', onTapUp);
 document.addEventListener('touchstart', onTapDown);
 
+
+
+
+
+
 function onTapDown(event) {
-
   let rect = renderer.domElement.getBoundingClientRect();
-
   event = event.changedTouches[0];
-
   mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
-
   raycaster.setFromCamera(mouse, camera);
-
   if (mouse.x > 0) {
     downKeys(levelClass.players[0].player);
   }
   else {
     downKeys(levelClass.players[1].player);
   }
-
 }
+
+
+
+
+
 function onTapUp(event) {
   let rect = renderer.domElement.getBoundingClientRect();
-
   event = event.changedTouches[0];
-
   mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
-
   raycaster.setFromCamera(mouse, camera);
   if (mouse.x > 0) {
-
     upKeys(levelClass.players[0].player);
   }
   else {
@@ -463,18 +478,16 @@ function onTapUp(event) {
 }
 
 
+
+
+
 function onKeyDown(event) {
-
-
-
   switch (event.code) {
-
     case undefined:
-      if (event instanceof MouseEvent) downKeys(levelClass.players[0].player);
+      if (!isMobile) downKeys(levelClass.players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
-
       break;
     case 'KeyZ':
     case 'ArrowDown':
@@ -488,16 +501,16 @@ function onKeyDown(event) {
     case 'ArrowRight':
       break;
   }
-
 }
 
+
+
+
+
 function onKeyUp(event) {
-
-
-
   switch (event.code) {
     case undefined:
-      upKeys(levelClass.players[0].player);
+      if (!isMobile) upKeys(levelClass.players[0].player);
       break;
     case 'KeyW':
     case 'ArrowUp':
@@ -512,52 +525,61 @@ function onKeyUp(event) {
       break;
     case 'KeyD':
     case 'ArrowRight':
+      levelClass.players.forEach((value, index, array) => {
+        value.player.userData.live = true;
+      })
       break;
   }
-
 }
+
+
 
 function downKeys(player) {
-
-
-  if (player.userData.onGround) {
-    player.userData.readyJump = true;
-    player.userData.audio[0].play();
+  if (player.userData.live) {
+    if (player.userData.onGround) {
+      player.userData.readyJump = true;
+      player.userData.audio[0].play();
+    }
+    else if (player.userData.canFly) {
+      player.userData.readyJump = true;
+      player.userData.audio[0].play();
+    }
+    // player.userData.readyJump = true;
+    // player.userData.audio[0].play();
   }
-  else if (player.userData.canFly) {
-    player.userData.readyJump = true;
-    player.userData.audio[0].play();
-
-  }
-
-  // player.userData.readyJump = true;
-  // player.userData.audio[0].play();
-
 }
+
+
+
+
 function upKeys(player) {
-  if (player.userData.readyJump && player.userData.onGround) {
-    player.userData.jumping = true;
-    player.userData.readyJump = false;
-    player.userData.audio[0].stop();
-    if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
-    player.userData.onGround = false;
-  }
-  else if (!player.userData.onGround) {
-    if (player.userData.canFly) {
+  if (player.userData.live) {
+    if (player.userData.readyJump && player.userData.onGround) {
       player.userData.jumping = true;
       player.userData.readyJump = false;
       player.userData.audio[0].stop();
       if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
       player.userData.onGround = false;
-      player.userData.hatBoost--;
-      if (player.userData.hatBoost == 0) {
-        player.userData.canFly = false;
-        levelClass.boostHatModels[player.userData.numHatBoost].fly = false;
-      }
     }
-    else {
-      player.userData.readyJump = false;
-      player.userData.audio[0].stop();
+    else if (!player.userData.onGround) {
+      if (player.userData.canFly) {
+        player.userData.jumping = true;
+        player.userData.readyJump = false;
+        player.userData.audio[0].stop();
+        if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
+        player.userData.onGround = false;
+        player.userData.hatBoost--;
+        if (player.userData.hatBoost == 0) {
+          player.userData.canFly = false;
+          setTimeout(() => {
+            levelClass.boostHatModels[player.userData.numHatBoost].userData.fly = false;
+          }, 500)
+        }
+      }
+      else {
+        player.userData.readyJump = false;
+        player.userData.audio[0].stop();
+      }
     }
   }
 }

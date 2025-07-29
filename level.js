@@ -7,7 +7,7 @@ export class LevelClass {
 
   this.planeWidth = 4;
   this.planeHeight = 10;
-  this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, 1);
+  this.geometryPlane = new THREE.BoxGeometry(this.planeWidth * 1.5, this.planeHeight, 1);
   this.materialPlane = new THREE.MeshStandardMaterial({ color: 0x00cc00 });
   this.plane = new THREE.Mesh(this.geometryPlane, this.materialPlane);
   this.plane.receiveShadow = true;
@@ -20,7 +20,7 @@ export class LevelClass {
   // physicsClass.addPhysicsToObject(plane)
 
 
-  this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 0.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 }));
+  this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
   this.planeTop.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
   this.topPlanes = [];
 
@@ -28,7 +28,7 @@ export class LevelClass {
   this.planeGrass.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
   this.planeGrass.castShadow = true;
   this.planeGrass.receiveShadow = true;
-  this.planeGrass.userData.name = 'plane';
+  this.planeGrass.userData.name = 'tops';
   this.grassPlanes = [];
 
   this.boostHatModel;
@@ -43,6 +43,9 @@ export class LevelClass {
   this.cloudModel;
   this.clouds = [];
 
+  this.backModel;
+  this.backModels = [];
+
 
  }
 
@@ -51,7 +54,7 @@ export class LevelClass {
   await this.loadBoostsModel();
   await this.loadEnvironmentModel();
 
-  let previousX = -4.5; // Начальная позиция по оси X
+  let previousX = -2.5; // Начальная позиция по оси X
 
   for (let i = 0; i < 50; i++) {
    let newPlane = this.plane.clone();
@@ -116,14 +119,14 @@ export class LevelClass {
     this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
    }
 
-   newPlane.position.x = randomX;
-   newPlane.position.y = randomY;
+   if (i > 0) newPlane.position.x = randomX;
+   if (i > 0) newPlane.position.y = randomY;
 
-   newPlaneTop.position.x = randomX;
-   newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.1;
+   if (i > 0) newPlaneTop.position.x = randomX;
+   if (i > 0) newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.1;
 
-   newPlaneGrass.position.x = randomX;
-   newPlaneGrass.position.y = randomY + this.planeHeight / 2;
+   if (i > 0) newPlaneGrass.position.x = randomX;
+   if (i > 0) newPlaneGrass.position.y = randomY + this.planeHeight / 2;
 
 
 
@@ -136,11 +139,22 @@ export class LevelClass {
   }
  }
 
+
+
+
+
+
+
+
+
  changeMeshWidth(mesh, newWidth) {
   // Изменяем ширину геометрии
   mesh.geometry.dispose(); // Освобождаем старую геометрию
   mesh.geometry = new THREE.BoxGeometry(newWidth, mesh.geometry.parameters.height, mesh.geometry.parameters.depth);
  }
+
+
+
 
 
  async loadBoostsModel() {
@@ -170,10 +184,17 @@ export class LevelClass {
  }
 
 
+
+
+
+
+
+
  async loadEnvironmentModel() {
   const gltfLoader = new GLTFLoader();
-  const url = 'models/environment/clouds.glb';
 
+
+  const url = 'models/environment/clouds.glb';
 
   await gltfLoader.loadAsync(url).then((gltf) => {
    const root = gltf.scene;
@@ -182,12 +203,28 @@ export class LevelClass {
 
     value.position.x = index * 3;
     value.position.y = 3;
-    value.position.z = -15;
-    value.scale.x = 0.004;
-    value.scale.y = 0.004;
-    value.scale.z = 0.004;
+    value.position.z = -205;
+    value.scale.x = 0.04;
+    value.scale.y = 0.04;
+    value.scale.z = 0.04;
     this.clouds.push(value)
    })
+
+  })
+
+
+
+  const url2 = 'models/environment/back.glb';/////////////////////////////////////////////////////////////////////???
+
+  await gltfLoader.loadAsync(url2).then((gltf) => {
+   const root = gltf.scene;
+   this.backModel = root;
+
+   this.backModel.position.y = -20;
+   this.backModel.position.z = -40;
+
+
+
 
 
    // this.boostHatModel.rotation.x = Math.PI / 13;
@@ -225,20 +262,9 @@ export class LevelClass {
   }
 
 
-  // this.clouds.forEach((value, index, array) => {
-  //  value.position.x -= 0.002;
-  //  if (!frustum.intersectsObject(value) && value.position.x < camera.position.x) {
-  //   value.position.copy(new THREE.Vector3(
-  //    this.clouds[this.clouds.length - 1].position.x,
-  //    this.clouds[this.clouds.length - 1].position.y,
-  //    this.clouds[this.clouds.length - 1].position.z,
-  //   ));
-  //   this.clouds.push(value);
-  //   console.log(this.clouds)
-  //   this.clouds.splice(0, 1);
-
-  //  }
-  // })
+  this.clouds.forEach((value, index, array) => {
+   value.position.x -= 0.04;
+  })
 
  }
 

@@ -59,26 +59,27 @@ export class PhysicsClass {
 
    body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.fixed().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
    shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.0).setFriction(0.3);
-
-
-
    shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
-
    let collide = this.world.createCollider(shape, body)
-
    this.allWallBodyCollision.push(collide);
-
    obj.userData.handle = body.handle;
-
    this.dynamicBodies.push([obj, body, obj.id])
 
 
-   // const geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
-   // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5, wireframe: true });
-   // const cube = new THREE.Mesh(geometry, material);
-   // cube.position.set(obj.position.x, obj.position.y, obj.position.z)
-   // cube.rotation.copy(originalRotation);
-   // scene.add(cube);
+  }
+  else if (obj.userData.name.includes('tops')) {
+
+   obj.userData.size = size;
+   obj.userData.orgRotation = originalRotation;
+
+   body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.fixed().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
+   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(0.1).setRestitution(0.0).setFriction(0.3);
+   shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
+   let collide = this.world.createCollider(shape, body)
+   this.allWallBodyCollision.push(collide);
+   obj.userData.handle = body.handle;
+   this.dynamicBodies.push([obj, body, obj.id])
+
 
   }
  }

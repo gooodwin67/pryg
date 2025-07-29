@@ -14,7 +14,8 @@ export class PlayerClass {
     this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
-    this.player.position.y = 2;
+    this.player.position.y = 0.8;
+    this.player.position.x = -2;
     this.player.userData.name = 'player';
     this.player.userData.readyJump = false;
     this.player.userData.jumping = false;
@@ -117,12 +118,31 @@ export class PlayerClass {
 
 
 
+
     if (this.playerModel.position.y < -2) this.player.userData.live = false;
 
     if (!this.player.userData.live) {
+
       this.player.userData.body.setTranslation(this.player.userData.startPos);
 
-      //this.player.userData.live = true;
+
+      this.player.userData.readyJump = false;
+      this.player.userData.canFly = false;
+      this.player.userData.hatBoost = 0;
+      this.player.userData.numHatBoost = 0;
+
+      this.player.userData.jumping = false;
+      this.player.userData.playerPowerJump = 1;
+
+      this.player.userData.onGround = false;
+      this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
+
+
+
+
+
+
+
 
     }
 
