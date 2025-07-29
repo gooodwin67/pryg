@@ -49,8 +49,52 @@ export class LevelClass {
 
  }
 
+ async loadTexture() {
+  const loader = new THREE.TextureLoader();
+
+  loader.load(
+   'textures/povrezdennaa-tekstura-ili-fon.jpg',
+   (texture) => {
+    const material = new THREE.MeshBasicMaterial({
+     map: texture,
+     transparent: true,
+     opacity: 1
+    });
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
+    this.plane.material = material;
+   },
+   // onProgress callback currently not supported
+   undefined,
+   function (err) {
+    console.error('An error happened.');
+   }
+  );
+
+  loader.load(
+   'textures/povrezdennaa-tekstura-ili-fon.jpg',
+   (texture) => {
+    const material = new THREE.MeshStandardMaterial({
+     map: texture,
+
+    });
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
+    this.planeGrass.material = material;
+   },
+   // onProgress callback currently not supported
+   undefined,
+   function (err) {
+    console.error('An error happened.');
+   }
+  );
+ }
+
  async createLevel() {
 
+  await this.loadTexture()
   await this.loadBoostsModel();
   await this.loadEnvironmentModel();
 
@@ -60,48 +104,6 @@ export class LevelClass {
    let newPlane = this.plane.clone();
    let newPlaneTop = this.planeTop.clone();
    let newPlaneGrass = this.planeGrass.clone();
-
-
-   const loader = new THREE.TextureLoader();
-
-   loader.load(
-    'textures/ground.jpg',
-    (texture) => {
-     const material = new THREE.MeshBasicMaterial({
-      map: texture,
-     });
-     texture.wrapS = THREE.RepeatWrapping;
-     texture.wrapT = THREE.RepeatWrapping;
-     texture.repeat.set(this.planeWidth / 2, this.planeHeight / 4);
-     newPlane.material = material;
-    },
-    // onProgress callback currently not supported
-    undefined,
-    function (err) {
-     console.error('An error happened.');
-    }
-   );
-
-   loader.load(
-    'textures/grass.jpg',
-    (texture) => {
-     const material = new THREE.MeshStandardMaterial({
-      map: texture,
-     });
-     texture.wrapS = THREE.RepeatWrapping;
-     texture.wrapT = THREE.RepeatWrapping;
-     texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-     newPlaneGrass.material = material;
-    },
-    // onProgress callback currently not supported
-    undefined,
-    function (err) {
-     console.error('An error happened.');
-    }
-   );
-
-
-
 
    // Генерируем случайную ширину для плоскости
    let randomW = getRandomNumber(this.planeWidth / 4, this.planeWidth);
@@ -202,11 +204,11 @@ export class LevelClass {
    this.cloudModel.children.forEach((value, index, array) => {
 
     value.position.x = index * 3;
-    value.position.y = 3;
-    value.position.z = -205;
-    value.scale.x = 0.04;
-    value.scale.y = 0.04;
-    value.scale.z = 0.04;
+    value.position.y = 4;
+    value.position.z = -25;
+    value.scale.x = 0.9;
+    value.scale.y = 0.9;
+    value.scale.z = 0.9;
     this.clouds.push(value)
    })
 
@@ -263,7 +265,7 @@ export class LevelClass {
 
 
   this.clouds.forEach((value, index, array) => {
-   value.position.x -= 0.04;
+   value.position.x -= 0.02;
   })
 
  }

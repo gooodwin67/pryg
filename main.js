@@ -41,7 +41,7 @@ let raycaster = new THREE.Raycaster;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
-scene.fog = new THREE.Fog(scene.background, 1, 300);
+scene.fog = new THREE.Fog(scene.background, 1, 53);
 
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
 camera.position.z = 7;
@@ -77,17 +77,17 @@ function onWindowResize() {
 }
 
 const ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
-scene.add(ambientLight);
+//scene.add(ambientLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
-// hemiLight.color.setHSL(0.6, 1, 0.6);
+//hemiLight.color.setHSL(0.6, 0.6, 0.6);
 
 hemiLight.groundColor.setHSL(0.095, 1, 0.75);
 hemiLight.position.set(0, 10, 0);
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-dirLight.color.setHSL(0.1, 1, 0.95);
+//dirLight.color.setHSL(0.1, 1, 0.95);
 dirLight.position.set(0, 5, 5); // Измените позицию
 dirLight.castShadow = true;
 dirLight.shadow.camera.far = 10; // Убедитесь, что это значение достаточно велико
@@ -108,12 +108,8 @@ const helper = new THREE.DirectionalLightHelper(dirLight, 3);
 
 function updateLighting() {
 
-  dirLight.target.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x - 4, -20, 10)
-
-
-
+  dirLight.target.position.set(camera.position.x - 4, -20, 10)
   dirLight.position.set(levelClass.players[maxSpeed(levelClass.players)].player.position.x, levelClass.players[maxSpeed(levelClass.players)].player.position.y + 2, levelClass.players[1].player.position.z);
-
 
   // // Обновление камеры теней
   const d = 10; // Размер камеры теней
@@ -150,8 +146,8 @@ const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
 water = new Water(
   waterGeometry,
   {
-    textureWidth: 51,
-    textureHeight: 51,
+    textureWidth: 500,
+    textureHeight: 500,
     waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', function (texture) {
 
       texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -160,19 +156,20 @@ water = new Water(
     sunDirection: new THREE.Vector3(),
     sunColor: 0xffffff,
     waterColor: 0x001e4f,
-    distortionScale: 3.7,
+    distortionScale: 1,
+
     fog: scene.fog !== undefined
   }
 );
 
 water.rotation.x = - Math.PI / 2;
-water.position.y = - 30;
+water.position.y = - 1.5;
 
 scene.add(water);
 
 function waterUpdate() {
   const time = performance.now() * 0.001;
-  water.material.uniforms['time'].value += 1.0 / 60.0;
+  water.material.uniforms['time'].value += 0.4 / 60.0;
 }
 
 async function initClases() {
@@ -193,6 +190,7 @@ async function initClases() {
   levelClass = new LevelClass();
 
 
+  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
   levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
   levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
 
@@ -352,8 +350,8 @@ function animate() {
 
     //camera.position.x += 0.03;
     camera.position.x = levelClass.players[maxSpeed(levelClass.players)].player.position.x;
-    camera.position.y = 3;
-    camera.position.z = 15;
+    camera.position.y = 2;
+    camera.position.z = 17;
     camera.lookAt(camera.position.x, camera.position.y - 2, 0);
 
 
