@@ -2,9 +2,11 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber } from './functions';
 
-export class LevelClass {
- constructor() {
+import { Water } from 'three/addons/objects/Water.js';
 
+export class LevelClass {
+ constructor(scene) {
+  this.scene = scene;
   this.planeWidth = 4;
   this.planeHeight = 10;
   this.geometryPlane = new THREE.BoxGeometry(this.planeWidth * 1.5, this.planeHeight, 1);
@@ -14,10 +16,6 @@ export class LevelClass {
   this.plane.position.y = -this.planeHeight / 2;
   this.plane.userData.name = 'plane';
   this.planes = [];
-
-
-  // scene.add(plane);
-  // physicsClass.addPhysicsToObject(plane)
 
 
   this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
@@ -47,6 +45,38 @@ export class LevelClass {
   this.backModels = [];
 
 
+
+  this.water;
+  this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+
+  this.water = new Water(
+   this.waterGeometry,
+   {
+    textureWidth: 500,
+    textureHeight: 500,
+    waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', function (texture) {
+
+     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+    }),
+    sunDirection: new THREE.Vector3(),
+    sunColor: 0xffffff,
+    waterColor: 0x001e4f,
+    distortionScale: 1,
+
+    fog: this.scene.fog !== undefined
+   }
+  );
+
+  this.water.rotation.x = - Math.PI / 2;
+  this.water.position.y = - 1.5;
+
+
+ }
+
+ waterUpdate() {
+  const time = performance.now() * 0.001;
+  this.water.material.uniforms['time'].value += 0.4 / 60.0;
  }
 
  async loadTexture() {
@@ -106,7 +136,7 @@ export class LevelClass {
    let newPlaneGrass = this.planeGrass.clone();
 
    // Генерируем случайную ширину для плоскости
-   let randomW = getRandomNumber(this.planeWidth / 4, this.planeWidth);
+   let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
 
    // Генерируем случайное расстояние между плоскостями
    let fixedDistance = getRandomNumber(2, 4); // Случайное значение от 2 до 4
@@ -171,8 +201,6 @@ export class LevelClass {
    this.boostHatPropeller = this.boostHatModel.children[0].children[1]
    this.boostHatMesh = this.boostHatModel.children[0].children[0].children[0];
 
-
-
    this.boostHatModel.rotation.x = Math.PI / 13;
    this.boostHatModel.rotation.y = Math.PI / 2;
    this.boostHatModel.position.y = 2;
@@ -216,29 +244,29 @@ export class LevelClass {
 
 
 
-  const url2 = 'models/environment/back.glb';/////////////////////////////////////////////////////////////////////???
+  // const url2 = 'models/environment/back.glb';/////////////////////////////////////////////////////////////////////???
 
-  await gltfLoader.loadAsync(url2).then((gltf) => {
-   const root = gltf.scene;
-   this.backModel = root;
+  // await gltfLoader.loadAsync(url2).then((gltf) => {
+  //  const root = gltf.scene;
+  //  this.backModel = root;
 
-   this.backModel.position.y = -20;
-   this.backModel.position.z = -40;
-
-
+  //  this.backModel.position.y = -20;
+  //  this.backModel.position.z = -40;
 
 
 
-   // this.boostHatModel.rotation.x = Math.PI / 13;
-   // this.boostHatModel.rotation.y = Math.PI / 2;
-   // this.cloudModel.position.y = 3;
-   // this.cloudModel.position.z = -15;
-   // this.cloudModel.scale.x = 0.4;
-   // this.cloudModel.scale.y = 0.4;
-   // this.cloudModel.scale.z = 0.4;
 
-   // this.clouds.push(this.cloudModel)
-  })
+
+  //  // this.boostHatModel.rotation.x = Math.PI / 13;
+  //  // this.boostHatModel.rotation.y = Math.PI / 2;
+  //  // this.cloudModel.position.y = 3;
+  //  // this.cloudModel.position.z = -15;
+  //  // this.cloudModel.scale.x = 0.4;
+  //  // this.cloudModel.scale.y = 0.4;
+  //  // this.cloudModel.scale.z = 0.4;
+
+  //  // this.clouds.push(this.cloudModel)
+  // })
  }
 
 
@@ -268,6 +296,31 @@ export class LevelClass {
    value.position.x -= 0.02;
   })
 
+ }
+
+
+
+
+ maxSpeed() {
+  let players = this.players;
+  if (players.length === 0) return -1; // Если массив пустой, возвращаем -1
+
+  let maxIndex = 0; // Начинаем с первого элемента
+  let maxValue = players[0].player.position.x; // Сохраняем значение первого элемента
+
+  for (let i = 1; i < players.length; i++) {
+   // Проверяем, существует ли player и его position
+   if (players[i].player && players[i].player.position) {
+    if (players[i].player.position.x > maxValue) {
+     maxValue = players[i].player.position.x; // Обновляем максимальное значение
+     maxIndex = i; // Обновляем индекс максимального значения
+    }
+   } else {
+    console.warn(`Player at index ${i} is missing player or position properties.`);
+   }
+  }
+
+  return maxIndex; // Возвращаем индекс элемента с максимальным значением
  }
 
 

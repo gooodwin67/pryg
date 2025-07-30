@@ -79,6 +79,14 @@ export class PlayerClass {
 
   playerMove() {
 
+
+    if (detectCollisionCubeAndArray(this.player, this.levelClass.topPlanes)) {
+      this.player.userData.onGround = true;
+    }
+    else {
+      this.player.userData.onGround = false;
+    }
+
     this.playerModel.position.x = this.player.position.x;
     this.playerModel.position.y = this.player.position.y - this.playerHeight / 2;
     this.playerModel.position.z = this.player.position.z;
@@ -196,6 +204,9 @@ export class PlayerClass {
   lerp(start, end, t) {
     return start + (end - start) * t;
   }
+
+
+
 
 
 
