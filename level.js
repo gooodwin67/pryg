@@ -5,8 +5,10 @@ import { getRandomNumber } from './functions';
 import { Water } from 'three/addons/objects/Water.js';
 
 export class LevelClass {
- constructor(scene) {
+ constructor(scene, audioClass, physicsClass) {
   this.scene = scene;
+  this.audioClass = audioClass;
+  this.physicsClass = physicsClass;
   this.planeWidth = 4;
   this.planeHeight = 10;
   this.geometryPlane = new THREE.BoxGeometry(this.planeWidth * 1.5, this.planeHeight, 1);
@@ -269,6 +271,32 @@ export class LevelClass {
   // })
  }
 
+ async loadEnvironments() {
+  for (let i = 0; i < this.planes.length; i++) {
+   this.scene.add(this.planes[i]);
+   this.physicsClass.addPhysicsToObject(this.planes[i]);
+
+   this.scene.add(this.grassPlanes[i]);
+   this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
+
+   this.scene.add(this.topPlanes[i]);
+  }
+
+  for (let i = 1; i < 10; i++) {
+   let newBoostHatModel = this.boostHatModel.clone();
+   newBoostHatModel.position.x = i * 3;
+   this.scene.add(newBoostHatModel);
+   this.boostHatModels.push(newBoostHatModel);
+   this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
+  }
+
+  this.clouds.forEach((value, index, array) => {
+   this.scene.add(value);
+  })
+
+  this.scene.add(this.water);
+ }
+
 
  levelAnimate(camera) {
   this.boostHatModels.forEach((value, index, array) => {
@@ -321,6 +349,39 @@ export class LevelClass {
   }
 
   return maxIndex; // Возвращаем индекс элемента с максимальным значением
+ }
+
+
+ async loadPlayers() {
+
+  for (let i = 0; i < this.players.length; i++) {
+   let player = this.players[i];
+   player.player.position.x = player.player.position.x + i * 1;
+   this.physicsClass.addPhysicsToObject(player.player);
+   await player.loadPlayerModel();
+
+   player.player.userData.startPos = player.player.position.clone();
+
+   this.scene.add(player.player);
+   this.scene.add(player.playerOut);
+   this.scene.add(player.playerModel);
+
+   this.topPlanes.push(player.playerOut);
+
+   this.scene.add(player.playerModel)
+
+
+   if (i < this.players[0].playerColors.length) {
+    player.head.children[0].material.color.set(this.players[0].playerColors[i]);
+   }
+   else {
+    this.players[0].playerColors.splice(this.players[0].playerColors.length, 0, ...this.players[0].playerColors);
+   }
+
+   player.player.userData.audio.push(this.audioClass.readyJumpAudio.clone())
+   if (this.audioClass.quacks.length > i) player.player.userData.audio.push(this.audioClass.quacks[i].clone())
+   else player.player.userData.audio.push(this.audioClass.quacks[0].clone())
+  }
  }
 
 

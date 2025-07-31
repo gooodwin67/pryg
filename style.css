@@ -7,12 +7,13 @@ body {
 canvas {
     position: absolute;
     top: 0;
+    z-index: -1;
 }
 
 .btns {
     position: absolute;
     width: 100%;
-    z-index: 3;
+    z-index: 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -27,4 +28,66 @@ canvas {
     width: 50px;
     height: 50px;
     border-radius: 50px
+}
+
+.loader_screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.hidden_screen {
+    display: none !important;
+}
+
+.main_screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.main_screen_btns_wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+.free_game_screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+
+
+
+
+.together_game_screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }

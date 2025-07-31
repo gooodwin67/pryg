@@ -31,7 +31,7 @@ export class PlayerClass {
 
     this.playerModel;
 
-    this.playerOut = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight + 0.1, this.playerWidth1), new THREE.MeshStandardMaterial({ color: 0xffff00, transparent: true, opacity: 0.0 }));
+    this.playerOut = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight + 0.1, this.playerWidth), new THREE.MeshStandardMaterial({ color: 0xffff00, transparent: true, opacity: 0.0 }));
     this.playerOut.material.depthWrite = false; // Отключаем запись в буфер глубины
 
     this.playerOut.userData.id = this.player.uuid;
@@ -41,6 +41,8 @@ export class PlayerClass {
     this.rightHand;
     this.head;
     this.headPosition;
+
+    this.playerColors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
   }
 
 

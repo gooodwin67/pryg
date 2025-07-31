@@ -22,6 +22,8 @@ import { PhysicsClass } from "./physics";
 
 import { AudioClass } from "./audio";
 import { ControlClass } from './control';
+import { WorldClass } from './world';
+import { MenuClass } from './menu';
 
 
 console.clear();
@@ -30,9 +32,20 @@ let world;
 let dataLoaded = false;
 
 let delta = 0;
-let deltaTime;
 let interval = 1 / 60;
 let clock = new THREE.Clock();
+
+let eventQueue;
+
+let menuClass;
+
+let worldClass;
+let physicsClass;
+let levelClass;
+let audioClass;
+let controlClass;
+
+
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
@@ -71,69 +84,14 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-const ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
-//scene.add(ambientLight);
 
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
-//hemiLight.color.setHSL(0.6, 0.6, 0.6);
-
-hemiLight.groundColor.setHSL(0.095, 1, 0.75);
-hemiLight.position.set(0, 10, 0);
-scene.add(hemiLight);
-
-const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-//dirLight.color.setHSL(0.1, 1, 0.95);
-dirLight.position.set(0, 5, 5); // Измените позицию
-dirLight.castShadow = true;
-dirLight.shadow.camera.far = 10; // Убедитесь, что это значение достаточно велико
-
-
-
-scene.add(dirLight);
-
-const targetObject = new THREE.Object3D();
-scene.add(targetObject);
-
-dirLight.target = targetObject;
-
-
-
-const helper = new THREE.DirectionalLightHelper(dirLight, 3);
-// scene.add(helper);
-
-function updateLighting() {
-
-  dirLight.target.position.set(camera.position.x - 4, -20, 10)
-  dirLight.position.set(levelClass.players[levelClass.maxSpeed(levelClass.players)].player.position.x, levelClass.players[levelClass.maxSpeed(levelClass.players)].player.position.y + 2, levelClass.players[1].player.position.z);
-
-  // // Обновление камеры теней
-  const d = 10; // Размер камеры теней
-  dirLight.shadow.camera.left = -d;
-  dirLight.shadow.camera.right = d;
-  dirLight.shadow.camera.top = d;
-  dirLight.shadow.camera.bottom = -d;
-
-  // dirLight.shadow.camera.far = 5000; // Убедитесь, что это значение достаточно велико
-}
 
 
 //let controls = new OrbitControls(camera, renderer.domElement);
-
-
-
-
-
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
 
 
-let eventQueue;
-
-let physicsClass;
-let levelClass;
-
-let audioClass;
-let controlClass;
 
 
 
@@ -145,139 +103,69 @@ let controlClass;
 
 
 
-async function initClases() {
 
+
+
+async function initClases(chels) {
   await RAPIER.init();
   world = new RAPIER.World(new RAPIER.Vector3(0, -9.81, 0));
   eventQueue = new RAPIER.EventQueue(true);
-
-
-
-
+  physicsClass = new PhysicsClass(world, RAPIER);
 
   audioClass = new AudioClass();
-  await audioClass.loadAudio();
+  levelClass = new LevelClass(scene, audioClass, physicsClass);
+  worldClass = new WorldClass(scene, camera, levelClass);
 
-  physicsClass = new PhysicsClass(world, RAPIER);
-  levelClass = new LevelClass(scene);
-
-  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-  levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
-
+  for (let i = 0; i < chels; i++) {
+    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
+  }
   controlClass = new ControlClass(levelClass, isMobile);
-  controlClass.addKeyListeners();
-
 }
 
 
 async function initEntity() {
 
+  await worldClass.loadWorld();
+  await audioClass.loadAudio();
+
+
+}
+
+async function initLevel() {
+
+
   await levelClass.createLevel();
 
-  for (let i = 0; i < levelClass.planes.length; i++) {
-    scene.add(levelClass.planes[i]);
-    physicsClass.addPhysicsToObject(levelClass.planes[i]);
+  await levelClass.loadEnvironments();
 
-    scene.add(levelClass.grassPlanes[i]);
-    physicsClass.addPhysicsToObject(levelClass.grassPlanes[i]);
-
-    scene.add(levelClass.topPlanes[i]);
-  }
-
-  for (let i = 1; i < 10; i++) {
-    let newBoostHatModel = levelClass.boostHatModel.clone();
-    newBoostHatModel.position.x = i * 3;
-    scene.add(newBoostHatModel);
-    levelClass.boostHatModels.push(newBoostHatModel);
-    levelClass.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
-  }
-
-  levelClass.clouds.forEach((value, index, array) => {
-    scene.add(value);
-  })
-
-  scene.add(levelClass.water);
-
-
-
-  /*////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-
-
-  const colors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
-
-
-  for (let i = 0; i < levelClass.players.length; i++) {
-    let player = levelClass.players[i];
-    player.player.position.x = player.player.position.x + i * 1;
-    physicsClass.addPhysicsToObject(player.player);
-    await player.loadPlayerModel();
-
-    player.player.userData.startPos = player.player.position.clone();
-
-    scene.add(player.player);
-    scene.add(player.playerOut);
-    scene.add(player.playerModel);
-
-    levelClass.topPlanes.push(player.playerOut);
-
-    scene.add(player.playerModel)
-
-
-    if (i < colors.length) {
-      player.head.children[0].material.color.set(colors[i]);
-    }
-    else {
-      colors.splice(colors.length, 0, ...colors);
-    }
-
-    player.player.userData.audio.push(audioClass.readyJumpAudio.clone())
-    if (audioClass.quacks.length > i) player.player.userData.audio.push(audioClass.quacks[i].clone())
-    else player.player.userData.audio.push(audioClass.quacks[0].clone())
-  }
-
+  await levelClass.loadPlayers();
 
   dataLoaded = true;
 
 }
 
-async function initScenes() {
+async function initMatch(chels) {
+  menuClass.toggleLoader(true);
 
-}
-
-async function initMatch() {
-  //toggleLoader();
-  await initClases();
+  await initClases(chels);
   await initEntity();
-  await initScenes();
+  await initLevel();
 
-  //toggleLoader();
+  menuClass.toggleLoader(false);
 }
 
-initMatch();
-
-
-
-
-
+menuClass = new MenuClass(initMatch);
 
 
 function animate() {
   if (dataLoaded) {
 
     levelClass.waterUpdate();
-
     levelClass.players.forEach((value, index, array) => {
       value.playerMove()
     })
-
-    updateLighting();
-
+    worldClass.updateLighting();
     levelClass.levelAnimate(camera);
-
-
-
 
     // camera.position.set(levelClass.players[maxSpeed(players)].player.position.x - 0, 0 + 1, 15)
     // camera.lookAt(levelClass.players[maxSpeed(players)].player.position)
@@ -285,15 +173,11 @@ function animate() {
     // camera.position.set(players[0].player.position.x + 2, players[0].player.position.y + 5, 15)
     // camera.lookAt(players[0].player.position)
 
-
     //camera.position.x += 0.03;
     camera.position.x = levelClass.players[levelClass.maxSpeed(levelClass.players)].player.position.x;
     camera.position.y = 2;
     camera.position.z = 17;
     camera.lookAt(camera.position.x, camera.position.y - 2, 0);
-
-
-
 
 
     // eventQueue.drainCollisionEvents((handle1, handle2, started) => {
@@ -325,11 +209,3 @@ renderer.setAnimationLoop(() => {
     delta = delta % interval;
   }
 });
-
-
-
-
-
-
-
-
