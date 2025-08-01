@@ -1,9 +1,12 @@
 import * as THREE from "three";
 
 export class ControlClass {
-  constructor(levelClass, isMobile) {
+  constructor(levelClass, isMobile, renderer, camera) {
     this.levelClass = levelClass;
     this.isMobile = isMobile;
+    this.renderer = renderer;
+    this.camera = camera;
+    this.camera = camera;
 
     this.mouse = new THREE.Vector3;
     this.raycaster = new THREE.Raycaster;
@@ -24,32 +27,32 @@ export class ControlClass {
 
 
   onTapDown = (event) => {
-    let rect = renderer.domElement.getBoundingClientRect();
+    let rect = this.renderer.domElement.getBoundingClientRect();
     event = event.changedTouches[0];
-    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    if (mouse.x > 0) {
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    if (this.mouse.x > 0) {
       this.downKeys(this.levelClass.players[0].player);
     }
     else {
-      this.downKeys(this.levelClass.players[1].player);
+      if (this.levelClass.players.length > 1) this.downKeys(this.levelClass.players[1].player);
     }
   }
 
 
 
   onTapUp = (event) => {
-    let rect = renderer.domElement.getBoundingClientRect();
+    let rect = this.renderer.domElement.getBoundingClientRect();
     event = event.changedTouches[0];
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
-    this.raycaster.setFromCamera(mouse, camera);
-    if (mouse.x > 0) {
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    if (this.mouse.x > 0) {
       this.upKeys(this.levelClass.players[0].player);
     }
     else {
-      this.upKeys(this.levelClass.players[1].player);
+      if (this.levelClass.players.length > 1) this.upKeys(this.levelClass.players[1].player);
     }
   }
 

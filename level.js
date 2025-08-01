@@ -20,7 +20,7 @@ export class LevelClass {
   this.planes = [];
 
 
-  this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
+  this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 }));
   this.planeTop.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
   this.topPlanes = [];
 
@@ -72,6 +72,8 @@ export class LevelClass {
 
   this.water.rotation.x = - Math.PI / 2;
   this.water.position.y = - 1.5;
+
+  this.gameNum = 1;
 
 
  }
@@ -130,46 +132,117 @@ export class LevelClass {
   await this.loadBoostsModel();
   await this.loadEnvironmentModel();
 
-  let previousX = -2.5; // Начальная позиция по оси X
 
-  for (let i = 0; i < 50; i++) {
-   let newPlane = this.plane.clone();
-   let newPlaneTop = this.planeTop.clone();
-   let newPlaneGrass = this.planeGrass.clone();
+  switch (this.gameNum) {
+   case 1:
+   case 2:
+    let previousX = -2.5; // Начальная позиция по оси X
 
-   // Генерируем случайную ширину для плоскости
-   let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
+    for (let i = 0; i < 50; i++) {
+     let newPlane = this.plane.clone();
+     let newPlaneTop = this.planeTop.clone();
+     let newPlaneGrass = this.planeGrass.clone();
 
-   // Генерируем случайное расстояние между плоскостями
-   let fixedDistance = getRandomNumber(2, 4); // Случайное значение от 2 до 4
+     let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
+     let fixedDistance = getRandomNumber(2, 4);
+     let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
+     let randomY = getRandomNumber(-1, 1) - this.planeHeight / 2;
 
-   // Устанавливаем позицию по оси X с учетом ширины плоскости и фиксированного расстояния
-   let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
-   let randomY = getRandomNumber(-1, 1) - this.planeHeight / 2;
+     if (i > 0) {
+      this.changeMeshWidth(newPlane, randomW);
+      this.changeMeshWidth(newPlaneTop, randomW + 0.3);
+      this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
+     }
 
-   if (i > 0) {
-    this.changeMeshWidth(newPlane, randomW);
-    this.changeMeshWidth(newPlaneTop, randomW + 0.3);
-    this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
-   }
+     if (i > 0) newPlane.position.x = randomX;
+     if (i > 0) newPlane.position.y = randomY;
 
-   if (i > 0) newPlane.position.x = randomX;
-   if (i > 0) newPlane.position.y = randomY;
+     if (i > 0) newPlaneTop.position.x = randomX;
+     if (i > 0) newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.1;
 
-   if (i > 0) newPlaneTop.position.x = randomX;
-   if (i > 0) newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.1;
-
-   if (i > 0) newPlaneGrass.position.x = randomX;
-   if (i > 0) newPlaneGrass.position.y = randomY + this.planeHeight / 2;
-
+     if (i > 0) newPlaneGrass.position.x = randomX;
+     if (i > 0) newPlaneGrass.position.y = randomY + this.planeHeight / 2;
 
 
-   this.planes.push(newPlane);
-   this.topPlanes.push(newPlaneTop);
-   this.grassPlanes.push(newPlaneGrass);
 
-   // Обновляем предыдущую позицию по оси X
-   previousX = randomX + randomW / 2; // Устанавливаем предыдущую позицию на половину ширины новой плоскости
+     this.planes.push(newPlane);
+     this.topPlanes.push(newPlaneTop);
+     this.grassPlanes.push(newPlaneGrass);
+
+     // Обновляем предыдущую позицию по оси X
+     previousX = randomX + randomW / 2; // Устанавливаем предыдущую позицию на половину ширины новой плоскости
+    }
+    break;
+
+
+
+
+   case 3:
+   case 4:
+
+
+    let previousY = 0;
+
+    for (let i = 0; i < 50; i++) {
+     let newPlaneTop = this.planeTop.clone();
+     let newPlaneGrass = this.planeGrass.clone();
+
+     let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
+     let fixedDistance = getRandomNumber(1, 2);
+     let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
+
+
+     if (i > 0) newPlaneTop.position.y = randomY;
+     //if (i > 0) newPlaneTop.position.x = randomX + this.planeHeight / 2 + 0.1;
+
+     if (i > 0) newPlaneGrass.position.y = randomY;
+     //if (i > 0) newPlaneGrass.position.x = randomX + this.planeHeight / 2;
+
+
+     this.topPlanes.push(newPlaneTop);
+     this.grassPlanes.push(newPlaneGrass);
+
+     previousY = randomY;
+
+    }
+
+
+
+    // let previousY = -2.5; // Начальная позиция по оси Y
+
+    // for (let i = 0; i < 50; i++) {
+    //  let newPlane = this.plane.clone();
+    //  let newPlaneTop = this.planeTop.clone();
+    //  let newPlaneGrass = this.planeGrass.clone();
+
+    //  let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
+    //  let fixedDistance = getRandomNumber(2, 4);
+    //  let randomY = previousY + randomW / 2 + fixedDistance; // Увеличиваем позицию по Y
+    //  let randomX = getRandomNumber(-1, 1) - this.planeHeight / 2; // Случайная позиция по X
+
+    //  if (i > 0) {
+    //   this.changeMeshWidth(newPlane, randomW);
+    //   this.changeMeshWidth(newPlaneTop, randomW + 0.3);
+    //   this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
+    //  }
+
+    //  if (i > 0) newPlane.position.y = randomY;
+    //  if (i > 0) newPlane.position.x = randomX;
+
+    //  if (i > 0) newPlaneTop.position.y = randomY;
+    //  if (i > 0) newPlaneTop.position.x = randomX + this.planeHeight / 2 + 0.1;
+
+    //  if (i > 0) newPlaneGrass.position.y = randomY;
+    //  if (i > 0) newPlaneGrass.position.x = randomX + this.planeHeight / 2;
+
+    //  this.planes.push(newPlane);
+    //  this.topPlanes.push(newPlaneTop);
+    //  this.grassPlanes.push(newPlaneGrass);
+
+    //  // Обновляем предыдущую позицию по оси Y
+    //  previousY = randomY + randomW / 2; // Устанавливаем предыдущую позицию на половину ширины новой плоскости
+    // }
+    break;
   }
  }
 
@@ -272,12 +345,15 @@ export class LevelClass {
  }
 
  async loadEnvironments() {
-  for (let i = 0; i < this.planes.length; i++) {
-   this.scene.add(this.planes[i]);
-   this.physicsClass.addPhysicsToObject(this.planes[i]);
+  for (let i = 0; i < this.grassPlanes.length; i++) {
+   if (this.planes.length == this.grassPlanes.length) {
+    this.scene.add(this.planes[i]);
+    this.physicsClass.addPhysicsToObject(this.planes[i]);
+   }
 
    this.scene.add(this.grassPlanes[i]);
    this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
+   console.log(123)
 
    this.scene.add(this.topPlanes[i]);
   }
@@ -385,6 +461,40 @@ export class LevelClass {
  }
 
 
+ cameraMove(camera) {
+
+  // camera.position.set(levelClass.players[maxSpeed(players)].player.position.x - 0, 0 + 1, 15)
+  // camera.lookAt(levelClass.players[maxSpeed(players)].player.position)
+
+  // camera.position.set(players[0].player.position.x + 2, players[0].player.position.y + 5, 15)
+  // camera.lookAt(players[0].player.position)
+
+  //camera.position.x += 0.03;
+
+
+
+  switch (this.gameNum) {
+   case 1:
+    camera.position.x += 0.03;
+    camera.position.y = 2;
+    camera.position.z = 17;
+    camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+    break;
+   case 2:
+    camera.position.x = this.players[this.maxSpeed(this.players)].player.position.x;
+    camera.position.y = 2;
+    camera.position.z = 17;
+    camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+    break;
+   case 3:
+    camera.position.y += 0.03;
+    camera.position.x = 0;
+    camera.position.z = 17;
+    camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+    break;
+  }
+
+ }
 
 }
 

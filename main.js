@@ -119,7 +119,7 @@ async function initClases(chels) {
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
   }
-  controlClass = new ControlClass(levelClass, isMobile);
+  controlClass = new ControlClass(levelClass, isMobile, renderer, camera);
 }
 
 
@@ -140,18 +140,20 @@ async function initLevel() {
 
   await levelClass.loadPlayers();
 
-  dataLoaded = true;
+
 
 }
 
-async function initMatch(chels) {
+async function initMatch(chels, gameNum) {
   menuClass.toggleLoader(true);
 
   await initClases(chels);
+  levelClass.gameNum = gameNum
   await initEntity();
   await initLevel();
 
   menuClass.toggleLoader(false);
+  dataLoaded = true;
 }
 
 menuClass = new MenuClass(initMatch);
@@ -167,17 +169,7 @@ function animate() {
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
 
-    // camera.position.set(levelClass.players[maxSpeed(players)].player.position.x - 0, 0 + 1, 15)
-    // camera.lookAt(levelClass.players[maxSpeed(players)].player.position)
-
-    // camera.position.set(players[0].player.position.x + 2, players[0].player.position.y + 5, 15)
-    // camera.lookAt(players[0].player.position)
-
-    //camera.position.x += 0.03;
-    camera.position.x = levelClass.players[levelClass.maxSpeed(levelClass.players)].player.position.x;
-    camera.position.y = 2;
-    camera.position.z = 17;
-    camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+    levelClass.cameraMove(camera);
 
 
     // eventQueue.drainCollisionEvents((handle1, handle2, started) => {
