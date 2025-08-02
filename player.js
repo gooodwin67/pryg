@@ -82,6 +82,7 @@ export class PlayerClass {
   playerMove() {
 
 
+
     if (detectCollisionCubeAndArray(this.player, this.levelClass.topPlanes)) {
       this.player.userData.onGround = true;
     }
@@ -197,8 +198,17 @@ export class PlayerClass {
       }
 
       if (this.player.userData.jumping) {
-        this.player.userData.body.applyImpulse({ x: this.player.userData.playerPowerJump / 3.0, y: this.player.userData.playerPowerJump / 1.4, z: 0 }, true);
+
+        this.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+
+        this.player.userData.body.applyImpulse({
+          x: this.levelClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
+          y: this.player.userData.playerPowerJump / 1.4,
+          z: 0
+        }, true);
         this.player.userData.playerPowerJump = 1;
+
+        console.log(this.player.userData.body.linvel().x)
         this.player.userData.jumping = false;
       }
     }

@@ -44,6 +44,10 @@ export class MenuClass {
       this.hideScreen('together_game_screen');
       this.initMatch(2, 1);
     })
+    document.querySelector('.together_game_btn2').addEventListener('click', () => {
+      this.hideScreen('together_game_screen');
+      this.initMatch(2, 4);
+    })
 
   }
 

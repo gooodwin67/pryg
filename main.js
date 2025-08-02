@@ -49,7 +49,7 @@ let controlClass;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
-scene.fog = new THREE.Fog(scene.background, 1, 53);
+// scene.fog = new THREE.Fog(scene.background, 1, 50);
 
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
 camera.position.z = 7;
@@ -112,8 +112,22 @@ async function initClases(chels) {
   eventQueue = new RAPIER.EventQueue(true);
   physicsClass = new PhysicsClass(world, RAPIER);
 
+  world.physicsHooks = {
+    filterContactPair: (collider1, collider2, context) => {
+      // Возвращаем true/false для разрешения контакта
+    },
+    //filterIntersectionPair: undefined // не нужен в нашем случае
+  };
+
+
+
+
+
+
+
+
   audioClass = new AudioClass();
-  levelClass = new LevelClass(scene, audioClass, physicsClass);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera);
   worldClass = new WorldClass(scene, camera, levelClass);
 
   for (let i = 0; i < chels; i++) {
@@ -168,8 +182,55 @@ function animate() {
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
-
     levelClass.cameraMove(camera);
+
+
+
+    for (const player of levelClass.players) {
+
+      const playerCollider = player.player.userData.collider;
+      const playerBody = player.player.userData.body;
+
+
+
+      if (!playerCollider || !playerBody || !levelClass.gameDir == 'vert') continue;
+
+
+      const playerPos = playerBody.translation();
+      const playerVel = playerBody.linvel();
+
+      for (const platform of physicsClass.allTops) {
+        const platformCollider = platform.userData.collide;
+        const platformPos = platform.position;
+
+        const isBelow = playerPos.y < platformPos.y;
+        const isRising = playerVel.y > 0;
+        const closeEnough = Math.abs(playerPos.y - platformPos.y) < 1.0;
+
+        const handleKey = player.player.userData.handle.toString();
+
+        if (isBelow && isRising && closeEnough) {
+          if (!platform.userData.playerHandlesInside.has(handleKey)) {
+            platform.userData.playerHandlesInside.add(handleKey);
+          }
+        }
+
+        const hasPassedAbove = playerPos.y > platformPos.y + 0.5;
+        const isFallingOrStationary = playerVel.y <= 0;
+
+        if (hasPassedAbove && isFallingOrStationary) {
+          platform.userData.playerHandlesInside.delete(handleKey);
+        }
+
+        // Активируем/деактивируем сенсорность платформы
+        if (platform.userData.playerHandlesInside.has(handleKey)) {
+          platformCollider.setSensor(true);
+        } else {
+          platformCollider.setSensor(false);
+        }
+      }
+    }
+
 
 
     // eventQueue.drainCollisionEvents((handle1, handle2, started) => {

@@ -9,7 +9,12 @@ export class PhysicsClass {
   this.allWallBodyCollision = [];
   this.playersHandles = [];
 
+  this.allTops = [];
+
  }
+
+
+
 
  addPhysicsToObject(obj) {
   let body;
@@ -38,6 +43,8 @@ export class PhysicsClass {
 
    let playerCollider = this.world.createCollider(shape, body)
 
+   obj.userData.collider = playerCollider;
+
    obj.userData.handle = playerBody.handle.toString();
    this.playersHandles.push(playerBody.handle)
 
@@ -58,7 +65,7 @@ export class PhysicsClass {
    obj.userData.orgRotation = originalRotation;
 
    body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.fixed().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
-   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.0).setFriction(0.3);
+   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(10).setRestitution(0.0).setFriction(0.3);
    shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
    let collide = this.world.createCollider(shape, body)
    this.allWallBodyCollision.push(collide);
@@ -72,15 +79,18 @@ export class PhysicsClass {
    obj.userData.size = size;
    obj.userData.orgRotation = originalRotation;
 
-   body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.fixed().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
-   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(0.1).setRestitution(0.0).setFriction(0.3);
+   body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
+   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.0).setFriction(0.3);
    shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
-   let collide = this.world.createCollider(shape, body)
+   let collide = this.world.createCollider(shape, body);
+   obj.userData.body = body;
+   obj.userData.collide = collide;
    this.allWallBodyCollision.push(collide);
    obj.userData.handle = body.handle;
    this.dynamicBodies.push([obj, body, obj.id])
 
-
+   obj.userData.playerHandlesInside = new Set();
+   this.allTops.push(obj);
   }
  }
 
