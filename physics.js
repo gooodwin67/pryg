@@ -79,7 +79,7 @@ export class PhysicsClass {
    obj.userData.size = size;
    obj.userData.orgRotation = originalRotation;
 
-   body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
+   body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
    shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(0.0).setFriction(0.3);
    shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
    let collide = this.world.createCollider(shape, body);

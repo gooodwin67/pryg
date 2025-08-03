@@ -127,7 +127,7 @@ async function initClases(chels) {
 
 
   audioClass = new AudioClass();
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile);
   worldClass = new WorldClass(scene, camera, levelClass);
 
   for (let i = 0; i < chels; i++) {
