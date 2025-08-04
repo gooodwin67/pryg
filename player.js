@@ -208,7 +208,7 @@ export class PlayerClass {
         }, true);
         this.player.userData.playerPowerJump = 1;
 
-        console.log(this.player.userData.body.linvel().x)
+
         this.player.userData.jumping = false;
       }
     }

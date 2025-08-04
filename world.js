@@ -1,12 +1,15 @@
 import * as THREE from "three";
+import { Water } from 'three/addons/objects/Water.js';
+import { Sky } from 'three/addons/objects/Sky.js';
 
 export class WorldClass {
-  constructor(scene, camera, levelClass) {
+  constructor(scene, camera, levelClass, renderer) {
     this.scene = scene;
     this.camera = camera;
     this.levelClass = levelClass;
-    this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
+    this.renderer = renderer;
 
+    this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
 
     this.hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
     //hemiLight.color.setHSL(0.6, 0.6, 0.6);
@@ -32,6 +35,100 @@ export class WorldClass {
 
 
 
+
+    this.water;
+    this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+
+    this.water = new Water(
+      this.waterGeometry,
+      {
+        textureWidth: 500,
+        textureHeight: 500,
+        waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', function (texture) {
+
+          texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+        }),
+        sunDirection: new THREE.Vector3(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e4f,
+        distortionScale: 1,
+
+        fog: this.scene.fog !== undefined
+      }
+    );
+
+    this.water.rotation.x = - Math.PI / 2;
+    this.water.position.y = - 1.5;
+
+    this.sun = new THREE.Vector3();
+
+    this.sky = new Sky();
+    this.sky.scale.setScalar(10000);
+    this.scene.add(this.sky);
+
+    const skyUniforms = this.sky.material.uniforms;
+
+    skyUniforms['turbidity'].value = 1;
+    skyUniforms['rayleigh'].value = 7;
+    skyUniforms['mieCoefficient'].value = 0.0005;
+    skyUniforms['mieDirectionalG'].value = 0.8;
+
+    this.parameters = {
+      elevation: 6,
+      azimuth: 150,
+      top: false
+    };
+
+    this.pmremGenerator = new THREE.PMREMGenerator(this.renderer);
+    //this.sceneEnv = new THREE.Scene();
+  }
+
+  updateSun() {
+
+    const phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
+    const theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
+
+    this.sun.setFromSphericalCoords(1, phi, theta);
+
+    this.sky.material.uniforms['sunPosition'].value.copy(this.sun);
+    this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
+
+    //if (this.renderTarget !== undefined) this.renderTarget.dispose();
+
+
+
+
+
+    // this.renderTarget = this.pmremGenerator.fromScene(this.scene);
+    // this.scene.add(this.sky);
+
+    // this.scene.environment = this.renderTarget.texture;
+
+    if (this.parameters.elevation < -5) {
+      this.parameters.azimuth = 150;
+      this.parameters.top = true;
+    }
+    else if (this.parameters.elevation > 7) {
+      this.parameters.azimuth = 150;
+      this.parameters.top = false;
+    }
+
+    if (!this.parameters.top) {
+      this.parameters.azimuth += 0.03;
+      this.parameters.elevation -= 0.003;
+    }
+    else {
+      this.parameters.azimuth += 0.03;
+      this.parameters.elevation += 0.003;
+    }
+
+  }
+
+  waterUpdate() {
+
+    const time = performance.now() * 0.001;
+    this.water.material.uniforms['time'].value += 0.4 / 60.0;
   }
 
   loadWorld() {
@@ -39,6 +136,7 @@ export class WorldClass {
     this.scene.add(this.hemiLight);
     this.scene.add(this.dirLight);
     this.scene.add(this.targetObject);
+    this.scene.add(this.water);
     // scene.add(helper);
   }
 
@@ -56,6 +154,9 @@ export class WorldClass {
     this.dirLight.shadow.camera.bottom = -d;
 
     // dirLight.shadow.camera.far = 5000; // Убедитесь, что это значение достаточно велико
+
+    this.waterUpdate();
+    this.updateSun();
   }
 
 

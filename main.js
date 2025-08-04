@@ -128,7 +128,7 @@ async function initClases(chels) {
 
   audioClass = new AudioClass();
   levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile);
-  worldClass = new WorldClass(scene, camera, levelClass);
+  worldClass = new WorldClass(scene, camera, levelClass, renderer);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
@@ -176,7 +176,7 @@ menuClass = new MenuClass(initMatch);
 function animate() {
   if (dataLoaded) {
 
-    levelClass.waterUpdate();
+
     levelClass.players.forEach((value, index, array) => {
       value.playerMove()
     })
@@ -186,15 +186,13 @@ function animate() {
 
 
 
+
     for (const player of levelClass.players) {
 
       const playerCollider = player.player.userData.collider;
       const playerBody = player.player.userData.body;
 
-
-
-      if (!playerCollider || !playerBody || !levelClass.gameDir == 'vert') continue;
-
+      if (!playerCollider || !playerBody || levelClass.gameDir !== 'vert') continue;
 
       const playerPos = playerBody.translation();
       const playerVel = playerBody.linvel();
@@ -208,6 +206,7 @@ function animate() {
         const closeEnough = Math.abs(playerPos.y - platformPos.y) < 1.0;
 
         const handleKey = player.player.userData.handle.toString();
+
 
         if (isBelow && isRising && closeEnough) {
           if (!platform.userData.playerHandlesInside.has(handleKey)) {

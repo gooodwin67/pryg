@@ -45,7 +45,7 @@ export class PhysicsClass {
 
    obj.userData.collider = playerCollider;
 
-   obj.userData.handle = playerBody.handle.toString();
+   obj.userData.handle = playerBody.handle;
    this.playersHandles.push(playerBody.handle)
 
    this.dynamicBodies.push([obj, body, obj.id])

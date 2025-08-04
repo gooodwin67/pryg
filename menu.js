@@ -46,7 +46,7 @@ export class MenuClass {
     })
     document.querySelector('.together_game_btn2').addEventListener('click', () => {
       this.hideScreen('together_game_screen');
-      this.initMatch(2, 4);
+      this.initMatch(3, 4);
     })
 
   }

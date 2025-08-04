@@ -2,9 +2,6 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber } from './functions';
 
-import { Water } from 'three/addons/objects/Water.js';
-import { Sky } from 'three/addons/objects/Sky.js';
-
 export class LevelClass {
   constructor(scene, audioClass, physicsClass, renderer, camera, isMobile) {
     this.scene = scene;
@@ -59,56 +56,12 @@ export class LevelClass {
     this.leftEdge.unproject(camera);
     this.rightEdge.unproject(camera);
 
+    this.bounds;
+    this.getHorizontalWorldBounds()
 
 
 
 
-    this.water;
-    this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
-
-    this.water = new Water(
-      this.waterGeometry,
-      {
-        textureWidth: 500,
-        textureHeight: 500,
-        waterNormals: new THREE.TextureLoader().load('textures/waternormals.jpg', function (texture) {
-
-          texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-
-        }),
-        sunDirection: new THREE.Vector3(),
-        sunColor: 0xffffff,
-        waterColor: 0x001e4f,
-        distortionScale: 1,
-
-        fog: this.scene.fog !== undefined
-      }
-    );
-
-    this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y = - 1.5;
-
-    this.sun = new THREE.Vector3();
-
-    this.sky = new Sky();
-    this.sky.scale.setScalar(10000);
-    //scene.add(sky);
-
-    const skyUniforms = this.sky.material.uniforms;
-
-    skyUniforms['turbidity'].value = 1;
-    skyUniforms['rayleigh'].value = 7;
-    skyUniforms['mieCoefficient'].value = 0.0005;
-    skyUniforms['mieDirectionalG'].value = 0.8;
-
-    this.parameters = {
-      elevation: 6,
-      azimuth: 150,
-      top: false
-    };
-
-    this.pmremGenerator = new THREE.PMREMGenerator(this.renderer);
-    //this.sceneEnv = new THREE.Scene();
 
     let renderTarget;
 
@@ -119,50 +72,7 @@ export class LevelClass {
 
   }
 
-  updateSun() {
 
-    const phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
-    const theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
-
-    this.sun.setFromSphericalCoords(1, phi, theta);
-
-    this.sky.material.uniforms['sunPosition'].value.copy(this.sun);
-    this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
-
-    //if (this.renderTarget !== undefined) this.renderTarget.dispose();
-
-    this.scene.add(this.sky);
-
-    // this.renderTarget = this.pmremGenerator.fromScene(this.scene);
-    // this.scene.add(this.sky);
-
-    // this.scene.environment = this.renderTarget.texture;
-
-    if (this.parameters.elevation < -5) {
-      this.parameters.azimuth = 150;
-      this.parameters.top = true;
-    }
-    else if (this.parameters.elevation > 7) {
-      this.parameters.azimuth = 150;
-      this.parameters.top = false;
-    }
-
-    if (!this.parameters.top) {
-      this.parameters.azimuth += 0.01;
-      this.parameters.elevation -= 0.001;
-    }
-    else {
-      this.parameters.azimuth += 0.01;
-      this.parameters.elevation += 0.001;
-    }
-
-  }
-
-  waterUpdate() {
-    this.updateSun()
-    const time = performance.now() * 0.001;
-    this.water.material.uniforms['time'].value += 0.4 / 60.0;
-  }
 
   async loadTexture() {
     const loader = new THREE.TextureLoader();
@@ -213,6 +123,8 @@ export class LevelClass {
     await this.loadBoostsModel();
     await this.loadEnvironmentModel();
 
+    this.cameraMove(this.camera);
+    this.getHorizontalWorldBounds();
 
     switch (this.gameNum) {
       case 1:
@@ -251,13 +163,10 @@ export class LevelClass {
           this.topPlanes.push(newPlaneTop);
           this.grassPlanes.push(newPlaneGrass);
 
-          // Обновляем предыдущую позицию по оси X
-          previousX = randomX + randomW / 2; // Устанавливаем предыдущую позицию на половину ширины новой плоскости
+
+          previousX = randomX + randomW / 2;
         }
         break;
-
-
-
 
       case 3:
       case 4:
@@ -265,16 +174,13 @@ export class LevelClass {
         this.gameDir = 'vert'
         let previousY = -4;
 
-        const bounds = this.getHorizontalWorldBounds(0);
-        console.log(bounds.rightX*2)
-
         for (let i = 0; i < 50; i++) {
           let newPlaneTop = this.planeTop.clone();
           let newPlaneGrass = this.planeGrass.clone();
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
-          let randomW = getRandomNumber(bounds.rightX, bounds.rightX/4);
+          let randomW = getRandomNumber(this.bounds.rightX, this.bounds.rightX / 4);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -290,8 +196,6 @@ export class LevelClass {
             this.changeMeshWidth(newPlaneGrass, 20);
           }
 
-
-
           this.topPlanes.push(newPlaneTop);
           this.grassPlanes.push(newPlaneGrass);
 
@@ -299,100 +203,55 @@ export class LevelClass {
 
         }
 
-
-
-        // let previousY = -2.5; // Начальная позиция по оси Y
-
-        // for (let i = 0; i < 50; i++) {
-        //  let newPlane = this.plane.clone();
-        //  let newPlaneTop = this.planeTop.clone();
-        //  let newPlaneGrass = this.planeGrass.clone();
-
-        //  let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
-        //  let fixedDistance = getRandomNumber(2, 4);
-        //  let randomY = previousY + randomW / 2 + fixedDistance; // Увеличиваем позицию по Y
-        //  let randomX = getRandomNumber(-1, 1) - this.planeHeight / 2; // Случайная позиция по X
-
-        //  if (i > 0) {
-        //   this.changeMeshWidth(newPlane, randomW);
-        //   this.changeMeshWidth(newPlaneTop, randomW + 0.3);
-        //   this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
-        //  }
-
-        //  if (i > 0) newPlane.position.y = randomY;
-        //  if (i > 0) newPlane.position.x = randomX;
-
-        //  if (i > 0) newPlaneTop.position.y = randomY;
-        //  if (i > 0) newPlaneTop.position.x = randomX + this.planeHeight / 2 + 0.1;
-
-        //  if (i > 0) newPlaneGrass.position.y = randomY;
-        //  if (i > 0) newPlaneGrass.position.x = randomX + this.planeHeight / 2;
-
-        //  this.planes.push(newPlane);
-        //  this.topPlanes.push(newPlaneTop);
-        //  this.grassPlanes.push(newPlaneGrass);
-
-        //  // Обновляем предыдущую позицию по оси Y
-        //  previousY = randomY + randomW / 2; // Устанавливаем предыдущую позицию на половину ширины новой плоскости
-        // }
         break;
     }
   }
 
-  getHorizontalWorldBounds( z = 0) {
+  getHorizontalWorldBounds(z = 0) {
     const ndcLeft = new THREE.Vector3(-1, 0, 0.5); // левый край в NDC
     const ndcRight = new THREE.Vector3(1, 0, 0.5); // правый край в NDC
-  
+
     // Преобразуем в мировые координаты
     ndcLeft.unproject(this.camera);
     ndcRight.unproject(this.camera);
-  
+
     // Если платформа не на камере, проецируем на плоскость Z = нужная глубина
     if (this.camera.isPerspectiveCamera) {
       const cameraPos = this.camera.position;
-  
+
       const dirLeft = ndcLeft.clone().sub(cameraPos).normalize();
       const dirRight = ndcRight.clone().sub(cameraPos).normalize();
-  
+
       const distance = (z - cameraPos.z) / dirLeft.z;
-  
+
       const worldLeft = cameraPos.clone().add(dirLeft.multiplyScalar(distance));
       const worldRight = cameraPos.clone().add(dirRight.multiplyScalar(distance));
-  
-      return {
+
+      this.bounds = {
         leftX: worldLeft.x,
         rightX: worldRight.x
       };
+
     }
-  
-    // Если ортографическая камера — проще:
-    return {
-      leftX: ndcLeft.x,
-      rightX: ndcRight.x
-    };
+
   }
 
   animateTops() {
+
     if (this.gameDir == 'vert') {
 
-      
-
-      const bounds = this.getHorizontalWorldBounds(0); // или другой Z, где находится платформа
-      
       for (let i = 0; i < this.grassPlanes.length; i++) {
         const grass = this.grassPlanes[i];
         const top = this.topPlanes[i];
         const body = grass.userData.body;
         const speed = grass.userData.speed;
 
-        
-
         const currentPos = body.translation();
 
         // Используем реальные границы экрана
-        if (currentPos.x > bounds.rightX - grass.userData.size.x/2) {
+        if (currentPos.x > this.bounds.rightX - grass.userData.size.x / 2) {
           grass.userData.direction = -1;
-        } else if (currentPos.x < bounds.leftX + grass.userData.size.x/2) {
+        } else if (currentPos.x < this.bounds.leftX + grass.userData.size.x / 2) {
           grass.userData.direction = 1;
         }
 
@@ -518,7 +377,12 @@ export class LevelClass {
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();
-      newBoostHatModel.position.x = i * 3;
+      if (this.gameDir == 'vert') {
+        newBoostHatModel.position.y = i * 3;
+      }
+      else {
+        newBoostHatModel.position.x = i * 3;
+      }
       this.scene.add(newBoostHatModel);
       this.boostHatModels.push(newBoostHatModel);
       this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
@@ -528,38 +392,16 @@ export class LevelClass {
       this.scene.add(value);
     })
 
-    this.scene.add(this.water);
+
   }
 
 
-  levelAnimate(camera) {
+  levelAnimate() {
     this.animateTops();
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
     })
-
-    const frustum = new THREE.Frustum();
-    const cameraViewProjectionMatrix = new THREE.Matrix4();
-    cameraViewProjectionMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
-    frustum.setFromProjectionMatrix(cameraViewProjectionMatrix);
-
-
-
-    if (this.clouds.length > 0 && this.clouds[0].position.x < camera.position.x && !frustum.intersectsObject(this.clouds[0])) {
-      this.clouds[0].position.copy(new THREE.Vector3(
-        this.clouds[this.clouds.length - 1].position.x + 10,
-        this.clouds[this.clouds.length - 1].position.y,
-        this.clouds[this.clouds.length - 1].position.z,
-      ));
-      this.clouds.push(this.clouds.shift())
-    }
-
-    if (this.clouds.length > 0) {
-      this.clouds.forEach((value, index, array) => {
-        value.position.x -= 0.02;
-      })
-    }
 
   }
 
@@ -571,14 +413,28 @@ export class LevelClass {
     if (players.length === 0) return -1; // Если массив пустой, возвращаем -1
 
     let maxIndex = 0; // Начинаем с первого элемента
-    let maxValue = players[0].player.position.x; // Сохраняем значение первого элемента
+    let maxValue;
+    if (this.gameDir == 'vert') {
+      maxValue = players[0].player.position.y;
+    }
+    else {
+      maxValue = players[0].player.position.x;
+    }
 
     for (let i = 1; i < players.length; i++) {
       // Проверяем, существует ли player и его position
       if (players[i].player && players[i].player.position) {
-        if (players[i].player.position.x > maxValue) {
-          maxValue = players[i].player.position.x; // Обновляем максимальное значение
-          maxIndex = i; // Обновляем индекс максимального значения
+        if (this.gameDir == 'vert') {
+          if (players[i].player.position.y > maxValue) {
+            maxValue = players[i].player.position.y; // Обновляем максимальное значение
+            maxIndex = i; // Обновляем индекс максимального значения
+          }
+        }
+        else {
+          if (players[i].player.position.x > maxValue) {
+            maxValue = players[i].player.position.x; // Обновляем максимальное значение
+            maxIndex = i; // Обновляем индекс максимального значения
+          }
         }
       } else {
         console.warn(`Player at index ${i} is missing player or position properties.`);
@@ -627,21 +483,6 @@ export class LevelClass {
 
   cameraMove(camera) {
 
-    // camera.position.set(levelClass.players[maxSpeed(players)].player.position.x - 0, 0 + 1, 15)
-    // camera.lookAt(levelClass.players[maxSpeed(players)].player.position)
-
-    // camera.position.set(players[0].player.position.x + 2, players[0].player.position.y + 5, 15)
-    // camera.lookAt(players[0].player.position)
-
-    //camera.position.x += 0.03;
-
-
-
-
-    
-
-
-
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
@@ -662,7 +503,7 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
-        camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y+2;
+        camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 2;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 27;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
