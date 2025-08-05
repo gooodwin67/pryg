@@ -21,7 +21,7 @@ export class LevelClass {
     this.planes = [];
 
 
-    this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.1 }));
+    this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
     this.planeTop.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
     this.planeTop.userData.direction = 1;
     this.topPlanes = [];
@@ -33,6 +33,12 @@ export class LevelClass {
     this.planeGrass.userData.name = 'tops';
     this.planeGrass.userData.direction = 1;
     this.grassPlanes = [];
+
+    this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 }));
+    this.planeSensor.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
+    this.planeSensor.userData.name = 'top_sensor';
+
+    this.sensorPlanes = [];
 
     this.boostHatModel;
     this.boostHatMesh;
@@ -137,6 +143,7 @@ export class LevelClass {
           let newPlaneTop = this.planeTop.clone();
           let newPlaneGrass = this.planeGrass.clone();
 
+
           let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
           let fixedDistance = getRandomNumber(2, 4);
           let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
@@ -146,6 +153,7 @@ export class LevelClass {
             this.changeMeshWidth(newPlane, randomW);
             this.changeMeshWidth(newPlaneTop, randomW + 0.3);
             this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
+
           }
 
           if (i > 0) newPlane.position.x = randomX;
@@ -159,9 +167,12 @@ export class LevelClass {
 
 
 
+
+
           this.planes.push(newPlane);
           this.topPlanes.push(newPlaneTop);
           this.grassPlanes.push(newPlaneGrass);
+
 
 
           previousX = randomX + randomW / 2;
@@ -177,6 +188,7 @@ export class LevelClass {
         for (let i = 0; i < 50; i++) {
           let newPlaneTop = this.planeTop.clone();
           let newPlaneGrass = this.planeGrass.clone();
+          let newPlaneSensor = this.planeSensor.clone();
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
@@ -186,18 +198,22 @@ export class LevelClass {
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
           newPlaneTop.position.y = randomY;
           newPlaneGrass.position.y = randomY;
+          newPlaneSensor.position.y = randomY;
 
           if (i > 0) {
             this.changeMeshWidth(newPlaneTop, randomW + 0.3);
             this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
+            this.changeMeshWidth(newPlaneSensor, randomW + 0.3);
           }
           else {
             this.changeMeshWidth(newPlaneTop, 20);
             this.changeMeshWidth(newPlaneGrass, 20);
+            this.changeMeshWidth(newPlaneSensor, 20);
           }
 
           this.topPlanes.push(newPlaneTop);
           this.grassPlanes.push(newPlaneGrass);
+          this.sensorPlanes.push(newPlaneSensor);
 
           previousY = randomY;
 
@@ -263,6 +279,9 @@ export class LevelClass {
           y: currentPos.y,
           z: currentPos.z
         });
+
+        this.sensorPlanes[i].position.set(newX, currentPos.y - 0.3, currentPos.z)
+
 
         top.position.set(newX, currentPos.y, currentPos.z);
       }
@@ -371,6 +390,8 @@ export class LevelClass {
       if (this.gameDir == 'vert') {
         this.grassPlanes[i].userData.collide.setFriction(500)
       }
+
+      this.scene.add(this.sensorPlanes[i]);
 
       this.scene.add(this.topPlanes[i]);
     }

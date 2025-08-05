@@ -81,6 +81,11 @@ export class PlayerClass {
 
   playerMove() {
 
+    if (detectCollisionCubeAndArray(this.player, this.levelClass.sensorPlanes)) {
+      console.log(123)
+    }
+
+
 
 
     if (detectCollisionCubeAndArray(this.player, this.levelClass.topPlanes)) {
