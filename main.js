@@ -11,8 +11,6 @@ import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import RAPIER from '@dimforge/rapier3d-compat';
-
 import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray } from "./functions";
 
 
@@ -93,36 +91,12 @@ function onWindowResize() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 async function initClases(chels) {
-  await RAPIER.init();
+  const RAPIER = await import('@dimforge/rapier3d');
   world = new RAPIER.World(new RAPIER.Vector3(0, -9.81, 0));
+
   eventQueue = new RAPIER.EventQueue(true);
   physicsClass = new PhysicsClass(world, RAPIER);
-
-  world.physicsHooks = {
-    filterContactPair: (collider1, collider2, context) => {
-      // Возвращаем true/false для разрешения контакта
-    },
-    //filterIntersectionPair: undefined // не нужен в нашем случае
-  };
-
-
-
-
-
 
 
 
@@ -144,7 +118,6 @@ async function initEntity() {
 
 
 }
-
 async function initLevel() {
 
 
@@ -153,6 +126,11 @@ async function initLevel() {
   await levelClass.loadEnvironments();
 
   await levelClass.loadPlayers();
+
+
+
+
+
 
 
 
@@ -187,48 +165,6 @@ function animate() {
 
 
 
-    for (const player of levelClass.players) {
-
-      const playerCollider = player.player.userData.collider;
-      const playerBody = player.player.userData.body;
-
-      if (!playerCollider || !playerBody || levelClass.gameDir !== 'vert') continue;
-
-      const playerPos = playerBody.translation();
-      const playerVel = playerBody.linvel();
-
-      for (const platform of physicsClass.allTops) {
-        const platformCollider = platform.userData.collide;
-        const platformPos = platform.position;
-
-        const isBelow = playerPos.y < platformPos.y;
-        const isRising = playerVel.y > 0;
-        const closeEnough = Math.abs(playerPos.y - platformPos.y) < 1.0;
-
-        const handleKey = player.player.userData.handle.toString();
-
-
-        if (isBelow && isRising && closeEnough) {
-          if (!platform.userData.playerHandlesInside.has(handleKey)) {
-            platform.userData.playerHandlesInside.add(handleKey);
-          }
-        }
-
-        const hasPassedAbove = playerPos.y > platformPos.y + 0.5;
-        const isFallingOrStationary = playerVel.y <= 0;
-
-        if (hasPassedAbove && isFallingOrStationary) {
-          platform.userData.playerHandlesInside.delete(handleKey);
-        }
-
-        // Активируем/деактивируем сенсорность платформы
-        if (platform.userData.playerHandlesInside.has(handleKey)) {
-          platformCollider.setSensor(true);
-        } else {
-          platformCollider.setSensor(false);
-        }
-      }
-    }
 
 
 
@@ -247,7 +183,7 @@ function animate() {
       physicsClass.dynamicBodies[i][0].position.copy(physicsClass.dynamicBodies[i][1].translation())
       physicsClass.dynamicBodies[i][0].quaternion.copy(physicsClass.dynamicBodies[i][1].rotation())
     }
-    world.step(eventQueue)//(/*eventQueue*/);
+    world.step(eventQueue);
     renderer.render(scene, camera);
   }
 

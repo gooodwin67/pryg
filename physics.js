@@ -32,7 +32,11 @@ export class PhysicsClass {
    obj.userData.orgRotation = originalRotation;
 
    body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
-   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(0.6).setRestitution(0).setFriction(0.4);
+   shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2)
+    .setMass(0.6)
+    .setRestitution(0)
+    .setFriction(0.4)
+    .setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
 
    obj.userData.body = body;
    obj.userData.shape = shape;

@@ -1,6 +1,7 @@
 {
+  "type": "module",
   "dependencies": {
-    "@dimforge/rapier3d-compat": "^0.14.0",
+    "@dimforge/rapier3d": "^0.18.0",
     "@tweenjs/tween.js": "^25.0.0",
     "@yandex-games/sdk-dev-proxy": "^0.0.1",
     "autoprefixer": "^10.4.21",
@@ -9,8 +10,9 @@
   },
   "devDependencies": {
     "@types/three": "^0.178.1",
-    "vite": "^6.0.3",
-    "vite-plugin-top-level-await": "^1.6.0"
+    "vite": "^7.0.6",
+    "vite-plugin-top-level-await": "^1.6.0",
+    "vite-plugin-wasm": "^3.5.0"
   },
   "scripts": {
     "dev": "vite",
