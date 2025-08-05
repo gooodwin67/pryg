@@ -73,3 +73,35 @@ export function detectCollisionCubeAndArray(object1, array) {
 
 
 }
+
+
+
+export function groupArrayToMask(groupsArray) {
+    // Например, [0, 2, 3] → 0b1101 = 13
+    return groupsArray.reduce((mask, groupNum) => mask | (1 << groupNum), 0);
+}
+
+export function makeCollisionMaskFromArrays(membershipGroups, filterGroups) {
+    const membership = groupArrayToMask(membershipGroups);
+    const filter = groupArrayToMask(filterGroups);
+    const mask = ((membership & 0xFFFF) << 16) | (filter & 0xFFFF);
+    return '0x' + mask.toString(16).padStart(8, '0');
+}
+
+export function getObjectGroupInfo(collider) {
+    // Получаем 32-битное число групп
+    const collisionGroups = collider.collisionGroups();
+    // Старшие 16 бит — membership, младшие 16 бит — filter
+    const membershipMask = (collisionGroups >>> 16) & 0xFFFF;
+    const filterMask = collisionGroups & 0xFFFF;
+
+    function maskToGroupArray(mask) {
+        const groups = [];
+        for (let i = 0; i < 16; i++) {
+            if (mask & (1 << i)) groups.push(i);
+        }
+        return groups;
+    }
+
+    return [maskToGroupArray(membershipMask), maskToGroupArray(filterMask)];
+}

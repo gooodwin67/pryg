@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray } from "./functions";
+import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
 
 
 import { PlayerClass } from "./player";
@@ -128,6 +128,20 @@ async function initLevel() {
   await levelClass.loadPlayers();
 
 
+  //console.log(levelClass.grassPlanes[0].userData.collider)
+  
+  
+
+  levelClass.grassPlanes.forEach((value, index)=> {
+    levelClass.grassPlanes[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
+  })
+
+  
+  
+
+  levelClass.players.forEach((value, index)=> {
+    levelClass.players[index].player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
+  })
 
 
 

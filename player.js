@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { detectCollisionCubes, detectCollisionCubeAndArray } from "./functions";
+import { detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
 
 
 export class PlayerClass {
@@ -82,8 +82,20 @@ export class PlayerClass {
   playerMove() {
 
     if (detectCollisionCubeAndArray(this.player, this.levelClass.sensorPlanes)) {
-      console.log(123)
+      const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
+      if (filterGroups[0] == 0) {
+        this.player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [1]))
+      }
     }
+    else {
+      const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
+      if (filterGroups[0] != 0) {
+        
+        this.player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
+        
+      }
+    }
+
 
 
 
