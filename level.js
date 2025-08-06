@@ -155,15 +155,19 @@ export class LevelClass {
             this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
 
           }
+          if (i > 0) {
+            newPlane.position.x = randomX;
+            newPlane.position.y = randomY;
 
-          if (i > 0) newPlane.position.x = randomX;
-          if (i > 0) newPlane.position.y = randomY;
+            newPlaneTop.position.x = randomX;
+            newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.2;
 
-          if (i > 0) newPlaneTop.position.x = randomX;
-          if (i > 0) newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.1;
-
-          if (i > 0) newPlaneGrass.position.x = randomX;
-          if (i > 0) newPlaneGrass.position.y = randomY + this.planeHeight / 2;
+            newPlaneGrass.position.x = randomX;
+            newPlaneGrass.position.y = randomY + this.planeHeight / 2;
+          }
+          else {
+            newPlaneTop.position.y = newPlaneGrass.position.y + 0.2;
+          }
 
 
 
@@ -192,7 +196,7 @@ export class LevelClass {
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
-          let randomW = getRandomNumber(this.bounds.rightX / 13, this.bounds.rightX / 12);
+          let randomW = getRandomNumber(this.bounds.rightX/2, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -206,9 +210,9 @@ export class LevelClass {
             this.changeMeshWidth(newPlaneSensor, randomW + 0.5);
           }
           else {
-            this.changeMeshWidth(newPlaneTop, 20);
-            this.changeMeshWidth(newPlaneGrass, 20);
-            this.changeMeshWidth(newPlaneSensor, 20);
+            this.changeMeshWidth(newPlaneTop, 10);
+            this.changeMeshWidth(newPlaneGrass, 10);
+            this.changeMeshWidth(newPlaneSensor, 10);
           }
 
           this.topPlanes.push(newPlaneTop);
@@ -274,11 +278,13 @@ export class LevelClass {
         const moveX = grass.userData.direction * speed;
         const newX = currentPos.x + moveX;
 
-        body.setNextKinematicTranslation({
-          x: newX,
-          y: currentPos.y,
-          z: currentPos.z
-        });
+        if (i > 0) {
+          body.setNextKinematicTranslation({
+            x: newX,
+            y: currentPos.y,
+            z: currentPos.z
+          });
+        }
 
         this.sensorPlanes[i].position.set(newX, currentPos.y - 0.2, currentPos.z)
 
@@ -520,13 +526,13 @@ export class LevelClass {
       case 3:
         camera.position.y += 0.01;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 27;
+        camera.position.z = this.isMobile ? 20 : 22;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
         camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 2;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 27;
+        camera.position.z = this.isMobile ? 20 : 22;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
     }
