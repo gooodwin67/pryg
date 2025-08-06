@@ -21,12 +21,12 @@ export class LevelClass {
     this.planes = [];
 
 
-    this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.6, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
+    this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
     this.planeTop.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
     this.planeTop.userData.direction = 1;
     this.topPlanes = [];
 
-    this.planeGrass = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.2, 1.2), new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }));
+    this.planeGrass = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, 1.2), new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }));
     this.planeGrass.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
     this.planeGrass.castShadow = true;
     this.planeGrass.receiveShadow = true;
@@ -34,7 +34,7 @@ export class LevelClass {
     this.planeGrass.userData.direction = 1;
     this.grassPlanes = [];
 
-    this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 }));
+    this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 }));
     this.planeSensor.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
     this.planeSensor.userData.name = 'top_sensor';
 
@@ -192,7 +192,7 @@ export class LevelClass {
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
-          let randomW = getRandomNumber(this.bounds.rightX, this.bounds.rightX / 4);
+          let randomW = getRandomNumber(this.bounds.rightX / 13, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -203,7 +203,7 @@ export class LevelClass {
           if (i > 0) {
             this.changeMeshWidth(newPlaneTop, randomW + 0.3);
             this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
-            this.changeMeshWidth(newPlaneSensor, randomW + 0.3);
+            this.changeMeshWidth(newPlaneSensor, randomW + 0.5);
           }
           else {
             this.changeMeshWidth(newPlaneTop, 20);
@@ -280,10 +280,10 @@ export class LevelClass {
           z: currentPos.z
         });
 
-        this.sensorPlanes[i].position.set(newX, currentPos.y - 0.3, currentPos.z)
+        this.sensorPlanes[i].position.set(newX, currentPos.y - 0.2, currentPos.z)
 
 
-        top.position.set(newX, currentPos.y, currentPos.z);
+        top.position.set(newX, currentPos.y + 0.6, currentPos.z);
       }
     }
   }

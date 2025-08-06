@@ -70,12 +70,12 @@ export class WorldClass {
     const skyUniforms = this.sky.material.uniforms;
 
     skyUniforms['turbidity'].value = 1;
-    skyUniforms['rayleigh'].value = 7;
+    skyUniforms['rayleigh'].value = 3;
     skyUniforms['mieCoefficient'].value = 0.0005;
     skyUniforms['mieDirectionalG'].value = 0.8;
 
     this.parameters = {
-      elevation: 6,
+      elevation: 5,
       azimuth: 150,
       top: false
     };
