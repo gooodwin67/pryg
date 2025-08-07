@@ -91,3 +91,22 @@ canvas {
     justify-content: center;
     color: #fff;
 }
+
+.together_game_chels_wrap {
+    display: flex;
+}
+
+.together_game_chels {
+    width: 100%;
+    border: 1px solid #555;
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+.together_game_chels_active {
+    background-color: #888;
+}

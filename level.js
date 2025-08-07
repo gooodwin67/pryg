@@ -196,7 +196,7 @@ export class LevelClass {
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
-          let randomW = getRandomNumber(this.bounds.rightX/2, this.bounds.rightX / 12);
+          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -394,11 +394,9 @@ export class LevelClass {
       this.scene.add(this.grassPlanes[i]);
       this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
       if (this.gameDir == 'vert') {
-        this.grassPlanes[i].userData.collide.setFriction(500)
+        this.grassPlanes[i].userData.collide.setFriction(1)
+        this.scene.add(this.sensorPlanes[i]);
       }
-
-      this.scene.add(this.sensorPlanes[i]);
-
       this.scene.add(this.topPlanes[i]);
     }
 

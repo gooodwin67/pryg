@@ -22,7 +22,7 @@ export class WorldClass {
     //this.dirLight.color.setHSL(0.1, 1, 0.95);
     this.dirLight.position.set(0, 5, 5); // Измените позицию
     this.dirLight.castShadow = true;
-    this.dirLight.shadow.camera.far = 10; // Убедитесь, что это значение достаточно велико
+    this.dirLight.shadow.camera.far = 100; // Убедитесь, что это значение достаточно велико
 
 
     this.targetObject = new THREE.Object3D();
@@ -32,12 +32,11 @@ export class WorldClass {
 
     this.helper = new THREE.DirectionalLightHelper(this.dirLight, 3);
 
-
-
+    this.day = false;
 
 
     this.water;
-    this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+    this.waterGeometry = new THREE.PlaneGeometry(100, 100);
 
     this.water = new Water(
       this.waterGeometry,
@@ -65,63 +64,124 @@ export class WorldClass {
 
     this.sky = new Sky();
     this.sky.scale.setScalar(10000);
+
     this.scene.add(this.sky);
 
     const skyUniforms = this.sky.material.uniforms;
 
     skyUniforms['turbidity'].value = 1;
     skyUniforms['rayleigh'].value = 3;
-    skyUniforms['mieCoefficient'].value = 0.0005;
+    skyUniforms['mieCoefficient'].value = 0.0000005;
     skyUniforms['mieDirectionalG'].value = 0.8;
 
     this.parameters = {
       elevation: 5,
-      azimuth: 150,
+      azimuth: 170,
       top: false
     };
 
     this.pmremGenerator = new THREE.PMREMGenerator(this.renderer);
-    //this.sceneEnv = new THREE.Scene();
+
+
+
+    this.plane = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), new THREE.MeshBasicMaterial({ color: 0x0000, side: THREE.DoubleSide, transparent: true, opacity: 0 }));
+    this.plane.position.z = -1000
+    this.scene.add(this.plane);
+
+
+
+    const count = 1000;
+
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      positions[3 * i] = Math.random() * 800 - 400;
+      positions[3 * i + 1] = Math.random() * 400 - 200;
+      positions[3 * i + 2] = Math.random() * 100 - 500;
+    }
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2 });
+
+    const points = new THREE.Points(geometry, material);
+    points.layers.set(1);
+    this.camera.layers.enable(1);
+    this.scene.add(points);
+
+
   }
 
   updateSun() {
 
+
+
     const phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
     const theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
-
     this.sun.setFromSphericalCoords(1, phi, theta);
-
     this.sky.material.uniforms['sunPosition'].value.copy(this.sun);
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
-    //if (this.renderTarget !== undefined) this.renderTarget.dispose();
 
 
 
 
 
-    // this.renderTarget = this.pmremGenerator.fromScene(this.scene);
-    // this.scene.add(this.sky);
-
-    // this.scene.environment = this.renderTarget.texture;
-
-    if (this.parameters.elevation < -5) {
-      this.parameters.azimuth = 150;
+    if (this.parameters.elevation < -8) {
+      //this.parameters.azimuth = 150;
       this.parameters.top = true;
+      this.day ? this.day = false : this.day = true;
+
     }
-    else if (this.parameters.elevation > 7) {
-      this.parameters.azimuth = 150;
+    else if (this.parameters.elevation > 8) {
+      //this.parameters.azimuth = 150;
       this.parameters.top = false;
     }
 
     if (!this.parameters.top) {
-      this.parameters.azimuth += 0.03;
-      this.parameters.elevation -= 0.003;
+      //this.parameters.azimuth -= 3;
+      this.parameters.elevation -= 0.03;
     }
     else {
-      this.parameters.azimuth += 0.03;
-      this.parameters.elevation += 0.003;
+      //this.parameters.azimuth += 0.03;
+      this.parameters.elevation += 0.03;
+      if (this.day) {
+        if (this.sky.material.uniforms['rayleigh'].value > 0) this.sky.material.uniforms['rayleigh'].value -= 0.05;
+        else this.sky.material.uniforms['rayleigh'].value = 0
+      }
+      else {
+        if (this.sky.material.uniforms['rayleigh'].value < 3) this.sky.material.uniforms['rayleigh'].value += 0.05;
+        else this.sky.material.uniforms['rayleigh'].value = 3
+      }
     }
+
+
+
+
+
+
+    //console.log(this.sky.material.uniforms['rayleigh'].value);
+
+
+    // const minElevation = -100;
+    // const maxElevation = 100;
+
+    // if (this.prevCameraYSun === undefined) {
+    //   this.prevCameraYSun = this.camera.position.y;
+    // }
+
+    // const deltaY = this.camera.position.y - this.prevCameraYSun;
+
+    // // Инвертируем изменение elevation относительно движения камеры по Y
+    // this.parameters.elevation -= deltaY * 0.001;
+    // console.log(this.prevCameraYSun)
+
+    // // Ограничиваем диапазон elevation (по желанию)
+    // //this.parameters.elevation = Math.max(minElevation, Math.min(maxElevation, this.parameters.elevation));
+
+    // this.prevCameraY = this.camera.position.y;
+
+
+
 
   }
 
@@ -129,6 +189,11 @@ export class WorldClass {
 
     const time = performance.now() * 0.001;
     this.water.material.uniforms['time'].value += 0.4 / 60.0;
+
+
+
+
+
   }
 
   loadWorld() {

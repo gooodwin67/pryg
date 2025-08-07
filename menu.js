@@ -5,6 +5,8 @@ export class MenuClass {
     this.initMatch = initMatch;
     this.mainMenu(this.initMatch);
 
+    this.playersNum = 2;
+
   }
 
 
@@ -40,16 +42,58 @@ export class MenuClass {
 
 
 
-    document.querySelector('.together_game_btn1').addEventListener('click', () => {
+    document.querySelector('.together_game_btn1_1').addEventListener('click', () => {
       this.hideScreen('together_game_screen');
-      this.initMatch(2, 1);
+      this.initMatch(this.playersNum, 1);
     })
-    document.querySelector('.together_game_btn2').addEventListener('click', () => {
+    document.querySelector('.together_game_btn1_2').addEventListener('click', () => {
       this.hideScreen('together_game_screen');
-      this.initMatch(3, 4);
+      this.initMatch(this.playersNum, 2);
+    })
+    document.querySelector('.together_game_btn1_3').addEventListener('click', () => {
+      this.hideScreen('together_game_screen');
+      this.initMatch(this.playersNum, 3);
+    })
+    document.querySelector('.together_game_btn1_4').addEventListener('click', () => {
+      this.hideScreen('together_game_screen');
+      this.initMatch(this.playersNum, 4);
     })
 
+
+
+
+    document.querySelectorAll('.together_game_chels').forEach((value, index, array) => {
+      value.addEventListener('click', () => {
+        document.querySelectorAll('.together_game_chels').forEach((item) => {
+          item.classList.remove('together_game_chels_active');
+        });
+        value.classList.add('together_game_chels_active');
+        this.playersNum = index + 2;
+      })
+    })
+
+
+
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   toggleLoader(need) {
     if (!need) document.querySelector('.loader_screen').classList.add('hidden_screen');

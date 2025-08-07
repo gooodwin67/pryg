@@ -23,9 +23,9 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
-    this.player.userData.hatBoost = 0;
-    this.player.userData.numHatBoost = 0;
+    this.player.userData.canFly = true;
+    this.player.userData.hatBoost = 100;
+    this.player.userData.numHatBoost = 100;
     this.player.userData.live = true;
     this.player.userData.startPos;
 
@@ -90,9 +90,9 @@ export class PlayerClass {
     else {
       const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
       if (filterGroups[0] != 0) {
-        
+
         this.player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
-        
+
       }
     }
 
