@@ -58,7 +58,7 @@ export class WorldClass {
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y = - 1.5;
+    this.water.position.y = 0;
 
     this.sun = new THREE.Vector3();
 
@@ -71,7 +71,7 @@ export class WorldClass {
 
     skyUniforms['turbidity'].value = 1;
     skyUniforms['rayleigh'].value = 3;
-    skyUniforms['mieCoefficient'].value = 0.0000005;
+    skyUniforms['mieCoefficient'].value = 0.0005;
     skyUniforms['mieDirectionalG'].value = 0.8;
 
     this.parameters = {
@@ -101,59 +101,69 @@ export class WorldClass {
     }
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2 });
+    const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.3, transparent: true, opacity: 0 });
 
-    const points = new THREE.Points(geometry, material);
-    points.layers.set(1);
+    this.points = new THREE.Points(geometry, material);
+    this.points.layers.set(1);
     this.camera.layers.enable(1);
-    this.scene.add(points);
+    this.scene.add(this.points);
 
 
   }
 
   updateSun() {
 
-
+    
 
     const phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
     const theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
     this.sun.setFromSphericalCoords(1, phi, theta);
+
+    
+
     this.sky.material.uniforms['sunPosition'].value.copy(this.sun);
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
+    
 
+    if (this.levelClass.gameDir == 'hor') {
+      if (this.sun.y < -0.05 && this.points.material.opacity < 1) {
+        this.points.material.opacity += 0.001;
+        this.plane.material.opacity += 0.01;
+      }
+      else if (this.sun.y > -0.05 && this.points.material.opacity > 0) {
+        this.points.material.opacity -= 0.01;
+        this.plane.material.opacity -= 0.1;
+      }
 
+      if (this.parameters.elevation < -8) {
+        //this.parameters.azimuth = 150;
+        this.parameters.top = true;
+        this.day ? this.day = false : this.day = true;
 
+      }
+      else if (this.parameters.elevation > 8) {
+        //this.parameters.azimuth = 150;
+        this.parameters.top = false;
+      }
 
-
-    if (this.parameters.elevation < -8) {
-      //this.parameters.azimuth = 150;
-      this.parameters.top = true;
-      this.day ? this.day = false : this.day = true;
-
-    }
-    else if (this.parameters.elevation > 8) {
-      //this.parameters.azimuth = 150;
-      this.parameters.top = false;
-    }
-
-    if (!this.parameters.top) {
-      //this.parameters.azimuth -= 3;
-      this.parameters.elevation -= 0.03;
-    }
-    else {
-      //this.parameters.azimuth += 0.03;
-      this.parameters.elevation += 0.03;
-      if (this.day) {
-        if (this.sky.material.uniforms['rayleigh'].value > 0) this.sky.material.uniforms['rayleigh'].value -= 0.05;
-        else this.sky.material.uniforms['rayleigh'].value = 0
+      if (!this.parameters.top) {
+        //this.parameters.azimuth -= 3;
+        this.parameters.elevation -= 0.003;
       }
       else {
-        if (this.sky.material.uniforms['rayleigh'].value < 3) this.sky.material.uniforms['rayleigh'].value += 0.05;
-        else this.sky.material.uniforms['rayleigh'].value = 3
+        //this.parameters.azimuth += 0.03;
+        this.parameters.elevation += 0.003;
+        // if (this.day) {
+        //   if (this.sky.material.uniforms['rayleigh'].value > 0) this.sky.material.uniforms['rayleigh'].value -= 0.05;
+        //   else this.sky.material.uniforms['rayleigh'].value = 0
+        // }
+        // else {
+        //   if (this.sky.material.uniforms['rayleigh'].value < 3) this.sky.material.uniforms['rayleigh'].value += 0.05;
+        //   else this.sky.material.uniforms['rayleigh'].value = 3
+        // }
       }
     }
-
 
 
 

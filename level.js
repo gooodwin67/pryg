@@ -145,7 +145,7 @@ export class LevelClass {
 
 
           let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
-          let fixedDistance = getRandomNumber(2, 4);
+          let fixedDistance = getRandomNumber(2, 3);
           let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
           let randomY = getRandomNumber(-1, 1) - this.planeHeight / 2;
 
@@ -196,7 +196,7 @@ export class LevelClass {
 
           newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
 
-          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 12);
+          let randomW = getRandomNumber(this.bounds.rightX/2, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -394,9 +394,11 @@ export class LevelClass {
       this.scene.add(this.grassPlanes[i]);
       this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
       if (this.gameDir == 'vert') {
-        this.grassPlanes[i].userData.collide.setFriction(1)
-        this.scene.add(this.sensorPlanes[i]);
+        this.grassPlanes[i].userData.collide.setFriction(500)
       }
+
+      this.scene.add(this.sensorPlanes[i]);
+
       this.scene.add(this.topPlanes[i]);
     }
 
