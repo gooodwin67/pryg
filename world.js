@@ -84,47 +84,113 @@ export class WorldClass {
 
 
 
-    this.blackSky = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000), new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide, transparent: true, opacity: 0 }));
+    this.blackSky = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), new THREE.MeshBasicMaterial({ color: 0x08081a, side: THREE.DoubleSide, transparent: true, opacity: 0 }));
     this.blackSky.position.z = -1000
     this.scene.add(this.blackSky);
 
 
 
 
-    this.countStars = 1500;
+    // this.countStars = 1500;
 
-    this.starsGeometry = new THREE.BufferGeometry();
-    this.starsPositions = new Float32Array(this.countStars * 3);
-    for (let i = 0; i < this.countStars; i++) {
-      this.starsPositions[3 * i] = Math.random() * 600 - 300;
-      this.starsPositions[3 * i + 1] = Math.random() * 150 - 100;
-      this.starsPositions[3 * i + 2] = Math.random() * 300 - 500;
+    // this.starsGeometry = new THREE.BufferGeometry();
+    // this.starsPositions = new Float32Array(this.countStars * 3);
+    // for (let i = 0; i < this.countStars; i++) {
+    //   this.starsPositions[3 * i] = Math.random() * 600 - 300;
+    //   this.starsPositions[3 * i + 1] = Math.random() * 150 - 100;
+    //   this.starsPositions[3 * i + 2] = Math.random() * 300 - 500;
+    // }
+    // this.starsGeometry.setAttribute('position', new THREE.BufferAttribute(this.starsPositions, 3));
+    // this.starsMaterial = new THREE.PointsMaterial({ color: 0x999999, size: Math.random() * (1.0 - 0.3) + 0.3, transparent: true, opacity: 0 });
+
+    // this.stars = new THREE.Points(this.starsGeometry, this.starsMaterial);
+    // this.stars.layers.set(1);
+    // this.camera.layers.enable(1);
+    // this.scene.add(this.stars);
+
+
+
+
+    // Генерируем позиции звёзд
+    const STAR_COUNT = 1500;
+    const positions = new Float32Array(STAR_COUNT * 3);
+    const sizes = new Float32Array(STAR_COUNT);
+    const colors = new Float32Array(STAR_COUNT * 3);
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      positions[3 * i] = Math.random() * 600 - 300;
+      positions[3 * i + 1] = Math.random() * 150 - 100;
+      positions[3 * i + 2] = Math.random() * 300 - 500;
+
+      sizes[i] = Math.random() * 2.0 + 0.7;
+
+      const color = new THREE.Color().setHSL(
+        0.5 + Math.random() * 0.1,
+        0.6 + Math.random() * 0.3,
+        0.85 + Math.random() * 0.15
+      );
+      colors[3 * i] = color.r;
+      colors[3 * i + 1] = color.g;
+      colors[3 * i + 2] = color.b;
     }
-    this.starsGeometry.setAttribute('position', new THREE.BufferAttribute(this.starsPositions, 3));
-    this.starsMaterial = new THREE.PointsMaterial({ color: 0x999999, size: Math.random() * (1.0 - 0.3) + 0.3, transparent: true, opacity: 0 });
 
-    this.stars = new THREE.Points(this.starsGeometry, this.starsMaterial);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    // Шейдеры
+    const vertexShader = `
+  attribute float size;
+  varying vec3 vColor;
+  varying float vRandom;
+
+  void main() {
+    vColor = color;
+    vRandom = size;
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = size * (300.0 / -mvPosition.z); // масштабирование по перспективе
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+    const fragmentShader = `
+  uniform float opacity;
+varying vec3 vColor;
+varying float vRandom;
+uniform float time;
+
+void main() {
+  float dist = distance(gl_PointCoord, vec2(0.5, 0.5));
+  float alpha = smoothstep(0.5, 0.45, dist);
+
+  // Мерцание (анимируем альфу)
+  float twinkle = 0.7 + 0.5 * sin(time * 2.0 + vRandom * 10.0);
+
+  // Главная строка: альфа теперь умножается на uniform opacity!
+  gl_FragColor = vec4(vColor, alpha * twinkle * opacity);
+}
+`;
+
+    this.material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0.0 },
+        opacity: { value: 0.0 }, // значение по умолчанию — невидимы
+      },
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      vertexColors: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+
+    // Points
+    this.stars = new THREE.Points(geometry, this.material);
     this.stars.layers.set(1);
-    this.camera.layers.enable(1);
-    this.scene.add(this.stars);
+    scene.add(this.stars);
+    camera.layers.enable(1);
 
-    this.flyingStar = Math.floor(Math.random() * Math.round(this.countStars / 3));
-    const x = this.starsPositions[this.flyingStar * 3 + 0];
-    const y = this.starsPositions[this.flyingStar * 3 + 1];
-    const z = this.starsPositions[this.flyingStar * 3 + 2];
-
-    const singleStarGeometry = new THREE.BufferGeometry();
-    singleStarGeometry.setAttribute('position', new THREE.Float32BufferAttribute([x, y, z], 3));
-    const singleStarMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 1.0, transparent: true, opacity: 0 });
-    this.singleStar = new THREE.Points(singleStarGeometry, singleStarMaterial);
-
-
-
-    this.singleStar.userData.x = Math.random() * (1.5 - 0.3) + 0.3;
-
-    this.singleStar.layers.set(1);
-
-    this.scene.add(this.singleStar);
 
   }
 
@@ -135,34 +201,10 @@ export class WorldClass {
 
 
 
+
+
+
     this.stars.position.x = this.camera.position.x;
-
-
-    if (this.stars.material.opacity > 0.9) {
-      const positionSingleStar = this.singleStar.geometry.attributes.position.array;
-
-
-
-      if (positionSingleStar[1] > 0) {
-        //positionSingleStar[2] += 1;
-        positionSingleStar[1] -= 2;
-        positionSingleStar[0] -= this.singleStar.userData.x;
-      }
-      else {
-        this.flyingStar = Math.floor(Math.random() * Math.round(this.countStars / 3));
-        this.singleStar.userData.x = Math.random() * (5.5 - 1.5) + 1.5;
-        positionSingleStar[0] = this.starsPositions[this.flyingStar * 3 + 0]
-        positionSingleStar[1] = this.starsPositions[this.flyingStar * 3 + 1]
-        positionSingleStar[2] = this.starsPositions[this.flyingStar * 3 + 2]
-
-      }
-      this.singleStar.geometry.attributes.position.needsUpdate = true;
-    }
-
-
-
-
-
 
 
     const phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
@@ -173,15 +215,13 @@ export class WorldClass {
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
     if (this.levelClass.gameDir == 'hor') {
-      if (this.sun.y < -0.07 && this.stars.material.opacity < 1) {
-        this.stars.material.opacity += 0.001;
-        this.singleStar.material.opacity += 0.001;
+      if (this.sun.y < -0.07 && this.material.uniforms.opacity.value < 1) {
+        this.material.uniforms.opacity.value += 0.001;
         if (this.blackSky.material.opacity < 0.8) this.blackSky.material.opacity += 0.001;
       }
-      else if (this.sun.y > -0.07 && this.stars.material.opacity > 0) {
-        this.stars.material.opacity -= 0.001;
+      else if (this.sun.y > -0.07 && this.material.uniforms.opacity.value > 0) {
+        this.material.uniforms.opacity.value -= 0.001;
         this.blackSky.material.opacity -= 0.001;
-        this.singleStar.material.opacity -= 0.01;
       }
 
       if (this.parameters.elevation < -8) {
@@ -229,9 +269,8 @@ export class WorldClass {
       this.parameters.elevation -= deltaY * 0.01;
 
       //this.stars.material.opacity -= deltaY * 0.1;
-      //this.singleStar.material.opacity += 0.001;
       this.blackSky.material.opacity += deltaY * 0.01;
-      this.stars.material.opacity += deltaY * 0.01;
+      this.material.uniforms.opacity.value += deltaY * 0.003;
 
 
       // Ограничиваем диапазон elevation (по желанию)
@@ -240,6 +279,8 @@ export class WorldClass {
       // Обновляем prevCameraYSun для следующего кадра!
       this.prevCameraYSun = this.camera.position.y;
     }
+
+    this.material.uniforms.time.value = performance.now() * 0.001;
 
   }
 
