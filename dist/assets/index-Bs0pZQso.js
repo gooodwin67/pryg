@@ -309,16 +309,16 @@ import { M as x, B as D, a as z, b as E, G as B, V as y, T as V, c as U, R as L,
         cameraMove(e) {
             switch(this.gameNum){
                 case 1:
-                    e.position.x += .03, e.position.y = this.isMobile ? 5 : 4, e.position.z = this.isMobile ? 17 : 19, e.lookAt(e.position.x, e.position.y - 2, 0);
+                    e.position.x += .03, e.position.y = this.isMobile ? 4.5 : 4, e.position.z = this.isMobile ? 13 : 19, e.lookAt(e.position.x, e.position.y - 2, 0);
                     break;
                 case 2:
-                    e.position.x = this.players[this.maxSpeed(this.players)].player.position.x, e.position.y = this.isMobile ? 5 : 4, e.position.z = this.isMobile ? 17 : 19, e.lookAt(e.position.x, e.position.y - 2, 0);
+                    e.position.x = this.players[this.maxSpeed(this.players)].player.position.x, e.position.y = this.isMobile ? 4.5 : 4, e.position.z = this.isMobile ? 13 : 19, e.lookAt(e.position.x, e.position.y - 2, 0);
                     break;
                 case 3:
                     e.position.y += .01, e.position.x = 0, e.position.z = this.isMobile ? 20 : 22, e.lookAt(e.position.x, e.position.y - 2, 0);
                     break;
                 case 4:
-                    e.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 2, e.position.x = 0, e.position.z = this.isMobile ? 20 : 22, e.lookAt(e.position.x, e.position.y - 2, 0);
+                    e.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5, e.position.x = 0, e.position.z = this.isMobile ? 15 : 22, e.lookAt(e.position.x, e.position.y - 2, 0);
                     break;
             }
         }
