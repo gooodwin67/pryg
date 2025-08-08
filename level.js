@@ -514,14 +514,14 @@ export class LevelClass {
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
-        camera.position.y = this.isMobile ? 5 : 4;
-        camera.position.z = this.isMobile ? 17 : 19;
+        camera.position.y = this.isMobile ? 4.5 : 4;
+        camera.position.z = this.isMobile ? 13 : 19;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2:
         camera.position.x = this.players[this.maxSpeed(this.players)].player.position.x;
-        camera.position.y = this.isMobile ? 5 : 4;
-        camera.position.z = this.isMobile ? 17 : 19;
+        camera.position.y = this.isMobile ? 4.5 : 4;
+        camera.position.z = this.isMobile ? 13 : 19;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 3:
@@ -531,9 +531,9 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
-        camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 2;
+        camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 22;
+        camera.position.z = this.isMobile ? 15 : 22;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
     }
