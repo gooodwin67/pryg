@@ -157,13 +157,13 @@ export class LevelClass {
           }
           if (i > 0) {
             newPlane.position.x = randomX;
-            newPlane.position.y = randomY;
+            newPlane.position.y = randomY + this.planeHeight / 6;
 
             newPlaneTop.position.x = randomX;
-            newPlaneTop.position.y = randomY + this.planeHeight / 2 + 0.2;
+            newPlaneTop.position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
             newPlaneGrass.position.x = randomX;
-            newPlaneGrass.position.y = randomY + this.planeHeight / 2;
+            newPlaneGrass.position.y = randomY + this.planeHeight / 1.5;
           }
           else {
             newPlaneTop.position.y = newPlaneGrass.position.y + 0.2;
@@ -194,9 +194,9 @@ export class LevelClass {
           let newPlaneGrass = this.planeGrass.clone();
           let newPlaneSensor = this.planeSensor.clone();
 
-          newPlaneGrass.userData.speed = getRandomNumber(2, 10) / 100;
+          newPlaneGrass.userData.speed = getRandomNumber(4, 10) / 100;
 
-          let randomW = getRandomNumber(this.bounds.rightX/2, this.bounds.rightX / 12);
+          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
@@ -395,9 +395,10 @@ export class LevelClass {
       this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
       if (this.gameDir == 'vert') {
         this.grassPlanes[i].userData.collide.setFriction(500)
-      }
 
-      this.scene.add(this.sensorPlanes[i]);
+
+        this.scene.add(this.sensorPlanes[i]);
+      }
 
       this.scene.add(this.topPlanes[i]);
     }
@@ -513,14 +514,14 @@ export class LevelClass {
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
-        camera.position.y = this.isMobile ? 3 : 2;
-        camera.position.z = this.isMobile ? 17 : 17;
+        camera.position.y = this.isMobile ? 5 : 4;
+        camera.position.z = this.isMobile ? 17 : 19;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2:
         camera.position.x = this.players[this.maxSpeed(this.players)].player.position.x;
-        camera.position.y = this.isMobile ? 3 : 2;
-        camera.position.z = this.isMobile ? 17 : 17;
+        camera.position.y = this.isMobile ? 5 : 4;
+        camera.position.z = this.isMobile ? 17 : 19;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 3:

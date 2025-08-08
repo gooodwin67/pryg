@@ -220,7 +220,7 @@ export class PlayerClass {
 
         this.player.userData.body.applyImpulse({
           x: this.levelClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
-          y: this.player.userData.playerPowerJump / 1.4,
+          y: this.player.userData.playerPowerJump * 10 / 1.4,
           z: 0
         }, true);
         this.player.userData.playerPowerJump = 1;
