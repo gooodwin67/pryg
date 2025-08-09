@@ -24,6 +24,8 @@ export class WorldClass {
     this.dirLight.castShadow = true;
     this.dirLight.shadow.camera.far = 100; // Убедитесь, что это значение достаточно велико
 
+    this.topLight = 1000;
+
 
     this.targetObject = new THREE.Object3D();
 
@@ -32,10 +34,22 @@ export class WorldClass {
 
     this.helper = new THREE.DirectionalLightHelper(this.dirLight, 3);
 
-    this.day = false;
-
-
     this.water;
+
+    const width = 50;
+    const height = 50;
+    const intensity = 2;
+    this.pointLight = new THREE.RectAreaLight(0xffffff, intensity, width, height);
+    this.pointLight.position.set(30, 40, 0);
+    this.pointLight.lookAt(0, 0, 0);
+
+
+  }
+
+
+  async loadWaterSky() {
+
+
     this.waterGeometry = new THREE.PlaneGeometry(10000, 300);
 
     this.water = new Water(
@@ -80,7 +94,6 @@ export class WorldClass {
       top: false
     };
 
-    this.pmremGenerator = new THREE.PMREMGenerator(this.renderer);
 
 
 
@@ -88,25 +101,6 @@ export class WorldClass {
     this.blackSky.position.z = -1000
     this.scene.add(this.blackSky);
 
-
-
-
-    // this.countStars = 1500;
-
-    // this.starsGeometry = new THREE.BufferGeometry();
-    // this.starsPositions = new Float32Array(this.countStars * 3);
-    // for (let i = 0; i < this.countStars; i++) {
-    //   this.starsPositions[3 * i] = Math.random() * 600 - 300;
-    //   this.starsPositions[3 * i + 1] = Math.random() * 150 - 100;
-    //   this.starsPositions[3 * i + 2] = Math.random() * 300 - 500;
-    // }
-    // this.starsGeometry.setAttribute('position', new THREE.BufferAttribute(this.starsPositions, 3));
-    // this.starsMaterial = new THREE.PointsMaterial({ color: 0x999999, size: Math.random() * (1.0 - 0.3) + 0.3, transparent: true, opacity: 0 });
-
-    // this.stars = new THREE.Points(this.starsGeometry, this.starsMaterial);
-    // this.stars.layers.set(1);
-    // this.camera.layers.enable(1);
-    // this.scene.add(this.stars);
 
 
 
@@ -172,7 +166,7 @@ void main() {
 }
 `;
 
-    this.material = new THREE.ShaderMaterial({
+    this.materialStars = new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0.0 },
         opacity: { value: 0.0 }, // значение по умолчанию — невидимы
@@ -186,23 +180,17 @@ void main() {
     });
 
     // Points
-    this.stars = new THREE.Points(geometry, this.material);
+    this.stars = new THREE.Points(geometry, this.materialStars);
     this.stars.layers.set(1);
-    scene.add(this.stars);
-    camera.layers.enable(1);
-
-
+    this.scene.add(this.stars);
+    this.camera.layers.enable(1);
   }
 
 
 
-  updateSun() {
 
 
-
-
-
-
+  updateSky() {
 
     this.stars.position.x = this.camera.position.x;
 
@@ -215,19 +203,18 @@ void main() {
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
     if (this.levelClass.gameDir == 'hor') {
-      if (this.sun.y < -0.07 && this.material.uniforms.opacity.value < 1) {
-        this.material.uniforms.opacity.value += 0.001;
+      if (this.sun.y < -0.07 && this.materialStars.uniforms.opacity.value < 1) {
+        this.materialStars.uniforms.opacity.value += 0.001;
         if (this.blackSky.material.opacity < 0.8) this.blackSky.material.opacity += 0.001;
       }
-      else if (this.sun.y > -0.07 && this.material.uniforms.opacity.value > 0) {
-        this.material.uniforms.opacity.value -= 0.001;
+      else if (this.sun.y > -0.07 && this.materialStars.uniforms.opacity.value > 0) {
+        this.materialStars.uniforms.opacity.value -= 0.001;
         this.blackSky.material.opacity -= 0.001;
       }
 
       if (this.parameters.elevation < -8) {
         //this.parameters.azimuth = 150;
         this.parameters.top = true;
-        this.day ? this.day = false : this.day = true;
 
       }
       else if (this.parameters.elevation > 6) {
@@ -238,11 +225,22 @@ void main() {
       if (!this.parameters.top) {
         //this.parameters.azimuth -= 3;
         this.parameters.elevation -= 0.003;
+
+        this.dirLight.intensity -= 0.0003;
+        this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
+        this.hemiLight.intensity -= 0.0003;
+        this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
       }
       else {
         //this.parameters.azimuth += 0.03;
         this.parameters.elevation += 0.003;
+
+        this.dirLight.intensity += 0.0003;
+        this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
+        this.hemiLight.intensity += 0.0003;
+        this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
       }
+      console.log(this.dirLight.intensity)
     }
 
 
@@ -270,7 +268,27 @@ void main() {
 
       //this.stars.material.opacity -= deltaY * 0.1;
       this.blackSky.material.opacity += deltaY * 0.01;
-      this.material.uniforms.opacity.value += deltaY * 0.003;
+      this.materialStars.uniforms.opacity.value += deltaY * 0.003;
+
+      if (this.camera.position.y < this.topLight && deltaY < 0) {
+        this.dirLight.intensity -= deltaY * 0.03;
+        this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
+        this.hemiLight.intensity -= deltaY * 0.03;
+        this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+      }
+      else if (this.topLight && deltaY > 0) {
+        this.dirLight.intensity -= deltaY * 0.03;
+        this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
+        this.hemiLight.intensity -= deltaY * 0.03;
+        this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+      }
+
+      if (this.dirLight.intensity > 0.55 && this.dirLight.intensity < 0.57) {
+        this.topLight = this.camera.position.y
+        console.log(this.topLight)
+
+      }
+
 
 
       // Ограничиваем диапазон elevation (по желанию)
@@ -280,33 +298,29 @@ void main() {
       this.prevCameraYSun = this.camera.position.y;
     }
 
-    this.material.uniforms.time.value = performance.now() * 0.001;
+    this.materialStars.uniforms.time.value = performance.now() * 0.001;
 
   }
 
   waterUpdate() {
-
     const time = performance.now() * 0.001;
     this.water.material.uniforms['time'].value += 0.4 / 60.0;
-
-
-
-
-
   }
 
-  loadWorld() {
-    //scene.add(ambientLight);
+
+  async loadWorld() {
+    //this.scene.add(this.ambientLight);
+    await this.loadWaterSky()
     this.scene.add(this.hemiLight);
     this.scene.add(this.dirLight);
     this.scene.add(this.targetObject);
     this.scene.add(this.water);
+    //this.scene.add(this.pointLight);
     // scene.add(helper);
   }
 
 
   updateLighting() {
-
     this.dirLight.target.position.set(this.camera.position.x - 4, -20, 10);
     this.dirLight.position.set(this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.x, this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.y + 2, this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.z);
 
@@ -317,13 +331,12 @@ void main() {
     this.dirLight.shadow.camera.top = d;
     this.dirLight.shadow.camera.bottom = -d;
 
-    // dirLight.shadow.camera.far = 5000; // Убедитесь, что это значение достаточно велико
+
+    //this.pointLight.lookAt(this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)])
 
     this.waterUpdate();
-    this.updateSun();
+    this.updateSky();
   }
-
-
 
 
 

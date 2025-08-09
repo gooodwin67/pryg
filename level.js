@@ -13,9 +13,11 @@ export class LevelClass {
     this.planeWidth = 4;
     this.planeHeight = 10;
     this.geometryPlane = new THREE.BoxGeometry(this.planeWidth * 1.5, this.planeHeight, 1);
-    this.materialPlane = new THREE.MeshStandardMaterial({ color: 0x00cc00 });
+    this.materialPlane = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
     this.plane = new THREE.Mesh(this.geometryPlane, this.materialPlane);
     this.plane.receiveShadow = true;
+    this.plane.castShadow = true;
+
     this.plane.position.y = -this.planeHeight / 2;
     this.plane.userData.name = 'plane';
     this.planes = [];
@@ -86,7 +88,7 @@ export class LevelClass {
     loader.load(
       'textures/povrezdennaa-tekstura-ili-fon.jpg',
       (texture) => {
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE.MeshStandardMaterial({
           map: texture,
           transparent: true,
           opacity: 1
@@ -104,7 +106,7 @@ export class LevelClass {
     );
 
     loader.load(
-      'textures/povrezdennaa-tekstura-ili-fon.jpg',
+      'textures/123.jpg',
       (texture) => {
         const material = new THREE.MeshStandardMaterial({
           map: texture,

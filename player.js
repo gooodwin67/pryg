@@ -71,7 +71,6 @@ export class PlayerClass {
       this.head = this.playerModel.children[0].children[2];
       this.player.userData.head = this.head;
 
-
       this.playerModel.rotation.y = Math.PI;
       this.playerModel.scale.x = 0.7;
       this.playerModel.scale.y = 0.7;
@@ -179,27 +178,45 @@ export class PlayerClass {
 
       const targetRightHandRotation = this.player.userData.readyJump ? Math.PI / 2 : 0;
       const targetLeftHandRotation = this.player.userData.readyJump ? -Math.PI / 2 : 0;
+
+      const targetRightHandRotation2 = this.player.userData.body.linvel().y < -2 ? Math.PI / 2 : 0;
+      const targetLeftHandRotation2 = this.player.userData.body.linvel().y < -3 ? -Math.PI / 2 : 0;
+
       const targetHeadRotation = this.player.userData.readyJump ? Math.PI / 8 : 0;
+
+      const targetHeadRotationZ = this.player.userData.body.linvel().y < -0.4 ? Math.PI / 7 : 0;
+      const targetHeadRotationZ2 = this.player.userData.body.linvel().y > 0.4 ? Math.PI / -5.9 : 0;
 
       const targetHeadPositionY = this.player.userData.readyJump ? 0.75 : 1.18;
       const targetHeadPositionZ = this.player.userData.readyJump ? 0.75 : 0.15;
 
-      const targetBodyPositionX = this.player.userData.readyJump ? this.player.position.x - 1.25 : this.player.position.x;
-      const targetBodyPositionY = this.player.userData.readyJump ? this.player.position.y + 0.75 : this.player.position.y - this.playerHeight / 2;
+
+
+
+
 
 
       //Плавно интерполируем углы поворота
       this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, targetRightHandRotation, 0.1);
       this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, targetLeftHandRotation, 0.1);
+
+      this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, targetRightHandRotation2, 0.1);
+      this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, targetLeftHandRotation2, 0.1);
+
       this.head.rotation.x = this.lerp(this.head.rotation.x, targetHeadRotation, 0.1);
 
       // Плавно интерполируем позицию головы по оси Y и Z
       this.head.position.y = this.lerp(this.head.position.y, targetHeadPositionY, 0.1);
       this.head.position.z = this.lerp(this.head.position.z, targetHeadPositionZ, 0.1);
 
-      // Плавно интерполируем позицию туловища по оси X Y
-      // this.playerModel.position.x = this.lerp(this.player.position.x, targetBodyPositionX, 0.1);
-      //this.playerModel.position.y = this.lerp(this.player.position.y - this.playerHeight / 2, targetBodyPositionY, 0.1);
+      this.head.rotation.z = this.lerp(this.head.rotation.z, targetHeadRotationZ, 0.1);
+      this.head.rotation.z = this.lerp(this.head.rotation.z, targetHeadRotationZ2, 0.1);
+
+      const targetPlayerRotationZ = this.player.userData.body.linvel().y < -3 ? Math.PI / 1.3 : Math.PI;
+      this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, targetPlayerRotationZ, 0.1);
+
+
+
 
       //Поворот тела
       const rotationBodyX = this.player.userData.readyJump ? 0.70 : 0;
