@@ -240,7 +240,6 @@ void main() {
         this.hemiLight.intensity += 0.0003;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
       }
-      console.log(this.dirLight.intensity)
     }
 
 

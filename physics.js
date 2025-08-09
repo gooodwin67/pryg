@@ -23,7 +23,7 @@ export class PhysicsClass {
   const originalRotation = obj.rotation.clone();
   obj.rotation.set(0, 0, 0);
   const box = new THREE.Box3().setFromObject(obj);
-  const size = box.getSize(new THREE.Vector3());
+  const size = getMeshSizeIgnoringChildren(obj);
   obj.rotation.copy(originalRotation);
 
   if (obj.userData.name.includes('player')) {
@@ -98,4 +98,22 @@ export class PhysicsClass {
   }
  }
 
+}
+
+const _tmpSize = new THREE.Vector3();
+
+function getMeshSizeIgnoringChildren(obj) {
+  // Если это Mesh с геометрией — берём только её bbox
+  if (obj.isMesh && obj.geometry) {
+    const geom = obj.geometry;
+    if (!geom.boundingBox) geom.computeBoundingBox();
+    const bb = geom.boundingBox; // локальный bbox
+    bb.getSize(_tmpSize);
+    // учитывать scale объекта
+    _tmpSize.multiply(obj.scale);
+    return _tmpSize.clone();
+  }
+  // иначе — как было (на случай групп или сложных объектов)
+  const box = new THREE.Box3().setFromObject(obj);
+  return box.getSize(new THREE.Vector3());
 }

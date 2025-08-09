@@ -179,8 +179,8 @@ export class PlayerClass {
       const targetRightHandRotation = this.player.userData.readyJump ? Math.PI / 2 : 0;
       const targetLeftHandRotation = this.player.userData.readyJump ? -Math.PI / 2 : 0;
 
-      const targetRightHandRotation2 = this.player.userData.body.linvel().y < -2 ? Math.PI / 2 : 0;
-      const targetLeftHandRotation2 = this.player.userData.body.linvel().y < -3 ? -Math.PI / 2 : 0;
+      const targetRightHandRotation2 = this.player.userData.body.linvel().y < -1 ? Math.PI / 1.5 : 0;
+      const targetLeftHandRotation2 = this.player.userData.body.linvel().y < -1 ? -Math.PI / 1.5 : 0;
 
       const targetHeadRotation = this.player.userData.readyJump ? Math.PI / 8 : 0;
 
@@ -212,8 +212,8 @@ export class PlayerClass {
       this.head.rotation.z = this.lerp(this.head.rotation.z, targetHeadRotationZ, 0.1);
       this.head.rotation.z = this.lerp(this.head.rotation.z, targetHeadRotationZ2, 0.1);
 
-      const targetPlayerRotationZ = this.player.userData.body.linvel().y < -3 ? Math.PI / 1.3 : Math.PI;
-      this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, targetPlayerRotationZ, 0.1);
+      const targetPlayerRotationZ = !this.player.userData.onGround ? Math.PI / 1.2 : Math.PI;
+      this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, targetPlayerRotationZ, 0.4);
 
 
 

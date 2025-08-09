@@ -28,7 +28,7 @@ export class LevelClass {
     this.planeTop.userData.direction = 1;
     this.topPlanes = [];
 
-    this.planeGrass = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, 1.2), new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }));
+    this.planeGrass = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.3, 1.2), new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 0 }));
     this.planeGrass.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
     this.planeGrass.castShadow = true;
     this.planeGrass.receiveShadow = true;
@@ -78,6 +78,14 @@ export class LevelClass {
     this.gameDir = 'vert';
 
 
+    // --- grass instancing ---
+    this.grassTex = null;
+    this.grassClusterCounts = {
+      near: this.isMobile ? 100 : 1048, // сколько пучков близко
+      far:  this.isMobile ? 8  : 16  // сколько пучков далеко
+    };
+
+
   }
 
 
@@ -115,7 +123,8 @@ export class LevelClass {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-        this.planeGrass.material = material;
+        //this.planeGrass.material = material;
+        
       },
       // onProgress callback currently not supported
       undefined,
@@ -123,6 +132,18 @@ export class LevelClass {
         console.error('An error happened.');
       }
     );
+
+    loader.load(
+      'textures/grass_atlas.png',
+      (tex) => {
+        tex.wrapS = THREE.ClampToEdgeWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+        this.grassTex = tex;
+      },
+      undefined,
+      (err) => console.error('Grass atlas error', err)
+    );
+
   }
 
   async createLevel() {
@@ -179,6 +200,8 @@ export class LevelClass {
           this.topPlanes.push(newPlaneTop);
           this.grassPlanes.push(newPlaneGrass);
 
+          this.createGrassClusterForPlatform(newPlaneGrass);
+
 
 
           previousX = randomX + randomW / 2;
@@ -221,6 +244,8 @@ export class LevelClass {
           this.grassPlanes.push(newPlaneGrass);
           this.sensorPlanes.push(newPlaneSensor);
 
+          this.createGrassClusterForPlatform(newPlaneGrass);
+
           previousY = randomY;
 
         }
@@ -228,6 +253,98 @@ export class LevelClass {
         break;
     }
   }
+
+
+  createGrassClusterForPlatform(planeGrass) {
+    if (!this.grassTex) return;
+  
+    const width  = planeGrass.geometry.parameters.width*1.04;
+    const depth  = planeGrass.geometry.parameters.depth*1.24 || 1.2;
+    const height = planeGrass.geometry.parameters.height || 0.5;
+  
+    const total = this.grassClusterCounts.near;
+    const perTile = Math.max(1, Math.floor(total / 4)); // поровну на 4 квадранта
+  
+    // одна геометрия на все
+    const geo = new THREE.PlaneGeometry(0.35, 0.7);
+  
+    // вспомогалка: материал для выбранного квадранта (ix, iy ∈ {0,1})
+    const makeMat = (ix, iy) => {
+      const tex = this.grassTex.clone();          // клонируем, чтобы у каждого были свои offset/repeat
+      tex.wrapS = THREE.ClampToEdgeWrapping;
+      tex.wrapT = THREE.ClampToEdgeWrapping;
+      tex.repeat.set(0.5, 0.5);                   // один квадрант
+      tex.offset.set(ix * 0.5, (1 - iy) * 0.5);   // (0,0)=лево-низ; (1,1)=право-верх
+      tex.needsUpdate = true;
+  
+      return new THREE.MeshPhongMaterial({
+        map: tex,
+        alphaTest: 0.5,
+        side: THREE.DoubleSide,
+        depthWrite: true,
+        transparent: false
+      });
+    };
+  
+    const tiles = [
+      makeMat(0,0), makeMat(1,0), // нижний ряд
+      makeMat(0,1), makeMat(1,1)  // верхний ряд
+    ];
+  
+    const topY = height * 0.5 + 0.03 - 0.1;
+    const dummy = new THREE.Object3D();
+    const groups = [];
+  
+    for (let t = 0; t < 4; t++) {
+      const inst = new THREE.InstancedMesh(geo, tiles[t], perTile);
+      inst.frustumCulled = true;
+  
+      for (let i = 0; i < perTile; i++) {
+        const x = (Math.random() - 0.5) * (width * 0.95);
+        const z = (Math.random() - 0.5) * (depth * 0.8)+0.2;
+        dummy.position.set(x, topY, z);
+        dummy.rotation.y = Math.random() * Math.PI * 2;
+        dummy.scale.setScalar(0.8 + Math.random() * 0.4);
+        dummy.updateMatrix();
+        inst.setMatrixAt(i, dummy.matrix);
+      }
+  
+      inst.userData = {
+        baseCount: perTile,
+        farCount: Math.max(2, Math.floor(this.grassClusterCounts.far / 4))
+      };
+  
+      planeGrass.add(inst);
+      groups.push(inst);
+    }
+  
+    // сохраним массив инстансов, чтобы LOD заработал для всех
+    planeGrass.userData.grassInst = groups;
+  }
+
+
+  updateGrassLOD(camera, grassPlanes) {
+    const tmp = new THREE.Vector3();
+    for (const pg of grassPlanes) {
+      const group = pg.userData.grassInst;
+      if (!group) continue;
+  
+      tmp.setFromMatrixPosition(pg.matrixWorld);
+      const dist = camera.position.distanceTo(tmp);
+  
+      let target = group[0].userData.baseCount;
+      if (dist > 50) target = group[0].userData.farCount;
+      if (dist > 65) target = 0;
+  
+      for (const inst of group) {
+        if (inst.count !== target) {
+          inst.count = target;
+          inst.visible = target > 0;
+        }
+      }
+    }
+  }
+  
 
   getHorizontalWorldBounds(z = 0) {
     const ndcLeft = new THREE.Vector3(-1, 0, 0.5); // левый край в NDC
@@ -428,6 +545,8 @@ export class LevelClass {
 
   levelAnimate() {
     this.animateTops();
+
+    this.updateGrassLOD(this.camera, this.grassPlanes);
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
