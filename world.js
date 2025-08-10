@@ -254,8 +254,6 @@ void main() {
       }
     }
 
-console.log(this.renderer.toneMappingExposure);
-
 
 
     if (this.levelClass.gameDir == 'vert') {
