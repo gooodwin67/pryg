@@ -50,7 +50,7 @@ export class WorldClass {
   async loadWaterSky() {
 
 
-    this.waterGeometry = new THREE.PlaneGeometry(10000, 300);
+    this.waterGeometry = new THREE.PlaneGeometry(1000, 500);
 
     this.water = new Water(
       this.waterGeometry,
@@ -65,7 +65,7 @@ export class WorldClass {
         sunDirection: new THREE.Vector3(),
         sunColor: 0xffffff,
         waterColor: 0x001e4f,
-        distortionScale: 1,
+        distortionScale: 0.5,
 
         fog: this.scene.fog !== undefined
       }
@@ -230,6 +230,13 @@ void main() {
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity -= 0.0003;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+
+        this.renderer.toneMappingExposure -= 0.0003;
+        this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
+
+        
+
+        
       }
       else {
         //this.parameters.azimuth += 0.03;
@@ -239,10 +246,15 @@ void main() {
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity += 0.0003;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+
+        this.renderer.toneMappingExposure += 0.00024;
+        this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
+
+        
       }
     }
 
-
+console.log(this.renderer.toneMappingExposure);
 
 
 
@@ -274,17 +286,26 @@ void main() {
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity -= deltaY * 0.03;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+        
+        this.renderer.toneMappingExposure -= deltaY * 0.03;
+        this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
       }
       else if (this.topLight && deltaY > 0) {
         this.dirLight.intensity -= deltaY * 0.03;
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity -= deltaY * 0.03;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
+
+        this.renderer.toneMappingExposure -= deltaY * 0.03;
+        this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
+
+        
+        
       }
 
       if (this.dirLight.intensity > 0.55 && this.dirLight.intensity < 0.57) {
         this.topLight = this.camera.position.y
-        console.log(this.topLight)
+        
 
       }
 

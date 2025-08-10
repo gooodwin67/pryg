@@ -49,6 +49,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
 // scene.fog = new THREE.Fog(scene.background, 1, 50);
 
+
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
 camera.position.z = 7;
 camera.position.y = 2;
@@ -63,6 +64,13 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+
+
+
 
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
