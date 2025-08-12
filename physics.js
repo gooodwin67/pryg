@@ -65,15 +65,15 @@ export class PhysicsClass {
     const rotQ = (opts.quaternion?.isQuaternion) ? opts.quaternion : new THREE.Quaternion();
 
     const rb = this.world.createRigidBody(
-      this.RAPIER.RigidBodyDesc.fixed()
+      this.RAPIER.RigidBodyDesc.kinematicPositionBased()
         .setTranslation(pos.x, pos.y, pos.z)
         .setRotation({ x: rotQ.x, y: rotQ.y, z: rotQ.z, w: rotQ.w })
     );
 
     const col = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2)
-      .setFriction(0.6).setRestitution(0.0);
+      .setFriction(1.6).setRestitution(0.0);
     mas[index].userData.body = rb;
-    mas[index].userData.speed = 1;
+    mas[index].userData.shape = col;
     mas[index].userData.collide = this.world.createCollider(col, rb);
 
     this.instancedBodies.push({ mesh, index, size, body: rb });

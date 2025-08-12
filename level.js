@@ -44,7 +44,7 @@ export class LevelClass {
       rotation: new THREE.Euler(0, 0, 0),
       scale: new THREE.Vector3(1, 1, 1),
       size: new THREE.Vector3(1, 1, 1),
-      userData: { name: '' },
+      userData: { name: 'topSensor', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlaneTop = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
     this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 })
@@ -88,9 +88,10 @@ export class LevelClass {
       rotation: new THREE.Euler(0, 0, 0),
       scale: new THREE.Vector3(1, 1, 1),
       size: new THREE.Vector3(1, 1, 1),
+      userData: { name: 'sensor', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlaneSensor = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.4 })
+    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 })
 
     // Создаём InstancedMesh
     this.planeSensor = new THREE.InstancedMesh(this.geometryPlaneSensor, this.materialPlaneSensor, this.count);
@@ -294,13 +295,13 @@ export class LevelClass {
           }
           else {
             this.planes[i].position.x = -this.planeWidth / 2;
-            this.planes[i].position.y = -this.planeHeight / 2 + 0.2;
+            this.planes[i].position.y = -this.planeHeight / 2 + 1.2;
 
             this.topPlanes[i].position.x = -this.planeWidth / 2;
-            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.2;
+            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1.2;
 
             this.grassPlanes[i].position.x = -this.planeWidth / 2;
-            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2;
+            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2+1;
           }
 
           this.apply(i, this.planes, this.plane);
@@ -325,27 +326,27 @@ export class LevelClass {
       case 4:
 
         this.gameDir = 'vert'
-        let previousY = -4;
+        let previousY = -3;
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 12);
+          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 10);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance;
 
-          this.topPlanes[i].position.y = randomY + 0.2;
+          this.topPlanes[i].position.y = randomY - 1.3;
           this.grassPlanes[i].position.y = randomY;
-          this.sensorPlanes[i].position.y = randomY - 0.2;
+          this.sensorPlanes[i].position.y = randomY - 0.5;
 
-          this.topPlanes[i].size.y = 0.7;
+          this.topPlanes[i].size.y = 0.3;
           this.grassPlanes[i].size.y = 0.7;
           this.sensorPlanes[i].size.y = 0.9;
 
           if (i > 0) {
             this.topPlanes[i].size.x = randomW + 0.3;
             this.grassPlanes[i].size.x = randomW + 0.3
-            this.sensorPlanes[i].size.x = randomW + 1
+            this.sensorPlanes[i].size.x = randomW + 0.5
 
           }
           else {
@@ -355,7 +356,7 @@ export class LevelClass {
           }
 
 
-          this.planes[i].userData.speed = getRandomNumber(4, 10) / 100;
+          this.grassPlanes[i].userData.speed = getRandomNumber(4, 10) / 100;
 
 
           this.apply(i, this.topPlanes, this.planeTop);
@@ -424,6 +425,7 @@ export class LevelClass {
       for (let i = 0; i < this.grassPlanes.length; i++) {
         const grass = this.grassPlanes[i];
         const top = this.topPlanes[i];
+        const sensor = this.sensorPlanes[i];
         const body = grass.userData.body;
         const speed = grass.userData.speed;
 
@@ -447,17 +449,31 @@ export class LevelClass {
             y: currentPos.y,
             z: currentPos.z
           });
+          
         }
+        
 
-        this.apply(i, this.grassPlanes, this.planeGrass);
 
-        this.planeGrass.instanceMatrix.needsUpdate = true;
+        this.sensorPlanes[i].position.x = newX;
+        this.topPlanes[i].position.x = newX;
+        this.topPlanes[i].position.y = currentPos.y+0.4;
+     
+   
 
-        //this.sensorPlanes[i].position.set(newX, currentPos.y - 0.2, currentPos.z)
+  
+        
+
+        this.apply(i, this.sensorPlanes, this.planeSensor);
+        this.apply(i, this.topPlanes, this.planeTop);
+        
+
+
 
 
         top.position.set(newX, currentPos.y + 0.6, currentPos.z);
       }
+      this.planeSensor.instanceMatrix.needsUpdate = true;
+      this.planeTop.instanceMatrix.needsUpdate = true;
     }
   }
 
@@ -467,11 +483,6 @@ export class LevelClass {
 
 
 
-  changeMeshWidth(mesh, newWidth) {
-    // Изменяем ширину геометрии
-    mesh.geometry.dispose(); // Освобождаем старую геометрию
-    mesh.geometry = new THREE.BoxGeometry(newWidth, mesh.geometry.parameters.height, mesh.geometry.parameters.depth);
-  }
 
 
 
@@ -552,15 +563,16 @@ export class LevelClass {
   }
 
   async loadEnvironments() {
-    for (let i = 0; i < this.planes.length; i++) {
+    for (let i = 0; i < this.grassPlanes.length; i++) {
 
-
-      this.physicsClass.addInstancedStatic(this.grassPlanes, this.plane, i, {
-        position: this.planes[i].position,
-        size: this.planes[i].size,
-        collide: '123'
-      });
-      this.apply(i, this.planes, this.plane);
+      if (this.gameDir == 'hor') {
+        this.physicsClass.addInstancedStatic(this.grassPlanes, this.plane, i, {
+          position: this.planes[i].position,
+          size: this.planes[i].size,
+          collide: '123'
+        });
+        this.apply(i, this.planes, this.plane);
+      }
 
       this.physicsClass.addInstancedStatic(this.grassPlanes, this.planeGrass, i, {
         position: this.grassPlanes[i].position,
@@ -573,15 +585,13 @@ export class LevelClass {
 
       if (this.gameDir == 'vert') {
         this.grassPlanes[i].userData.collide.setFriction(500)
-
-
-
       }
 
 
     }
 
-    this.plane.instanceMatrix.needsUpdate = true;
+    if (this.gameDir == 'hor') {this.plane.instanceMatrix.needsUpdate = true;}
+    this.planeGrass.instanceMatrix.needsUpdate = true;
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();
@@ -657,7 +667,7 @@ export class LevelClass {
 
     for (let i = 0; i < this.players.length; i++) {
       let player = this.players[i];
-      player.player.position.x = player.player.position.x + i * 1;
+      player.player.position.x = player.player.position.x - i * 1;
       this.physicsClass.addPhysicsToObject(player.player);
       if (this.gameDir == 'vert') {
         player.player.userData.collider.setFriction(500)
@@ -670,9 +680,9 @@ export class LevelClass {
       this.scene.add(player.playerOut);
       this.scene.add(player.playerModel);
 
-      this.topPlanes.push(player.playerOut);
+      //this.topPlanes.push(player.playerOut);
 
-      this.scene.add(player.playerModel)
+      
 
 
       if (i < this.players[0].playerColors.length) {

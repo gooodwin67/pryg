@@ -14,8 +14,8 @@ export class PlayerClass {
     this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
-    this.player.position.y = 0.8;
-    this.player.position.x = -2;
+    this.player.position.y = 1.8;
+    this.player.position.x = -0.4;
     this.player.userData.name = 'player';
     this.player.userData.readyJump = false;
     this.player.userData.jumping = false;
