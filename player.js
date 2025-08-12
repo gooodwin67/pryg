@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
+import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
 
 
 export class PlayerClass {
@@ -80,7 +80,7 @@ export class PlayerClass {
 
   playerMove() {
 
-    if (detectCollisionCubeAndArray(this.player, this.levelClass.sensorPlanes)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.sensorPlanes)) {
       const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
       if (filterGroups[0] == 0) {
         this.player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [1]))
@@ -99,7 +99,7 @@ export class PlayerClass {
 
 
 
-    if (detectCollisionCubeAndArray(this.player, this.levelClass.topPlanes)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.topPlanes)) {
       this.player.userData.onGround = true;
     }
     else {
@@ -118,7 +118,7 @@ export class PlayerClass {
 
 
 
-    if (detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) {
       if (this.player.userData.canFly) {
         this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].position.copy(new THREE.Vector3(
           this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.05,

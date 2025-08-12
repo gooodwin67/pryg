@@ -10,37 +10,105 @@ export class LevelClass {
     this.renderer = renderer;
     this.camera = camera;
     this.isMobile = isMobile;
+
     this.planeWidth = 4;
     this.planeHeight = 10;
-    this.geometryPlane = new THREE.BoxGeometry(this.planeWidth * 1.5, this.planeHeight, 1);
+
+
+    this.count = 50;
+    this.planes = Array.from({ length: this.count }, (_, i) => ({
+      position: new THREE.Vector3(0, 0, 0),
+      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(1, 1, 1),
+      userData: { name: 'plane' },
+    }));
+    this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, 1);
     this.materialPlane = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
-    this.plane = new THREE.Mesh(this.geometryPlane, this.materialPlane);
+
+    // Создаём InstancedMesh
+    this.plane = new THREE.InstancedMesh(this.geometryPlane, this.materialPlane, this.count);
+    this.plane.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+
     this.plane.receiveShadow = true;
     this.plane.castShadow = true;
 
-    this.plane.position.y = -this.planeHeight / 2;
-    this.plane.userData.name = 'plane';
-    this.planes = [];
 
 
-    this.planeTop = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }));
-    this.planeTop.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
-    this.planeTop.userData.direction = 1;
-    this.topPlanes = [];
 
-    this.planeGrass = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, 1.2), new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }));
-    this.planeGrass.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
-    this.planeGrass.castShadow = true;
-    this.planeGrass.receiveShadow = true;
-    this.planeGrass.userData.name = 'tops';
+
+
+
+    this.topPlanes = Array.from({ length: this.count }, (_, i) => ({
+      position: new THREE.Vector3(0, 0, 0),
+      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(1, 1, 1),
+      userData: { name: '' },
+    }));
+    this.geometryPlaneTop = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
+    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 })
+
+    // Создаём InstancedMesh
+    this.planeTop = new THREE.InstancedMesh(this.geometryPlaneTop, this.materialPlaneTop, this.count);
+    this.planeTop.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+
+
+
+    this.grassPlanes = Array.from({ length: this.count }, (_, i) => ({
+      position: new THREE.Vector3(0, 0, 0),
+      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(1, 1, 1),
+      userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1 },
+    }));
+    this.geometryPlaneGrass = new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, 1.2);
+    this.materialPlaneGrass = new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 })
+
+    // Создаём InstancedMesh
+    this.planeGrass = new THREE.InstancedMesh(this.geometryPlaneGrass, this.materialPlaneGrass, this.count);
+    this.planeGrass.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
     this.planeGrass.userData.direction = 1;
-    this.grassPlanes = [];
+    this.planeGrass.receiveShadow = true;
+    this.planeGrass.castShadow = true;
+    this.planeGrass.userData.name = 'tops';
 
-    this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 }));
-    this.planeSensor.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
-    this.planeSensor.userData.name = 'top_sensor';
 
-    this.sensorPlanes = [];
+
+
+
+
+
+
+
+
+
+    this.sensorPlanes = Array.from({ length: this.count }, (_, i) => ({
+      position: new THREE.Vector3(0, 0, 0),
+      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(1, 1, 1),
+    }));
+    this.geometryPlaneSensor = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
+    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.4 })
+
+    // Создаём InstancedMesh
+    this.planeSensor = new THREE.InstancedMesh(this.geometryPlaneSensor, this.materialPlaneSensor, this.count);
+    this.planeSensor.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+
+
+
+
+
+
+
+
+
+    // this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.4 }));
+    // this.planeSensor.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
+    // this.planeSensor.userData.name = 'top_sensor';
+
+    // this.sensorPlanes = [];
 
     this.boostHatModel;
     this.boostHatMesh;
@@ -71,8 +139,6 @@ export class LevelClass {
 
 
 
-    let renderTarget;
-
 
     this.gameNum = 1;
     this.gameDir = 'vert';
@@ -80,6 +146,47 @@ export class LevelClass {
 
   }
 
+
+
+  toVec3(v) {
+    if (typeof v === "number") return new THREE.Vector3(v, v, v);
+    if (v?.isVector3) return v;                          // <-- безопасная проверка
+    if (v) return new THREE.Vector3(v.x ?? 1, v.y ?? 1, v.z ?? 1);
+    return new THREE.Vector3(1, 1, 1);                   // <-- дефолт если size не задан
+  }
+
+  apply(i, mas, plane) {
+    // 1) инвертированный базовый размер считаем ОДИН раз и кэшируем
+    let invBaseSize = plane.userData.invBaseSize;
+    if (!invBaseSize) {
+      const geom = plane.geometry;                       // <-- используем геометрию инстанса
+      geom.computeBoundingBox();
+      const baseSize = new THREE.Vector3();
+      geom.boundingBox.getSize(baseSize);
+      invBaseSize = plane.userData.invBaseSize = new THREE.Vector3(
+        1 / (baseSize.x || 1),                           // <-- защита от деления на 0
+        1 / (baseSize.y || 1),
+        1 / (baseSize.z || 1)
+      );
+    }
+
+    // 2) dummy создадим один раз и переиспользуем
+    this._dummy ||= new THREE.Object3D();
+    const dummy = this._dummy;
+
+    const it = mas[i] || {};
+    const sz = this.toVec3(it.size);                     // может быть number | {x,y,z} | Vector3    
+
+    dummy.position.copy(it.position || new THREE.Vector3());
+    if (it.rotation) dummy.rotation.copy(it.rotation);   // <-- дефолт если не задано
+    else dummy.rotation.set(0, 0, 0);
+
+    // 3) size (физический) -> scale (относительно базовой геометрии)
+    dummy.scale.set(sz.x * invBaseSize.x, sz.y * invBaseSize.y, sz.z * invBaseSize.z);
+
+    dummy.updateMatrix();
+    plane.setMatrixAt(i, dummy.matrix);
+  }
 
 
   async loadTexture() {
@@ -140,49 +247,78 @@ export class LevelClass {
         this.gameDir = 'hor'
         let previousX = -2.5; // Начальная позиция по оси X
 
-        for (let i = 0; i < 50; i++) {
-          let newPlane = this.plane.clone();
-          let newPlaneTop = this.planeTop.clone();
-          let newPlaneGrass = this.planeGrass.clone();
+        for (let i = 0; i < this.count; i++) {
 
-
-          let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth);
-          let fixedDistance = getRandomNumber(2, 3);
+          let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth - 1);
+          let fixedDistance = 2//getRandomNumber(2, 3);
           let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
           let randomY = getRandomNumber(-1, 1) - this.planeHeight / 2;
 
           if (i > 0) {
-            this.changeMeshWidth(newPlane, randomW);
-            this.changeMeshWidth(newPlaneTop, randomW + 0.3);
-            this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
+            this.planes[i].size.x = randomW;
+            this.planes[i].size.y = this.planeHeight;
 
-          }
-          if (i > 0) {
-            newPlane.position.x = randomX;
-            newPlane.position.y = randomY + this.planeHeight / 6;
+            this.topPlanes[i].size.x = randomW + 0.3;
+            this.topPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
 
-            newPlaneTop.position.x = randomX;
-            newPlaneTop.position.y = randomY + this.planeHeight / 1.5 + 0.2;
+            this.grassPlanes[i].size.x = randomW + 0.3;
+            this.grassPlanes[i].size.y = this.geometryPlaneGrass.parameters.height;
+            this.grassPlanes[i].size.z = this.geometryPlaneGrass.parameters.depth;
 
-            newPlaneGrass.position.x = randomX;
-            newPlaneGrass.position.y = randomY + this.planeHeight / 1.5;
           }
           else {
-            newPlaneTop.position.y = newPlaneGrass.position.y + 0.2;
+            this.planes[i].size.x = this.planeWidth;
+            this.planes[i].size.y = this.planeHeight;
+
+            this.topPlanes[i].size.x = this.planeWidth + 0.3;
+            this.topPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
+
+
+            this.grassPlanes[i].size.x = this.planeWidth + 0.3;
+            this.grassPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
+            this.grassPlanes[i].size.z = this.geometryPlaneGrass.parameters.depth;
           }
 
 
 
+          if (i > 0) {
+            this.planes[i].position.x = randomX;
+            this.planes[i].position.y = randomY + this.planeHeight / 6;
 
+            this.topPlanes[i].position.x = randomX;
+            this.topPlanes[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
-          this.planes.push(newPlane);
-          this.topPlanes.push(newPlaneTop);
-          this.grassPlanes.push(newPlaneGrass);
+            this.grassPlanes[i].position.x = randomX;
+            this.grassPlanes[i].position.y = randomY + this.planeHeight / 1.5;
 
+          }
+          else {
+            this.planes[i].position.x = -this.planeWidth / 2;
+            this.planes[i].position.y = -this.planeHeight / 2 + 0.2;
 
+            this.topPlanes[i].position.x = -this.planeWidth / 2;
+            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.2;
 
+            this.grassPlanes[i].position.x = -this.planeWidth / 2;
+            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2;
+          }
+
+          this.apply(i, this.planes, this.plane);
+          this.apply(i, this.topPlanes, this.planeTop);
+          this.apply(i, this.grassPlanes, this.planeGrass);
           previousX = randomX + randomW / 2;
+
         }
+
+        this.plane.instanceMatrix.needsUpdate = true;
+        this.planeTop.instanceMatrix.needsUpdate = true;
+        this.planeGrass.instanceMatrix.needsUpdate = true;
+
+        this.scene.add(this.plane)
+        this.scene.add(this.planeTop)
+        this.scene.add(this.planeGrass)
+
+
         break;
 
       case 3:
@@ -191,39 +327,62 @@ export class LevelClass {
         this.gameDir = 'vert'
         let previousY = -4;
 
-        for (let i = 0; i < 50; i++) {
-          let newPlaneTop = this.planeTop.clone();
-          let newPlaneGrass = this.planeGrass.clone();
-          let newPlaneSensor = this.planeSensor.clone();
-
-          newPlaneGrass.userData.speed = getRandomNumber(4, 10) / 100;
+        for (let i = 0; i < this.count; i++) {
 
           let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 12);
           let fixedDistance = getRandomNumber(3, 4);
 
-          let randomY = previousY + fixedDistance; // Увеличиваем позицию по Y
-          newPlaneTop.position.y = randomY;
-          newPlaneGrass.position.y = randomY;
-          newPlaneSensor.position.y = randomY;
+          let randomY = previousY + fixedDistance;
+
+          this.topPlanes[i].position.y = randomY + 0.2;
+          this.grassPlanes[i].position.y = randomY;
+          this.sensorPlanes[i].position.y = randomY - 0.2;
+
+          this.topPlanes[i].size.y = 0.7;
+          this.grassPlanes[i].size.y = 0.7;
+          this.sensorPlanes[i].size.y = 0.9;
 
           if (i > 0) {
-            this.changeMeshWidth(newPlaneTop, randomW + 0.3);
-            this.changeMeshWidth(newPlaneGrass, randomW + 0.3);
-            this.changeMeshWidth(newPlaneSensor, randomW + 0.5);
+            this.topPlanes[i].size.x = randomW + 0.3;
+            this.grassPlanes[i].size.x = randomW + 0.3
+            this.sensorPlanes[i].size.x = randomW + 1
+
           }
           else {
-            this.changeMeshWidth(newPlaneTop, 10);
-            this.changeMeshWidth(newPlaneGrass, 10);
-            this.changeMeshWidth(newPlaneSensor, 10);
+            this.topPlanes[i].size.x = 10;
+            this.grassPlanes[i].size.x = 10;
+            this.sensorPlanes[i].size.x = 10;
           }
 
-          this.topPlanes.push(newPlaneTop);
-          this.grassPlanes.push(newPlaneGrass);
-          this.sensorPlanes.push(newPlaneSensor);
+
+          this.planes[i].userData.speed = getRandomNumber(4, 10) / 100;
+
+
+          this.apply(i, this.topPlanes, this.planeTop);
+          this.apply(i, this.grassPlanes, this.planeGrass);
+          this.apply(i, this.sensorPlanes, this.planeSensor);
 
           previousY = randomY;
 
         }
+
+        this.planeTop.instanceMatrix.needsUpdate = true;
+        this.planeGrass.instanceMatrix.needsUpdate = true;
+        this.planeSensor.instanceMatrix.needsUpdate = true;
+
+        this.scene.add(this.planeTop)
+        this.scene.add(this.planeGrass)
+        this.scene.add(this.planeSensor)
+
+
+
+
+
+
+        /*//////////////////////////////////////////////////////////////////////*/
+
+
+
 
         break;
     }
@@ -270,15 +429,17 @@ export class LevelClass {
 
         const currentPos = body.translation();
 
+
         // Используем реальные границы экрана
-        if (currentPos.x > this.bounds.rightX - grass.userData.size.x / 2) {
+        if (currentPos.x > this.bounds.rightX - grass.size.x / 2) {
           grass.userData.direction = -1;
-        } else if (currentPos.x < this.bounds.leftX + grass.userData.size.x / 2) {
+        } else if (currentPos.x < this.bounds.leftX + grass.size.x / 2) {
           grass.userData.direction = 1;
         }
 
         const moveX = grass.userData.direction * speed;
         const newX = currentPos.x + moveX;
+
 
         if (i > 0) {
           body.setNextKinematicTranslation({
@@ -288,7 +449,11 @@ export class LevelClass {
           });
         }
 
-        this.sensorPlanes[i].position.set(newX, currentPos.y - 0.2, currentPos.z)
+        this.apply(i, this.grassPlanes, this.planeGrass);
+
+        this.planeGrass.instanceMatrix.needsUpdate = true;
+
+        //this.sensorPlanes[i].position.set(newX, currentPos.y - 0.2, currentPos.z)
 
 
         top.position.set(newX, currentPos.y + 0.6, currentPos.z);
@@ -387,23 +552,36 @@ export class LevelClass {
   }
 
   async loadEnvironments() {
-    for (let i = 0; i < this.grassPlanes.length; i++) {
-      if (this.planes.length == this.grassPlanes.length) {
-        this.scene.add(this.planes[i]);
-        this.physicsClass.addPhysicsToObject(this.planes[i]);
-      }
+    for (let i = 0; i < this.planes.length; i++) {
 
-      this.scene.add(this.grassPlanes[i]);
-      this.physicsClass.addPhysicsToObject(this.grassPlanes[i]);
+
+      this.physicsClass.addInstancedStatic(this.grassPlanes, this.plane, i, {
+        position: this.planes[i].position,
+        size: this.planes[i].size,
+        collide: '123'
+      });
+      this.apply(i, this.planes, this.plane);
+
+      this.physicsClass.addInstancedStatic(this.grassPlanes, this.planeGrass, i, {
+        position: this.grassPlanes[i].position,
+        size: this.grassPlanes[i].size,
+        collide: '123'
+      });
+      this.apply(i, this.grassPlanes, this.planeGrass);
+
+
+
       if (this.gameDir == 'vert') {
         this.grassPlanes[i].userData.collide.setFriction(500)
 
 
-        this.scene.add(this.sensorPlanes[i]);
+
       }
 
-      this.scene.add(this.topPlanes[i]);
+
     }
+
+    this.plane.instanceMatrix.needsUpdate = true;
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();

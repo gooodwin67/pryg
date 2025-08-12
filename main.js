@@ -93,7 +93,7 @@ function onWindowResize() {
 
 
 
-//let controls = new OrbitControls(camera, renderer.domElement);
+let controls = new OrbitControls(camera, renderer.domElement);
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
 
@@ -137,19 +137,22 @@ async function initLevel() {
 
 
   //console.log(levelClass.grassPlanes[0].userData.collider)
-  
-  
 
-  levelClass.grassPlanes.forEach((value, index)=> {
-    levelClass.grassPlanes[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
-  })
 
-  
-  
+  if (levelClass.grassPlanes.length > 0) {
+    levelClass.grassPlanes.forEach((value, index) => {
+      levelClass.grassPlanes[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
+    })
+  }
 
-  levelClass.players.forEach((value, index)=> {
-    levelClass.players[index].player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
-  })
+
+  if (levelClass.players.length > 0) {
+    levelClass.players.forEach((value, index) => {
+      levelClass.players[index].player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
+
+
+    })
+  }
 
 
 
@@ -206,6 +209,7 @@ function animate() {
       physicsClass.dynamicBodies[i][0].position.copy(physicsClass.dynamicBodies[i][1].translation())
       physicsClass.dynamicBodies[i][0].quaternion.copy(physicsClass.dynamicBodies[i][1].rotation())
     }
+    physicsClass.updateInstancedTransforms();
     world.step(eventQueue);
     renderer.render(scene, camera);
   }

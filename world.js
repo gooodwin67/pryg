@@ -234,9 +234,9 @@ void main() {
         this.renderer.toneMappingExposure -= 0.0003;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
 
-        
 
-        
+
+
       }
       else {
         //this.parameters.azimuth += 0.03;
@@ -247,10 +247,10 @@ void main() {
         this.hemiLight.intensity += 0.0003;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
-        this.renderer.toneMappingExposure += 0.00024;
+        this.renderer.toneMappingExposure += 0.00020;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
 
-        
+
       }
     }
 
@@ -284,7 +284,7 @@ void main() {
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity -= deltaY * 0.03;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
-        
+
         this.renderer.toneMappingExposure -= deltaY * 0.03;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
       }
@@ -297,13 +297,13 @@ void main() {
         this.renderer.toneMappingExposure -= deltaY * 0.03;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
 
-        
-        
+
+
       }
 
       if (this.dirLight.intensity > 0.55 && this.dirLight.intensity < 0.57) {
         this.topLight = this.camera.position.y
-        
+
 
       }
 
