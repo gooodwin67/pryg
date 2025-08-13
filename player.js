@@ -11,7 +11,7 @@ export class PlayerClass {
     this.levelClass = levelClass;
     this.playerHeight = 0.8;
     this.playerWidth = 0.4;
-    this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.5 }));
+    this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
     this.player.position.y = 1.8;
@@ -191,6 +191,8 @@ export class PlayerClass {
       const targetHeadPositionZ = this.player.userData.readyJump ? 0.55 : 0.15;
 
 
+      
+
 
 
 
@@ -219,13 +221,14 @@ export class PlayerClass {
 
 
       //Поворот тела
-      const rotationBodyX = this.player.userData.readyJump ? 0.50 : 0;
+      const rotationBodyX = this.player.userData.readyJump ? 0.60 : 0;
       this.player.userData.body.setRotation({
         w: this.player.userData.body.rotation().w,
         x: this.lerp(this.player.userData.body.rotation().x, rotationBodyX, 0.1),
         y: this.player.userData.body.rotation().y,
         z: this.player.userData.body.rotation().z,
       });
+      
 
       if (this.player.userData.readyJump) {
         if (this.player.userData.playerPowerJump < 8) this.player.userData.playerPowerJump += 0.2;
