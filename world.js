@@ -285,7 +285,7 @@ void main() {
         this.hemiLight.intensity -= deltaY * 0.03;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
-        this.renderer.toneMappingExposure -= deltaY * 0.03;
+        this.renderer.toneMappingExposure -= deltaY * 0.01;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
       }
       else if (this.topLight && deltaY > 0) {
@@ -294,7 +294,7 @@ void main() {
         this.hemiLight.intensity -= deltaY * 0.03;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
-        this.renderer.toneMappingExposure -= deltaY * 0.03;
+        this.renderer.toneMappingExposure -= deltaY * 0.01;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
 
 

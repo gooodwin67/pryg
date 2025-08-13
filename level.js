@@ -301,7 +301,7 @@ export class LevelClass {
             this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1.2;
 
             this.grassPlanes[i].position.x = -this.planeWidth / 2;
-            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2+1;
+            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1;
           }
 
           this.apply(i, this.planes, this.plane);
@@ -310,6 +310,12 @@ export class LevelClass {
           previousX = randomX + randomW / 2;
 
         }
+
+
+        this.planeGrass.setColorAt(1, new THREE.Color(0xccccee));
+        this.planeGrass.setColorAt(3, new THREE.Color(0xccccee));
+
+
 
         this.plane.instanceMatrix.needsUpdate = true;
         this.planeTop.instanceMatrix.needsUpdate = true;
@@ -449,23 +455,23 @@ export class LevelClass {
             y: currentPos.y,
             z: currentPos.z
           });
-          
+
         }
-        
+
 
 
         this.sensorPlanes[i].position.x = newX;
         this.topPlanes[i].position.x = newX;
-        this.topPlanes[i].position.y = currentPos.y+0.4;
-     
-   
+        this.topPlanes[i].position.y = currentPos.y + 0.4;
 
-  
-        
+
+
+
+
 
         this.apply(i, this.sensorPlanes, this.planeSensor);
         this.apply(i, this.topPlanes, this.planeTop);
-        
+
 
 
 
@@ -503,7 +509,7 @@ export class LevelClass {
       this.boostHatModel.rotation.x = Math.PI / 13;
       this.boostHatModel.rotation.y = Math.PI / 2;
       this.boostHatModel.position.y = 2;
-      this.boostHatModel.position.x = 4;
+      this.boostHatModel.position.x = -40;
       this.boostHatModel.scale.x = 0.015;
       this.boostHatModel.scale.y = 0.015;
       this.boostHatModel.scale.z = 0.015;
@@ -585,25 +591,30 @@ export class LevelClass {
 
       if (this.gameDir == 'vert') {
         this.grassPlanes[i].userData.collide.setFriction(500)
+
       }
 
 
     }
 
-    if (this.gameDir == 'hor') {this.plane.instanceMatrix.needsUpdate = true;}
+    this.grassPlanes[1].userData.collide.setFriction(0)
+    this.grassPlanes[3].userData.collide.setFriction(0)
+    console.log(123)
+
+    if (this.gameDir == 'hor') { this.plane.instanceMatrix.needsUpdate = true; }
     this.planeGrass.instanceMatrix.needsUpdate = true;
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();
       if (this.gameDir == 'vert') {
-        newBoostHatModel.position.y = i * 3;
+        //newBoostHatModel.position.y = i * 3;
       }
       else {
-        newBoostHatModel.position.x = i * 3;
+        //newBoostHatModel.position.x = i * 3;
       }
-      this.scene.add(newBoostHatModel);
-      this.boostHatModels.push(newBoostHatModel);
-      this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
+      // this.scene.add(newBoostHatModel);
+      // this.boostHatModels.push(newBoostHatModel);
+      // this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
     }
 
     this.clouds.forEach((value, index, array) => {
@@ -680,9 +691,9 @@ export class LevelClass {
       this.scene.add(player.playerOut);
       this.scene.add(player.playerModel);
 
-      //this.topPlanes.push(player.playerOut);
+      this.topPlanes.push(player.playerOut);
 
-      
+
 
 
       if (i < this.players[0].playerColors.length) {

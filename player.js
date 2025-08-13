@@ -9,9 +9,9 @@ export class PlayerClass {
     this.scene = scene;
     this.audioClass = audioClass;
     this.levelClass = levelClass;
-    this.playerHeight = 0.7;
-    this.playerWidth = 0.3;
-    this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
+    this.playerHeight = 0.8;
+    this.playerWidth = 0.4;
+    this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.5 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
     this.player.position.y = 1.8;
@@ -23,9 +23,9 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = true;
-    this.player.userData.hatBoost = 100;
-    this.player.userData.numHatBoost = 100;
+    this.player.userData.canFly = false;
+    this.player.userData.hatBoost = 0;
+    this.player.userData.numHatBoost = 0;
     this.player.userData.live = true;
     this.player.userData.startPos;
 
@@ -72,9 +72,9 @@ export class PlayerClass {
       this.player.userData.head = this.head;
 
       this.playerModel.rotation.y = Math.PI;
-      this.playerModel.scale.x = 0.7;
-      this.playerModel.scale.y = 0.7;
-      this.playerModel.scale.z = 0.7;
+      this.playerModel.scale.x = 0.9;
+      this.playerModel.scale.y = 0.9;
+      this.playerModel.scale.z = 0.9;
     })
   }
 
@@ -188,7 +188,7 @@ export class PlayerClass {
       const targetHeadRotationZ2 = this.player.userData.body.linvel().y > 0.4 ? Math.PI / -5.9 : 0;
 
       const targetHeadPositionY = this.player.userData.readyJump ? 0.75 : 1.18;
-      const targetHeadPositionZ = this.player.userData.readyJump ? 0.75 : 0.15;
+      const targetHeadPositionZ = this.player.userData.readyJump ? 0.55 : 0.15;
 
 
 
@@ -219,7 +219,7 @@ export class PlayerClass {
 
 
       //Поворот тела
-      const rotationBodyX = this.player.userData.readyJump ? 0.70 : 0;
+      const rotationBodyX = this.player.userData.readyJump ? 0.50 : 0;
       this.player.userData.body.setRotation({
         w: this.player.userData.body.rotation().w,
         x: this.lerp(this.player.userData.body.rotation().x, rotationBodyX, 0.1),
