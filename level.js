@@ -251,9 +251,9 @@ export class LevelClass {
         for (let i = 0; i < this.count; i++) {
 
           let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth - 1);
-          let fixedDistance = 2//getRandomNumber(2, 3);
-          let randomX = previousX + randomW / 2 + fixedDistance; // Увеличиваем позицию на половину ширины и фиксированное расстояние
-          let randomY = getRandomNumber(-1, 1) - this.planeHeight / 2;
+          let fixedDistance = getRandomNumber(2, 3);
+          let randomX = previousX + randomW / 2 + fixedDistance;
+          let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 2;
 
           if (i > 0) {
             this.planes[i].size.x = randomW;
@@ -336,7 +336,7 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 10);
+          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 8);
           let fixedDistance = getRandomNumber(3, 4);
 
           let randomY = previousY + fixedDistance;
@@ -362,7 +362,7 @@ export class LevelClass {
           }
 
 
-          this.grassPlanes[i].userData.speed = getRandomNumber(4, 10) / 100;
+          this.grassPlanes[i].userData.speed = getRandomNumber(4, 8) / 100;
 
 
           this.apply(i, this.topPlanes, this.planeTop);
