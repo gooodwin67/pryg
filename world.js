@@ -3,11 +3,11 @@ import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
 
 export class WorldClass {
-  constructor(scene, camera, levelClass, renderer) {
+  constructor(scene, camera, renderer, paramsClass) {
     this.scene = scene;
     this.camera = camera;
-    this.levelClass = levelClass;
     this.renderer = renderer;
+    this.paramsClass = paramsClass;
 
     this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
 
@@ -36,13 +36,7 @@ export class WorldClass {
 
     this.water;
 
-    const width = 50;
-    const height = 50;
-    const intensity = 2;
-    this.pointLight = new THREE.RectAreaLight(0xffffff, intensity, width, height);
-    this.pointLight.position.set(30, 40, 0);
-    this.pointLight.lookAt(0, 0, 0);
-
+    this.night = false;
 
   }
 
@@ -202,7 +196,7 @@ void main() {
     this.sky.material.uniforms['sunPosition'].value.copy(this.sun);
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
-    if (this.levelClass.gameDir == 'hor') {
+    if (this.paramsClass.gameDir == 'hor') {
       if (this.sun.y < -0.07 && this.materialStars.uniforms.opacity.value < 1) {
         this.materialStars.uniforms.opacity.value += 0.001;
         if (this.blackSky.material.opacity < 0.8) this.blackSky.material.opacity += 0.001;
@@ -234,9 +228,6 @@ void main() {
         this.renderer.toneMappingExposure -= 0.0003;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
 
-
-
-
       }
       else {
         //this.parameters.azimuth += 0.03;
@@ -252,11 +243,18 @@ void main() {
 
 
       }
+      if (this.parameters.elevation < -2) {
+        this.night = true;
+      }
+      else {
+        this.night = false;
+      }
+
     }
 
 
 
-    if (this.levelClass.gameDir == 'vert') {
+    if (this.paramsClass.gameDir == 'vert') {
 
       const minElevation = -100;
       const maxElevation = 100;
@@ -333,14 +331,13 @@ void main() {
     this.scene.add(this.dirLight);
     this.scene.add(this.targetObject);
     this.scene.add(this.water);
-    //this.scene.add(this.pointLight);
-    // scene.add(helper);
+
   }
 
 
   updateLighting() {
     this.dirLight.target.position.set(this.camera.position.x - 4, -20, 10);
-    this.dirLight.position.set(this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.x, this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.y + 2, this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)].player.position.z);
+    this.dirLight.position.set(this.camera.position.x, this.camera.position.y, 0);
 
     // // Обновление камеры теней
     const d = 10; // Размер камеры теней
@@ -350,7 +347,6 @@ void main() {
     this.dirLight.shadow.camera.bottom = -d;
 
 
-    //this.pointLight.lookAt(this.levelClass.players[this.levelClass.maxSpeed(this.levelClass.players)])
 
     this.waterUpdate();
     this.updateSky();

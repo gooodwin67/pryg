@@ -102,6 +102,7 @@ export class ControlClass {
       case 'ArrowRight':
         this.levelClass.players.forEach((value, index, array) => {
           value.player.userData.live = true;
+          this.levelClass.resetLevel();
         })
         break;
     }

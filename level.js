@@ -3,19 +3,22 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
     this.renderer = renderer;
     this.camera = camera;
     this.isMobile = isMobile;
+    this.paramsClass = paramsClass;
+    this.worldClass = worldClass;
 
     this.planeWidth = 4;
     this.planeHeight = 10;
+    this.planeDepth = 1;
 
 
-    this.count = 50;
+    this.count = 100;
     this.planes = Array.from({ length: this.count }, (_, i) => ({
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
@@ -23,7 +26,7 @@ export class LevelClass {
       size: new THREE.Vector3(1, 1, 1),
       userData: { name: 'plane' },
     }));
-    this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, 1);
+    this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, this.planeDepth);
     this.materialPlane = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
 
     // Создаём InstancedMesh
@@ -62,7 +65,8 @@ export class LevelClass {
       size: new THREE.Vector3(1, 1, 1),
       userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1 },
     }));
-    this.geometryPlaneGrass = new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, 1.2);
+
+    this.geometryPlaneGrass = new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, this.planeDepth + 0.2);
     this.materialPlaneGrass = new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 })
 
     // Создаём InstancedMesh
@@ -100,7 +104,28 @@ export class LevelClass {
 
 
 
+    this.lamps = Array.from({ length: this.count }, (_, i) => ({
+      position: new THREE.Vector3(0, 0, 0),
+      rotation: new THREE.Euler(0, 0, 0),
+      scale: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(0.1, 2, 0.1),
+      userData: { name: 'lamp', light: false },
+    }));
+    this.lampHeight = 1;
+    this.geometryLamp = new THREE.BoxGeometry(0.3, this.lampHeight, 0.3);
+    this.materialLamp = new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 1.0 })
 
+    // Создаём InstancedMesh
+    this.lamp = new THREE.InstancedMesh(this.geometryLamp, this.materialLamp, this.count);
+    this.lamp.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+
+
+    this.lightsCount = 8;
+    this.lights = [];
+    this.bulbs = [];
+
+    this.lightIntensity = 25;
+    this.bulbEmissiveIntensity = 0.9;
 
 
 
@@ -136,13 +161,7 @@ export class LevelClass {
     this.bounds;
     this.getHorizontalWorldBounds()
 
-
-
-
-
-
     this.gameNum = 1;
-    this.gameDir = 'vert';
 
 
   }
@@ -245,7 +264,7 @@ export class LevelClass {
     switch (this.gameNum) {
       case 1:
       case 2:
-        this.gameDir = 'hor'
+        this.paramsClass.gameDir = 'hor'
         let previousX = -2.5; // Начальная позиция по оси X
 
         for (let i = 0; i < this.count; i++) {
@@ -304,26 +323,48 @@ export class LevelClass {
             this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1;
           }
 
+          this.lamps[i].position.x = this.grassPlanes[i].position.x;
+          this.lamps[i].position.z = -this.planeDepth / 8;
+          this.lamps[i].position.y = this.grassPlanes[i].position.y + this.grassPlanes[i].size.y / 2 + this.lampHeight - 0.2;
+
+
+          if (this.lights.length < this.lightsCount) {
+            const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+            light.position.set(this.lamps[i].position.x, this.lamps[i].position.y + 1, 1.6);
+            this.lights.push(light)
+            this.scene.add(light);
+
+            const bulb = new THREE.Mesh(
+              new THREE.SphereGeometry(0.3),
+              new THREE.MeshStandardMaterial({ color: 0xf7eaa8, emissive: 0xf7eaa8, emissiveIntensity: 0.3 })
+            );
+            bulb.position.copy(new THREE.Vector3(light.position.x, light.position.y, this.lamps[i].position.z));
+            this.bulbs.push(bulb)
+            this.scene.add(bulb);
+
+            this.lamps[i].userData.light = true;
+
+          }
+
+
           this.apply(i, this.planes, this.plane);
           this.apply(i, this.topPlanes, this.planeTop);
           this.apply(i, this.grassPlanes, this.planeGrass);
+          this.apply(i, this.lamps, this.lamp);
           previousX = randomX + randomW / 2;
 
         }
 
 
-        this.planeGrass.setColorAt(1, new THREE.Color(0xccccee));
-        this.planeGrass.setColorAt(3, new THREE.Color(0xccccee));
-
-
-
         this.plane.instanceMatrix.needsUpdate = true;
         this.planeTop.instanceMatrix.needsUpdate = true;
         this.planeGrass.instanceMatrix.needsUpdate = true;
+        this.lamp.instanceMatrix.needsUpdate = true;
 
         this.scene.add(this.plane)
         this.scene.add(this.planeTop)
         this.scene.add(this.planeGrass)
+        this.scene.add(this.lamp)
 
 
         break;
@@ -331,7 +372,7 @@ export class LevelClass {
       case 3:
       case 4:
 
-        this.gameDir = 'vert'
+        this.paramsClass.gameDir = 'vert'
         let previousY = -3;
 
         for (let i = 0; i < this.count; i++) {
@@ -426,7 +467,7 @@ export class LevelClass {
 
   animateTops() {
 
-    if (this.gameDir == 'vert') {
+    if (this.paramsClass.gameDir == 'vert') {
 
       for (let i = 0; i < this.grassPlanes.length; i++) {
         const grass = this.grassPlanes[i];
@@ -571,7 +612,7 @@ export class LevelClass {
   async loadEnvironments() {
     for (let i = 0; i < this.grassPlanes.length; i++) {
 
-      if (this.gameDir == 'hor') {
+      if (this.paramsClass.gameDir == 'hor') {
         this.physicsClass.addInstancedStatic(this.grassPlanes, this.plane, i, {
           position: this.planes[i].position,
           size: this.planes[i].size,
@@ -589,24 +630,31 @@ export class LevelClass {
 
 
 
-      if (this.gameDir == 'vert') {
-        this.grassPlanes[i].userData.collide.setFriction(500)
-
+      if (this.paramsClass.gameDir == 'vert') {
+        this.grassPlanes[i].userData.collide.setFriction(500);
+      }
+      else {
+        if (Math.random() < 0.3 && i > 1) {
+          this.grassPlanes[i].userData.collide.setFriction(0);
+          this.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
+        }
       }
 
 
     }
 
-    this.grassPlanes[1].userData.collide.setFriction(0)
-    this.grassPlanes[3].userData.collide.setFriction(0)
-    console.log(123)
 
-    if (this.gameDir == 'hor') { this.plane.instanceMatrix.needsUpdate = true; }
+
+
+
+
+
+    if (this.paramsClass.gameDir == 'hor') { this.plane.instanceMatrix.needsUpdate = true; }
     this.planeGrass.instanceMatrix.needsUpdate = true;
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();
-      if (this.gameDir == 'vert') {
+      if (this.paramsClass.gameDir == 'vert') {
         //newBoostHatModel.position.y = i * 3;
       }
       else {
@@ -627,6 +675,7 @@ export class LevelClass {
 
   levelAnimate() {
     this.animateTops();
+    this.lampsAnimate();
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
@@ -634,6 +683,72 @@ export class LevelClass {
 
   }
 
+  lampsAnimate() {
+
+    if (this.paramsClass.gameDir == 'hor') {
+      if (this.bulbs[Math.round(this.bulbs.length / 2)].position.x < this.camera.position.x) {
+        let firstElBuld = this.bulbs.shift();
+        let firstElLight = this.lights.shift();
+
+
+        let nextLamp = this.lamps.findIndex((el) => el.userData.light == false)
+        if (this.lamps[nextLamp] != undefined) {
+
+          firstElBuld.position.x = this.lamps[nextLamp].position.x;
+          firstElBuld.position.y = this.grassPlanes[nextLamp].position.y + this.grassPlanes[nextLamp].size.y / 2 + this.lampHeight - 0.2 + 1;
+
+          firstElLight.position.x = this.lamps[nextLamp].position.x;
+          firstElLight.position.y = this.lamps[nextLamp].position.y + 1;
+
+          this.bulbs.push(firstElBuld);
+          this.lights.push(firstElLight);
+
+          this.lamps[nextLamp].userData.light = true;
+        }
+      }
+
+
+
+      this.lights.forEach((value, index, array) => {
+        if (value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
+          if (value.intensity < this.lightIntensity && this.worldClass.night) {
+            value.intensity += 1
+          }
+          if (this.bulbs[index].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night) {
+            this.bulbs[index].material.emissiveIntensity += 0.1;
+          }
+        }
+        else if (value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4 || !this.worldClass.night) {
+
+          if (value.intensity > 0) {
+            value.intensity -= 1
+          }
+          if (this.bulbs[index].material.emissiveIntensity > 0.3) {
+            this.bulbs[index].material.emissiveIntensity -= 0.1
+          }
+        }
+
+      })
+      console.log(this.bulbs[0].material.emissiveIntensity)
+
+    }
+
+  }
+
+  resetLevel() {
+    if (this.paramsClass.gameDir == 'hor') {
+      for (let i = 0; i < this.count; i++) {
+        if (i < this.lightsCount) {
+          this.lights[i].position.set(this.lamps[i].position.x, this.lamps[i].position.y + 1, 1.6);
+          this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.lamps[i].position.z));
+          this.lamps[i].userData.light = true;
+        }
+        else {
+          this.lamps[i].userData.light = false;
+        }
+      }
+    }
+  }
 
 
 
@@ -643,7 +758,7 @@ export class LevelClass {
 
     let maxIndex = 0; // Начинаем с первого элемента
     let maxValue;
-    if (this.gameDir == 'vert') {
+    if (this.paramsClass.gameDir == 'vert') {
       maxValue = players[0].player.position.y;
     }
     else {
@@ -653,7 +768,7 @@ export class LevelClass {
     for (let i = 1; i < players.length; i++) {
       // Проверяем, существует ли player и его position
       if (players[i].player && players[i].player.position) {
-        if (this.gameDir == 'vert') {
+        if (this.paramsClass.gameDir == 'vert') {
           if (players[i].player.position.y > maxValue) {
             maxValue = players[i].player.position.y; // Обновляем максимальное значение
             maxIndex = i; // Обновляем индекс максимального значения
@@ -680,7 +795,7 @@ export class LevelClass {
       let player = this.players[i];
       player.player.position.x = player.player.position.x - i * 1;
       this.physicsClass.addPhysicsToObject(player.player);
-      if (this.gameDir == 'vert') {
+      if (this.paramsClass.gameDir == 'vert') {
         player.player.userData.collider.setFriction(500)
       }
       await player.loadPlayerModel();

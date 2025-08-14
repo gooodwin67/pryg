@@ -22,6 +22,7 @@ import { AudioClass } from "./audio";
 import { ControlClass } from './control';
 import { WorldClass } from './world';
 import { MenuClass } from './menu';
+import { ParamsClass } from './params';
 
 
 console.clear();
@@ -42,6 +43,7 @@ let physicsClass;
 let levelClass;
 let audioClass;
 let controlClass;
+let paramsClass;
 
 
 
@@ -100,20 +102,25 @@ let controls = new OrbitControls(camera, renderer.domElement);
 
 
 async function initClases(chels) {
+
+  paramsClass = new ParamsClass();
+
   const RAPIER = await import('@dimforge/rapier3d');
   world = new RAPIER.World(new RAPIER.Vector3(0, -9.81, 0));
 
   eventQueue = new RAPIER.EventQueue(true);
+
   physicsClass = new PhysicsClass(world, RAPIER);
 
 
 
   audioClass = new AudioClass();
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile);
-  worldClass = new WorldClass(scene, camera, levelClass, renderer);
+  worldClass = new WorldClass(scene, camera, renderer, paramsClass);
+
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass);
 
   for (let i = 0; i < chels; i++) {
-    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass));
+    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass));
   }
   controlClass = new ControlClass(levelClass, isMobile, renderer, camera);
 }
@@ -170,8 +177,13 @@ async function initMatch(chels, gameNum) {
   await initEntity();
   await initLevel();
 
-  menuClass.toggleLoader(false);
-  dataLoaded = true;
+
+
+  setTimeout(() => {
+    menuClass.toggleLoader(false);
+    dataLoaded = true;
+  }, 300)
+
 }
 
 menuClass = new MenuClass(initMatch);

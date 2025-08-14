@@ -5,10 +5,12 @@ import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionC
 
 
 export class PlayerClass {
-  constructor(scene, audioClass, levelClass) {
+  constructor(scene, audioClass, levelClass, paramsClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.levelClass = levelClass;
+    this.paramsClass = paramsClass;
+
     this.playerHeight = 0.8;
     this.playerWidth = 0.4;
     this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
@@ -165,12 +167,6 @@ export class PlayerClass {
       this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
 
-
-
-
-
-
-
     }
 
     else {
@@ -189,12 +185,6 @@ export class PlayerClass {
 
       const targetHeadPositionY = this.player.userData.readyJump ? 0.75 : 1.18;
       const targetHeadPositionZ = this.player.userData.readyJump ? 0.55 : 0.15;
-
-
-      
-
-
-
 
 
 
@@ -228,7 +218,7 @@ export class PlayerClass {
         y: this.player.userData.body.rotation().y,
         z: this.player.userData.body.rotation().z,
       });
-      
+
 
       if (this.player.userData.readyJump) {
         if (this.player.userData.playerPowerJump < 8) this.player.userData.playerPowerJump += 0.2;
@@ -239,7 +229,7 @@ export class PlayerClass {
         this.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
 
         this.player.userData.body.applyImpulse({
-          x: this.levelClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
+          x: this.paramsClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
           y: this.player.userData.playerPowerJump / 1.4,
           z: 0
         }, true);
