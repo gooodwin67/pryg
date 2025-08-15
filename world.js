@@ -66,7 +66,7 @@ export class WorldClass {
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y = 0;
+    this.water.position.y = -2;
 
     this.sun = new THREE.Vector3();
 

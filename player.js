@@ -16,7 +16,7 @@ export class PlayerClass {
     this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
-    this.player.position.y = 1.8;
+    this.player.position.y = 1.2;
     this.player.position.x = -0.4;
     this.player.userData.name = 'player';
     this.player.userData.readyJump = false;
@@ -230,7 +230,7 @@ export class PlayerClass {
 
         this.player.userData.body.applyImpulse({
           x: this.paramsClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
-          y: this.player.userData.playerPowerJump / 1.4,
+          y: this.player.userData.playerPowerJump * 10.4,
           z: 0
         }, true);
         this.player.userData.playerPowerJump = 1;

@@ -23,6 +23,7 @@ import { ControlClass } from './control';
 import { WorldClass } from './world';
 import { MenuClass } from './menu';
 import { ParamsClass } from './params';
+import { ScoreClass } from './score';
 
 
 console.clear();
@@ -44,6 +45,7 @@ let levelClass;
 let audioClass;
 let controlClass;
 let paramsClass;
+let scoreClass;
 
 
 
@@ -95,7 +97,7 @@ function onWindowResize() {
 
 
 
-let controls = new OrbitControls(camera, renderer.domElement);
+// let controls = new OrbitControls(camera, renderer.domElement);
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
 
@@ -111,6 +113,7 @@ async function initClases(chels) {
   eventQueue = new RAPIER.EventQueue(true);
 
   physicsClass = new PhysicsClass(world, RAPIER);
+  scoreClass = new ScoreClass(camera);
 
 
 
@@ -180,17 +183,31 @@ async function initMatch(chels, gameNum) {
 
 
   setTimeout(() => {
+    menuClass.showScreen('hud');
     menuClass.toggleLoader(false);
     dataLoaded = true;
   }, 300)
 
 }
-
 menuClass = new MenuClass(initMatch);
+
+
+
+
+
 
 
 function animate() {
   if (dataLoaded) {
+
+
+
+    if (paramsClass.gameDir == 'hor') {
+      scoreClass.updateMetersFloat(camera.position.x - scoreClass.startX);
+    }
+    else {
+      scoreClass.updateMetersFloat(camera.position.y - scoreClass.startY);
+    }
 
 
     levelClass.players.forEach((value, index, array) => {

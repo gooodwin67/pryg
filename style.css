@@ -110,3 +110,86 @@ canvas {
 .together_game_chels_active {
     background-color: #888;
 }
+
+
+
+
+
+
+
+/*//////////////////////////////////////////////////////////////*/
+
+
+.hud {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    pointer-events: none;
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+/* outline-стиль твоей плашки */
+.hud--outline {
+    padding: 3px 10px 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .6);
+    background: rgba(0, 0, 0, .12);
+    backdrop-filter: blur(4px);
+}
+
+/* вертикальная компоновка */
+.hud--stacked {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.hud__top {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.hud__label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+
+.hud__value {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+
+/* блок с рекордами */
+.hud__records {
+    color: #fff;
+    font-size: 12px;
+}
+
+.hud__record {
+    color: #fff;
+    opacity: 0.85;
+}
+
+.hud__record strong {
+    font-weight: 700;
+    color: #fff;
+}
+
+/* опционально: выделим мировой рекорд другим цветом */
+.hud__record--world strong {
+    color: #e9f082;
+
+}
+
+.hud__records .records_block {
+    display: flex;
+    flex-direction: column;
+}

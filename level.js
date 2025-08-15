@@ -18,7 +18,7 @@ export class LevelClass {
     this.planeDepth = 1;
 
 
-    this.count = 100;
+    this.count = 1000;
     this.planes = Array.from({ length: this.count }, (_, i) => ({
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
@@ -272,7 +272,7 @@ export class LevelClass {
           let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth - 1);
           let fixedDistance = getRandomNumber(2, 3);
           let randomX = previousX + randomW / 2 + fixedDistance;
-          let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 2;
+          let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
           if (i > 0) {
             this.planes[i].size.x = randomW;
@@ -314,13 +314,13 @@ export class LevelClass {
           }
           else {
             this.planes[i].position.x = -this.planeWidth / 2;
-            this.planes[i].position.y = -this.planeHeight / 2 + 1.2;
+            this.planes[i].position.y = -this.planeHeight / 2 + 0.5;
 
             this.topPlanes[i].position.x = -this.planeWidth / 2;
-            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1.2;
+            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.4;
 
             this.grassPlanes[i].position.x = -this.planeWidth / 2;
-            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1;
+            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.3;
           }
 
           this.lamps[i].position.x = this.grassPlanes[i].position.x;
@@ -361,6 +361,7 @@ export class LevelClass {
         this.planeGrass.instanceMatrix.needsUpdate = true;
         this.lamp.instanceMatrix.needsUpdate = true;
 
+
         this.scene.add(this.plane)
         this.scene.add(this.planeTop)
         this.scene.add(this.planeGrass)
@@ -373,7 +374,7 @@ export class LevelClass {
       case 4:
 
         this.paramsClass.gameDir = 'vert'
-        let previousY = -3;
+        let previousY = -5;
 
         for (let i = 0; i < this.count; i++) {
 
@@ -673,9 +674,23 @@ export class LevelClass {
   }
 
 
+  changePosBlocks() {
+    if (this.camera.position.x > this.grassPlanes[Math.round(this.grassPlanes.length / 2)].position.x) {
+      let firstPlane = this.grassPlanes.shift();
+      firstPlane.position.x = this.grassPlanes[this.grassPlanes.length - 1].position.x + 7
+      this.grassPlanes.push(firstPlane)
+      this.apply(this.grassPlanes.length - 1, this.grassPlanes, this.planeGrass);
+      this.planeGrass.instanceMatrix.needsUpdate = true;
+    }
+
+  }
+
+
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
+
+    //this.changePosBlocks();
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
@@ -710,7 +725,7 @@ export class LevelClass {
 
 
       this.lights.forEach((value, index, array) => {
-        if (value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
+        if (this.worldClass.night && value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
           if (value.intensity < this.lightIntensity && this.worldClass.night) {
             value.intensity += 1
           }
@@ -718,7 +733,7 @@ export class LevelClass {
             this.bulbs[index].material.emissiveIntensity += 0.1;
           }
         }
-        else if (value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4 || !this.worldClass.night) {
+        else if (!this.worldClass.night || value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) {
 
           if (value.intensity > 0) {
             value.intensity -= 1
@@ -729,7 +744,6 @@ export class LevelClass {
         }
 
       })
-      console.log(this.bulbs[0].material.emissiveIntensity)
 
     }
 
@@ -796,6 +810,7 @@ export class LevelClass {
       player.player.position.x = player.player.position.x - i * 1;
       this.physicsClass.addPhysicsToObject(player.player);
       if (this.paramsClass.gameDir == 'vert') {
+        player.player.position.y = -0;
         player.player.userData.collider.setFriction(500)
       }
       await player.loadPlayerModel();
@@ -830,14 +845,14 @@ export class LevelClass {
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
-        camera.position.y = this.isMobile ? 4.5 : 4;
-        camera.position.z = this.isMobile ? 13 : 19;
+        camera.position.y = this.isMobile ? 3.5 : 3;
+        camera.position.z = this.isMobile ? 13 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2:
         camera.position.x = this.players[this.maxSpeed(this.players)].player.position.x;
-        camera.position.y = this.isMobile ? 4.5 : 4;
-        camera.position.z = this.isMobile ? 13 : 19;
+        camera.position.y = this.isMobile ? 3.5 : 3;
+        camera.position.z = this.isMobile ? 13 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 3:
