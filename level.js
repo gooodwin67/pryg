@@ -18,7 +18,7 @@ export class LevelClass {
     this.planeDepth = 1;
 
 
-    this.count = 1000;
+    this.count = 100;
     this.planes = Array.from({ length: this.count }, (_, i) => ({
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
