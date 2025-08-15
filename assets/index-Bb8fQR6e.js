@@ -1,4 +1,4 @@
-import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J, E as v, I as z, D as C, O as V, T as rt, R as _, P as ut, S as ct, C as X, A as yt, e as mt, f as L, g as gt, h as ft, H as wt, i as xt, j as Mt, k as j, W as Dt, l as bt, m as Pt, n as vt, o as zt, p as F, q as Ct, r as Lt, s as St, t as Y, u as At, v as Et, w as _t, x as Ht, y as Bt, z as Rt, F as kt, J as It, K as Gt } from "./three-Cy6TTkM9.js";
+import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N, E as v, I as C, D as z, O as X, T as ht, R as _, P as yt, S as mt, C as Y, A as gt, e as ft, f as L, g as wt, h as xt, H as Mt, i as Dt, j as bt, k as j, W as Pt, l as vt, m as Ct, n as zt, o as Lt, p as O, q as St, r as At, s as Et, t as Q, u as _t, v as Bt, w as Ht, x as kt, y as Rt, z as Gt, F as It, J as Tt } from "./three-DMGeCsFj.js";
 (async ()=>{
     (function() {
         const t = document.createElement("link").relList;
@@ -21,9 +21,9 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             fetch(i.href, a);
         }
     })();
-    const Tt = "modulepreload", Wt = function(o, t) {
+    const Wt = "modulepreload", Ft = function(o, t) {
         return new URL(o, t).href;
-    }, Q = {}, Ft = function(t, s, e) {
+    }, $ = {}, qt = function(t, s, e) {
         let i = Promise.resolve();
         if (s && s.length > 0) {
             let h = function(d) {
@@ -37,17 +37,17 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             };
             const n = document.getElementsByTagName("link"), r = document.querySelector("meta[property=csp-nonce]"), p = r?.nonce || r?.getAttribute("nonce");
             i = h(s.map((d)=>{
-                if (d = Wt(d, e), d in Q) return;
-                Q[d] = !0;
+                if (d = Ft(d, e), d in $) return;
+                $[d] = !0;
                 const m = d.endsWith(".css"), b = m ? '[rel="stylesheet"]' : "";
                 if (!!e) for(let P = n.length - 1; P >= 0; P--){
-                    const B = n[P];
-                    if (B.href === d && (!m || B.rel === "stylesheet")) return;
+                    const R = n[P];
+                    if (R.href === d && (!m || R.rel === "stylesheet")) return;
                 }
                 else if (document.querySelector(`link[href="${d}"]${b}`)) return;
                 const g = document.createElement("link");
-                if (g.rel = m ? "stylesheet" : Tt, m || (g.as = "script"), g.crossOrigin = "", g.href = d, p && g.setAttribute("nonce", p), document.head.appendChild(g), m) return new Promise((P, B)=>{
-                    g.addEventListener("load", P), g.addEventListener("error", ()=>B(new Error(`Unable to preload CSS for ${d}`)));
+                if (g.rel = m ? "stylesheet" : Wt, m || (g.as = "script"), g.crossOrigin = "", g.href = d, p && g.setAttribute("nonce", p), document.head.appendChild(g), m) return new Promise((P, R)=>{
+                    g.addEventListener("load", P), g.addEventListener("error", ()=>R(new Error(`Unable to preload CSS for ${d}`)));
                 });
             }));
         }
@@ -65,7 +65,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
     function M(o, t) {
         return Math.random() * (t - o) + o;
     }
-    function qt() {
+    function Ot() {
         let o = window.matchMedia || window.msMatchMedia;
         return o ? o("(pointer:coarse)").matches : !1;
     }
@@ -84,14 +84,14 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
         }
         return e;
     }
-    function $(o) {
+    function Z(o) {
         return o.reduce((t, s)=>t | 1 << s, 0);
     }
-    function T(o, t) {
-        const s = $(o), e = $(t);
+    function F(o, t) {
+        const s = Z(o), e = Z(t);
         return "0x" + ((s & 65535) << 16 | e & 65535).toString(16).padStart(8, "0");
     }
-    function Z(o) {
+    function tt(o) {
         const t = o.collisionGroups(), s = t >>> 16 & 65535, e = t & 65535;
         function i(a) {
             const n = [];
@@ -103,14 +103,14 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             i(e)
         ];
     }
-    function Ot(o) {
+    function Ut(o) {
         return typeof o == "number" ? new l(o, o, o) : o?.isVector3 ? o : new l(o?.x ?? 1, o?.y ?? 1, o?.z ?? 1);
     }
-    function tt(o) {
+    function et(o) {
         return o?.userData?.id ?? o?.uuid ?? o?.id;
     }
-    const Ut = new H(new l(-.5, -.5, -.5), new l(.5, .5, .5)), et = new dt, st = new U;
-    function it(o) {
+    const Jt = new k(new l(-.5, -.5, -.5), new l(.5, .5, .5)), st = new ut, it = new K;
+    function at(o) {
         if (o?.isObject3D) {
             if (o.updateMatrixWorld(!0), o.geometry?.isBufferGeometry) {
                 const i = o.geometry;
@@ -119,27 +119,27 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                     return a.applyMatrix4(o.matrixWorld), a;
                 }
             }
-            return new H().setFromObject(o);
+            return new k().setFromObject(o);
         }
-        const t = o.position ?? o.pos ?? new l, s = Ot(o.size ?? 1), e = o.quaternion?.isQuaternion ? o.quaternion : o.rotation?.isEuler ? st.setFromEuler(o.rotation) : st.set(0, 0, 0, 1);
-        return et.compose(t, e, s), Ut.clone().applyMatrix4(et);
+        const t = o.position ?? o.pos ?? new l, s = Ut(o.size ?? 1), e = o.quaternion?.isQuaternion ? o.quaternion : o.rotation?.isEuler ? it.setFromEuler(o.rotation) : it.set(0, 0, 0, 1);
+        return st.compose(t, e, s), Jt.clone().applyMatrix4(st);
     }
-    function q(o, t) {
-        const s = it(o), e = tt(o);
+    function U(o, t) {
+        const s = at(o), e = et(o);
         for(let i = t.length - 1; i >= 0; i--){
-            const a = t[i], n = tt(a);
+            const a = t[i], n = et(a);
             if (e !== void 0 && n !== void 0 && e === n) continue;
-            if (it(a).intersectsBox(s)) return a;
+            if (at(a).intersectsBox(s)) return a;
         }
         return null;
     }
-    class Jt {
+    class Kt {
         constructor(t, s, e, i){
-            this.scene = t, this.audioClass = s, this.levelClass = e, this.paramsClass = i, this.playerHeight = .8, this.playerWidth = .4, this.player = new G(new w(this.playerWidth, this.playerHeight, this.playerWidth), new A({
+            this.scene = t, this.audioClass = s, this.levelClass = e, this.paramsClass = i, this.playerHeight = .8, this.playerWidth = .4, this.player = new W(new w(this.playerWidth, this.playerHeight, this.playerWidth), new A({
                 color: 16711680,
                 transparent: !0,
                 opacity: 0
-            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.8, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !1, this.player.userData.hatBoost = 0, this.player.userData.numHatBoost = 0, this.player.userData.live = !0, this.player.userData.startPos, this.playerModel, this.playerOut = new G(new w(this.playerWidth, this.playerHeight + .1, this.playerWidth), new E({
+            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.2, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !1, this.player.userData.hatBoost = 0, this.player.userData.numHatBoost = 0, this.player.userData.live = !0, this.player.userData.startPos, this.playerModel, this.playerOut = new W(new w(this.playerWidth, this.playerHeight + .1, this.playerWidth), new E({
                 color: 16776960,
                 transparent: !0,
                 opacity: 0
@@ -151,7 +151,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             ];
         }
         async loadPlayerModel() {
-            await new J().loadAsync("models/players/player1.glb").then((e)=>{
+            await new N().loadAsync("models/players/player1.glb").then((e)=>{
                 const i = e.scene;
                 this.playerModel = i, this.playerModel.traverse(function(a) {
                     a.isMesh && (a.castShadow = !0);
@@ -161,23 +161,23 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             });
         }
         playerMove() {
-            if (q(this.player, this.levelClass.sensorPlanes)) {
-                const [t, s] = Z(this.player.userData.collider);
-                s[0] == 0 && this.player.userData.collider.setCollisionGroups(T([
+            if (U(this.player, this.levelClass.sensorPlanes)) {
+                const [t, s] = tt(this.player.userData.collider);
+                s[0] == 0 && this.player.userData.collider.setCollisionGroups(F([
                     1
                 ], [
                     1
                 ]));
             } else {
-                const [t, s] = Z(this.player.userData.collider);
-                s[0] != 0 && this.player.userData.collider.setCollisionGroups(T([
+                const [t, s] = tt(this.player.userData.collider);
+                s[0] != 0 && this.player.userData.collider.setCollisionGroups(F([
                     1
                 ], [
                     0,
                     1
                 ]));
             }
-            if (q(this.player, this.levelClass.topPlanes) ? this.player.userData.onGround = !0 : this.player.userData.onGround = !1, this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), q(this.player, this.levelClass.boostHatMeshes) && (this.player.userData.canFly && (this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].position.copy(new l(this.player.userData.head.getWorldPosition(new l).x - .05, this.player.userData.head.getWorldPosition(new l).y + .15, this.player.userData.head.getWorldPosition(new l).z + .1)), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].children[0].children[1].rotation.y += .4), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].userData.fly || (this.player.userData.numHatBoost = this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes)), this.player.userData.canFly = !0, this.player.userData.hatBoost = 2), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].userData.fly = !0), this.playerModel.position.y < -2 && (this.player.userData.live = !1), !this.player.userData.live) this.player.userData.body.setTranslation(this.player.userData.startPos), this.player.userData.readyJump = !1, this.player.userData.canFly = !1, this.player.userData.hatBoost = 0, this.player.userData.numHatBoost = 0, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.onGround = !1, this.player.userData.body.setLinvel({
+            if (U(this.player, this.levelClass.topPlanes) ? this.player.userData.onGround = !0 : this.player.userData.onGround = !1, this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), U(this.player, this.levelClass.boostHatMeshes) && (this.player.userData.canFly && (this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].position.copy(new l(this.player.userData.head.getWorldPosition(new l).x - .05, this.player.userData.head.getWorldPosition(new l).y + .15, this.player.userData.head.getWorldPosition(new l).z + .1)), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].children[0].children[1].rotation.y += .4), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].userData.fly || (this.player.userData.numHatBoost = this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes)), this.player.userData.canFly = !0, this.player.userData.hatBoost = 2), this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(S(this.player, this.levelClass.boostHatMeshes))].userData.fly = !0), this.playerModel.position.y < -2 && (this.player.userData.live = !1), !this.player.userData.live) this.player.userData.body.setTranslation(this.player.userData.startPos), this.player.userData.readyJump = !1, this.player.userData.canFly = !1, this.player.userData.hatBoost = 0, this.player.userData.numHatBoost = 0, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.onGround = !1, this.player.userData.body.setLinvel({
                 x: 0,
                 y: 0,
                 z: 0
@@ -199,7 +199,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                     z: 0
                 }, !0), this.player.userData.body.applyImpulse({
                     x: this.paramsClass.gameDir == "hor" ? this.player.userData.playerPowerJump / 3 : 0,
-                    y: this.player.userData.playerPowerJump / 1.4,
+                    y: this.player.userData.playerPowerJump * 10.4,
                     z: 0
                 }, !0), this.player.userData.playerPowerJump = 1, this.player.userData.jumping = !1);
             }
@@ -208,9 +208,9 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             return t + (s - t) * e;
         }
     }
-    class Kt {
+    class Nt {
         constructor(t, s, e, i, a, n, r, p){
-            this.scene = t, this.audioClass = s, this.physicsClass = e, this.renderer = i, this.camera = a, this.isMobile = n, this.paramsClass = r, this.worldClass = p, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.count = 100, this.planes = Array.from({
+            this.scene = t, this.audioClass = s, this.physicsClass = e, this.renderer = i, this.camera = a, this.isMobile = n, this.paramsClass = r, this.worldClass = p, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.count = 1e3, this.planes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -222,7 +222,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                     }
                 })), this.geometryPlane = new w(this.planeWidth, this.planeHeight, this.planeDepth), this.materialPlane = new A({
                 color: 52224
-            }), this.plane = new z(this.geometryPlane, this.materialPlane, this.count), this.plane.instanceMatrix.setUsage(C), this.plane.receiveShadow = !0, this.plane.castShadow = !0, this.topPlanes = Array.from({
+            }), this.plane = new C(this.geometryPlane, this.materialPlane, this.count), this.plane.instanceMatrix.setUsage(z), this.plane.receiveShadow = !0, this.plane.castShadow = !0, this.topPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -240,7 +240,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 color: 13421568,
                 transparent: !0,
                 opacity: 0
-            }), this.planeTop = new z(this.geometryPlaneTop, this.materialPlaneTop, this.count), this.planeTop.instanceMatrix.setUsage(C), this.grassPlanes = Array.from({
+            }), this.planeTop = new C(this.geometryPlaneTop, this.materialPlaneTop, this.count), this.planeTop.instanceMatrix.setUsage(z), this.grassPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -258,7 +258,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 color: 52224,
                 transparent: !0,
                 opacity: 1
-            }), this.planeGrass = new z(this.geometryPlaneGrass, this.materialPlaneGrass, this.count), this.planeGrass.instanceMatrix.setUsage(C), this.planeGrass.userData.direction = 1, this.planeGrass.receiveShadow = !0, this.planeGrass.castShadow = !0, this.planeGrass.userData.name = "tops", this.sensorPlanes = Array.from({
+            }), this.planeGrass = new C(this.geometryPlaneGrass, this.materialPlaneGrass, this.count), this.planeGrass.instanceMatrix.setUsage(z), this.planeGrass.userData.direction = 1, this.planeGrass.receiveShadow = !0, this.planeGrass.castShadow = !0, this.planeGrass.userData.name = "tops", this.sensorPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -276,7 +276,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 color: 65280,
                 transparent: !0,
                 opacity: 0
-            }), this.planeSensor = new z(this.geometryPlaneSensor, this.materialPlaneSensor, this.count), this.planeSensor.instanceMatrix.setUsage(C), this.lamps = Array.from({
+            }), this.planeSensor = new C(this.geometryPlaneSensor, this.materialPlaneSensor, this.count), this.planeSensor.instanceMatrix.setUsage(z), this.lamps = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -291,7 +291,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 color: 16777215,
                 transparent: !0,
                 opacity: 1
-            }), this.lamp = new z(this.geometryLamp, this.materialLamp, this.count), this.lamp.instanceMatrix.setUsage(C), this.lightsCount = 8, this.lights = [], this.bulbs = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.boostHatModel, this.boostHatMesh, this.boostHatPropeller, this.boostHatModels = [], this.boostHatMeshes = [], this.players = [], this.cloudModel, this.clouds = [], this.backModel, this.backModels = [], this.leftEdge = new l(-1, 0, 0), this.rightEdge = new l(1, 0, 0), this.leftEdge.unproject(a), this.rightEdge.unproject(a), this.bounds, this.getHorizontalWorldBounds(), this.gameNum = 1;
+            }), this.lamp = new C(this.geometryLamp, this.materialLamp, this.count), this.lamp.instanceMatrix.setUsage(z), this.lightsCount = 8, this.lights = [], this.bulbs = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.boostHatModel, this.boostHatMesh, this.boostHatPropeller, this.boostHatModels = [], this.boostHatMeshes = [], this.players = [], this.cloudModel, this.clouds = [], this.backModel, this.backModels = [], this.leftEdge = new l(-1, 0, 0), this.rightEdge = new l(1, 0, 0), this.leftEdge.unproject(a), this.rightEdge.unproject(a), this.bounds, this.getHorizontalWorldBounds(), this.gameNum = 1;
         }
         toVec3(t) {
             return typeof t == "number" ? new l(t, t, t) : t?.isVector3 ? t : t ? new l(t.x ?? 1, t.y ?? 1, t.z ?? 1) : new l(1, 1, 1);
@@ -304,12 +304,12 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 const h = new l;
                 p.boundingBox.getSize(h), i = e.userData.invBaseSize = new l(1 / (h.x || 1), 1 / (h.y || 1), 1 / (h.z || 1));
             }
-            this._dummy ||= new V;
+            this._dummy ||= new X;
             const a = this._dummy, n = s[t] || {}, r = this.toVec3(n.size);
             a.position.copy(n.position || new l), n.rotation ? a.rotation.copy(n.rotation) : a.rotation.set(0, 0, 0), a.scale.set(r.x * i.x, r.y * i.y, r.z * i.z), a.updateMatrix(), e.setMatrixAt(t, a.matrix);
         }
         async loadTexture() {
-            const t = new rt;
+            const t = new ht;
             t.load("textures/povrezdennaa-tekstura-ili-fon.jpg", (s)=>{
                 const e = new E({
                     map: s,
@@ -335,11 +335,11 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                     this.paramsClass.gameDir = "hor";
                     let t = -2.5;
                     for(let e = 0; e < this.count; e++){
-                        let i = M(this.planeWidth / 8, this.planeWidth - 1), a = M(2, 3), n = t + i / 2 + a, r = M(-1.2, 1.2) - this.planeHeight / 2;
-                        if (e > 0 ? (this.planes[e].size.x = i, this.planes[e].size.y = this.planeHeight, this.topPlanes[e].size.x = i + .3, this.topPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.x = i + .3, this.grassPlanes[e].size.y = this.geometryPlaneGrass.parameters.height, this.grassPlanes[e].size.z = this.geometryPlaneGrass.parameters.depth) : (this.planes[e].size.x = this.planeWidth, this.planes[e].size.y = this.planeHeight, this.topPlanes[e].size.x = this.planeWidth + .3, this.topPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.x = this.planeWidth + .3, this.grassPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.z = this.geometryPlaneGrass.parameters.depth), e > 0 ? (this.planes[e].position.x = n, this.planes[e].position.y = r + this.planeHeight / 6, this.topPlanes[e].position.x = n, this.topPlanes[e].position.y = r + this.planeHeight / 1.5 + .2, this.grassPlanes[e].position.x = n, this.grassPlanes[e].position.y = r + this.planeHeight / 1.5) : (this.planes[e].position.x = -this.planeWidth / 2, this.planes[e].position.y = -this.planeHeight / 2 + 1.2, this.topPlanes[e].position.x = -this.planeWidth / 2, this.topPlanes[e].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1.2, this.grassPlanes[e].position.x = -this.planeWidth / 2, this.grassPlanes[e].position.y = this.geometryPlaneGrass.parameters.height / 2 + 1), this.lamps[e].position.x = this.grassPlanes[e].position.x, this.lamps[e].position.z = -this.planeDepth / 8, this.lamps[e].position.y = this.grassPlanes[e].position.y + this.grassPlanes[e].size.y / 2 + this.lampHeight - .2, this.lights.length < this.lightsCount) {
-                            const p = new ut(16247464, 0, 4);
+                        let i = M(this.planeWidth / 8, this.planeWidth - 1), a = M(2, 3), n = t + i / 2 + a, r = M(-1.2, 1.2) - this.planeHeight / 1.5;
+                        if (e > 0 ? (this.planes[e].size.x = i, this.planes[e].size.y = this.planeHeight, this.topPlanes[e].size.x = i + .3, this.topPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.x = i + .3, this.grassPlanes[e].size.y = this.geometryPlaneGrass.parameters.height, this.grassPlanes[e].size.z = this.geometryPlaneGrass.parameters.depth) : (this.planes[e].size.x = this.planeWidth, this.planes[e].size.y = this.planeHeight, this.topPlanes[e].size.x = this.planeWidth + .3, this.topPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.x = this.planeWidth + .3, this.grassPlanes[e].size.y = this.geometryPlaneTop.parameters.height, this.grassPlanes[e].size.z = this.geometryPlaneGrass.parameters.depth), e > 0 ? (this.planes[e].position.x = n, this.planes[e].position.y = r + this.planeHeight / 6, this.topPlanes[e].position.x = n, this.topPlanes[e].position.y = r + this.planeHeight / 1.5 + .2, this.grassPlanes[e].position.x = n, this.grassPlanes[e].position.y = r + this.planeHeight / 1.5) : (this.planes[e].position.x = -this.planeWidth / 2, this.planes[e].position.y = -this.planeHeight / 2 + .5, this.topPlanes[e].position.x = -this.planeWidth / 2, this.topPlanes[e].position.y = this.geometryPlaneGrass.parameters.height / 2 + .4, this.grassPlanes[e].position.x = -this.planeWidth / 2, this.grassPlanes[e].position.y = this.geometryPlaneGrass.parameters.height / 2 + .3), this.lamps[e].position.x = this.grassPlanes[e].position.x, this.lamps[e].position.z = -this.planeDepth / 8, this.lamps[e].position.y = this.grassPlanes[e].position.y + this.grassPlanes[e].size.y / 2 + this.lampHeight - .2, this.lights.length < this.lightsCount) {
+                            const p = new yt(16247464, 0, 4);
                             p.position.set(this.lamps[e].position.x, this.lamps[e].position.y + 1, 1.6), this.lights.push(p), this.scene.add(p);
-                            const h = new G(new ct(.3), new E({
+                            const h = new W(new mt(.3), new E({
                                 color: 16247464,
                                 emissive: 16247464,
                                 emissiveIntensity: .3
@@ -353,7 +353,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 case 3:
                 case 4:
                     this.paramsClass.gameDir = "vert";
-                    let s = -3;
+                    let s = -5;
                     for(let e = 0; e < this.count; e++){
                         let i = M(this.bounds.rightX / 2, this.bounds.rightX / 8), a = M(3, 4), n = s + a;
                         this.topPlanes[e].position.y = n - 1.3, this.grassPlanes[e].position.y = n, this.sensorPlanes[e].position.y = n - .5, this.topPlanes[e].size.y = .3, this.grassPlanes[e].size.y = .7, this.sensorPlanes[e].size.y = .9, e > 0 ? (this.topPlanes[e].size.x = i + .3, this.grassPlanes[e].size.x = i + .3, this.sensorPlanes[e].size.x = i + .5) : (this.topPlanes[e].size.x = 10, this.grassPlanes[e].size.x = 10, this.sensorPlanes[e].size.x = 10), this.grassPlanes[e].userData.speed = M(4, 8) / 100, this.apply(e, this.topPlanes, this.planeTop), this.apply(e, this.grassPlanes, this.planeGrass), this.apply(e, this.sensorPlanes, this.planeSensor), s = n;
@@ -390,13 +390,13 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             }
         }
         async loadBoostsModel() {
-            await new J().loadAsync("models/boosts/hat.glb").then((e)=>{
+            await new N().loadAsync("models/boosts/hat.glb").then((e)=>{
                 const i = e.scene;
                 this.boostHatModel = i, this.boostHatPropeller = this.boostHatModel.children[0].children[1], this.boostHatMesh = this.boostHatModel.children[0].children[0].children[0], this.boostHatModel.rotation.x = Math.PI / 13, this.boostHatModel.rotation.y = Math.PI / 2, this.boostHatModel.position.y = 2, this.boostHatModel.position.x = -40, this.boostHatModel.scale.x = .015, this.boostHatModel.scale.y = .015, this.boostHatModel.scale.z = .015, this.boostHatModel.userData.fly = !1;
             });
         }
         async loadEnvironmentModel() {
-            await new J().loadAsync("models/environment/clouds.glb").then((e)=>{
+            await new N().loadAsync("models/environment/clouds.glb").then((e)=>{
                 const i = e.scene;
                 this.cloudModel = i, this.cloudModel.children.forEach((a, n, r)=>{
                     a.position.x = n * 3, a.position.y = 4, a.position.z = -25, a.scale.x = .9, a.scale.y = .9, a.scale.z = .9;
@@ -412,12 +412,18 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 position: this.grassPlanes[t].position,
                 size: this.grassPlanes[t].size,
                 collide: "123"
-            }), this.apply(t, this.grassPlanes, this.planeGrass), this.paramsClass.gameDir == "vert" ? this.grassPlanes[t].userData.collide.setFriction(500) : Math.random() < .3 && t > 1 && (this.grassPlanes[t].userData.collide.setFriction(0), this.planeGrass.setColorAt(t, new X(13421806)));
+            }), this.apply(t, this.grassPlanes, this.planeGrass), this.paramsClass.gameDir == "vert" ? this.grassPlanes[t].userData.collide.setFriction(500) : Math.random() < .3 && t > 1 && (this.grassPlanes[t].userData.collide.setFriction(0), this.planeGrass.setColorAt(t, new Y(13421806)));
             this.paramsClass.gameDir == "hor" && (this.plane.instanceMatrix.needsUpdate = !0), this.planeGrass.instanceMatrix.needsUpdate = !0;
             for(let t = 1; t < 10; t++)this.boostHatModel.clone(), this.paramsClass.gameDir == "vert";
             this.clouds.forEach((t, s, e)=>{
                 this.scene.add(t);
             });
+        }
+        changePosBlocks() {
+            if (this.camera.position.x > this.grassPlanes[Math.round(this.grassPlanes.length / 2)].position.x) {
+                let t = this.grassPlanes.shift();
+                t.position.x = this.grassPlanes[this.grassPlanes.length - 1].position.x + 7, this.grassPlanes.push(t), this.apply(this.grassPlanes.length - 1, this.grassPlanes, this.planeGrass), this.planeGrass.instanceMatrix.needsUpdate = !0;
+            }
         }
         levelAnimate() {
             this.animateTops(), this.lampsAnimate(), this.boostHatModels.forEach((t, s, e)=>{
@@ -431,8 +437,8 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                     this.lamps[e] != null && (t.position.x = this.lamps[e].position.x, t.position.y = this.grassPlanes[e].position.y + this.grassPlanes[e].size.y / 2 + this.lampHeight - .2 + 1, s.position.x = this.lamps[e].position.x, s.position.y = this.lamps[e].position.y + 1, this.bulbs.push(t), this.lights.push(s), this.lamps[e].userData.light = !0);
                 }
                 this.lights.forEach((t, s, e)=>{
-                    t.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && t.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4 ? (t.intensity < this.lightIntensity && this.worldClass.night && (t.intensity += 1), this.bulbs[s].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night && (this.bulbs[s].material.emissiveIntensity += .1)) : (t.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || t.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4 || !this.worldClass.night) && (t.intensity > 0 && (t.intensity -= 1), this.bulbs[s].material.emissiveIntensity > .3 && (this.bulbs[s].material.emissiveIntensity -= .1));
-                }), console.log(this.bulbs[0].material.emissiveIntensity);
+                    this.worldClass.night && t.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && t.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4 ? (t.intensity < this.lightIntensity && this.worldClass.night && (t.intensity += 1), this.bulbs[s].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night && (this.bulbs[s].material.emissiveIntensity += .1)) : (!this.worldClass.night || t.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || t.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) && (t.intensity > 0 && (t.intensity -= 1), this.bulbs[s].material.emissiveIntensity > .3 && (this.bulbs[s].material.emissiveIntensity -= .1));
+                });
             }
         }
         resetLevel() {
@@ -449,16 +455,16 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
         async loadPlayers() {
             for(let t = 0; t < this.players.length; t++){
                 let s = this.players[t];
-                s.player.position.x = s.player.position.x - t * 1, this.physicsClass.addPhysicsToObject(s.player), this.paramsClass.gameDir == "vert" && s.player.userData.collider.setFriction(500), await s.loadPlayerModel(), s.player.userData.startPos = s.player.position.clone(), this.scene.add(s.player), this.scene.add(s.playerOut), this.scene.add(s.playerModel), this.topPlanes.push(s.playerOut), t < this.players[0].playerColors.length ? s.head.children[0].material.color.set(this.players[0].playerColors[t]) : this.players[0].playerColors.splice(this.players[0].playerColors.length, 0, ...this.players[0].playerColors), s.player.userData.audio.push(this.audioClass.readyJumpAudio.clone()), this.audioClass.quacks.length > t ? s.player.userData.audio.push(this.audioClass.quacks[t].clone()) : s.player.userData.audio.push(this.audioClass.quacks[0].clone());
+                s.player.position.x = s.player.position.x - t * 1, this.physicsClass.addPhysicsToObject(s.player), this.paramsClass.gameDir == "vert" && (s.player.position.y = -0, s.player.userData.collider.setFriction(500)), await s.loadPlayerModel(), s.player.userData.startPos = s.player.position.clone(), this.scene.add(s.player), this.scene.add(s.playerOut), this.scene.add(s.playerModel), this.topPlanes.push(s.playerOut), t < this.players[0].playerColors.length ? s.head.children[0].material.color.set(this.players[0].playerColors[t]) : this.players[0].playerColors.splice(this.players[0].playerColors.length, 0, ...this.players[0].playerColors), s.player.userData.audio.push(this.audioClass.readyJumpAudio.clone()), this.audioClass.quacks.length > t ? s.player.userData.audio.push(this.audioClass.quacks[t].clone()) : s.player.userData.audio.push(this.audioClass.quacks[0].clone());
             }
         }
         cameraMove(t) {
             switch(this.gameNum){
                 case 1:
-                    t.position.x += .03, t.position.y = this.isMobile ? 4.5 : 4, t.position.z = this.isMobile ? 13 : 19, t.lookAt(t.position.x, t.position.y - 2, 0);
+                    t.position.x += .03, t.position.y = this.isMobile ? 3.5 : 3, t.position.z = this.isMobile ? 13 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
                     break;
                 case 2:
-                    t.position.x = this.players[this.maxSpeed(this.players)].player.position.x, t.position.y = this.isMobile ? 4.5 : 4, t.position.z = this.isMobile ? 13 : 19, t.lookAt(t.position.x, t.position.y - 2, 0);
+                    t.position.x = this.players[this.maxSpeed(this.players)].player.position.x, t.position.y = this.isMobile ? 3.5 : 3, t.position.z = this.isMobile ? 13 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
                     break;
                 case 3:
                     t.position.y += .01, t.position.x = 0, t.position.z = this.isMobile ? 20 : 22, t.lookAt(t.position.x, t.position.y - 2, 0);
@@ -471,7 +477,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
     }
     class x {
         constructor(t, s){
-            this.world = t, this.RAPIER = s, this.dynamicBodies = [], this.allWallBodyCollision = [], this.playersHandles = [], this.allTops = [], this.instancedBodies = [], this._dummy = new V;
+            this.world = t, this.RAPIER = s, this.dynamicBodies = [], this.allWallBodyCollision = [], this.playersHandles = [], this.allTops = [], this.instancedBodies = [], this._dummy = new X;
         }
         static _ensureInvBase(t) {
             if (t.userData.invBase) return t.userData.invBase;
@@ -490,7 +496,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 x: 0,
                 y: 0,
                 z: 0
-            }), n = e.quaternion?.isQuaternion ? e.quaternion : new U, r = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(a.x, a.y, a.z).setRotation({
+            }), n = e.quaternion?.isQuaternion ? e.quaternion : new K, r = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(a.x, a.y, a.z).setRotation({
                 x: n.x,
                 y: n.y,
                 z: n.z,
@@ -508,7 +514,7 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 x: 0,
                 y: 0,
                 z: 0
-            }), r = i.quaternion?.isQuaternion ? i.quaternion : new U, p = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(n.x, n.y, n.z).setRotation({
+            }), r = i.quaternion?.isQuaternion ? i.quaternion : new K, p = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(n.x, n.y, n.z).setRotation({
                 x: r.x,
                 y: r.y,
                 z: r.z,
@@ -533,8 +539,8 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             if (t != null && t.userData.name.includes("player")) {
                 let s, e;
                 const i = t.rotation.clone();
-                t.rotation.set(0, 0, 0), new H().setFromObject(t);
-                const a = at(t);
+                t.rotation.set(0, 0, 0), new k().setFromObject(t);
+                const a = ot(t);
                 t.rotation.copy(i), t.userData.size = a, t.userData.orgRotation = i, s = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(t.position.x, t.position.y, t.position.z).setRotation(t.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), e = this.RAPIER.ColliderDesc.cuboid(a.x / 2, a.y / 2, a.z / 2).setMass(.6).setRestitution(0).setFriction(.4).setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS), t.userData.body = s, t.userData.shape = e;
                 let n = s;
                 e.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
@@ -547,8 +553,8 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             } else if (t != null && t.userData.name.includes("tops")) {
                 let s, e;
                 const i = t.rotation.clone();
-                t.rotation.set(0, 0, 0), new H().setFromObject(t);
-                const a = at(t);
+                t.rotation.set(0, 0, 0), new k().setFromObject(t);
+                const a = ot(t);
                 t.rotation.copy(i), t.userData.size = a, t.userData.orgRotation = i, s = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(t.position.x, t.position.y, t.position.z).setRotation(t.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), e = this.RAPIER.ColliderDesc.cuboid(a.x / 2, a.y / 2, a.z / 2).setMass(1).setRestitution(0).setFriction(.3), e.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let n = this.world.createCollider(e, s);
                 t.userData.body = s, t.userData.collide = n, this.allWallBodyCollision.push(n), t.userData.handle = s.handle, this.dynamicBodies.push([
@@ -559,20 +565,20 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             }
         }
     }
-    const O = new l;
-    function at(o) {
+    const J = new l;
+    function ot(o) {
         if (o.isMesh && o.geometry) {
             const s = o.geometry;
-            return s.boundingBox || s.computeBoundingBox(), s.boundingBox.getSize(O), O.multiply(o.scale), O.clone();
+            return s.boundingBox || s.computeBoundingBox(), s.boundingBox.getSize(J), J.multiply(o.scale), J.clone();
         }
-        return new H().setFromObject(o).getSize(new l);
+        return new k().setFromObject(o).getSize(new l);
     }
-    class Nt {
+    class Vt {
         constructor(){
             this.readyJumpAudio, this.jumpAudio, this.jumpAudio2, this.jumpAudio3, this.jumpAudio4, this.quacks = [];
         }
         async loadAudio() {
-            const t = new yt, s = new mt;
+            const t = new gt, s = new ft;
             await s.loadAsync("audio/ready-jump.wav").then((e)=>{
                 this.readyJumpAudio = new L(t), this.readyJumpAudio.setBuffer(e), this.readyJumpAudio.setLoop(!1), this.readyJumpAudio.setRefDistance(400), this.readyJumpAudio.setVolume(30), this.readyJumpAudio.setPlaybackRate(2);
             }).catch((e)=>{
@@ -596,9 +602,9 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             });
         }
     }
-    class Vt {
+    class Xt {
         constructor(t, s, e, i){
-            this.levelClass = t, this.isMobile = s, this.renderer = e, this.camera = i, this.camera = i, this.mouse = new l, this.raycaster = new gt, this.addKeyListeners();
+            this.levelClass = t, this.isMobile = s, this.renderer = e, this.camera = i, this.camera = i, this.mouse = new l, this.raycaster = new wt, this.addKeyListeners();
         }
         addKeyListeners() {
             window.addEventListener("keydown", this.onKeyDown), window.addEventListener("keyup", this.onKeyUp), window.addEventListener("mousedown", this.onKeyDown), window.addEventListener("mouseup", this.onKeyUp), document.addEventListener("touchend", this.onTapUp), document.addEventListener("touchstart", this.onTapDown);
@@ -662,15 +668,15 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
             }, 500))) : (t.userData.readyJump = !1, t.userData.audio[0].stop())));
         }
     }
-    class Xt {
+    class Yt {
         constructor(t, s, e, i){
-            this.scene = t, this.camera = s, this.renderer = e, this.paramsClass = i, this.ambientLight = new ft(11184810, 1), this.hemiLight = new wt(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new xt(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new V, this.dirLight.target = this.targetObject, this.helper = new Mt(this.dirLight, 3), this.water, this.night = !1;
+            this.scene = t, this.camera = s, this.renderer = e, this.paramsClass = i, this.ambientLight = new xt(11184810, 1), this.hemiLight = new Mt(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Dt(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new X, this.dirLight.target = this.targetObject, this.helper = new bt(this.dirLight, 3), this.water, this.night = !1;
         }
         async loadWaterSky() {
-            this.waterGeometry = new j(1e3, 500), this.water = new Dt(this.waterGeometry, {
+            this.waterGeometry = new j(1e3, 500), this.water = new Pt(this.waterGeometry, {
                 textureWidth: 500,
                 textureHeight: 500,
-                waterNormals: new rt().load("textures/waternormals.jpg", function(h) {
+                waterNormals: new ht().load("textures/waternormals.jpg", function(h) {
                     h.wrapS = h.wrapT = _;
                 }),
                 sunDirection: new l,
@@ -678,26 +684,26 @@ import { B as H, V as l, Q as U, M as dt, a as G, b as w, c as A, d as E, G as J
                 waterColor: 7759,
                 distortionScale: .5,
                 fog: this.scene.fog !== void 0
-            }), this.water.rotation.x = -Math.PI / 2, this.water.position.y = 0, this.sun = new l, this.sky = new bt, this.sky.scale.setScalar(1e4), this.scene.add(this.sky);
+            }), this.water.rotation.x = -Math.PI / 2, this.water.position.y = -2, this.sun = new l, this.sky = new vt, this.sky.scale.setScalar(1e4), this.scene.add(this.sky);
             const t = this.sky.material.uniforms;
             t.turbidity.value = 1, t.rayleigh.value = 3, t.mieCoefficient.value = 5e-4, t.mieDirectionalG.value = .8, this.parameters = {
                 elevation: 5,
                 azimuth: 170,
                 top: !1
-            }, this.blackSky = new G(new j(1e4, 1e4), new Pt({
+            }, this.blackSky = new W(new j(1e4, 1e4), new Ct({
                 color: 526362,
-                side: vt,
+                side: zt,
                 transparent: !0,
                 opacity: 0
             })), this.blackSky.position.z = -1e3, this.scene.add(this.blackSky);
             const s = 1500, e = new Float32Array(s * 3), i = new Float32Array(s), a = new Float32Array(s * 3);
             for(let h = 0; h < s; h++){
                 e[3 * h] = Math.random() * 600 - 300, e[3 * h + 1] = Math.random() * 150 - 100, e[3 * h + 2] = Math.random() * 300 - 500, i[h] = Math.random() * 2 + .7;
-                const d = new X().setHSL(.5 + Math.random() * .1, .6 + Math.random() * .3, .85 + Math.random() * .15);
+                const d = new Y().setHSL(.5 + Math.random() * .1, .6 + Math.random() * .3, .85 + Math.random() * .15);
                 a[3 * h] = d.r, a[3 * h + 1] = d.g, a[3 * h + 2] = d.b;
             }
-            const n = new zt;
-            n.setAttribute("position", new F(e, 3)), n.setAttribute("size", new F(i, 1)), n.setAttribute("color", new F(a, 3));
+            const n = new Lt;
+            n.setAttribute("position", new O(e, 3)), n.setAttribute("size", new O(i, 1)), n.setAttribute("color", new O(a, 3));
             const r = `
   attribute float size;
   varying vec3 vColor;
@@ -727,7 +733,7 @@ void main() {
   gl_FragColor = vec4(vColor, alpha * twinkle * opacity);
 }
 `;
-            this.materialStars = new Ct({
+            this.materialStars = new St({
                 uniforms: {
                     time: {
                         value: 0
@@ -741,12 +747,12 @@ void main() {
                 transparent: !0,
                 vertexColors: !0,
                 depthWrite: !1,
-                blending: Lt
-            }), this.stars = new St(n, this.materialStars), this.stars.layers.set(1), this.scene.add(this.stars), this.camera.layers.enable(1);
+                blending: At
+            }), this.stars = new Et(n, this.materialStars), this.stars.layers.set(1), this.scene.add(this.stars), this.camera.layers.enable(1);
         }
         updateSky() {
             this.stars.position.x = this.camera.position.x;
-            const t = Y.degToRad(90 - this.parameters.elevation), s = Y.degToRad(this.parameters.azimuth);
+            const t = Q.degToRad(90 - this.parameters.elevation), s = Q.degToRad(this.parameters.azimuth);
             if (this.sun.setFromSphericalCoords(1, t, s), this.sky.material.uniforms.sunPosition.value.copy(this.sun), this.water.material.uniforms.sunDirection.value.copy(this.sun).normalize(), this.paramsClass.gameDir == "hor" && (this.sun.y < -.07 && this.materialStars.uniforms.opacity.value < 1 ? (this.materialStars.uniforms.opacity.value += .001, this.blackSky.material.opacity < .8 && (this.blackSky.material.opacity += .001)) : this.sun.y > -.07 && this.materialStars.uniforms.opacity.value > 0 && (this.materialStars.uniforms.opacity.value -= .001, this.blackSky.material.opacity -= .001), this.parameters.elevation < -8 ? this.parameters.top = !0 : this.parameters.elevation > 6 && (this.parameters.top = !1), this.parameters.top ? (this.parameters.elevation += .003, this.dirLight.intensity += 3e-4, this.dirLight.intensity = Math.max(.5, Math.min(2, this.dirLight.intensity)), this.hemiLight.intensity += 3e-4, this.hemiLight.intensity = Math.max(.5, Math.min(2, this.hemiLight.intensity)), this.renderer.toneMappingExposure += 2e-4, this.renderer.toneMappingExposure = Math.max(.2, Math.min(1.05, this.renderer.toneMappingExposure))) : (this.parameters.elevation -= .003, this.dirLight.intensity -= 3e-4, this.dirLight.intensity = Math.max(.5, Math.min(2, this.dirLight.intensity)), this.hemiLight.intensity -= 3e-4, this.hemiLight.intensity = Math.max(.5, Math.min(2, this.hemiLight.intensity)), this.renderer.toneMappingExposure -= 3e-4, this.renderer.toneMappingExposure = Math.max(.2, Math.min(1.05, this.renderer.toneMappingExposure))), this.parameters.elevation < -2 ? this.night = !0 : this.night = !1), this.paramsClass.gameDir == "vert") {
                 this.parameters.azimuth = 150, this.stars.position.y = this.camera.position.y, this.prevCameraYSun === void 0 && (this.prevCameraYSun = this.camera.position.y);
                 const a = this.camera.position.y - this.prevCameraYSun;
@@ -809,56 +815,71 @@ void main() {
             document.querySelector(`.${t}`).classList.remove("hidden_screen");
         }
     }
-    class Yt {
+    class Qt {
         constructor(){
             this.gameDir = "vert";
         }
     }
-    console.clear();
-    let K, lt = !1, R = 0, ot = 1 / 60, Qt = new Gt, ht, N, W, f, u, I, k;
-    const D = new At;
-    D.background = new X(13230580);
-    const y = new Et(25, window.innerWidth / window.innerHeight, .1, 2e3);
-    y.position.z = 7;
-    y.position.y = 2;
-    const nt = qt();
-    let pt = new _t;
-    document.body.appendChild(pt.dom);
-    const c = new Ht;
-    c.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(c.domElement);
-    c.shadowMap.enabled = !0;
-    c.shadowMap.type = Bt;
-    c.outputColorSpace = Rt;
-    c.toneMapping = kt;
-    c.toneMappingExposure = 1.05;
-    window.addEventListener("resize", $t, !1);
-    function $t() {
-        y.aspect = window.innerWidth / window.innerHeight, y.updateProjectionMatrix(), c.setSize(window.innerWidth, window.innerHeight);
+    class $t {
+        constructor(t){
+            this.camera = t, this.score = 0, this.startX = this.camera.position.x, this.startY = this.camera.position.y;
+        }
+        updateMetersFloat(t) {
+            if (t = Math.max(0, Math.floor(t)), t === this.shownFloat) return;
+            const s = nt, e = performance.now(), i = 200;
+            function a(n) {
+                const r = Math.min(1, (n - e) / i), p = 1 - Math.pow(1 - r, 4), h = Math.round(s + (t - s) * p);
+                Zt.textContent = String(h).padStart(3, "0"), r < 1 ? requestAnimationFrame(a) : nt = t;
+            }
+            requestAnimationFrame(a);
+        }
     }
-    new It(y, c.domElement);
-    async function Zt(o) {
-        k = new Yt;
-        const t = await Ft(()=>import("./@dimforge-BObwuXYQ.js").then(async (m)=>{
+    const Zt = document.getElementById("meters-float");
+    let nt = 0;
+    console.clear();
+    let V, pt = !1, G = 0, rt = 1 / 60, te = new Tt, dt, I, q, f, c, T, B, H;
+    const D = new _t;
+    D.background = new Y(13230580);
+    const u = new Bt(25, window.innerWidth / window.innerHeight, .1, 2e3);
+    u.position.z = 7;
+    u.position.y = 2;
+    const lt = Ot();
+    let ct = new Ht;
+    document.body.appendChild(ct.dom);
+    const y = new kt;
+    y.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(y.domElement);
+    y.shadowMap.enabled = !0;
+    y.shadowMap.type = Rt;
+    y.outputColorSpace = Gt;
+    y.toneMapping = It;
+    y.toneMappingExposure = 1.05;
+    window.addEventListener("resize", ee, !1);
+    function ee() {
+        u.aspect = window.innerWidth / window.innerHeight, u.updateProjectionMatrix(), y.setSize(window.innerWidth, window.innerHeight);
+    }
+    async function se(o) {
+        B = new Qt;
+        const t = await qt(()=>import("./@dimforge-BObwuXYQ.js").then(async (m)=>{
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        K = new t.World(new t.Vector3(0, -9.81, 0)), ht = new t.EventQueue(!0), f = new x(K, t), I = new Nt, W = new Xt(D, y, c, k), u = new Kt(D, I, f, c, y, nt, k, W);
-        for(let s = 0; s < o; s++)u.players.push(new Jt(D, I, u, k));
-        new Vt(u, nt, c, y);
+        V = new t.World(new t.Vector3(0, -9.81, 0)), dt = new t.EventQueue(!0), f = new x(V, t), H = new $t(u), T = new Vt, q = new Yt(D, u, y, B), c = new Nt(D, T, f, y, u, lt, B, q);
+        for(let s = 0; s < o; s++)c.players.push(new Kt(D, T, c, B));
+        new Xt(c, lt, y, u);
     }
-    async function te() {
-        await W.loadWorld(), await I.loadAudio();
+    async function ie() {
+        await q.loadWorld(), await T.loadAudio();
     }
-    async function ee() {
-        await u.createLevel(), await u.loadEnvironments(), await u.loadPlayers(), u.grassPlanes.length > 0 && u.grassPlanes.forEach((o, t)=>{
-            u.grassPlanes[t].userData.collide.setCollisionGroups(T([
+    async function ae() {
+        await c.createLevel(), await c.loadEnvironments(), await c.loadPlayers(), c.grassPlanes.length > 0 && c.grassPlanes.forEach((o, t)=>{
+            c.grassPlanes[t].userData.collide.setCollisionGroups(F([
                 0
             ], [
                 1
             ]));
-        }), u.players.length > 0 && u.players.forEach((o, t)=>{
-            u.players[t].player.userData.collider.setCollisionGroups(T([
+        }), c.players.length > 0 && c.players.forEach((o, t)=>{
+            c.players[t].player.userData.collider.setCollisionGroups(F([
                 1
             ], [
                 0,
@@ -866,22 +887,22 @@ void main() {
             ]));
         });
     }
-    async function se(o, t) {
-        N.toggleLoader(!0), await Zt(o), u.gameNum = t, await te(), await ee(), setTimeout(()=>{
-            N.toggleLoader(!1), lt = !0;
+    async function oe(o, t) {
+        I.toggleLoader(!0), await se(o), c.gameNum = t, await ie(), await ae(), setTimeout(()=>{
+            I.showScreen("hud"), I.toggleLoader(!1), pt = !0;
         }, 300);
     }
-    N = new jt(se);
-    function ie() {
-        if (lt) {
-            u.players.forEach((o, t, s)=>{
+    I = new jt(oe);
+    function ne() {
+        if (pt) {
+            B.gameDir == "hor" ? H.updateMetersFloat(u.position.x - H.startX) : H.updateMetersFloat(u.position.y - H.startY), c.players.forEach((o, t, s)=>{
                 o.playerMove();
-            }), W.updateLighting(), u.levelAnimate(y), u.cameraMove(y), pt.update();
+            }), q.updateLighting(), c.levelAnimate(u), c.cameraMove(u), ct.update();
             for(let o = 0, t = f.dynamicBodies.length; o < t; o++)f.dynamicBodies[o][0].position.copy(f.dynamicBodies[o][1].translation()), f.dynamicBodies[o][0].quaternion.copy(f.dynamicBodies[o][1].rotation());
-            f.updateInstancedTransforms(), K.step(ht), c.render(D, y);
+            f.updateInstancedTransforms(), V.step(dt), y.render(D, u);
         }
     }
-    c.setAnimationLoop(()=>{
-        R += Qt.getDelta(), R > ot && (ie(), c.render(D, y), R = R % ot);
+    y.setAnimationLoop(()=>{
+        G += te.getDelta(), G > rt && (ne(), y.render(D, u), G = G % rt);
     });
 })();
