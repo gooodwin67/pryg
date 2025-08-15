@@ -849,7 +849,7 @@ void main() {
     const y = new kt;
     y.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(y.domElement);
-    y.shadowMap.enabled = !0;
+    y.shadowMap.enabled = !1;
     y.shadowMap.type = Rt;
     y.outputColorSpace = Gt;
     y.toneMapping = It;
