@@ -1,4 +1,4 @@
-import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N, E as v, I as C, D as z, O as X, T as ht, R as _, P as yt, S as mt, C as Y, A as gt, e as ft, f as L, g as wt, h as xt, H as Mt, i as Dt, j as bt, k as j, W as Pt, l as vt, m as Ct, n as zt, o as Lt, p as O, q as St, r as At, s as Et, t as Q, u as _t, v as Bt, w as Ht, x as kt, y as Rt, z as Gt, F as It, J as Tt } from "./three-DMGeCsFj.js";
+import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N, E as v, I as z, D as C, O as X, T as ht, R as _, P as yt, S as mt, C as Y, A as gt, e as ft, f as L, g as wt, h as xt, H as Mt, i as Dt, j as bt, k as j, W as Pt, l as vt, m as zt, n as Ct, o as Lt, p as O, q as St, r as At, s as Et, t as Q, u as _t, v as Bt, w as Ht, x as kt, y as Rt, z as Gt, F as It } from "./three-8Lw8lVxD.js";
 (async ()=>{
     (function() {
         const t = document.createElement("link").relList;
@@ -21,9 +21,9 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             fetch(i.href, a);
         }
     })();
-    const Wt = "modulepreload", Ft = function(o, t) {
+    const Tt = "modulepreload", Wt = function(o, t) {
         return new URL(o, t).href;
-    }, $ = {}, qt = function(t, s, e) {
+    }, $ = {}, Ft = function(t, s, e) {
         let i = Promise.resolve();
         if (s && s.length > 0) {
             let h = function(d) {
@@ -37,7 +37,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             };
             const n = document.getElementsByTagName("link"), r = document.querySelector("meta[property=csp-nonce]"), p = r?.nonce || r?.getAttribute("nonce");
             i = h(s.map((d)=>{
-                if (d = Ft(d, e), d in $) return;
+                if (d = Wt(d, e), d in $) return;
                 $[d] = !0;
                 const m = d.endsWith(".css"), b = m ? '[rel="stylesheet"]' : "";
                 if (!!e) for(let P = n.length - 1; P >= 0; P--){
@@ -46,7 +46,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 }
                 else if (document.querySelector(`link[href="${d}"]${b}`)) return;
                 const g = document.createElement("link");
-                if (g.rel = m ? "stylesheet" : Wt, m || (g.as = "script"), g.crossOrigin = "", g.href = d, p && g.setAttribute("nonce", p), document.head.appendChild(g), m) return new Promise((P, R)=>{
+                if (g.rel = m ? "stylesheet" : Tt, m || (g.as = "script"), g.crossOrigin = "", g.href = d, p && g.setAttribute("nonce", p), document.head.appendChild(g), m) return new Promise((P, R)=>{
                     g.addEventListener("load", P), g.addEventListener("error", ()=>R(new Error(`Unable to preload CSS for ${d}`)));
                 });
             }));
@@ -65,7 +65,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
     function M(o, t) {
         return Math.random() * (t - o) + o;
     }
-    function Ot() {
+    function qt() {
         let o = window.matchMedia || window.msMatchMedia;
         return o ? o("(pointer:coarse)").matches : !1;
     }
@@ -103,13 +103,13 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             i(e)
         ];
     }
-    function Ut(o) {
+    function Ot(o) {
         return typeof o == "number" ? new l(o, o, o) : o?.isVector3 ? o : new l(o?.x ?? 1, o?.y ?? 1, o?.z ?? 1);
     }
     function et(o) {
         return o?.userData?.id ?? o?.uuid ?? o?.id;
     }
-    const Jt = new k(new l(-.5, -.5, -.5), new l(.5, .5, .5)), st = new ut, it = new K;
+    const Ut = new k(new l(-.5, -.5, -.5), new l(.5, .5, .5)), st = new ut, it = new K;
     function at(o) {
         if (o?.isObject3D) {
             if (o.updateMatrixWorld(!0), o.geometry?.isBufferGeometry) {
@@ -121,8 +121,8 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             }
             return new k().setFromObject(o);
         }
-        const t = o.position ?? o.pos ?? new l, s = Ut(o.size ?? 1), e = o.quaternion?.isQuaternion ? o.quaternion : o.rotation?.isEuler ? it.setFromEuler(o.rotation) : it.set(0, 0, 0, 1);
-        return st.compose(t, e, s), Jt.clone().applyMatrix4(st);
+        const t = o.position ?? o.pos ?? new l, s = Ot(o.size ?? 1), e = o.quaternion?.isQuaternion ? o.quaternion : o.rotation?.isEuler ? it.setFromEuler(o.rotation) : it.set(0, 0, 0, 1);
+        return st.compose(t, e, s), Ut.clone().applyMatrix4(st);
     }
     function U(o, t) {
         const s = at(o), e = et(o);
@@ -133,7 +133,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
         }
         return null;
     }
-    class Kt {
+    class Jt {
         constructor(t, s, e, i){
             this.scene = t, this.audioClass = s, this.levelClass = e, this.paramsClass = i, this.playerHeight = .8, this.playerWidth = .4, this.player = new W(new w(this.playerWidth, this.playerHeight, this.playerWidth), new A({
                 color: 16711680,
@@ -208,7 +208,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             return t + (s - t) * e;
         }
     }
-    class Nt {
+    class Kt {
         constructor(t, s, e, i, a, n, r, p){
             this.scene = t, this.audioClass = s, this.physicsClass = e, this.renderer = i, this.camera = a, this.isMobile = n, this.paramsClass = r, this.worldClass = p, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.count = 100, this.planes = Array.from({
                 length: this.count
@@ -222,7 +222,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                     }
                 })), this.geometryPlane = new w(this.planeWidth, this.planeHeight, this.planeDepth), this.materialPlane = new A({
                 color: 52224
-            }), this.plane = new C(this.geometryPlane, this.materialPlane, this.count), this.plane.instanceMatrix.setUsage(z), this.plane.receiveShadow = !0, this.plane.castShadow = !0, this.topPlanes = Array.from({
+            }), this.plane = new z(this.geometryPlane, this.materialPlane, this.count), this.plane.instanceMatrix.setUsage(C), this.plane.receiveShadow = !0, this.plane.castShadow = !0, this.topPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -240,7 +240,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 color: 13421568,
                 transparent: !0,
                 opacity: 0
-            }), this.planeTop = new C(this.geometryPlaneTop, this.materialPlaneTop, this.count), this.planeTop.instanceMatrix.setUsage(z), this.grassPlanes = Array.from({
+            }), this.planeTop = new z(this.geometryPlaneTop, this.materialPlaneTop, this.count), this.planeTop.instanceMatrix.setUsage(C), this.grassPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -258,7 +258,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 color: 52224,
                 transparent: !0,
                 opacity: 1
-            }), this.planeGrass = new C(this.geometryPlaneGrass, this.materialPlaneGrass, this.count), this.planeGrass.instanceMatrix.setUsage(z), this.planeGrass.userData.direction = 1, this.planeGrass.receiveShadow = !0, this.planeGrass.castShadow = !0, this.planeGrass.userData.name = "tops", this.sensorPlanes = Array.from({
+            }), this.planeGrass = new z(this.geometryPlaneGrass, this.materialPlaneGrass, this.count), this.planeGrass.instanceMatrix.setUsage(C), this.planeGrass.userData.direction = 1, this.planeGrass.receiveShadow = !0, this.planeGrass.castShadow = !0, this.planeGrass.userData.name = "tops", this.sensorPlanes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -276,7 +276,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 color: 65280,
                 transparent: !0,
                 opacity: 0
-            }), this.planeSensor = new C(this.geometryPlaneSensor, this.materialPlaneSensor, this.count), this.planeSensor.instanceMatrix.setUsage(z), this.lamps = Array.from({
+            }), this.planeSensor = new z(this.geometryPlaneSensor, this.materialPlaneSensor, this.count), this.planeSensor.instanceMatrix.setUsage(C), this.lamps = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
@@ -291,7 +291,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 color: 16777215,
                 transparent: !0,
                 opacity: 1
-            }), this.lamp = new C(this.geometryLamp, this.materialLamp, this.count), this.lamp.instanceMatrix.setUsage(z), this.lightsCount = 8, this.lights = [], this.bulbs = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.boostHatModel, this.boostHatMesh, this.boostHatPropeller, this.boostHatModels = [], this.boostHatMeshes = [], this.players = [], this.cloudModel, this.clouds = [], this.backModel, this.backModels = [], this.leftEdge = new l(-1, 0, 0), this.rightEdge = new l(1, 0, 0), this.leftEdge.unproject(a), this.rightEdge.unproject(a), this.bounds, this.getHorizontalWorldBounds(), this.gameNum = 1;
+            }), this.lamp = new z(this.geometryLamp, this.materialLamp, this.count), this.lamp.instanceMatrix.setUsage(C), this.lightsCount = 8, this.lights = [], this.bulbs = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.boostHatModel, this.boostHatMesh, this.boostHatPropeller, this.boostHatModels = [], this.boostHatMeshes = [], this.players = [], this.cloudModel, this.clouds = [], this.backModel, this.backModels = [], this.leftEdge = new l(-1, 0, 0), this.rightEdge = new l(1, 0, 0), this.leftEdge.unproject(a), this.rightEdge.unproject(a), this.bounds, this.getHorizontalWorldBounds(), this.gameNum = 1;
         }
         toVec3(t) {
             return typeof t == "number" ? new l(t, t, t) : t?.isVector3 ? t : t ? new l(t.x ?? 1, t.y ?? 1, t.z ?? 1) : new l(1, 1, 1);
@@ -573,7 +573,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
         }
         return new k().setFromObject(o).getSize(new l);
     }
-    class Vt {
+    class Nt {
         constructor(){
             this.readyJumpAudio, this.jumpAudio, this.jumpAudio2, this.jumpAudio3, this.jumpAudio4, this.quacks = [];
         }
@@ -602,7 +602,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             });
         }
     }
-    class Xt {
+    class Vt {
         constructor(t, s, e, i){
             this.levelClass = t, this.isMobile = s, this.renderer = e, this.camera = i, this.camera = i, this.mouse = new l, this.raycaster = new wt, this.addKeyListeners();
         }
@@ -668,7 +668,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
             }, 500))) : (t.userData.readyJump = !1, t.userData.audio[0].stop())));
         }
     }
-    class Yt {
+    class Xt {
         constructor(t, s, e, i){
             this.scene = t, this.camera = s, this.renderer = e, this.paramsClass = i, this.ambientLight = new xt(11184810, 1), this.hemiLight = new Mt(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Dt(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new X, this.dirLight.target = this.targetObject, this.helper = new bt(this.dirLight, 3), this.water, this.night = !1;
         }
@@ -690,9 +690,9 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                 elevation: 5,
                 azimuth: 170,
                 top: !1
-            }, this.blackSky = new W(new j(1e4, 1e4), new Ct({
+            }, this.blackSky = new W(new j(1e4, 1e4), new zt({
                 color: 526362,
-                side: zt,
+                side: Ct,
                 transparent: !0,
                 opacity: 0
             })), this.blackSky.position.z = -1e3, this.scene.add(this.blackSky);
@@ -772,7 +772,7 @@ void main() {
             this.dirLight.shadow.camera.left = -t, this.dirLight.shadow.camera.right = t, this.dirLight.shadow.camera.top = t, this.dirLight.shadow.camera.bottom = -t, this.waterUpdate(), this.updateSky();
         }
     }
-    class jt {
+    class Yt {
         constructor(t){
             this.initMatch = t, this.mainMenu(this.initMatch), this.playersNum = 2;
         }
@@ -815,12 +815,12 @@ void main() {
             document.querySelector(`.${t}`).classList.remove("hidden_screen");
         }
     }
-    class Qt {
+    class jt {
         constructor(){
             this.gameDir = "vert";
         }
     }
-    class $t {
+    class Qt {
         constructor(t){
             this.camera = t, this.score = 0, this.startX = this.camera.position.x, this.startY = this.camera.position.y;
         }
@@ -829,49 +829,48 @@ void main() {
             const s = nt, e = performance.now(), i = 200;
             function a(n) {
                 const r = Math.min(1, (n - e) / i), p = 1 - Math.pow(1 - r, 4), h = Math.round(s + (t - s) * p);
-                Zt.textContent = String(h).padStart(3, "0"), r < 1 ? requestAnimationFrame(a) : nt = t;
+                $t.textContent = String(h).padStart(3, "0"), r < 1 ? requestAnimationFrame(a) : nt = t;
             }
             requestAnimationFrame(a);
         }
     }
-    const Zt = document.getElementById("meters-float");
+    const $t = document.getElementById("meters-float");
     let nt = 0;
     console.clear();
-    let V, pt = !1, G = 0, rt = 1 / 60, te = new Tt, dt, I, q, f, c, T, B, H;
+    let V, pt = !1, G = 0, rt = 1 / 60, Zt = new It, dt, I, q, f, c, T, B, H;
     const D = new _t;
     D.background = new Y(13230580);
     const u = new Bt(25, window.innerWidth / window.innerHeight, .1, 2e3);
     u.position.z = 7;
     u.position.y = 2;
-    const lt = Ot();
+    const lt = qt();
     let ct = new Ht;
     document.body.appendChild(ct.dom);
     const y = new kt;
     y.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(y.domElement);
-    y.shadowMap.enabled = !0;
-    y.shadowMap.type = Rt;
-    y.outputColorSpace = Gt;
-    y.toneMapping = It;
+    y.shadowMap.enabled = !1;
+    y.outputColorSpace = Rt;
+    y.toneMapping = Gt;
     y.toneMappingExposure = 1.05;
-    window.addEventListener("resize", ee, !1);
-    function ee() {
+    window.addEventListener("resize", te, !1);
+    function te() {
         u.aspect = window.innerWidth / window.innerHeight, u.updateProjectionMatrix(), y.setSize(window.innerWidth, window.innerHeight);
     }
-    async function se(o) {
-        B = new Qt;
-        const t = await qt(()=>import("./@dimforge-BObwuXYQ.js").then(async (m)=>{
+    async function ee(o) {
+        B = new jt;
+        const t = await Ft(()=>import("./@dimforge-BObwuXYQ.js").then(async (m)=>{
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        V = new t.World(new t.Vector3(0, -9.81, 0)), dt = new t.EventQueue(!0), f = new x(V, t), H = new $t(u), T = new Vt, q = new Yt(D, u, y, B), c = new Nt(D, T, f, y, u, lt, B, q);
-        for(let s = 0; s < o; s++)c.players.push(new Kt(D, T, c, B));
-        new Xt(c, lt, y, u);
+        V = new t.World(new t.Vector3(0, -9.81, 0)), dt = new t.EventQueue(!0), f = new x(V, t), H = new Qt(u), T = new Nt, q = new Xt(D, u, y, B), c = new Kt(D, T, f, y, u, lt, B, q);
+        for(let s = 0; s < o; s++)c.players.push(new Jt(D, T, c, B));
+        new Vt(c, lt, y, u);
     }
-    async function ie() {
+    async function se() {
         await q.loadWorld(), await T.loadAudio();
     }
-    async function ae() {
+    async function ie() {
         await c.createLevel(), await c.loadEnvironments(), await c.loadPlayers(), c.grassPlanes.length > 0 && c.grassPlanes.forEach((o, t)=>{
             c.grassPlanes[t].userData.collide.setCollisionGroups(F([
                 0
@@ -887,13 +886,13 @@ void main() {
             ]));
         });
     }
-    async function oe(o, t) {
-        I.toggleLoader(!0), await se(o), c.gameNum = t, await ie(), await ae(), setTimeout(()=>{
+    async function ae(o, t) {
+        I.toggleLoader(!0), await ee(o), c.gameNum = t, await se(), await ie(), setTimeout(()=>{
             I.showScreen("hud"), I.toggleLoader(!1), pt = !0;
         }, 300);
     }
-    I = new jt(oe);
-    function ne() {
+    I = new Yt(ae);
+    function oe() {
         if (pt) {
             B.gameDir == "hor" ? H.updateMetersFloat(u.position.x - H.startX) : H.updateMetersFloat(u.position.y - H.startY), c.players.forEach((o, t, s)=>{
                 o.playerMove();
@@ -903,6 +902,6 @@ void main() {
         }
     }
     y.setAnimationLoop(()=>{
-        G += te.getDelta(), G > rt && (ne(), y.render(D, u), G = G % rt);
+        G += Zt.getDelta(), G > rt && (oe(), y.render(D, u), G = G % rt);
     });
 })();
