@@ -18,13 +18,13 @@ export class LevelClass {
     this.planeDepth = 1;
 
 
-    this.count = 100;
+    this.count = 4;
     this.planes = Array.from({ length: this.count }, (_, i) => ({
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
       scale: new THREE.Vector3(1, 1, 1),
       size: new THREE.Vector3(1, 1, 1),
-      userData: { name: 'plane' },
+      userData: { name: 'plane', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, this.planeDepth);
     this.materialPlane = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
@@ -50,7 +50,7 @@ export class LevelClass {
       userData: { name: 'topSensor', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlaneTop = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 })
+    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 })
 
     // Создаём InstancedMesh
     this.planeTop = new THREE.InstancedMesh(this.geometryPlaneTop, this.materialPlaneTop, this.count);
@@ -95,7 +95,7 @@ export class LevelClass {
       userData: { name: 'sensor', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlaneSensor = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 })
+    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 })
 
     // Создаём InstancedMesh
     this.planeSensor = new THREE.InstancedMesh(this.geometryPlaneSensor, this.materialPlaneSensor, this.count);
@@ -614,7 +614,7 @@ export class LevelClass {
     for (let i = 0; i < this.grassPlanes.length; i++) {
 
       if (this.paramsClass.gameDir == 'hor') {
-        this.physicsClass.addInstancedStatic(this.grassPlanes, this.plane, i, {
+        this.physicsClass.addInstancedStatic(this.planes, this.plane, i, {
           position: this.planes[i].position,
           size: this.planes[i].size,
           collide: '123'
@@ -675,12 +675,91 @@ export class LevelClass {
 
 
   changePosBlocks() {
+
+    if (iii == 0) {
+      let firstPlane = {
+        lamps: this.lamps[1],
+      }
+      console.log(this.lamps)
+      // this.lamps.splice(1, 1);
+      // console.log(this.lamps)
+      // this.lamps.push(firstPlane.lamps)
+      // console.log(this.lamps)
+
+
+
+      // firstPlane.lamps.position.set(
+      //   this.lamps[this.lamps.length - 1].position.x + 0.2,
+      //   firstPlane.lamps.position.y,
+      //   firstPlane.lamps.position.z
+      // );
+
+
+
+      // this.apply(this.lamps.length - 1, this.lamps, this.lamp);
+      // this.lamp.instanceMatrix.needsUpdate = true;
+
+      iii = 1
+    }
+
     if (this.camera.position.x > this.grassPlanes[Math.round(this.grassPlanes.length / 2)].position.x) {
-      let firstPlane = this.grassPlanes.shift();
-      firstPlane.position.x = this.grassPlanes[this.grassPlanes.length - 1].position.x + 7
-      this.grassPlanes.push(firstPlane)
+      let firstPlane = {
+        grassPlanes: this.grassPlanes[1],
+        planes: this.planes[1],
+        topPlanes: this.topPlanes[1],
+        lamps: this.lamps[1],
+      }
+
+      this.grassPlanes.splice(1, 1);
+      this.planes.splice(1, 1);
+      this.topPlanes.splice(1, 1);
+      this.lamps.splice(1, 1);
+
+      firstPlane.grassPlanes.userData.body.setNextKinematicTranslation({
+        x: this.grassPlanes[this.grassPlanes.length - 1].position.x + 2,
+        y: firstPlane.grassPlanes.position.y,
+        z: firstPlane.grassPlanes.position.z
+      });
+
+      firstPlane.planes.userData.body.setNextKinematicTranslation({
+        x: this.planes[this.planes.length - 1].position.x + 2,
+        y: firstPlane.planes.position.y,
+        z: firstPlane.planes.position.z
+      });
+
+      firstPlane.topPlanes.position.y = 3
+
+      // set(
+      //   this.topPlanes[this.topPlanes.length - 1].position.x + 2,
+      //   firstPlane.topPlanes.position.y,
+      //   firstPlane.topPlanes.position.z
+      // );
+
+      firstPlane.lamps.position.set(
+        this.lamps[this.lamps.length - 1].position.x + 2,
+        firstPlane.lamps.position.y,
+        firstPlane.lamps.position.z
+      );
+
+
+      this.grassPlanes.push(firstPlane.grassPlanes)
+      this.planes.push(firstPlane.planes)
+      this.topPlanes.push(firstPlane.topPlanes)
+      this.lamps.push(firstPlane.lamps)
+
       this.apply(this.grassPlanes.length - 1, this.grassPlanes, this.planeGrass);
       this.planeGrass.instanceMatrix.needsUpdate = true;
+
+      this.apply(this.planes.length - 1, this.planes, this.plane);
+      this.plane.instanceMatrix.needsUpdate = true;
+
+      this.apply(this.topPlanes.length - 1, this.topPlanes, this.planeTop);
+      this.planeTop.instanceMatrix.needsUpdate = true;
+
+      this.apply(this.lamps.length - 1, this.lamps, this.lamp);
+      this.lamp.instanceMatrix.needsUpdate = true;
+
+
     }
 
   }
@@ -690,7 +769,7 @@ export class LevelClass {
     this.animateTops();
     this.lampsAnimate();
 
-    //this.changePosBlocks();
+    this.changePosBlocks();
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
@@ -872,3 +951,13 @@ export class LevelClass {
   }
 
 }
+
+
+
+
+
+
+
+
+
+let iii = 0;
