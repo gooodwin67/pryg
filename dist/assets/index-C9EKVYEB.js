@@ -199,7 +199,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
                     z: 0
                 }, !0), this.player.userData.body.applyImpulse({
                     x: this.paramsClass.gameDir == "hor" ? this.player.userData.playerPowerJump / 3 : 0,
-                    y: this.player.userData.playerPowerJump * 10.4,
+                    y: this.player.userData.playerPowerJump / 1.4,
                     z: 0
                 }, !0), this.player.userData.playerPowerJump = 1, this.player.userData.jumping = !1);
             }
@@ -210,7 +210,7 @@ import { B as k, V as l, Q as K, M as ut, a as W, b as w, c as A, d as E, G as N
     }
     class Nt {
         constructor(t, s, e, i, a, n, r, p){
-            this.scene = t, this.audioClass = s, this.physicsClass = e, this.renderer = i, this.camera = a, this.isMobile = n, this.paramsClass = r, this.worldClass = p, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.count = 1e3, this.planes = Array.from({
+            this.scene = t, this.audioClass = s, this.physicsClass = e, this.renderer = i, this.camera = a, this.isMobile = n, this.paramsClass = r, this.worldClass = p, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.count = 100, this.planes = Array.from({
                 length: this.count
             }, (h, d)=>({
                     position: new l(0, 0, 0),
