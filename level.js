@@ -17,8 +17,10 @@ export class LevelClass {
     this.planeHeight = 10;
     this.planeDepth = 1;
 
+    this.fixedDistanceHor = { min: 2, max: 3 }
+    this.fixedDistanceVert = { min: 3, max: 4 }
 
-    this.count = 4;
+    this.count = 10;
     this.planes = Array.from({ length: this.count }, (_, i) => ({
       position: new THREE.Vector3(0, 0, 0),
       rotation: new THREE.Euler(0, 0, 0),
@@ -35,7 +37,7 @@ export class LevelClass {
 
     this.plane.receiveShadow = true;
     this.plane.castShadow = true;
-
+    this.plane.frustumCulled = false;
 
 
 
@@ -50,11 +52,15 @@ export class LevelClass {
       userData: { name: 'topSensor', collide: null, body: null, speed: null, direction: 1 },
     }));
     this.geometryPlaneTop = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.5 })
+    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 })
 
     // Создаём InstancedMesh
     this.planeTop = new THREE.InstancedMesh(this.geometryPlaneTop, this.materialPlaneTop, this.count);
     this.planeTop.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.planeTop.frustumCulled = false;
+
+
+    this.playerOuts = [];
 
 
 
@@ -76,6 +82,7 @@ export class LevelClass {
     this.planeGrass.receiveShadow = true;
     this.planeGrass.castShadow = true;
     this.planeGrass.userData.name = 'tops';
+    this.planeGrass.frustumCulled = false;
 
 
 
@@ -102,6 +109,9 @@ export class LevelClass {
     this.planeSensor.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
 
 
+    this.planeSensor.frustumCulled = false;
+
+
 
 
     this.lamps = Array.from({ length: this.count }, (_, i) => ({
@@ -118,9 +128,10 @@ export class LevelClass {
     // Создаём InstancedMesh
     this.lamp = new THREE.InstancedMesh(this.geometryLamp, this.materialLamp, this.count);
     this.lamp.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.lamp.frustumCulled = false;
 
 
-    this.lightsCount = 8;
+    this.lightsCount = 10;
     this.lights = [];
     this.bulbs = [];
 
@@ -162,6 +173,18 @@ export class LevelClass {
     this.getHorizontalWorldBounds()
 
     this.gameNum = 1;
+
+
+    this.cam = {
+      targetX: this.camera.position.x,
+      velX: 0,             // для пружинки, если захочешь
+      followBackSpeed: 12, // макс скорость назад (чтобы не "дергалось" при респауне)
+      maxBackJump: 8,      // максимум, насколько цель может "откатить" за 1 кадр
+    };
+
+    this.dt = new THREE.Clock();
+
+
 
 
   }
@@ -270,8 +293,7 @@ export class LevelClass {
         for (let i = 0; i < this.count; i++) {
 
           let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth - 1);
-          let fixedDistance = getRandomNumber(2, 3);
-          let randomX = previousX + randomW / 2 + fixedDistance;
+          let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
           if (i > 0) {
@@ -379,9 +401,9 @@ export class LevelClass {
         for (let i = 0; i < this.count; i++) {
 
           let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 8);
-          let fixedDistance = getRandomNumber(3, 4);
 
-          let randomY = previousY + fixedDistance;
+
+          let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
 
           this.topPlanes[i].position.y = randomY - 1.3;
           this.grassPlanes[i].position.y = randomY;
@@ -676,31 +698,7 @@ export class LevelClass {
 
   changePosBlocks() {
 
-    if (iii == 0) {
-      let firstPlane = {
-        lamps: this.lamps[1],
-      }
-      console.log(this.lamps)
-      // this.lamps.splice(1, 1);
-      // console.log(this.lamps)
-      // this.lamps.push(firstPlane.lamps)
-      // console.log(this.lamps)
 
-
-
-      // firstPlane.lamps.position.set(
-      //   this.lamps[this.lamps.length - 1].position.x + 0.2,
-      //   firstPlane.lamps.position.y,
-      //   firstPlane.lamps.position.z
-      // );
-
-
-
-      // this.apply(this.lamps.length - 1, this.lamps, this.lamp);
-      // this.lamp.instanceMatrix.needsUpdate = true;
-
-      iii = 1
-    }
 
     if (this.camera.position.x > this.grassPlanes[Math.round(this.grassPlanes.length / 2)].position.x) {
       let firstPlane = {
@@ -710,53 +708,55 @@ export class LevelClass {
         lamps: this.lamps[1],
       }
 
+      const lastG = this.grassPlanes[this.grassPlanes.length - 1];
+      const movedG = firstPlane.grassPlanes;
+      const gap = getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
+      const newX = lastG.position.x + lastG.size.x * 0.5 + gap + movedG.size.x * 0.5;
+
+
       this.grassPlanes.splice(1, 1);
       this.planes.splice(1, 1);
       this.topPlanes.splice(1, 1);
       this.lamps.splice(1, 1);
 
-      firstPlane.grassPlanes.userData.body.setNextKinematicTranslation({
-        x: this.grassPlanes[this.grassPlanes.length - 1].position.x + 2,
+      firstPlane.grassPlanes.userData.body.setTranslation({
+        x: newX,
         y: firstPlane.grassPlanes.position.y,
         z: firstPlane.grassPlanes.position.z
-      });
+      }, true);
+      firstPlane.grassPlanes.position.x = newX
 
-      firstPlane.planes.userData.body.setNextKinematicTranslation({
-        x: this.planes[this.planes.length - 1].position.x + 2,
+      firstPlane.planes.userData.body.setTranslation({
+        x: newX,
         y: firstPlane.planes.position.y,
         z: firstPlane.planes.position.z
-      });
+      }, true);
+      firstPlane.planes.position.x = newX
 
-      firstPlane.topPlanes.position.y = 3
 
-      // set(
-      //   this.topPlanes[this.topPlanes.length - 1].position.x + 2,
-      //   firstPlane.topPlanes.position.y,
-      //   firstPlane.topPlanes.position.z
-      // );
 
-      firstPlane.lamps.position.set(
-        this.lamps[this.lamps.length - 1].position.x + 2,
-        firstPlane.lamps.position.y,
-        firstPlane.lamps.position.z
-      );
-
+      firstPlane.topPlanes.position.x = newX
+      firstPlane.lamps.position.x = newX
+      if (firstPlane.lamps.userData.light) firstPlane.lamps.userData.light = false;
 
       this.grassPlanes.push(firstPlane.grassPlanes)
       this.planes.push(firstPlane.planes)
       this.topPlanes.push(firstPlane.topPlanes)
       this.lamps.push(firstPlane.lamps)
 
-      this.apply(this.grassPlanes.length - 1, this.grassPlanes, this.planeGrass);
+
+      for (let i = 0; i < this.lamps.length; i++) {
+        this.apply(i, this.grassPlanes, this.planeGrass);
+        this.apply(i, this.planes, this.plane);
+        this.apply(i, this.topPlanes, this.planeTop);
+        this.apply(i, this.lamps, this.lamp);
+
+      }
+
+
       this.planeGrass.instanceMatrix.needsUpdate = true;
-
-      this.apply(this.planes.length - 1, this.planes, this.plane);
       this.plane.instanceMatrix.needsUpdate = true;
-
-      this.apply(this.topPlanes.length - 1, this.topPlanes, this.planeTop);
       this.planeTop.instanceMatrix.needsUpdate = true;
-
-      this.apply(this.lamps.length - 1, this.lamps, this.lamp);
       this.lamp.instanceMatrix.needsUpdate = true;
 
 
@@ -779,6 +779,8 @@ export class LevelClass {
 
   lampsAnimate() {
 
+
+
     if (this.paramsClass.gameDir == 'hor') {
       if (this.bulbs[Math.round(this.bulbs.length / 2)].position.x < this.camera.position.x) {
         let firstElBuld = this.bulbs.shift();
@@ -787,6 +789,7 @@ export class LevelClass {
 
         let nextLamp = this.lamps.findIndex((el) => el.userData.light == false)
         if (this.lamps[nextLamp] != undefined) {
+
 
           firstElBuld.position.x = this.lamps[nextLamp].position.x;
           firstElBuld.position.y = this.grassPlanes[nextLamp].position.y + this.grassPlanes[nextLamp].size.y / 2 + this.lampHeight - 0.2 + 1;
@@ -800,6 +803,7 @@ export class LevelClass {
           this.lamps[nextLamp].userData.light = true;
         }
       }
+
 
 
 
@@ -835,11 +839,14 @@ export class LevelClass {
           this.lights[i].position.set(this.lamps[i].position.x, this.lamps[i].position.y + 1, 1.6);
           this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.lamps[i].position.z));
           this.lamps[i].userData.light = true;
+          this.apply(i, this.lamps, this.lamp);
         }
         else {
           this.lamps[i].userData.light = false;
+          this.apply(i, this.lamps, this.lamp);
         }
       }
+      this.lamp.instanceMatrix.needsUpdate = true;
     }
   }
 
@@ -900,7 +907,7 @@ export class LevelClass {
       this.scene.add(player.playerOut);
       this.scene.add(player.playerModel);
 
-      this.topPlanes.push(player.playerOut);
+      this.playerOuts.push(player.playerOut);
 
 
 
@@ -919,7 +926,7 @@ export class LevelClass {
   }
 
 
-  cameraMove(camera) {
+  cameraMove(camera, dt = this.dt.getDelta()) {
 
     switch (this.gameNum) {
       case 1:
@@ -928,12 +935,38 @@ export class LevelClass {
         camera.position.z = this.isMobile ? 13 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
-      case 2:
-        camera.position.x = this.players[this.maxSpeed(this.players)].player.position.x;
-        camera.position.y = this.isMobile ? 3.5 : 3;
-        camera.position.z = this.isMobile ? 13 : 25;
-        camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+      case 2: {
+        const leadIdx = this.maxSpeed(this.players);
+        if (leadIdx >= 0) {
+          const leadX = this.players[leadIdx].player.position.x;
+
+          // Ограничим резкие откаты назад, если надо
+          const maxBack = this.cam.maxBackJump;
+          if (leadX < this.cam.targetX - maxBack) {
+            this.cam.targetX = this.cam.targetX - maxBack;
+
+          } else {
+            this.cam.targetX = leadX;
+          }
+
+          // Пружинка по X
+          const s = this.spring(
+            camera.position.x,
+            this.cam.targetX,
+            this.cam.velX,
+            0.95, // smoothTime: 0.25 сек до сходимости
+            dt
+          );
+          camera.position.x = s.newPos;
+          this.cam.velX = s.newVel;
+
+          // Остальные координаты
+          camera.position.y = this.isMobile ? 3.5 : 3;
+          camera.position.z = this.isMobile ? 13 : 25;
+          camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+        }
         break;
+      }
       case 3:
         camera.position.y += 0.01;
         camera.position.x = 0;
@@ -950,6 +983,27 @@ export class LevelClass {
 
   }
 
+  damp(current, target, lambda, dt) {
+    // lambda ~ "скорость схождения": 6..12 обычно ок
+    return current + (target - current) * (1 - Math.exp(-lambda * dt));
+  }
+
+
+  // Пружинка: возвращает новое значение и новую скорость
+  spring(current, target, velocity, smoothTime, dt) {
+    // smoothTime — чем меньше, тем быстрее догоняет (0.2..0.5 сек обычно ок)
+    const omega = 2 / smoothTime;
+    const x = omega * dt;
+    const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+
+    let change = current - target;
+    const temp = (velocity + omega * change) * dt;
+    const newVel = (velocity - omega * temp) * exp;
+    const newPos = target + (change + temp) * exp;
+
+    return { newPos, newVel };
+  }
+
 }
 
 
@@ -960,4 +1014,3 @@ export class LevelClass {
 
 
 
-let iii = 0;

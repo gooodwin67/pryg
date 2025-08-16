@@ -38,6 +38,8 @@ export class WorldClass {
 
     this.night = false;
 
+    this._prevCamX = this.camera.position.x;
+
   }
 
 
@@ -185,6 +187,10 @@ void main() {
 
 
   updateSky() {
+
+    const camX = this.camera.position.x;
+    const dir = Math.sign(camX - this._prevCamX); // 1 -> вправо, -1 -> влево, 0 -> стоит
+    this._prevCamX = dir;
 
     this.stars.position.x = this.camera.position.x;
 

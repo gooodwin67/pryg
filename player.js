@@ -25,7 +25,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
+    this.player.userData.canFly = true;
     this.player.userData.hatBoost = 0;
     this.player.userData.numHatBoost = 0;
     this.player.userData.live = true;
@@ -101,7 +101,7 @@ export class PlayerClass {
 
 
 
-    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.topPlanes)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.topPlanes) || detectCollisionCubeAndArrayInst(this.player, this.levelClass.playerOuts)) {
       this.player.userData.onGround = true;
     }
     else {
@@ -148,11 +148,16 @@ export class PlayerClass {
 
 
 
-    if (this.playerModel.position.y < -2) this.player.userData.live = false;
+    if (this.playerModel.position.y < -2) {
+
+      this.player.userData.live = false;
+
+    }
 
     if (!this.player.userData.live) {
 
       this.player.userData.body.setTranslation(this.player.userData.startPos);
+
 
 
       this.player.userData.readyJump = false;
