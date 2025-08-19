@@ -82,7 +82,7 @@ export class PlayerClass {
 
   playerMove() {
 
-    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.sensorPlanes)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
       const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
       if (filterGroups[0] == 0) {
         this.player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [1]))
@@ -101,7 +101,7 @@ export class PlayerClass {
 
 
 
-    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.topPlanes) || detectCollisionCubeAndArrayInst(this.player, this.levelClass.playerOuts)) {
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.topPlanes.data) || detectCollisionCubeAndArrayInst(this.player, this.levelClass.playerOuts)) {
       this.player.userData.onGround = true;
     }
     else {

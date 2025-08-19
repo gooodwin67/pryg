@@ -149,9 +149,9 @@ async function initLevel() {
   //console.log(levelClass.grassPlanes[0].userData.collider)
 
 
-  if (levelClass.grassPlanes.length > 0) {
-    levelClass.grassPlanes.forEach((value, index) => {
-      levelClass.grassPlanes[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
+  if (levelClass.objs.grassPlanes.data.length > 0) {
+    levelClass.objs.grassPlanes.data.forEach((value, index) => {
+      levelClass.objs.grassPlanes.data[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
     })
   }
 

@@ -20,132 +20,137 @@ export class LevelClass {
     this.fixedDistanceHor = { min: 2, max: 3 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
-    this.count = 10;
-    this.planes = Array.from({ length: this.count }, (_, i) => ({
-      position: new THREE.Vector3(0, 0, 0),
-      rotation: new THREE.Euler(0, 0, 0),
-      scale: new THREE.Vector3(1, 1, 1),
-      size: new THREE.Vector3(1, 1, 1),
-      userData: { name: 'plane', collide: null, body: null, speed: null, direction: 1 },
-    }));
-    this.geometryPlane = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, this.planeDepth);
-    this.materialPlane = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
-
-    // Создаём InstancedMesh
-    this.plane = new THREE.InstancedMesh(this.geometryPlane, this.materialPlane, this.count);
-    this.plane.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
-
-    this.plane.receiveShadow = true;
-    this.plane.castShadow = true;
-    this.plane.frustumCulled = false;
+    this.count = 100;
 
 
 
+    this.objs = {
+      planes: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(1, 1, 1),
+          userData: { name: 'plane', collide: null, body: null, speed: null, direction: 1 },
+        })),
+        geometryPlane: new THREE.BoxGeometry(this.planeWidth, this.planeHeight, this.planeDepth),
+        materialPlane: new THREE.MeshPhongMaterial({ color: 0x00cc00 }),
+        plane: null,
+      },
+      /*//////////////////////////////////////////////////////////////////////////////*/
+      topPlanes: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(1, 1, 1),
+          userData: { name: 'topSensor', collide: null, body: null, speed: null, direction: 1 },
+        })),
+        geometryPlaneTop: new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2),
+        materialPlaneTop: new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 }),
+        planeTop: null,
+      },
+      /*//////////////////////////////////////////////////////////////////////////////*/
+      grassPlanes: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(1, 1, 1),
+          userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1 },
+        })),
+        geometryPlaneGrass: new THREE.BoxGeometry(this.planeWidth, 0.5, this.planeDepth + 0.2),
+        materialPlaneGrass: new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }),
+        planeGrass: null,
+      },
+      /*//////////////////////////////////////////////////////////////////////////////*/
+      sensorPlanes: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(1, 1, 1),
+          userData: { name: 'sensor', collide: null, body: null, speed: null, direction: 1 },
+        })),
+        geometryPlaneSensor: new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2),
+        materialPlaneSensor: new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 }),
+        planeSensor: null,
+      },
+      /*//////////////////////////////////////////////////////////////////////////////*/
+      lamps: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(0.1, 2, 0.1),
+          userData: { name: 'lamp', light: false },
+        })),
+        lampHeight: 1,
+        geometryLamp: new THREE.BoxGeometry(0.3, 1, 0.3),
+        materialLamp: new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 1.0 }),
+        lamp: null,
+      },
+      plafons: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(0.6, 0.6, 0.6),
+          userData: { name: 'plafon', light: false },
+        })),
+        geometryPlafon: new THREE.SphereGeometry(0.3),
+        materialPlafon: new THREE.MeshPhongMaterial({ color: 0xf7eaa8, transparent: true, opacity: 0.8 }),
+        plafon: null,
+      },
+      /*//////////////////////////////////////////////////////////////////////////////*/
+    }
+
+    this.objs.planes.plane = new THREE.InstancedMesh(this.objs.planes.geometryPlane, this.objs.planes.materialPlane, this.count);
+    this.objs.planes.plane.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.planes.plane.receiveShadow = true;
+    this.objs.planes.plane.castShadow = true;
+    this.objs.planes.plane.frustumCulled = false;
+
+    this.objs.topPlanes.planeTop = new THREE.InstancedMesh(this.objs.topPlanes.geometryPlaneTop, this.objs.topPlanes.materialPlaneTop, this.count);
+    this.objs.topPlanes.planeTop.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.topPlanes.planeTop.frustumCulled = false;
+
+    this.objs.grassPlanes.planeGrass = new THREE.InstancedMesh(this.objs.grassPlanes.geometryPlaneGrass, this.objs.grassPlanes.materialPlaneGrass, this.count);
+    this.objs.grassPlanes.planeGrass.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.grassPlanes.planeGrass.userData.direction = 1;
+    this.objs.grassPlanes.planeGrass.receiveShadow = true;
+    this.objs.grassPlanes.planeGrass.castShadow = true;
+    this.objs.grassPlanes.planeGrass.userData.name = 'tops';
+    this.objs.grassPlanes.planeGrass.frustumCulled = false;
+
+    this.objs.sensorPlanes.planeSensor = new THREE.InstancedMesh(this.objs.sensorPlanes.geometryPlaneSensor, this.objs.sensorPlanes.materialPlaneSensor, this.count);
+    this.objs.sensorPlanes.planeSensor.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.sensorPlanes.planeSensor.frustumCulled = false;
+
+    this.objs.lamps.lamp = new THREE.InstancedMesh(this.objs.lamps.geometryLamp, this.objs.lamps.materialLamp, this.count);
+    this.objs.lamps.lamp.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.lamps.lamp.frustumCulled = false;
+
+    this.objs.plafons.plafon = new THREE.InstancedMesh(this.objs.plafons.geometryPlafon, this.objs.plafons.materialPlafon, this.count);
+    this.objs.plafons.plafon.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    this.objs.plafons.plafon.frustumCulled = false;
 
 
 
-    this.topPlanes = Array.from({ length: this.count }, (_, i) => ({
-      position: new THREE.Vector3(0, 0, 0),
-      rotation: new THREE.Euler(0, 0, 0),
-      scale: new THREE.Vector3(1, 1, 1),
-      size: new THREE.Vector3(1, 1, 1),
-      userData: { name: 'topSensor', collide: null, body: null, speed: null, direction: 1 },
-    }));
-    this.geometryPlaneTop = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneTop = new THREE.MeshStandardMaterial({ color: 0xcccc00, transparent: true, opacity: 0.0 })
+    this.lightsCount = 10;
+    this.lights = [];
 
-    // Создаём InstancedMesh
-    this.planeTop = new THREE.InstancedMesh(this.geometryPlaneTop, this.materialPlaneTop, this.count);
-    this.planeTop.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
-    this.planeTop.frustumCulled = false;
+
+    this.lightIntensity = 25;
+    this.bulbEmissiveIntensity = 0.9;
 
 
     this.playerOuts = [];
 
 
 
-    this.grassPlanes = Array.from({ length: this.count }, (_, i) => ({
-      position: new THREE.Vector3(0, 0, 0),
-      rotation: new THREE.Euler(0, 0, 0),
-      scale: new THREE.Vector3(1, 1, 1),
-      size: new THREE.Vector3(1, 1, 1),
-      userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1 },
-    }));
-
-    this.geometryPlaneGrass = new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.5, this.planeDepth + 0.2);
-    this.materialPlaneGrass = new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 })
-
-    // Создаём InstancedMesh
-    this.planeGrass = new THREE.InstancedMesh(this.geometryPlaneGrass, this.materialPlaneGrass, this.count);
-    this.planeGrass.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
-    this.planeGrass.userData.direction = 1;
-    this.planeGrass.receiveShadow = true;
-    this.planeGrass.castShadow = true;
-    this.planeGrass.userData.name = 'tops';
-    this.planeGrass.frustumCulled = false;
 
 
-
-
-
-
-
-
-
-
-
-    this.sensorPlanes = Array.from({ length: this.count }, (_, i) => ({
-      position: new THREE.Vector3(0, 0, 0),
-      rotation: new THREE.Euler(0, 0, 0),
-      scale: new THREE.Vector3(1, 1, 1),
-      size: new THREE.Vector3(1, 1, 1),
-      userData: { name: 'sensor', collide: null, body: null, speed: null, direction: 1 },
-    }));
-    this.geometryPlaneSensor = new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2);
-    this.materialPlaneSensor = new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 })
-
-    // Создаём InstancedMesh
-    this.planeSensor = new THREE.InstancedMesh(this.geometryPlaneSensor, this.materialPlaneSensor, this.count);
-    this.planeSensor.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
-
-
-    this.planeSensor.frustumCulled = false;
-
-
-
-
-    this.lamps = Array.from({ length: this.count }, (_, i) => ({
-      position: new THREE.Vector3(0, 0, 0),
-      rotation: new THREE.Euler(0, 0, 0),
-      scale: new THREE.Vector3(1, 1, 1),
-      size: new THREE.Vector3(0.1, 2, 0.1),
-      userData: { name: 'lamp', light: false },
-    }));
-    this.lampHeight = 1;
-    this.geometryLamp = new THREE.BoxGeometry(0.3, this.lampHeight, 0.3);
-    this.materialLamp = new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 1.0 })
-
-    // Создаём InstancedMesh
-    this.lamp = new THREE.InstancedMesh(this.geometryLamp, this.materialLamp, this.count);
-    this.lamp.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
-    this.lamp.frustumCulled = false;
-
-
-    this.lightsCount = 10;
-    this.lights = [];
-    this.bulbs = [];
-
-    this.lightIntensity = 25;
-    this.bulbEmissiveIntensity = 0.9;
-
-
-
-
-    // this.planeSensor = new THREE.Mesh(new THREE.BoxGeometry(this.geometryPlane.parameters.width, 0.4, 1.2), new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.4 }));
-    // this.planeSensor.position.y = this.plane.position.y + this.planeHeight / 2 + 0.1;
-    // this.planeSensor.userData.name = 'top_sensor';
-
-    // this.sensorPlanes = [];
 
     this.boostHatModel;
     this.boostHatMesh;
@@ -246,7 +251,7 @@ export class LevelClass {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
-        this.plane.material = material;
+        this.objs.planes.plane.material = material;
       },
       // onProgress callback currently not supported
       undefined,
@@ -265,7 +270,7 @@ export class LevelClass {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
         texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-        this.planeGrass.material = material;
+        this.objs.grassPlanes.planeGrass.material = material;
       },
       // onProgress callback currently not supported
       undefined,
@@ -297,97 +302,103 @@ export class LevelClass {
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
           if (i > 0) {
-            this.planes[i].size.x = randomW;
-            this.planes[i].size.y = this.planeHeight;
+            this.objs.planes.data[i].size.x = randomW;
+            this.objs.planes.data[i].size.y = this.planeHeight;
 
-            this.topPlanes[i].size.x = randomW + 0.3;
-            this.topPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
+            this.objs.topPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
 
-            this.grassPlanes[i].size.x = randomW + 0.3;
-            this.grassPlanes[i].size.y = this.geometryPlaneGrass.parameters.height;
-            this.grassPlanes[i].size.z = this.geometryPlaneGrass.parameters.depth;
+            this.objs.grassPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
 
           }
           else {
-            this.planes[i].size.x = this.planeWidth;
-            this.planes[i].size.y = this.planeHeight;
+            this.objs.planes.data[i].size.x = this.planeWidth;
+            this.objs.planes.data[i].size.y = this.planeHeight;
 
-            this.topPlanes[i].size.x = this.planeWidth + 0.3;
-            this.topPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
+            this.objs.topPlanes.data[i].size.x = this.planeWidth + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
 
 
-            this.grassPlanes[i].size.x = this.planeWidth + 0.3;
-            this.grassPlanes[i].size.y = this.geometryPlaneTop.parameters.height;
-            this.grassPlanes[i].size.z = this.geometryPlaneGrass.parameters.depth;
+            this.objs.grassPlanes.data[i].size.x = this.planeWidth + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
           }
 
 
 
           if (i > 0) {
-            this.planes[i].position.x = randomX;
-            this.planes[i].position.y = randomY + this.planeHeight / 6;
+            this.objs.planes.data[i].position.x = randomX;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
-            this.topPlanes[i].position.x = randomX;
-            this.topPlanes[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+            this.objs.topPlanes.data[i].position.x = randomX;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
-            this.grassPlanes[i].position.x = randomX;
-            this.grassPlanes[i].position.y = randomY + this.planeHeight / 1.5;
+            this.objs.grassPlanes.data[i].position.x = randomX;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
           }
           else {
-            this.planes[i].position.x = -this.planeWidth / 2;
-            this.planes[i].position.y = -this.planeHeight / 2 + 0.5;
+            this.objs.planes.data[i].position.x = -this.planeWidth / 2;
+            this.objs.planes.data[i].position.y = -this.planeHeight / 2 + 0.5;
 
-            this.topPlanes[i].position.x = -this.planeWidth / 2;
-            this.topPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.4;
+            this.objs.topPlanes.data[i].position.x = -this.planeWidth / 2;
+            this.objs.topPlanes.data[i].position.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height / 2 + 0.4;
 
-            this.grassPlanes[i].position.x = -this.planeWidth / 2;
-            this.grassPlanes[i].position.y = this.geometryPlaneGrass.parameters.height / 2 + 0.3;
+            this.objs.grassPlanes.data[i].position.x = -this.planeWidth / 2;
+            this.objs.grassPlanes.data[i].position.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height / 2 + 0.3;
           }
 
-          this.lamps[i].position.x = this.grassPlanes[i].position.x;
-          this.lamps[i].position.z = -this.planeDepth / 8;
-          this.lamps[i].position.y = this.grassPlanes[i].position.y + this.grassPlanes[i].size.y / 2 + this.lampHeight - 0.2;
+          this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
+          this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+          this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
+
+          this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.plafons.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.plafons.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
 
 
           if (this.lights.length < this.lightsCount) {
             const light = new THREE.PointLight(0xf7eaa8, 0, 4);
-            light.position.set(this.lamps[i].position.x, this.lamps[i].position.y + 1, 1.6);
+            light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
             this.lights.push(light)
             this.scene.add(light);
 
-            const bulb = new THREE.Mesh(
-              new THREE.SphereGeometry(0.3),
-              new THREE.MeshStandardMaterial({ color: 0xf7eaa8, emissive: 0xf7eaa8, emissiveIntensity: 0.3 })
-            );
-            bulb.position.copy(new THREE.Vector3(light.position.x, light.position.y, this.lamps[i].position.z));
-            this.bulbs.push(bulb)
-            this.scene.add(bulb);
 
-            this.lamps[i].userData.light = true;
+
+            this.objs.lamps.data[i].userData.light = true;
 
           }
 
 
-          this.apply(i, this.planes, this.plane);
-          this.apply(i, this.topPlanes, this.planeTop);
-          this.apply(i, this.grassPlanes, this.planeGrass);
-          this.apply(i, this.lamps, this.lamp);
+
+
+          this.apply(i, this.objs.planes.data, this.objs.planes.plane);
+          this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
+          this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+          this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
           previousX = randomX + randomW / 2;
+
+
+
 
         }
 
 
-        this.plane.instanceMatrix.needsUpdate = true;
-        this.planeTop.instanceMatrix.needsUpdate = true;
-        this.planeGrass.instanceMatrix.needsUpdate = true;
-        this.lamp.instanceMatrix.needsUpdate = true;
+        this.objs.planes.plane.instanceMatrix.needsUpdate = true;
+        this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
+        this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
+        this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
+        this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
 
 
-        this.scene.add(this.plane)
-        this.scene.add(this.planeTop)
-        this.scene.add(this.planeGrass)
-        this.scene.add(this.lamp)
+        this.scene.add(this.objs.planes.plane)
+        this.scene.add(this.objs.topPlanes.planeTop)
+        this.scene.add(this.objs.grassPlanes.planeGrass)
+        this.scene.add(this.objs.lamps.lamp)
+        this.scene.add(this.objs.plafons.plafon)
 
 
         break;
@@ -405,45 +416,45 @@ export class LevelClass {
 
           let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
 
-          this.topPlanes[i].position.y = randomY - 1.3;
-          this.grassPlanes[i].position.y = randomY;
-          this.sensorPlanes[i].position.y = randomY - 0.5;
+          this.objs.topPlanes.data[i].position.y = randomY - 1.3;
+          this.objs.grassPlanes.data[i].position.y = randomY;
+          this.objs.sensorPlanes.data[i].position.y = randomY - 0.5;
 
-          this.topPlanes[i].size.y = 0.3;
-          this.grassPlanes[i].size.y = 0.7;
-          this.sensorPlanes[i].size.y = 0.9;
+          this.objs.topPlanes.data[i].size.y = 0.3;
+          this.objs.grassPlanes.data[i].size.y = 0.7;
+          this.objs.sensorPlanes.data[i].size.y = 0.9;
 
           if (i > 0) {
-            this.topPlanes[i].size.x = randomW + 0.3;
-            this.grassPlanes[i].size.x = randomW + 0.3
-            this.sensorPlanes[i].size.x = randomW + 0.5
+            this.objs.topPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.grassPlanes.data[i].size.x = randomW + 0.3
+            this.objs.sensorPlanes.data[i].size.x = randomW + 0.5
 
           }
           else {
-            this.topPlanes[i].size.x = 10;
-            this.grassPlanes[i].size.x = 10;
-            this.sensorPlanes[i].size.x = 10;
+            this.objs.topPlanes.data[i].size.x = 10;
+            this.objs.grassPlanes.data[i].size.x = 10;
+            this.objs.sensorPlanes.data[i].size.x = 10;
           }
 
 
-          this.grassPlanes[i].userData.speed = getRandomNumber(4, 8) / 100;
+          this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(4, 8) / 100;
 
 
-          this.apply(i, this.topPlanes, this.planeTop);
-          this.apply(i, this.grassPlanes, this.planeGrass);
-          this.apply(i, this.sensorPlanes, this.planeSensor);
+          this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
+          this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+          this.apply(i, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor);
 
           previousY = randomY;
 
         }
 
-        this.planeTop.instanceMatrix.needsUpdate = true;
-        this.planeGrass.instanceMatrix.needsUpdate = true;
-        this.planeSensor.instanceMatrix.needsUpdate = true;
+        this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
+        this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
+        this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = true;
 
-        this.scene.add(this.planeTop)
-        this.scene.add(this.planeGrass)
-        this.scene.add(this.planeSensor)
+        this.scene.add(this.objs.topPlanes.planeTop)
+        this.scene.add(this.objs.grassPlanes.planeGrass)
+        this.scene.add(this.objs.sensorPlanes.planeSensor)
 
 
 
@@ -492,10 +503,10 @@ export class LevelClass {
 
     if (this.paramsClass.gameDir == 'vert') {
 
-      for (let i = 0; i < this.grassPlanes.length; i++) {
-        const grass = this.grassPlanes[i];
-        const top = this.topPlanes[i];
-        const sensor = this.sensorPlanes[i];
+      for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
+        const grass = this.objs.grassPlanes.data[i];
+        const top = this.objs.topPlanes.data[i];
+        const sensor = this.objs.sensorPlanes.data;
         const body = grass.userData.body;
         const speed = grass.userData.speed;
 
@@ -524,17 +535,17 @@ export class LevelClass {
 
 
 
-        this.sensorPlanes[i].position.x = newX;
-        this.topPlanes[i].position.x = newX;
-        this.topPlanes[i].position.y = currentPos.y + 0.4;
+        this.objs.sensorPlanes.data[i].position.x = newX;
+        this.objs.topPlanes.data[i].position.x = newX;
+        this.objs.topPlanes.data[i].position.y = currentPos.y + 0.4;
 
 
 
 
 
 
-        this.apply(i, this.sensorPlanes, this.planeSensor);
-        this.apply(i, this.topPlanes, this.planeTop);
+        this.apply(i, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor);
+        this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
 
 
 
@@ -542,8 +553,8 @@ export class LevelClass {
 
         top.position.set(newX, currentPos.y + 0.6, currentPos.z);
       }
-      this.planeSensor.instanceMatrix.needsUpdate = true;
-      this.planeTop.instanceMatrix.needsUpdate = true;
+      this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = true;
+      this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
     }
   }
 
@@ -633,33 +644,33 @@ export class LevelClass {
   }
 
   async loadEnvironments() {
-    for (let i = 0; i < this.grassPlanes.length; i++) {
+    for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
 
       if (this.paramsClass.gameDir == 'hor') {
-        this.physicsClass.addInstancedStatic(this.planes, this.plane, i, {
-          position: this.planes[i].position,
-          size: this.planes[i].size,
+        this.physicsClass.addInstancedStatic(this.objs.planes.data, this.objs.planes.plane, i, {
+          position: this.objs.planes.data[i].position,
+          size: this.objs.planes.data[i].size,
           collide: '123'
         });
-        this.apply(i, this.planes, this.plane);
+        this.apply(i, this.objs.planes.data, this.objs.planes.plane);
       }
 
-      this.physicsClass.addInstancedStatic(this.grassPlanes, this.planeGrass, i, {
-        position: this.grassPlanes[i].position,
-        size: this.grassPlanes[i].size,
+      this.physicsClass.addInstancedStatic(this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass, i, {
+        position: this.objs.grassPlanes.data[i].position,
+        size: this.objs.grassPlanes.data[i].size,
         collide: '123'
       });
-      this.apply(i, this.grassPlanes, this.planeGrass);
+      this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
 
 
 
       if (this.paramsClass.gameDir == 'vert') {
-        this.grassPlanes[i].userData.collide.setFriction(500);
+        this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
       }
       else {
         if (Math.random() < 0.3 && i > 1) {
-          this.grassPlanes[i].userData.collide.setFriction(0);
-          this.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
+          this.objs.grassPlanes.data[i].userData.collide.setFriction(0);
+          this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
         }
       }
 
@@ -672,8 +683,8 @@ export class LevelClass {
 
 
 
-    if (this.paramsClass.gameDir == 'hor') { this.plane.instanceMatrix.needsUpdate = true; }
-    this.planeGrass.instanceMatrix.needsUpdate = true;
+    if (this.paramsClass.gameDir == 'hor') { this.objs.planes.plane.instanceMatrix.needsUpdate = true; }
+    this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
 
     for (let i = 1; i < 10; i++) {
       let newBoostHatModel = this.boostHatModel.clone();
@@ -696,80 +707,12 @@ export class LevelClass {
   }
 
 
-  changePosBlocks() {
-
-
-
-    if (this.camera.position.x > this.grassPlanes[Math.round(this.grassPlanes.length / 2)].position.x) {
-      let firstPlane = {
-        grassPlanes: this.grassPlanes[1],
-        planes: this.planes[1],
-        topPlanes: this.topPlanes[1],
-        lamps: this.lamps[1],
-      }
-
-      const lastG = this.grassPlanes[this.grassPlanes.length - 1];
-      const movedG = firstPlane.grassPlanes;
-      const gap = getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
-      const newX = lastG.position.x + lastG.size.x * 0.5 + gap + movedG.size.x * 0.5;
-
-
-      this.grassPlanes.splice(1, 1);
-      this.planes.splice(1, 1);
-      this.topPlanes.splice(1, 1);
-      this.lamps.splice(1, 1);
-
-      firstPlane.grassPlanes.userData.body.setTranslation({
-        x: newX,
-        y: firstPlane.grassPlanes.position.y,
-        z: firstPlane.grassPlanes.position.z
-      }, true);
-      firstPlane.grassPlanes.position.x = newX
-
-      firstPlane.planes.userData.body.setTranslation({
-        x: newX,
-        y: firstPlane.planes.position.y,
-        z: firstPlane.planes.position.z
-      }, true);
-      firstPlane.planes.position.x = newX
-
-
-
-      firstPlane.topPlanes.position.x = newX
-      firstPlane.lamps.position.x = newX
-      if (firstPlane.lamps.userData.light) firstPlane.lamps.userData.light = false;
-
-      this.grassPlanes.push(firstPlane.grassPlanes)
-      this.planes.push(firstPlane.planes)
-      this.topPlanes.push(firstPlane.topPlanes)
-      this.lamps.push(firstPlane.lamps)
-
-
-      for (let i = 0; i < this.lamps.length; i++) {
-        this.apply(i, this.grassPlanes, this.planeGrass);
-        this.apply(i, this.planes, this.plane);
-        this.apply(i, this.topPlanes, this.planeTop);
-        this.apply(i, this.lamps, this.lamp);
-
-      }
-
-
-      this.planeGrass.instanceMatrix.needsUpdate = true;
-      this.plane.instanceMatrix.needsUpdate = true;
-      this.planeTop.instanceMatrix.needsUpdate = true;
-      this.lamp.instanceMatrix.needsUpdate = true;
-
-
-    }
-
-  }
-
 
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
 
-    this.changePosBlocks();
+    //this.changePosBlocks();
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
@@ -780,50 +723,40 @@ export class LevelClass {
   lampsAnimate() {
 
 
-
     if (this.paramsClass.gameDir == 'hor') {
-      if (this.bulbs[Math.round(this.bulbs.length / 2)].position.x < this.camera.position.x) {
-        let firstElBuld = this.bulbs.shift();
+      if (this.lights[Math.round(this.lights.length / 2)].position.x < this.camera.position.x) {
+
         let firstElLight = this.lights.shift();
 
+        let nextLamp = this.objs.lamps.data.findIndex((el) => el.userData.light == false)
+        if (this.objs.lamps.data[nextLamp] != undefined) {
 
-        let nextLamp = this.lamps.findIndex((el) => el.userData.light == false)
-        if (this.lamps[nextLamp] != undefined) {
+          firstElLight.position.x = this.objs.lamps.data[nextLamp].position.x;
+          firstElLight.position.y = this.objs.lamps.data[nextLamp].position.y + 1;
 
-
-          firstElBuld.position.x = this.lamps[nextLamp].position.x;
-          firstElBuld.position.y = this.grassPlanes[nextLamp].position.y + this.grassPlanes[nextLamp].size.y / 2 + this.lampHeight - 0.2 + 1;
-
-          firstElLight.position.x = this.lamps[nextLamp].position.x;
-          firstElLight.position.y = this.lamps[nextLamp].position.y + 1;
-
-          this.bulbs.push(firstElBuld);
           this.lights.push(firstElLight);
 
-          this.lamps[nextLamp].userData.light = true;
+          this.objs.lamps.data[nextLamp].userData.light = true;
         }
       }
-
-
-
 
       this.lights.forEach((value, index, array) => {
         if (this.worldClass.night && value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
           if (value.intensity < this.lightIntensity && this.worldClass.night) {
             value.intensity += 1
           }
-          if (this.bulbs[index].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night) {
-            this.bulbs[index].material.emissiveIntensity += 0.1;
-          }
+          // if (this.bulbs[index].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night) {
+          //   this.bulbs[index].material.emissiveIntensity += 0.1;
+          // }
         }
         else if (!this.worldClass.night || value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) {
 
           if (value.intensity > 0) {
             value.intensity -= 1
           }
-          if (this.bulbs[index].material.emissiveIntensity > 0.3) {
-            this.bulbs[index].material.emissiveIntensity -= 0.1
-          }
+          // if (this.bulbs[index].material.emissiveIntensity > 0.3) {
+          //   this.bulbs[index].material.emissiveIntensity -= 0.1
+          // }
         }
 
       })
@@ -836,17 +769,17 @@ export class LevelClass {
     if (this.paramsClass.gameDir == 'hor') {
       for (let i = 0; i < this.count; i++) {
         if (i < this.lightsCount) {
-          this.lights[i].position.set(this.lamps[i].position.x, this.lamps[i].position.y + 1, 1.6);
-          this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.lamps[i].position.z));
-          this.lamps[i].userData.light = true;
-          this.apply(i, this.lamps, this.lamp);
+          this.lights[i].position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
+          this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.objs.lamps.data[i].position.z));
+          this.objs.lamps.data[i].userData.light = true;
+          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
         }
         else {
-          this.lamps[i].userData.light = false;
-          this.apply(i, this.lamps, this.lamp);
+          this.objs.lamps.data[i].userData.light = false;
+          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
         }
       }
-      this.lamp.instanceMatrix.needsUpdate = true;
+      this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
     }
   }
 
