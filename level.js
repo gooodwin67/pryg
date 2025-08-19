@@ -360,14 +360,12 @@ export class LevelClass {
 
 
           if (this.lights.length < this.lightsCount) {
-            const light = new THREE.PointLight(0xf7eaa8, 0, 4);
-            light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
-            this.lights.push(light)
-            this.scene.add(light);
+            // const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+            // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
+            // this.lights.push(light)
+            // this.scene.add(light);
 
-
-
-            this.objs.lamps.data[i].userData.light = true;
+            // this.objs.lamps.data[i].userData.light = true;
 
           }
 
@@ -506,7 +504,7 @@ export class LevelClass {
       for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
         const grass = this.objs.grassPlanes.data[i];
         const top = this.objs.topPlanes.data[i];
-        const sensor = this.objs.sensorPlanes.data;
+        const sensor = this.objs.sensorPlanes.data[i];;
         const body = grass.userData.body;
         const speed = grass.userData.speed;
 
@@ -724,42 +722,62 @@ export class LevelClass {
 
 
     if (this.paramsClass.gameDir == 'hor') {
-      if (this.lights[Math.round(this.lights.length / 2)].position.x < this.camera.position.x) {
+      // if (this.lights[Math.round(this.lights.length / 2)].position.x < this.camera.position.x) {
 
-        let firstElLight = this.lights.shift();
+      //   let firstElLight = this.lights.shift();
 
-        let nextLamp = this.objs.lamps.data.findIndex((el) => el.userData.light == false)
-        if (this.objs.lamps.data[nextLamp] != undefined) {
+      //   let nextLamp = this.objs.lamps.data.findIndex((el) => el.userData.light == false)
+      //   if (this.objs.lamps.data[nextLamp] != undefined) {
 
-          firstElLight.position.x = this.objs.lamps.data[nextLamp].position.x;
-          firstElLight.position.y = this.objs.lamps.data[nextLamp].position.y + 1;
+      //     firstElLight.position.x = this.objs.lamps.data[nextLamp].position.x;
+      //     firstElLight.position.y = this.objs.lamps.data[nextLamp].position.y + 1;
 
-          this.lights.push(firstElLight);
+      //     this.lights.push(firstElLight);
 
-          this.objs.lamps.data[nextLamp].userData.light = true;
-        }
-      }
+      //     this.objs.lamps.data[nextLamp].userData.light = true;
+      //   }
+      // }
 
-      this.lights.forEach((value, index, array) => {
-        if (this.worldClass.night && value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
-          if (value.intensity < this.lightIntensity && this.worldClass.night) {
-            value.intensity += 1
-          }
-          // if (this.bulbs[index].material.emissiveIntensity < this.bulbEmissiveIntensity && this.worldClass.night) {
-          //   this.bulbs[index].material.emissiveIntensity += 0.1;
-          // }
-        }
-        else if (!this.worldClass.night || value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) {
+      // this.lights.forEach((value, index, array) => {
+      //   if (this.worldClass.night && value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
+      //     if (value.intensity < this.lightIntensity && this.worldClass.night) {
+      //       value.intensity += 1
+      //     }
+      //   }
+      //   else if (!this.worldClass.night || value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) {
 
-          if (value.intensity > 0) {
-            value.intensity -= 1
-          }
-          // if (this.bulbs[index].material.emissiveIntensity > 0.3) {
-          //   this.bulbs[index].material.emissiveIntensity -= 0.1
-          // }
-        }
+      //     if (value.intensity > 0) {
+      //       value.intensity -= 1
+      //     }
+      //   }
 
-      })
+      // })
+
+
+      //const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+            // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
+            // this.lights.push(light)
+            // this.scene.add(light);
+
+
+            this.objs.plafons.data.forEach((value, index, array) => {
+              if (/*this.worldClass.night && */value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
+                value.userData.light = true;
+                
+                this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xff0000));
+              }
+              else {
+                this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xffffff));
+                value.userData.light = true;
+              }
+
+            })
+            this.objs.plafons.plafon.instanceColor.needsUpdate = true;
+
+            
+
+
+
 
     }
 
