@@ -73,7 +73,7 @@ export class LevelClass {
           userData: { name: 'sensor', collide: null, body: null, speed: null, direction: 1 },
         })),
         geometryPlaneSensor: new THREE.BoxGeometry(this.planeWidth, 0.4, 1.2),
-        materialPlaneSensor: new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5 }),
+        materialPlaneSensor: new THREE.MeshPhongMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 }),
         planeSensor: null,
       },
       /*//////////////////////////////////////////////////////////////////////////////*/
