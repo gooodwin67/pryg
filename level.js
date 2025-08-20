@@ -96,10 +96,10 @@ export class LevelClass {
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(0.6, 0.6, 0.6),
-          userData: { name: 'plafon', light: false },
+          userData: { name: 'plafon', light: false, pointLight: null },
         })),
         geometryPlafon: new THREE.SphereGeometry(0.3),
-        materialPlafon: new THREE.MeshPhongMaterial({ color: 0xf7eaa8, transparent: true, opacity: 0.8 }),
+        materialPlafon: new THREE.MeshPhongMaterial({ color: 0xf4eecd, transparent: true, opacity: 0.8 }),
         plafon: null,
       },
       /*//////////////////////////////////////////////////////////////////////////////*/
@@ -137,7 +137,7 @@ export class LevelClass {
 
 
 
-    this.lightsCount = 10;
+    this.lightsCount = 5;
     this.lights = [];
 
 
@@ -360,10 +360,12 @@ export class LevelClass {
 
 
           if (this.lights.length < this.lightsCount) {
-            // const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+
+            const light = new THREE.PointLight(0xf7eaa8, 0, 4);
             // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
-            // this.lights.push(light)
-            // this.scene.add(light);
+            light.position.set(0, 0, 1.6);
+            this.lights.push(light)
+            this.scene.add(light);
 
             // this.objs.lamps.data[i].userData.light = true;
 
@@ -722,59 +724,67 @@ export class LevelClass {
 
 
     if (this.paramsClass.gameDir == 'hor') {
-      // if (this.lights[Math.round(this.lights.length / 2)].position.x < this.camera.position.x) {
 
-      //   let firstElLight = this.lights.shift();
+      if (this.worldClass.night) {
+        const left = this.camera.position.x - this.bounds.rightX / 2;
+        const right = this.camera.position.x + this.bounds.rightX * 0.8;
+        const fadeSpeed = 0.15;            // для lerp
+        const maxI = this.lightIntensity;  // целевая яркость
+        let colorsChanged = false;
 
-      //   let nextLamp = this.objs.lamps.data.findIndex((el) => el.userData.light == false)
-      //   if (this.objs.lamps.data[nextLamp] != undefined) {
+        this.objs.plafons.data.forEach((plafon, index) => {
+          const inZone = plafon.position.x >= left && plafon.position.x <= right;
 
-      //     firstElLight.position.x = this.objs.lamps.data[nextLamp].position.x;
-      //     firstElLight.position.y = this.objs.lamps.data[nextLamp].position.y + 1;
+          // если свет назначен — удобнее хранить прямо на объекте
+          let light = plafon.pointLight || null;
 
-      //     this.lights.push(firstElLight);
+          if (inZone) {
+            // выделяем из пула при входе
+            if (!light && this.lights.length > 0) {
+              light = this.lights.shift();
+              plafon.pointLight = light;
+              plafon.userData.light = true;
+              // цвет при активации
+              this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
+              colorsChanged = true;
+            }
+          } else {
+            // вышли из зоны — оставляем свет, но гасим и потом вернём в пул
+            if (plafon.userData.light) {
+              // цвет при деактивации (можно сразу вернуть)
+              this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
+              colorsChanged = true;
+            }
+          }
 
-      //     this.objs.lamps.data[nextLamp].userData.light = true;
-      //   }
-      // }
+          // если есть свет — поддерживаем позицию и плавно меняем интенсивность
+          if (light) {
+            // позицию лучше обновлять всегда, чтобы не отставал
+            light.position.x = this.objs.lamps.data[index].position.x;
+            light.position.y = this.objs.lamps.data[index].position.y + 1;
+            light.position.z = this.objs.lamps.data[index].position.z; // если нужно по Z
 
-      // this.lights.forEach((value, index, array) => {
-      //   if (this.worldClass.night && value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
-      //     if (value.intensity < this.lightIntensity && this.worldClass.night) {
-      //       value.intensity += 1
-      //     }
-      //   }
-      //   else if (!this.worldClass.night || value.position.x + this.bounds.rightX < this.camera.position.x + this.bounds.rightX / 4 || value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX + this.bounds.rightX / 4) {
+            const target = inZone ? maxI : 0;
+            // плавное приближение
+            light.intensity = THREE.MathUtils.lerp(light.intensity, target, fadeSpeed);
+            // клипуем
+            light.intensity = THREE.MathUtils.clamp(light.intensity, 0, maxI);
 
-      //     if (value.intensity > 0) {
-      //       value.intensity -= 1
-      //     }
-      //   }
+            // когда почти погас — возвращаем в пул
+            if (!inZone && light.intensity <= 0.01) {
+              this.lights.push(light);
+              plafon.pointLight = null;
+              plafon.userData.light = false;
+            }
+          }
+        });
 
-      // })
+        if (colorsChanged) {
+          this.objs.plafons.plafon.instanceColor.needsUpdate = true;
+        }
+      }
 
 
-      //const light = new THREE.PointLight(0xf7eaa8, 0, 4);
-            // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
-            // this.lights.push(light)
-            // this.scene.add(light);
-
-
-            this.objs.plafons.data.forEach((value, index, array) => {
-              if (/*this.worldClass.night && */value.position.x < this.camera.position.x + this.bounds.rightX - this.bounds.rightX / 4 && value.position.x + this.bounds.rightX > this.camera.position.x + this.bounds.rightX / 4) {
-                value.userData.light = true;
-                
-                this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xff0000));
-              }
-              else {
-                this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xffffff));
-                value.userData.light = true;
-              }
-
-            })
-            this.objs.plafons.plafon.instanceColor.needsUpdate = true;
-
-            
 
 
 
@@ -782,6 +792,8 @@ export class LevelClass {
     }
 
   }
+
+
 
   resetLevel() {
     if (this.paramsClass.gameDir == 'hor') {
