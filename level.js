@@ -98,9 +98,34 @@ export class LevelClass {
           size: new THREE.Vector3(0.6, 0.6, 0.6),
           userData: { name: 'plafon', light: false, pointLight: null },
         })),
-        geometryPlafon: new THREE.SphereGeometry(0.3),
-        materialPlafon: new THREE.MeshPhongMaterial({ color: 0xf4eecd, transparent: true, opacity: 0.8 }),
+        geometryPlafon: new THREE.SphereGeometry(0.32, 24, 16),
+        materialPlafon: new THREE.MeshPhysicalMaterial({
+          transmission: 0.9,     // "стекло"
+          thickness: 0.2,        // толщина
+          roughness: 0.2,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.1,
+          ior: 1.45,
+          metalness: 0.0,
+          transparent: true
+        }),
         plafon: null,
+      },
+      bulbs: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(0.6, 0.6, 0.6),
+          userData: { name: 'bulb', light: false, pointLight: null },
+        })),
+        geometryBulb: new THREE.SphereGeometry(0.3),
+        materialBulb: new THREE.MeshStandardMaterial({
+          emissive: new THREE.Color(0xffe7a3),
+          emissiveIntensity: 0.0,     // будем анимировать/задавать по инстансу
+          color: 0x222222,
+        }),
+        bulb: null,
       },
       /*//////////////////////////////////////////////////////////////////////////////*/
     }
@@ -134,6 +159,26 @@ export class LevelClass {
     this.objs.plafons.plafon = new THREE.InstancedMesh(this.objs.plafons.geometryPlafon, this.objs.plafons.materialPlafon, this.count);
     this.objs.plafons.plafon.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
     this.objs.plafons.plafon.frustumCulled = false;
+
+    this.objs.bulbs.bulb = new THREE.InstancedMesh(this.objs.bulbs.geometryBulb, this.objs.bulbs.materialBulb, this.count);
+    this.objs.bulbs.bulb.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    this.objs.bulbs.bulb.frustumCulled = false;
+
+
+
+    this.objs.plafons.materialPlafon.onBeforeCompile = (shader) => {
+      shader.uniforms.fresnelPower = { value: 3.0 };
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <output_fragment>',
+        `
+    // простейший френель
+    float fresnel = pow(1.0 - dot(normalize(vNormal), normalize(vViewPosition)), fresnelPower);
+    vec3 col = outgoingLight + fresnel * 0.15; // мягкая подсветка краёв
+    gl_FragColor = vec4( col, diffuseColor.a );
+    `
+      );
+    };
+    this.objs.plafons.materialPlafon.needsUpdate = true;
 
 
 
@@ -297,7 +342,7 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.planeWidth / 8, this.planeWidth - 1);
+          let randomW = getRandomNumber(this.planeWidth / 2, this.planeWidth - 1);
           let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
@@ -411,7 +456,7 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.bounds.rightX / 2, this.bounds.rightX / 8);
+          let randomW = getRandomNumber(this.bounds.rightX, this.bounds.rightX / 4);
 
 
           let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
@@ -725,11 +770,13 @@ export class LevelClass {
 
     if (this.paramsClass.gameDir == 'hor') {
 
+      const fadeSpeed = 0.05;            // скорость lerp ночью
+      const fadeOutSpeed = 0.2;          // скорость гашения днём (быстрее)
+      const maxI = this.lightIntensity;  // целевая ночная яркость
+
       if (this.worldClass.night) {
         const left = this.camera.position.x - this.bounds.rightX / 2;
         const right = this.camera.position.x + this.bounds.rightX * 0.8;
-        const fadeSpeed = 0.15;            // для lerp
-        const maxI = this.lightIntensity;  // целевая яркость
         let colorsChanged = false;
 
         this.objs.plafons.data.forEach((plafon, index) => {
@@ -779,6 +826,29 @@ export class LevelClass {
           }
         });
 
+        if (colorsChanged) {
+          this.objs.plafons.plafon.instanceColor.needsUpdate = true;
+        }
+      }
+      else {
+        let colorsChanged = false;
+
+        // Быстро гасим все активные огни и возвращаем в пул
+        this.objs.plafons.data.forEach((plafon, index) => {
+          const light = plafon.pointLight;
+          if (light) {
+            // быстрое гашение
+            light.intensity = Math.max(0, light.intensity - fadeOutSpeed);
+            if (light.intensity <= 0.01) {
+              this.lights.push(light);
+              plafon.pointLight = null;
+              plafon.userData.light = false;
+            }
+          }
+          // дневной цвет для всех плафонов
+          this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
+          colorsChanged = true;
+        });
         if (colorsChanged) {
           this.objs.plafons.plafon.instanceColor.needsUpdate = true;
         }
