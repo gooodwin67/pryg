@@ -100,12 +100,12 @@ export class LevelClass {
         })),
         geometryPlafon: new THREE.SphereGeometry(0.32, 24, 16),
         materialPlafon: new THREE.MeshPhysicalMaterial({
-          transmission: 0.9,     // "стекло"
-          thickness: 0.2,        // толщина
+          transmission: 0.9,     // "стекло" 09
+          thickness: 0.3,        // толщина
           roughness: 0.2,
-          clearcoat: 1.0,
-          clearcoatRoughness: 0.1,
-          ior: 1.45,
+          clearcoat: 0.0,
+          clearcoatRoughness: 10.9,
+          ior: 1.85,
           metalness: 0.0,
           transparent: true
         }),
@@ -116,14 +116,14 @@ export class LevelClass {
           position: new THREE.Vector3(0, 0, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
-          size: new THREE.Vector3(0.6, 0.6, 0.6),
+          size: new THREE.Vector3(0.2, 0.2, 0.2),
           userData: { name: 'bulb', light: false, pointLight: null },
         })),
         geometryBulb: new THREE.SphereGeometry(0.3),
         materialBulb: new THREE.MeshStandardMaterial({
           emissive: new THREE.Color(0xffe7a3),
-          emissiveIntensity: 0.0,     // будем анимировать/задавать по инстансу
-          color: 0x222222,
+          emissiveIntensity: 6.0,     // будем анимировать/задавать по инстансу
+          color: 0xffffff,
         }),
         bulb: null,
       },
@@ -166,6 +166,7 @@ export class LevelClass {
 
 
 
+
     this.objs.plafons.materialPlafon.onBeforeCompile = (shader) => {
       shader.uniforms.fresnelPower = { value: 3.0 };
       shader.fragmentShader = shader.fragmentShader.replace(
@@ -179,6 +180,41 @@ export class LevelClass {
       );
     };
     this.objs.plafons.materialPlafon.needsUpdate = true;
+
+
+
+    const emissiveArray = new Float32Array(this.count); // [0..1] на инстанс
+    for (let i = 0; i < this.count; i++) emissiveArray[i] = 0.0;
+    this.objs.bulbs.geometryBulb.setAttribute('aEmissive',
+      new THREE.InstancedBufferAttribute(emissiveArray, 1));
+
+    this.objs.bulbs.materialBulb.onBeforeCompile = (shader) => {
+      shader.vertexShader = `
+    attribute float aEmissive;
+    varying float vEmissive;
+  ` + shader.vertexShader.replace(
+        '#include <begin_vertex>',
+        `
+      #include <begin_vertex>
+      vEmissive = aEmissive;
+    `
+      );
+      shader.fragmentShader = `
+    varying float vEmissive;
+  ` + shader.fragmentShader.replace(
+        '#include <lights_fragment_begin>',
+        `
+      #include <lights_fragment_begin>
+      // усиливаем эмиссию в зависимости от инстанса
+      totalEmissiveRadiance *= vEmissive;
+    `
+      );
+    };
+    this.objs.bulbs.materialBulb.needsUpdate = true;
+
+    this._emissive = emissiveArray;
+
+    this.glowPool = [];
 
 
 
@@ -403,6 +439,10 @@ export class LevelClass {
           this.objs.plafons.data[i].position.z = this.objs.lamps.data[i].position.z;
           this.objs.plafons.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
 
+          this.objs.bulbs.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.bulbs.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
 
           if (this.lights.length < this.lightsCount) {
 
@@ -424,6 +464,7 @@ export class LevelClass {
           this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
           this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
           this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
+          this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
           previousX = randomX + randomW / 2;
 
 
@@ -437,6 +478,7 @@ export class LevelClass {
         this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
         this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
         this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
+        this.objs.bulbs.bulb.instanceMatrix.needsUpdate = true;
 
 
         this.scene.add(this.objs.planes.plane)
@@ -444,6 +486,7 @@ export class LevelClass {
         this.scene.add(this.objs.grassPlanes.planeGrass)
         this.scene.add(this.objs.lamps.lamp)
         this.scene.add(this.objs.plafons.plafon)
+        this.scene.add(this.objs.bulbs.bulb)
 
 
         break;
@@ -765,6 +808,13 @@ export class LevelClass {
 
   }
 
+  makeGlowSprite() {
+    const s = new THREE.Sprite(this.objs.plafons.materialPlafon);
+    s.scale.set(10.9, 10.9, 10); // размер ореола
+    s.renderOrder = 2;
+    return s;
+  }
+
   lampsAnimate() {
 
 
@@ -775,53 +825,63 @@ export class LevelClass {
       const maxI = this.lightIntensity;  // целевая ночная яркость
 
       if (this.worldClass.night) {
+        this.lampsAnimate.did = false
         const left = this.camera.position.x - this.bounds.rightX / 2;
         const right = this.camera.position.x + this.bounds.rightX * 0.8;
         let colorsChanged = false;
 
         this.objs.plafons.data.forEach((plafon, index) => {
-          const inZone = plafon.position.x >= left && plafon.position.x <= right;
+
 
           // если свет назначен — удобнее хранить прямо на объекте
           let light = plafon.pointLight || null;
 
+          const inZone = plafon.position.x >= left && plafon.position.x <= right;
+          const idx = index;
+
           if (inZone) {
-            // выделяем из пула при входе
-            if (!light && this.lights.length > 0) {
-              light = this.lights.shift();
+            if (!plafon.pointLight && this.lights.length > 0) {
+              const light = this.lights.shift();
               plafon.pointLight = light;
-              plafon.userData.light = true;
-              // цвет при активации
-              this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
-              colorsChanged = true;
+              // спрайт ореола
+              plafon.glow = (this.glowPool.pop() || this.makeGlowSprite());
+              this.scene.add(plafon.glow);
             }
           } else {
-            // вышли из зоны — оставляем свет, но гасим и потом вернём в пул
-            if (plafon.userData.light) {
-              // цвет при деактивации (можно сразу вернуть)
-              this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
-              colorsChanged = true;
-            }
+            // просто помечаем, гашение сделаем плавно ниже
           }
 
-          // если есть свет — поддерживаем позицию и плавно меняем интенсивность
-          if (light) {
-            // позицию лучше обновлять всегда, чтобы не отставал
-            light.position.x = this.objs.lamps.data[index].position.x;
-            light.position.y = this.objs.lamps.data[index].position.y + 1;
-            light.position.z = this.objs.lamps.data[index].position.z; // если нужно по Z
+          if (plafon.pointLight) {
+            const light = plafon.pointLight;
+            // позиция света и спрайта
+            light.position.set(this.objs.lamps.data[idx].position.x,
+              this.objs.lamps.data[idx].position.y + 1,
+              this.objs.lamps.data[idx].position.z + 2);
+            //plafon.glow.position.copy(light.position);
 
-            const target = inZone ? maxI : 0;
-            // плавное приближение
-            light.intensity = THREE.MathUtils.lerp(light.intensity, target, fadeSpeed);
-            // клипуем
-            light.intensity = THREE.MathUtils.clamp(light.intensity, 0, maxI);
+            // целевая яркость
+            const targetI = inZone ? this.lightIntensity : 0;
+            light.intensity = THREE.MathUtils.lerp(light.intensity, targetI, 0.15);
 
-            // когда почти погас — возвращаем в пул
-            if (!inZone && light.intensity <= 0.01) {
+            // эмиссия лампочки (0..1)
+            const targetE = inZone ? 1.0 : 0.0;
+            this._emissive[idx] = THREE.MathUtils.lerp(this._emissive[idx], targetE, 0.18);
+            this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = true;
+
+            // размер ореола в зависимости от яркости
+            const s = 0.5 + this._emissive[idx] * 0.8;
+            if (plafon.glow) plafon.glow.scale.setScalar(s);
+
+            // вернуть в пул, когда погас
+            if (!inZone && light.intensity <= 0.01 && this._emissive[idx] <= 0.02) {
               this.lights.push(light);
               plafon.pointLight = null;
-              plafon.userData.light = false;
+
+              if (plafon.glow) {
+                this.glowPool.push(plafon.glow);
+                this.scene.remove(plafon.glow);
+                plafon.glow = null;
+              }
             }
           }
         });
@@ -831,27 +891,43 @@ export class LevelClass {
         }
       }
       else {
-        let colorsChanged = false;
+        if (!this.lampsAnimate.did) {
+          let colorsChanged = false;
 
-        // Быстро гасим все активные огни и возвращаем в пул
-        this.objs.plafons.data.forEach((plafon, index) => {
-          const light = plafon.pointLight;
-          if (light) {
-            // быстрое гашение
-            light.intensity = Math.max(0, light.intensity - fadeOutSpeed);
-            if (light.intensity <= 0.01) {
-              this.lights.push(light);
-              plafon.pointLight = null;
-              plafon.userData.light = false;
+          // Быстро гасим все активные огни и возвращаем в пул
+          this.objs.plafons.data.forEach((plafon, index) => {
+
+            const light = plafon.pointLight;
+            if (light) {
+              // быстрое гашение
+              light.intensity = Math.max(0, light.intensity - fadeOutSpeed);
+              if (light.intensity <= 0.01) {
+                this.lights.push(light);
+                plafon.pointLight = null;
+                plafon.userData.light = false;
+              }
             }
+            // дневной цвет для всех плафонов
+            this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xffffff));
+            colorsChanged = true;
+          });
+
+
+
+
+          this._emissive.forEach((value, index) => {
+            value = 0;
+            colorsChanged = true;
+          })
+          if (colorsChanged) {
+            this.objs.plafons.plafon.instanceColor.needsUpdate = true;
+            this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = true;
           }
-          // дневной цвет для всех плафонов
-          this.objs.plafons.plafon.setColorAt(index, new THREE.Color(0xf7eaa8));
-          colorsChanged = true;
-        });
-        if (colorsChanged) {
-          this.objs.plafons.plafon.instanceColor.needsUpdate = true;
+          this.lampsAnimate.did = true;
         }
+
+
+
       }
 
 
@@ -866,21 +942,21 @@ export class LevelClass {
 
 
   resetLevel() {
-    if (this.paramsClass.gameDir == 'hor') {
-      for (let i = 0; i < this.count; i++) {
-        if (i < this.lightsCount) {
-          this.lights[i].position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
-          this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.objs.lamps.data[i].position.z));
-          this.objs.lamps.data[i].userData.light = true;
-          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
-        }
-        else {
-          this.objs.lamps.data[i].userData.light = false;
-          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
-        }
-      }
-      this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
-    }
+    // if (this.paramsClass.gameDir == 'hor') {
+    //   for (let i = 0; i < this.count; i++) {
+    //     if (i < this.lightsCount) {
+    //       this.lights[i].position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
+    //       this.bulbs[i].position.copy(new THREE.Vector3(this.lights[i].position.x, this.lights[i].position.y, this.objs.lamps.data[i].position.z));
+    //       this.objs.lamps.data[i].userData.light = true;
+    //       this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+    //     }
+    //     else {
+    //       this.objs.lamps.data[i].userData.light = false;
+    //       this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+    //     }
+    //   }
+    //   this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
+    // }
   }
 
 
