@@ -25,7 +25,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
+    this.player.userData.canFly = true;
     this.player.userData.hatBoost = 0;
     this.player.userData.numHatBoost = 0;
     this.player.userData.live = true;

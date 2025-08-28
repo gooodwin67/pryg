@@ -256,6 +256,7 @@ void main() {
         this.night = false;
       }
 
+
     }
 
 
@@ -277,25 +278,26 @@ void main() {
       const deltaY = this.camera.position.y - this.prevCameraYSun;
 
       // Инвертируем изменение elevation относительно движения камеры по Y
-      this.parameters.elevation -= deltaY * 0.01;
+      this.parameters.elevation -= deltaY * 0.05;
 
       //this.stars.material.opacity -= deltaY * 0.1;
-      this.blackSky.material.opacity += deltaY * 0.01;
-      this.materialStars.uniforms.opacity.value += deltaY * 0.003;
+      this.blackSky.material.opacity += deltaY * 0.05;
+      this.materialStars.uniforms.opacity.value += deltaY * 0.01;
+
 
       if (this.camera.position.y < this.topLight && deltaY < 0) {
-        this.dirLight.intensity -= deltaY * 0.03;
+        this.dirLight.intensity -= deltaY * 0.05;
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
-        this.hemiLight.intensity -= deltaY * 0.03;
+        this.hemiLight.intensity -= deltaY * 0.05;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
-        this.renderer.toneMappingExposure -= deltaY * 0.01;
+        this.renderer.toneMappingExposure -= deltaY * 0.05;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
       }
       else if (this.topLight && deltaY > 0) {
-        this.dirLight.intensity -= deltaY * 0.03;
+        this.dirLight.intensity -= deltaY * 0.05;
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
-        this.hemiLight.intensity -= deltaY * 0.03;
+        this.hemiLight.intensity -= deltaY * 0.05;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
         this.renderer.toneMappingExposure -= deltaY * 0.01;
@@ -318,6 +320,13 @@ void main() {
 
       // Обновляем prevCameraYSun для следующего кадра!
       this.prevCameraYSun = this.camera.position.y;
+
+      if (this.camera.position.y > 30) {
+        this.night = true;
+      }
+      else {
+        this.night = false;
+      }
     }
 
     this.materialStars.uniforms.time.value = performance.now() * 0.001;
