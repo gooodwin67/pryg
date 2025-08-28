@@ -1081,8 +1081,13 @@ export class LevelClass {
         // каждый кадр днём гасим всё до нуля
         let colorsChanged = false;
 
+
         this.objs.plafons.data.forEach((plafon, index) => {
           const light = plafon.pointLight;
+
+          if (!plafon.pointLight && this._emissive[index] === 0) {
+            return;
+          }
 
           if (light) {
             // плавно к нулю (можно и быстрее, чем ночью)
