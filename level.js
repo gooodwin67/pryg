@@ -17,7 +17,7 @@ export class LevelClass {
     this.planeHeight = 10;
     this.planeDepth = 1;
 
-    this.fixedDistanceHor = { min: 2, max: 3 }
+    this.fixedDistanceHor = { min: 1, max: 4 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 100;

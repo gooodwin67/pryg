@@ -1,12 +1,90 @@
+/* tektur-regular - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Tektur';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/tektur-v5-cyrillic_latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* tektur-700 - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Tektur';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/tektur-v5-cyrillic_latin-700.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* tektur-900 - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Tektur';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/fonts/tektur-v5-cyrillic_latin-900.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    /* background: url('/images/back.jpg'); */
+}
+
+
+
 body {
     font-family: sans-serif;
+    font-family: 'Tektur', Tahoma;
     margin: 0;
-    padding: 0;
+    background: #1C1D21;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    width: 100%;
+    height: 100%;
+    max-width: 1920px;
+    max-height: 1080px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    overflow: auto !important;
+    -ms-overflow-style: none;
+    scrollbar-width: auto;
+
+    overflow-y: scroll;
+    scrollbar-color: rgba(14, 14, 24, 0) #73747300;
+    -moz-appearance: none !important;
+    scrollbar-width: 0px;
+
+
 }
 
 canvas {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    max-width: 100%;
+    max-height: 100%;
     z-index: -1;
 }
 
@@ -52,14 +130,47 @@ canvas {
     height: 100%;
     background-color: #000;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     color: #fff;
+    background: url('/images/main.jpg')no-repeat;
+    background-size: cover;
+    background-position-y: 15%;
+    padding-top: 8%;
+    box-sizing: border-box;
+}
+
+.main_screen h1 {
+    font-size: 60px;
+    color: #a5ffed;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+
 }
 
 .main_screen_btns_wrap {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.new_game_btn {
+    border: 2px solid #6f727d;
+    background-color: rgba(129, 157, 219, 0.9);
+    border-radius: 9px;
+    max-width: 300px;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-transform: uppercase;
 }
 
 

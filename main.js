@@ -74,26 +74,26 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 
 
-
+onWindowResize();
 
 
 
 window.addEventListener('resize', onWindowResize, false);
 function onWindowResize() {
-  // if (isMobile) {
-  //   camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
-  //   camera.updateProjectionMatrix();
-  //   renderer.setSize(innerWidth, innerHeight);
-  // }
-  // else {
-  //   camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
-  //   camera.updateProjectionMatrix();
-  //   renderer.setSize(document.body.offsetWidth, document.body.offsetHeight);
-  // }
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+  if (isMobile) {
+    camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  }
+  else {
+    camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(document.body.offsetWidth, document.body.offsetHeight);
+  }
+  // camera.aspect = window.innerWidth / window.innerHeight;
+  // camera.updateProjectionMatrix();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  // renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 
