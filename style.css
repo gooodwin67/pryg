@@ -181,7 +181,7 @@ canvas {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(5px 5px 0 rgba(2, 188, 155, 1));
-    //-webkit-text-stroke: 3px #02bc9b;
+    -webkit-text-stroke: 3px #02bc9b;
 
 
 }
