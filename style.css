@@ -31,6 +31,39 @@
     /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+/* russo-one-regular - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Russo One';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/russo-one-v17-cyrillic_latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* nunito-sans-regular - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/nunito-sans-v18-cyrillic_latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* nunito-sans-800 - cyrillic_latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/fonts/nunito-sans-v18-cyrillic_latin-800.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 html {
     width: 100%;
     height: 100%;
@@ -41,7 +74,7 @@ html {
 
 body {
     font-family: sans-serif;
-    font-family: 'Tektur', Tahoma;
+    font-family: 'Nunito Sans', Tahoma;
     margin: 0;
     background: #1C1D21;
     -webkit-user-select: none;
@@ -142,8 +175,14 @@ canvas {
 
 .main_screen h1 {
     font-size: 60px;
-    color: #a5ffed;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    /* color: #a5ffed; */
+    background: -webkit-linear-gradient(rgba(170, 253, 240, 1), rgba(67, 251, 200, 1));
+    font-family: 'Russo One', Tahoma;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(5px 5px 0 rgba(2, 188, 155, 1));
+    //-webkit-text-stroke: 3px #02bc9b;
+
 
 }
 
@@ -183,9 +222,62 @@ canvas {
     height: 100%;
     background-color: #000;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    background: url('/images/main.jpg')no-repeat;
+    background-size: cover;
+    background-position-y: 15%;
+    padding-top: 8%;
+    box-sizing: border-box;
+}
+
+.free_game_screen_btns_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 640px;
+    width: 100%;
+    background: rgba(253, 255, 231, 0.5);
+    padding: 30px;
+    border-radius: 9px;
+}
+
+.free_game_btn_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 360px;
+    width: 100%;
+}
+
+.free_game_btn_wrap:first-child {
+    padding-right: 15px;
+    margin-right: 15px;
+    border-right: 1px dashed #fff;
+}
+
+.free_game_btn_wrap h3 {
+    font-size: 25px;
+}
+
+.free_game_btn {
+    border: 2px solid #6f727d;
+    background-color: rgba(129, 157, 219, 0.9);
+    border-radius: 9px;
+    max-width: 300px;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
 }
 
 
