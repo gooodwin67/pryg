@@ -261,25 +261,36 @@ body .green_btn {
     overflow: hidden;
 }
 
-.free_game_screen_btns_wrap {
+.free_game_screen_wrap {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 640px;
+    flex-direction: column;
+    max-width: 550px;
     width: 100%;
     background: rgba(249, 218, 180, 0.95);
     padding: 30px;
+    padding-top: 20px;
     margin-top: 8%;
     border: 2px solid rgba(251, 242, 227, 0.9);
     border-radius: 30px;
 }
 
+.free_game_screen_wrap .free_game_my_rec span {
+
+    font-weight: bold;
+}
+
+.free_game_screen_btns_wrap {
+    display: flex;
+    width: 100%;
+}
+
 .free_game_btn_wrap {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 360px;
-    width: 100%;
+    align-items: flex-start;
+    max-width: 47%;
+    width: 50%;
 }
 
 .free_game_btn_wrap:first-child {
@@ -288,8 +299,8 @@ body .green_btn {
     border-right: 1px dashed #fff;
 }
 
-.free_game_btn_wrap h3 {
-    font-size: 25px;
+.free_game_screen h3 {
+    font-size: 40px;
     text-transform: uppercase;
     color: #009AA9;
     font-family: 'Russo One';
@@ -298,6 +309,8 @@ body .green_btn {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0.2px rgba(255, 255, 255, 1);
+    margin: 15px;
+    margin-bottom: 20px;
 }
 
 .free_game_btn {
@@ -453,6 +466,88 @@ body .together_game_chels_active {
     border: 2px solid #ffffff !important;
     transform: translateY(-2px);
 
+}
+
+.rec_table_small {
+    width: 100%;
+    margin-bottom: 5px;
+    background: white;
+
+    border-radius: 9px;
+    overflow: hidden;
+}
+
+.rec_h_wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
+
+}
+
+.rec_h {
+    color: #009AA9;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.rec_table_small>div {
+    display: flex;
+    width: 100%;
+    padding: 8px 2px;
+    box-sizing: border-box;
+}
+
+.rec_table_small span {
+    font-size: 14px;
+    color: #686869;
+}
+
+.yellow_back {
+    background-color: #fcffc4;
+}
+
+.green_back {
+    background-color: #daf9c6;
+}
+
+.blue_back {
+    background-color: #f0f8ff;
+}
+
+
+.rec_table_small>div>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+
+
+.rec_table_small>div>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+}
+
+.rec_table_small_name {
+    width: 100% !important;
+    overflow: hidden;
+    display: inline-block !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.small_btn {
+    color: #009AA9;
+    /* border-bottom: 1px solid; */
+    font-size: 13px;
+    text-decoration: underline;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
 }
 
 
