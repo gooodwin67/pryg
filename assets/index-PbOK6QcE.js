@@ -135,7 +135,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
     }
     class Zt {
         constructor(t, e, s, a){
-            this.scene = t, this.audioClass = e, this.levelClass = s, this.paramsClass = a, this.playerHeight = .8, this.playerWidth = .4, this.player = new N(new z(this.playerWidth, this.playerHeight, this.playerWidth), new k({
+            this.scene = t, this.audioClass = e, this.levelClass = s, this.paramsClass = a, this.playerHeight = .9, this.playerWidth = .5, this.player = new N(new z(this.playerWidth, this.playerHeight, this.playerWidth), new k({
                 color: 16711680,
                 transparent: !0,
                 opacity: 0
@@ -157,7 +157,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
                     i.isMesh && (i.castShadow = !0);
                 }), this.playerModel.children[0].traverse(function(i) {
                     i.isMesh && (i.castShadow = !0);
-                }), this.leftHand = this.playerModel.children[0].children[1], this.rightHand = this.playerModel.children[0].children[0], this.head = this.playerModel.children[0].children[2], this.player.userData.head = this.head, this.playerModel.rotation.y = Math.PI, this.playerModel.scale.x = .9, this.playerModel.scale.y = .9, this.playerModel.scale.z = .9;
+                }), this.leftHand = this.playerModel.children[0].children[1], this.rightHand = this.playerModel.children[0].children[0], this.head = this.playerModel.children[0].children[2], this.player.userData.head = this.head, this.playerModel.rotation.y = Math.PI, this.playerModel.scale.x = 1.3, this.playerModel.scale.y = 1.3, this.playerModel.scale.z = 1.3;
             });
         }
         playerMove() {
