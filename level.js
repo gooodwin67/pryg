@@ -536,7 +536,7 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.bounds.rightX, this.bounds.rightX / 4);
+          let randomW = getRandomNumber(this.bounds.rightX / 3, this.bounds.rightX / 2);
 
 
           let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
