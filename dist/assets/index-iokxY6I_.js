@@ -496,7 +496,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
                     rightX: y.x,
                     topY: m.y,
                     bottomY: w.y
-                }, console.log(this.bounds.topY), console.log(this.bounds.bottomY);
+                };
             }
         }
         animateTops() {
@@ -641,9 +641,9 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
             }
         }
         cameraMove(t, e = this.dt.getDelta()) {
-            switch(this.gameNum){
+            switch(console.log(this.gameNum), this.gameNum){
                 case 1:
-                    t.position.x += .03, t.position.y = this.isMobile ? 3.5 : 3, t.position.z = this.isMobile ? 13 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
+                    t.position.x += .03, t.position.y = this.isMobile ? 4 : 3, t.position.z = this.isMobile ? 20 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
                     break;
                 case 2:
                     {
@@ -652,7 +652,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
                             const a = this.players[s].player.position.x, i = this.cam.maxBackJump;
                             a < this.cam.targetX - i ? this.cam.targetX = this.cam.targetX - i : this.cam.targetX = a;
                             const o = this.spring(t.position.x, this.cam.targetX, this.cam.velX, .95, e);
-                            t.position.x = o.newPos, this.cam.velX = o.newVel, t.position.y = this.isMobile ? 3.5 : 3, t.position.z = this.isMobile ? 13 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
+                            t.position.x = o.newPos, this.cam.velX = o.newVel, t.position.y = this.isMobile ? 4 : 3, t.position.z = this.isMobile ? 20 : 25, t.lookAt(t.position.x, t.position.y - 2, 0);
                         }
                         break;
                     }
@@ -660,7 +660,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
                     t.position.y += .01, t.position.x = 0, t.position.z = this.isMobile ? 20 : 22, t.lookAt(t.position.x, t.position.y - 2, 0);
                     break;
                 case 4:
-                    t.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5, t.position.x = 0, t.position.z = this.isMobile ? 15 : 22, t.lookAt(t.position.x, t.position.y - 2, 0);
+                    t.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5, t.position.x = 0, t.position.z = (this.isMobile, 25), t.lookAt(t.position.x, t.position.y - 2, 0);
                     break;
             }
         }
@@ -886,7 +886,7 @@ import { B as F, V as d, Q as K, M as xt, a as N, b as z, c as k, d as A, G as Y
                 waterColor: 7759,
                 distortionScale: .5,
                 fog: this.scene.fog !== void 0
-            }), this.water.rotation.x = -Math.PI / 2, this.water.position.y = -2, this.sun = new d, this.sky = new Et, this.sky.scale.setScalar(1e4), this.scene.add(this.sky);
+            }), this.water.rotation.x = -Math.PI / 2, this.water.position.y = -5, this.sun = new d, this.sky = new Et, this.sky.scale.setScalar(1e4), this.scene.add(this.sky);
             const t = this.sky.material.uniforms;
             t.turbidity.value = 1, t.rayleigh.value = 3, t.mieCoefficient.value = 5e-4, t.mieDirectionalG.value = .8, this.parameters = {
                 elevation: 5,
