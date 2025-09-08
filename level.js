@@ -669,8 +669,7 @@ export class LevelClass {
         topY: worldTop.y,
         bottomY: worldBottom.y
       };
-      console.log(this.bounds.topY)
-      console.log(this.bounds.bottomY)
+
 
     }
 
@@ -1340,12 +1339,12 @@ export class LevelClass {
 
 
   cameraMove(camera, dt = this.dt.getDelta()) {
-
+    console.log(this.gameNum)
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
-        camera.position.y = this.isMobile ? 3.5 : 3;
-        camera.position.z = this.isMobile ? 13 : 25;
+        camera.position.y = this.isMobile ? 4 : 3;
+        camera.position.z = this.isMobile ? 20 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2: {
@@ -1374,22 +1373,25 @@ export class LevelClass {
           this.cam.velX = s.newVel;
 
           // Остальные координаты
-          camera.position.y = this.isMobile ? 3.5 : 3;
-          camera.position.z = this.isMobile ? 13 : 25;
+          camera.position.y = this.isMobile ? 4 : 3; //3.5
+          camera.position.z = this.isMobile ? 20 : 25; //13
           camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
+
         break;
       }
       case 3:
         camera.position.y += 0.01;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 22;
+
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
         camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 15 : 22;
+
+        camera.position.z = this.isMobile ? 25 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
     }

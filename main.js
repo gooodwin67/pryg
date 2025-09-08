@@ -96,6 +96,11 @@ function onWindowResize() {
   // renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// document.body.addEventListener("touchstart", function () {
+//   document.body.requestFullscreen();
+
+// }, false);
+
 
 
 

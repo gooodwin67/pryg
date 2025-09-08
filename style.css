@@ -632,3 +632,48 @@ body .together_game_chels_active {
     display: flex;
     flex-direction: column;
 }
+
+
+
+@media (max-width: 800px) {
+    .main_screen h1 {
+        padding-top: 0;
+    }
+
+    .new_game_btn {
+        height: 50px;
+        font-size: 17px;
+    }
+
+    .free_game_btn {
+        height: 50px;
+        font-size: 17px;
+    }
+
+    .together_game_btn {
+        height: 50px;
+        font-size: 17px;
+    }
+
+    .free_game_screen_wrap {
+        padding-top: 0;
+        margin-top: 3%;
+    }
+
+    .together_game_screen_wrap {
+        padding-top: 0;
+    }
+
+    .together_game_screen_wrap h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .together_game_chels_wrap {
+        margin-bottom: 0;
+    }
+
+    .together_game_chels {
+        padding: 5px;
+    }
+}
