@@ -11,8 +11,8 @@ export class PlayerClass {
     this.levelClass = levelClass;
     this.paramsClass = paramsClass;
 
-    this.playerHeight = 0.8;
-    this.playerWidth = 0.4;
+    this.playerHeight = 0.9;
+    this.playerWidth = 0.5;
     this.player = new THREE.Mesh(new THREE.BoxGeometry(this.playerWidth, this.playerHeight, this.playerWidth), new THREE.MeshPhongMaterial({ color: 0xff0000, transparent: true, opacity: 0.0 }));
     this.player.material.depthWrite = false; // Отключаем запись в буфер глубины
     this.player.rotation.y = Math.PI;
@@ -74,9 +74,9 @@ export class PlayerClass {
       this.player.userData.head = this.head;
 
       this.playerModel.rotation.y = Math.PI;
-      this.playerModel.scale.x = 0.9;
-      this.playerModel.scale.y = 0.9;
-      this.playerModel.scale.z = 0.9;
+      this.playerModel.scale.x = 1.3;
+      this.playerModel.scale.y = 1.3;
+      this.playerModel.scale.z = 1.3;
     })
   }
 
