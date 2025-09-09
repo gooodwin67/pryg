@@ -83,6 +83,8 @@ export class MenuClass {
 
 
 
+
+
   toggleLoader(need) {
     if (!need) document.querySelector('.loader_screen').classList.add('hidden_screen');
     else document.querySelector('.loader_screen').classList.remove('hidden_screen');

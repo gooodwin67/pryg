@@ -677,6 +677,8 @@ export class LevelClass {
 
   animateTops() {
 
+
+
     if (this.paramsClass.gameDir == 'vert') {
 
       for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
@@ -1339,7 +1341,7 @@ export class LevelClass {
 
 
   cameraMove(camera, dt = this.dt.getDelta()) {
-    console.log(this.gameNum)
+
     switch (this.gameNum) {
       case 1:
         camera.position.x += 0.03;
@@ -1417,6 +1419,18 @@ export class LevelClass {
     const newPos = target + (change + temp) * exp;
 
     return { newPos, newVel };
+  }
+
+  showPopupInGame() {
+    this.showScreen('popup_in_game');
+  }
+
+
+  hideScreen(screen) {
+    document.querySelector(`.${screen}`).classList.add('hidden_screen');
+  }
+  showScreen(screen) {
+    document.querySelector(`.${screen}`).classList.remove('hidden_screen');
   }
 
 }

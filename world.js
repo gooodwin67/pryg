@@ -3,11 +3,12 @@ import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
 
 export class WorldClass {
-  constructor(scene, camera, renderer, paramsClass) {
+  constructor(scene, camera, renderer, paramsClass, isMobile) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
     this.paramsClass = paramsClass;
+    this.isMobile = isMobile;
 
     this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
 
@@ -68,7 +69,7 @@ export class WorldClass {
     );
 
     this.water.rotation.x = - Math.PI / 2;
-    this.water.position.y = -5;
+    this.isMobile ? this.water.position.y = -5 : this.water.position.y = -2;
 
     this.sun = new THREE.Vector3();
 

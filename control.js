@@ -1,12 +1,12 @@
 import * as THREE from "three";
 
 export class ControlClass {
-  constructor(levelClass, isMobile, renderer, camera) {
+  constructor(levelClass, isMobile, renderer, camera, paramsClass) {
     this.levelClass = levelClass;
     this.isMobile = isMobile;
     this.renderer = renderer;
     this.camera = camera;
-    this.camera = camera;
+    this.paramsClass = paramsClass;
 
     this.mouse = new THREE.Vector3;
     this.raycaster = new THREE.Raycaster;
@@ -76,6 +76,10 @@ export class ControlClass {
         break;
       case 'KeyD':
       case 'ArrowRight':
+        this.levelClass.players.forEach((value, index, array) => {
+          value.player.userData.playerAlive = true;
+          //this.levelClass.resetLevel();
+        })
         break;
     }
   }
@@ -100,10 +104,7 @@ export class ControlClass {
         break;
       case 'KeyD':
       case 'ArrowRight':
-        this.levelClass.players.forEach((value, index, array) => {
-          value.player.userData.live = true;
-          //this.levelClass.resetLevel();
-        })
+
         break;
     }
   }

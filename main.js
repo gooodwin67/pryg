@@ -112,7 +112,7 @@ function onWindowResize() {
 
 async function initClases(chels) {
 
-  paramsClass = new ParamsClass();
+
 
   const RAPIER = await import('@dimforge/rapier3d');
   world = new RAPIER.World(new RAPIER.Vector3(0, -9.81, 0));
@@ -125,14 +125,14 @@ async function initClases(chels) {
 
 
   audioClass = new AudioClass();
-  worldClass = new WorldClass(scene, camera, renderer, paramsClass);
+  worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile);
 
   levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass));
   }
-  controlClass = new ControlClass(levelClass, isMobile, renderer, camera);
+  controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass);
 }
 
 
@@ -181,6 +181,8 @@ async function initLevel() {
 
 async function initMatch(chels, gameNum) {
   menuClass.toggleLoader(true);
+
+  paramsClass = new ParamsClass();
 
   await initClases(chels);
   levelClass.gameNum = gameNum
