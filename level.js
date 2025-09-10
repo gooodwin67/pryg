@@ -307,7 +307,7 @@ export class LevelClass {
 
     this.dt = new THREE.Clock();
 
-
+    this.menuInGame();
 
 
   }
@@ -1340,6 +1340,10 @@ export class LevelClass {
   }
 
 
+
+
+
+
   cameraMove(camera, dt = this.dt.getDelta()) {
 
     switch (this.gameNum) {
@@ -1423,6 +1427,16 @@ export class LevelClass {
 
   showPopupInGame() {
     this.showScreen('popup_in_game');
+  }
+  menuInGame = () => {
+    document.querySelector('.popup_game_btn1').addEventListener('click', () => {
+      this.hideScreen('popup_in_game');
+      this.players[0].playerAliving(false);
+    })
+    document.querySelector('.popup_game_btn2').addEventListener('click', () => {
+      this.hideScreen('popup_in_game');
+      this.players[0].playerAliving(true);
+    })
   }
 
 

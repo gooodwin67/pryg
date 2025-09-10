@@ -152,23 +152,20 @@ export class PlayerClass {
 
 
     if (this.playerModel.position.y < -4) {
-
+      if (this.player.userData.live) this.levelClass.showPopupInGame();
       this.player.userData.live = false;
-
-      //this.levelClass.showPopupInGame();
-
     }
 
     if (!this.player.userData.live) {
 
       this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
+      if (this.player.userData.deadPos != this.player.userData.startPos) {
+        this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
+          item.position.x >= this.player.position.x - 5
+        )?.position;
+      }
 
 
-
-
-      this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
-        item.position.x >= this.player.position.x - 5
-      )?.position;
 
 
 
@@ -176,6 +173,7 @@ export class PlayerClass {
 
 
       if (this.player.userData.playerAlive) {
+
         this.player.userData.readyJump = false;
         this.player.userData.canFly = false;
         this.player.userData.hatBoost = 0;
@@ -186,8 +184,11 @@ export class PlayerClass {
 
         this.player.userData.onGround = false;
         this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
+        console.log(this.player.userData.deadPos)
 
         this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 1, this.player.userData.deadPos.z));
+
+        this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
         this.player.userData.live = true;
 
@@ -273,7 +274,14 @@ export class PlayerClass {
   }
 
 
+  playerAliving(reset) {
+    if (reset) {
+      this.player.userData.deadPos = this.player.userData.startPos;
+      console.log(this.player.userData.deadPos)
+    }
+    this.player.userData.playerAlive = true;
 
+  }
 
 
 
