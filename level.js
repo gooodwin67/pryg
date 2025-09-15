@@ -1425,7 +1425,13 @@ export class LevelClass {
     return { newPos, newVel };
   }
 
-  showPopupInGame() {
+  showPopupInGame(showNext) {
+    if (!showNext) {
+      this.hideScreen('popup_game_btn1')
+    }
+    else {
+      this.showScreen('popup_game_btn1')
+    }
     this.showScreen('popup_in_game');
   }
   menuInGame = () => {
@@ -1435,7 +1441,10 @@ export class LevelClass {
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
       this.hideScreen('popup_in_game');
-      this.players[0].playerAliving(true);
+      this.players.forEach((value, index, array) => {
+        value.playerAliving(true);
+      })
+
     })
   }
 

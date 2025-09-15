@@ -195,6 +195,7 @@ async function initMatch(chels, gameNum) {
     menuClass.showScreen('hud');
     menuClass.toggleLoader(false);
     dataLoaded = true;
+    paramsClass.gameStarting = true;
   }, 300)
 
 }

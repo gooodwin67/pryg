@@ -147,55 +147,66 @@ export class PlayerClass {
 
 
 
-
+    // console.log(this.levelClass.gameNum)
+    // console.log(this.levelClass.players.length)
 
 
 
     if (this.playerModel.position.y < -4) {
-      if (this.player.userData.live) this.levelClass.showPopupInGame();
-      this.player.userData.live = false;
-    }
-
-    if (!this.player.userData.live) {
-
-      this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
-      if (this.player.userData.deadPos != this.player.userData.startPos) {
-        this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
-          item.position.x >= this.player.position.x - 5
-        )?.position;
+      if (this.levelClass.players.length < 2) {
+        if (this.player.userData.live) {
+          if (this.levelClass.gameNum == 2) this.levelClass.showPopupInGame(true);
+          else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
+        }
+        this.player.userData.live = false;
+      }
+      else {
+        if (this.player.userData.live) {
+          this.player.userData.live = false;
+        }
+        if (this.levelClass.players.every(value => !value.player.userData.live) && this.paramsClass.gameStarting) {
+          this.levelClass.showPopupInGame(false);
+          this.paramsClass.gameStarting = false;
+        }
       }
 
 
 
 
 
-      // this.player.userData.body.setTranslation(this.player.userData.startPos);
+      if (!this.player.userData.live) {
 
+        this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
+        if (this.player.userData.deadPos != this.player.userData.startPos) {
+          this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
+            item.position.x >= this.player.position.x - 5
+          )?.position;
+        }
 
-      if (this.player.userData.playerAlive) {
+        if (this.player.userData.playerAlive) {
 
-        this.player.userData.readyJump = false;
-        this.player.userData.canFly = false;
-        this.player.userData.hatBoost = 0;
-        this.player.userData.numHatBoost = 0;
+          this.player.userData.readyJump = false;
+          this.player.userData.canFly = false;
+          this.player.userData.hatBoost = 0;
+          this.player.userData.numHatBoost = 0;
 
-        this.player.userData.jumping = false;
-        this.player.userData.playerPowerJump = 1;
+          this.player.userData.jumping = false;
+          this.player.userData.playerPowerJump = 1;
 
-        this.player.userData.onGround = false;
-        this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
-        console.log(this.player.userData.deadPos)
+          this.player.userData.onGround = false;
+          this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
+          console.log(this.player.userData.deadPos)
 
-        this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 1, this.player.userData.deadPos.z));
+          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 1, this.player.userData.deadPos.z));
 
-        this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
+          this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
-        this.player.userData.live = true;
+          this.player.userData.live = true;
 
-        this.player.userData.playerAlive = false;
+          this.player.userData.playerAlive = false;
+        }
+
       }
-
-
     }
 
     else {
@@ -277,10 +288,11 @@ export class PlayerClass {
   playerAliving(reset) {
     if (reset) {
       this.player.userData.deadPos = this.player.userData.startPos;
-      console.log(this.player.userData.deadPos)
     }
     this.player.userData.playerAlive = true;
-
+    setTimeout(() => {
+      this.paramsClass.gameStarting = true;
+    }, 100);
   }
 
 
