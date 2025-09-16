@@ -29,7 +29,9 @@ import { ScoreClass } from './score';
 console.clear();
 
 let world;
-let dataLoaded = false;
+
+let gameInit = false;
+
 
 let delta = 0;
 let interval = 1 / 60;
@@ -133,6 +135,7 @@ async function initClases(chels) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass));
   }
   controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass);
+  controlClass.addKeyListeners();
 }
 
 
@@ -180,6 +183,7 @@ async function initLevel() {
 }
 
 async function initMatch(chels, gameNum) {
+  resetMatch();
   menuClass.toggleLoader(true);
 
   paramsClass = new ParamsClass();
@@ -194,12 +198,33 @@ async function initMatch(chels, gameNum) {
   setTimeout(() => {
     menuClass.showScreen('hud');
     menuClass.toggleLoader(false);
-    dataLoaded = true;
+    paramsClass.dataLoaded = true;
     paramsClass.gameStarting = true;
+    gameInit = true;
   }, 300)
 
 }
 menuClass = new MenuClass(initMatch);
+
+
+function resetMatch() {
+
+  camera.position.z = 7;
+  camera.position.y = 2;
+  camera.position.x = 0;
+
+  renderer.toneMappingExposure = 1.05;
+
+  if (controlClass != undefined) controlClass.removedKeyListeners();
+
+  worldClass = null;
+  physicsClass = null;
+  levelClass = null;
+  audioClass = null;
+  controlClass = null;
+  paramsClass = null;
+  scoreClass = null;
+}
 
 
 
@@ -208,7 +233,7 @@ menuClass = new MenuClass(initMatch);
 
 
 function animate() {
-  if (dataLoaded) {
+  if (paramsClass.dataLoaded) {
 
 
 
@@ -257,7 +282,7 @@ function animate() {
 
 renderer.setAnimationLoop(() => {
   delta += clock.getDelta();
-  if (delta > interval/* && !pause*/) {
+  if (delta > interval/* && !pause*/ && gameInit) {
     animate()
     renderer.render(scene, camera);
     delta = delta % interval;

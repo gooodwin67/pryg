@@ -11,8 +11,6 @@ export class ControlClass {
     this.mouse = new THREE.Vector3;
     this.raycaster = new THREE.Raycaster;
 
-    this.addKeyListeners()
-
   }
 
   addKeyListeners() {
@@ -23,6 +21,16 @@ export class ControlClass {
     document.addEventListener('touchend', this.onTapUp);
     document.addEventListener('touchstart', this.onTapDown);
   }
+
+  removedKeyListeners() {
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+    window.removeEventListener('mousedown', this.onKeyDown);
+    window.removeEventListener('mouseup', this.onKeyUp);
+    document.removeEventListener('touchend', this.onTapUp);
+    document.removeEventListener('touchstart', this.onTapDown);
+  }
+
 
 
 
@@ -59,6 +67,7 @@ export class ControlClass {
 
 
   onKeyDown = (event) => {
+    console.log(123)
     switch (event.code) {
       case undefined:
         if (!this.isMobile) this.downKeys(this.levelClass.players[0].player);
@@ -68,6 +77,7 @@ export class ControlClass {
         break;
       case 'KeyZ':
       case 'ArrowDown':
+        console.log(this.levelClass.players)
         this.downKeys(this.levelClass.players[1].player);
         break;
       case 'KeyM':
@@ -112,6 +122,7 @@ export class ControlClass {
 
 
   downKeys(player) {
+
     if (player.userData.live) {
       if (player.userData.onGround) {
         player.userData.readyJump = true;

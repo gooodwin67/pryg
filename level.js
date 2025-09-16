@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { getRandomNumber } from './functions';
+import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
   constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass) {
@@ -13,11 +13,13 @@ export class LevelClass {
     this.paramsClass = paramsClass;
     this.worldClass = worldClass;
 
+    this.cameraSpeed = 0.01;
+
     this.planeWidth = 4;
     this.planeHeight = 10;
     this.planeDepth = 1;
 
-    this.fixedDistanceHor = { min: 1, max: 4 }
+    this.fixedDistanceHor = { min: 1, max: 5 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 100;
@@ -1348,7 +1350,8 @@ export class LevelClass {
 
     switch (this.gameNum) {
       case 1:
-        camera.position.x += 0.03;
+        camera.position.x += this.cameraSpeed * 3;
+        this.cameraSpeed += 0.000001;
         camera.position.y = this.isMobile ? 4 : 3;
         camera.position.z = this.isMobile ? 20 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
@@ -1387,9 +1390,11 @@ export class LevelClass {
         break;
       }
       case 3:
-        camera.position.y += 0.01;
+        camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 22;
+
+        this.cameraSpeed += 0.000001;
 
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
@@ -1440,11 +1445,23 @@ export class LevelClass {
       this.players[0].playerAliving(false);
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
+      this.camera.position.z = 7;
+      this.camera.position.y = 2;
+      this.camera.position.x = 0;
+      this.cameraSpeed = 0.01;
       this.hideScreen('popup_in_game');
       this.players.forEach((value, index, array) => {
         value.playerAliving(true);
       })
-
+    })
+    document.querySelector('.popup_game_btn3').addEventListener('click', () => {
+      this.hideScreen('popup_in_game');
+      this.showScreen('main_screen');
+      this.players.forEach((value, index, array) => {
+        value.playerAliving(true);
+      })
+      this.paramsClass.dataLoaded = false;
+      disposeScene(this.scene);
     })
   }
 

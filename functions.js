@@ -186,3 +186,32 @@ export function detectCollisionCubeAndArrayInst(object1OrItem, array) {
     }
     return null;
 }
+
+
+export function disposeScene(scene) {
+    scene.traverse((object) => {
+        // Геометрия
+        if (object.geometry) {
+            object.geometry.dispose();
+        }
+
+        // Материалы
+        if (object.material) {
+            if (Array.isArray(object.material)) {
+                object.material.forEach((m) => m.dispose());
+            } else {
+                object.material.dispose();
+            }
+        }
+
+        // Текстуры
+        if (object.material && object.material.map) {
+            object.material.map.dispose();
+        }
+    });
+
+    // Удалить всех детей
+    while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+    }
+}
