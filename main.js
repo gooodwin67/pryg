@@ -132,7 +132,7 @@ async function initClases(chels) {
   levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass);
 
   for (let i = 0; i < chels; i++) {
-    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass));
+    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera));
   }
   controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass);
   controlClass.addKeyListeners();

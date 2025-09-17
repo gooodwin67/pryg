@@ -5,11 +5,12 @@ import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionC
 
 
 export class PlayerClass {
-  constructor(scene, audioClass, levelClass, paramsClass) {
+  constructor(scene, audioClass, levelClass, paramsClass, camera) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.levelClass = levelClass;
     this.paramsClass = paramsClass;
+    this.camera = camera;
 
     this.playerHeight = 0.9;
     this.playerWidth = 0.5;
@@ -25,7 +26,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
+    this.player.userData.canFly = true;
     this.player.userData.hatBoost = 0;
     this.player.userData.numHatBoost = 0;
     this.player.userData.live = true;
@@ -147,14 +148,22 @@ export class PlayerClass {
 
 
 
-    // console.log(this.levelClass.gameNum)
-    // console.log(this.levelClass.players.length)
+    if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2) {
+      this.levelClass.needDeath(this.player)
+    }
+
+    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.5 && this.player.userData.live) {
+
+      this.levelClass.needDeath(this.player)
+    }
+
 
 
 
     if (this.playerModel.position.y < -4) {
       if (this.levelClass.players.length < 2) {
         if (this.player.userData.live) {
+
           if (this.levelClass.gameNum == 2) this.levelClass.showPopupInGame(true);
           else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
         }
@@ -195,7 +204,6 @@ export class PlayerClass {
 
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
-          console.log(this.player.userData.deadPos)
 
           this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 1, this.player.userData.deadPos.z));
 
@@ -269,7 +277,7 @@ export class PlayerClass {
         this.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
 
         this.player.userData.body.applyImpulse({
-          x: this.paramsClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3.0 : 0,
+          x: this.paramsClass.gameDir == 'hor' ? this.player.userData.playerPowerJump / 3 : 0,
           y: this.player.userData.playerPowerJump / 1.4,
           z: 0
         }, true);
@@ -292,6 +300,7 @@ export class PlayerClass {
     this.player.userData.playerAlive = true;
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
+
     }, 100);
   }
 

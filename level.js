@@ -19,6 +19,8 @@ export class LevelClass {
     this.planeHeight = 10;
     this.planeDepth = 1;
 
+    this.minPlaneWidthTic = 2;
+
     this.fixedDistanceHor = { min: 1, max: 5 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
@@ -417,9 +419,12 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.planeWidth / 2, this.planeWidth - 1);
+          let randomW = getRandomNumber(this.planeWidth / this.minPlaneWidthTic, this.planeWidth - 1);
           let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
+
+          this.minPlaneWidthTic += 0.1;
+
 
           if (i > 0) {
             this.objs.planes.data[i].size.x = randomW;
@@ -538,7 +543,9 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
 
-          let randomW = getRandomNumber(this.bounds.rightX / 3, this.bounds.rightX / 2);
+          let randomW = getRandomNumber(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
+
+          this.minPlaneWidthTic += 0.1;
 
 
           let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
@@ -678,7 +685,6 @@ export class LevelClass {
   }
 
   animateTops() {
-
 
 
     if (this.paramsClass.gameDir == 'vert') {
@@ -1247,6 +1253,22 @@ export class LevelClass {
   }
 
 
+  needDeath(player = false) {
+    if (player && player.position.y > 0) {
+      player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+      player.userData.live = false;
+    }
+    else if (!player) {
+      this.players.forEach((value, index, array) => {
+        if (value.player.position.y > 0) {
+          value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+          value.player.userData.live = false;
+        }
+      })
+    }
+  }
+
+
 
   resetLevel() {
     // if (this.paramsClass.gameDir == 'hor') {
@@ -1350,7 +1372,7 @@ export class LevelClass {
 
     switch (this.gameNum) {
       case 1:
-        camera.position.x += this.cameraSpeed * 3;
+        if (this.paramsClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
         this.cameraSpeed += 0.000001;
         camera.position.y = this.isMobile ? 4 : 3;
         camera.position.z = this.isMobile ? 20 : 25;
@@ -1358,8 +1380,15 @@ export class LevelClass {
         break;
       case 2: {
         const leadIdx = this.maxSpeed(this.players);
+
         if (leadIdx >= 0) {
+
+
           const leadX = this.players[leadIdx].player.position.x;
+
+
+
+
 
           // Ограничим резкие откаты назад, если надо
           const maxBack = this.cam.maxBackJump;
@@ -1375,10 +1404,10 @@ export class LevelClass {
             camera.position.x,
             this.cam.targetX,
             this.cam.velX,
-            0.95, // smoothTime: 0.25 сек до сходимости
+            0.25, // smoothTime: 0.25 сек до сходимости
             dt
           );
-          camera.position.x = s.newPos;
+          if (camera.position.x - leadX < 1) camera.position.x = s.newPos;
           this.cam.velX = s.newVel;
 
           // Остальные координаты
@@ -1390,7 +1419,7 @@ export class LevelClass {
         break;
       }
       case 3:
-        camera.position.y += this.cameraSpeed;
+        if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 22;
 
@@ -1439,20 +1468,22 @@ export class LevelClass {
     }
     this.showScreen('popup_in_game');
   }
+
   menuInGame = () => {
     document.querySelector('.popup_game_btn1').addEventListener('click', () => {
       this.hideScreen('popup_in_game');
       this.players[0].playerAliving(false);
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
+      this.players.forEach((value, index, array) => {
+        value.playerAliving(true);
+      })
       this.camera.position.z = 7;
       this.camera.position.y = 2;
       this.camera.position.x = 0;
       this.cameraSpeed = 0.01;
       this.hideScreen('popup_in_game');
-      this.players.forEach((value, index, array) => {
-        value.playerAliving(true);
-      })
+
     })
     document.querySelector('.popup_game_btn3').addEventListener('click', () => {
       this.hideScreen('popup_in_game');

@@ -67,7 +67,7 @@ export class ControlClass {
 
 
   onKeyDown = (event) => {
-    console.log(123)
+
     switch (event.code) {
       case undefined:
         if (!this.isMobile) this.downKeys(this.levelClass.players[0].player);
@@ -77,7 +77,6 @@ export class ControlClass {
         break;
       case 'KeyZ':
       case 'ArrowDown':
-        console.log(this.levelClass.players)
         this.downKeys(this.levelClass.players[1].player);
         break;
       case 'KeyM':
@@ -91,6 +90,8 @@ export class ControlClass {
           //this.levelClass.resetLevel();
         })
         break;
+      case 'KeyP':
+        this.levelClass.needDeath(this.levelClass.players[1].player);
     }
   }
 
