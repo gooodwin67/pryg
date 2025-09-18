@@ -64,7 +64,7 @@ export class LevelClass {
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(1, 1, 1),
-          userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1 },
+          userData: { name: 'tops', collide: null, body: null, speed: null, direction: 1, noFriction: false, moveHor: false, moveVert: false },
         })),
         geometryPlaneGrass: new THREE.BoxGeometry(this.planeWidth, 0.5, this.planeDepth + 0.2),
         materialPlaneGrass: new THREE.MeshPhongMaterial({ color: 0x00cc00, transparent: true, opacity: 1 }),
@@ -488,6 +488,8 @@ export class LevelClass {
           this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
 
 
+
+
           if (this.lights.length < this.lightsCount) {
 
             const light = new THREE.PointLight(0xf7eaa8, 0, 4);
@@ -513,6 +515,29 @@ export class LevelClass {
 
 
 
+
+        }
+
+        for (let i = 0; i < this.count; i++) {
+          if (i > 4 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
+            this.objs.grassPlanes.data[i].userData.moveHor = {
+              x1: this.objs.grassPlanes.data[i - 1].position.x,
+              x2: this.objs.grassPlanes.data[i + 1].position.x,
+              w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
+              w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
+            };
+            this.objs.planes.data[i].position.y = -10;
+          }
+          if (i > 7 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor && !this.objs.grassPlanes.data[i - 1].userData.moveVert) {
+
+            this.objs.grassPlanes.data[i].userData.moveVert = {
+              x1: this.objs.grassPlanes.data[i - 1].position.x,
+              x2: this.objs.grassPlanes.data[i + 1].position.x,
+              w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
+              w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
+            };
+            this.objs.planes.data[i].position.y = -10;
+          }
 
         }
 
@@ -686,6 +711,89 @@ export class LevelClass {
 
   animateTops() {
 
+    if (this.paramsClass.gameDir == 'hor') {
+      let anyChanged = false;
+
+      for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
+        const grass = this.objs.grassPlanes.data[i];
+        const body = grass.userData.body;     // должен быть после addInstancedKinematic
+        const mh = grass.userData.moveHor;
+        const mv = grass.userData.moveVert;
+
+
+        if ((!mh && !mv) || !body) continue;
+        if (mh) {
+          const cur = body.translation();
+          // границы движения (между соседними платформами), с учётом половин их ширин
+          const leftLimit = mh.x1 + mh.w1 + grass.size.x * 0.5;
+          const rightLimit = mh.x2 - mh.w2 - grass.size.x * 0.5;
+
+          // скорость — возьми фикс или из userData
+          const speed = (grass.userData.speed ?? 0.05);
+          if (cur.x >= rightLimit) grass.userData.direction = -1;
+          if (cur.x <= leftLimit) grass.userData.direction = 1;
+
+          const dx = grass.userData.direction * speed;
+          const newX = cur.x + dx;
+
+          // двигаем тело (кинематическое)
+          body.setNextKinematicTranslation({ x: newX, y: cur.y, z: cur.z });
+
+          // и обновляем графику от него
+          grass.position.x = newX;
+
+          this.objs.lamps.data[i].position.x = newX;
+          this.objs.plafons.data[i].position.x = newX;
+          this.objs.bulbs.data[i].position.x = newX;
+          this.objs.topPlanes.data[i].position.x = newX;
+        }
+        else if (mv) {
+
+          const cur = body.translation();
+          const topLimit = 2;
+          const bottomLimit = 0.5;
+
+          const speed = (grass.userData.speed ?? 0.03);
+
+          if (cur.y >= topLimit) grass.userData.direction = -1;
+          if (cur.y <= bottomLimit) grass.userData.direction = 1;
+
+          const dx = grass.userData.direction * speed;
+          const newY = cur.y + dx;
+
+
+
+
+          // двигаем тело (кинематическое)
+          body.setNextKinematicTranslation({ x: cur.x, y: newY, z: cur.z });
+
+          // и обновляем графику от него
+          grass.position.y = newY;
+
+          this.objs.lamps.data[i].position.y = newY + this.objs.lamps.lampHeight;
+          this.objs.plafons.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
+          this.objs.bulbs.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
+          this.objs.topPlanes.data[i].position.y = newY + 0.2;
+
+
+        }
+
+        this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+        this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
+        this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+        this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
+        this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
+        anyChanged = true;
+      }
+
+      if (anyChanged) {
+        this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
+        this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
+        this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
+        this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
+        this.objs.bulbs.bulb.instanceMatrix.needsUpdate = true;
+      }
+    }
 
     if (this.paramsClass.gameDir == 'vert') {
 
@@ -868,7 +976,11 @@ export class LevelClass {
         this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
       }
       else {
-        if (Math.random() < 0.3 && i > 1) {
+        if (this.objs.grassPlanes.data[i].userData.moveHor) {
+          this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
+        }
+        else if (Math.random() < 0.3 && i > 2) {
+          this.objs.grassPlanes.data[i].userData.noFriction = true;
           this.objs.grassPlanes.data[i].userData.collide.setFriction(0);
           this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
         }
@@ -1254,7 +1366,8 @@ export class LevelClass {
 
 
   needDeath(player = false) {
-    if (player && player.position.y > 0) {
+
+    if (player && player.position.y > -1) {
       player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
       player.userData.live = false;
     }

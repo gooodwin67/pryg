@@ -26,7 +26,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = true;
+    this.player.userData.canFly = false;
     this.player.userData.hatBoost = 0;
     this.player.userData.numHatBoost = 0;
     this.player.userData.live = true;
@@ -85,6 +85,8 @@ export class PlayerClass {
   }
 
   playerMove() {
+
+    // console.log(this.levelClass.objs.grassPlanes.data[2].position.x)
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
       const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
@@ -154,7 +156,7 @@ export class PlayerClass {
 
     if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.5 && this.player.userData.live) {
 
-      this.levelClass.needDeath(this.player)
+      this.levelClass.needDeath(this.player);
     }
 
 
