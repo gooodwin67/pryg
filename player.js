@@ -26,9 +26,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
-    this.player.userData.hatBoost = 0;
-    this.player.userData.numHatBoost = 0;
+    this.player.userData.canFly = true;
     this.player.userData.live = true;
     this.player.userData.startPos;
     this.player.userData.deadPos;
@@ -124,30 +122,6 @@ export class PlayerClass {
 
 
 
-    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) {
-
-      if (this.player.userData.canFly) {
-
-        this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].position.copy(new THREE.Vector3(
-          this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.05,
-          this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.10,
-          this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0.1)
-        );
-
-        this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].children[0].children[1].rotation.y += 0.4;
-
-
-      }
-      if (!this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].userData.fly) {
-        this.player.userData.numHatBoost = this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes));
-        this.player.userData.canFly = true;
-        this.player.userData.hatBoost = 2;
-      }
-      this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].userData.fly = true;
-
-    }
-
-
 
 
     if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor') {
@@ -204,8 +178,7 @@ export class PlayerClass {
 
           this.player.userData.readyJump = false;
           this.player.userData.canFly = false;
-          this.player.userData.hatBoost = 0;
-          this.player.userData.numHatBoost = 0;
+
 
           this.player.userData.jumping = false;
           this.player.userData.playerPowerJump = 1;

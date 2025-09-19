@@ -15,7 +15,11 @@ export class LevelClass {
 
     this.cameraSpeed = 0.01;
 
-    this.canReturn = false;
+    this.boostHatModel;
+    this.boostHatPropeller;
+    this.boostHatMesh;
+
+    this.boostHatModels = [];
 
     this.planeWidth = 4;
     this.planeHeight = 10;
@@ -276,17 +280,9 @@ export class LevelClass {
 
 
 
-    this.boostHatModel;
-    this.boostHatMesh;
-    this.boostHatPropeller;
-
-    this.boostHatModels = [];
-    this.boostHatMeshes = [];
 
     this.players = [];
 
-    this.cloudModel;
-    this.clouds = [];
 
     this.backModel;
     this.backModels = [];
@@ -406,9 +402,9 @@ export class LevelClass {
 
   async createLevel() {
 
-    await this.loadTexture()
+    await this.loadTexture();
     await this.loadBoostsModel();
-    await this.loadEnvironmentModel();
+
 
     this.cameraMove(this.camera);
     this.getHorizontalWorldBounds();
@@ -496,6 +492,14 @@ export class LevelClass {
 
             this.objs.grassPlanes.data[i].position.x = randomX;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+
+            if ((i + 1) % 7 === 0) {
+              let newHat = this.boostHatModel.clone();
+              newHat.position.x = randomX;
+              newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
+              this.boostHatModels.push(newHat)
+              this.scene.add(newHat);
+            }
 
           }
           else {
@@ -656,6 +660,15 @@ export class LevelClass {
           this.objs.bulbs.data[i].position.x = this.objs.lamps.data[i].position.x;
           this.objs.bulbs.data[i].position.z = this.objs.lamps.data[i].position.z;
           this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
+
+          if ((i + 1) % 7 === 0) {
+            let newHat = this.boostHatModel.clone();
+            newHat.position.x = 0;
+            newHat.position.y = this.objs.topPlanes.data[i].position.y + 0.5;
+            this.boostHatModels.push(newHat)
+            this.scene.add(newHat);
+          }
 
 
           if (this.lights.length < this.lightsCount) {
@@ -954,50 +967,8 @@ export class LevelClass {
 
 
 
-  async loadEnvironmentModel() {
-    const gltfLoader = new GLTFLoader();
-
-
-    const url = 'models/environment/clouds.glb';
-
-    await gltfLoader.loadAsync(url).then((gltf) => {
-      const root = gltf.scene;
-      this.cloudModel = root;
-      this.cloudModel.children.forEach((value, index, array) => {
-
-        value.position.x = index * 3;
-        value.position.y = 4;
-        value.position.z = -25;
-        value.scale.x = 0.9;
-        value.scale.y = 0.9;
-        value.scale.z = 0.9;
-        //this.clouds.push(value)
-      })
-
-    })
-
-    // const url2 = 'models/environment/back.glb';/////////////////////////////////////////////////////////////////////???
-
-    // await gltfLoader.loadAsync(url2).then((gltf) => {
-    //  const root = gltf.scene;
-    //  this.backModel = root;
-
-    //  this.backModel.position.y = -20;
-    //  this.backModel.position.z = -40;
-
-    //  // this.boostHatModel.rotation.x = Math.PI / 13;
-    //  // this.boostHatModel.rotation.y = Math.PI / 2;
-    //  // this.cloudModel.position.y = 3;
-    //  // this.cloudModel.position.z = -15;
-    //  // this.cloudModel.scale.x = 0.4;
-    //  // this.cloudModel.scale.y = 0.4;
-    //  // this.cloudModel.scale.z = 0.4;
-
-    //  // this.clouds.push(this.cloudModel)
-    // })
-  }
-
   async loadEnvironments() {
+
     for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
 
       if (this.paramsClass.gameDir == 'hor') {
@@ -1042,30 +1013,9 @@ export class LevelClass {
     }
 
 
-
-
-
-
-
     if (this.paramsClass.gameDir == 'hor') { this.objs.planes.plane.instanceMatrix.needsUpdate = true; }
     this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
 
-    for (let i = 1; i < 10; i++) {
-      let newBoostHatModel = this.boostHatModel.clone();
-      if (this.paramsClass.gameDir == 'vert') {
-        //newBoostHatModel.position.y = i * 3;
-      }
-      else {
-        newBoostHatModel.position.x = i * 3;
-      }
-      this.scene.add(newBoostHatModel);
-      this.boostHatModels.push(newBoostHatModel);
-      this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
-    }
-
-    this.clouds.forEach((value, index, array) => {
-      this.scene.add(value);
-    })
 
 
   }
@@ -1077,10 +1027,6 @@ export class LevelClass {
     this.lampsAnimate();
 
     //this.changePosBlocks();
-
-    this.boostHatModels.forEach((value, index, array) => {
-      value.children[0].children[1].rotation.y += 0.05;
-    })
 
   }
 
