@@ -124,13 +124,13 @@ export class PlayerClass {
 
 
 
-
-
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) {
+
       if (this.player.userData.canFly) {
+
         this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArray(this.player, this.levelClass.boostHatMeshes))].position.copy(new THREE.Vector3(
           this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.05,
-          this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.15,
+          this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.10,
           this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0.1)
         );
 
@@ -150,12 +150,11 @@ export class PlayerClass {
 
 
 
-    if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2) {
-      this.levelClass.needDeath(this.player)
+    if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor') {
+      this.levelClass.needDeath(this.player);
     }
 
     if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.5 && this.player.userData.live) {
-
       this.levelClass.needDeath(this.player);
     }
 
@@ -168,6 +167,7 @@ export class PlayerClass {
 
           if (this.levelClass.gameNum == 2) this.levelClass.showPopupInGame(true);
           else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
+          this.paramsClass.gameStarting = false;
         }
         this.player.userData.live = false;
       }
@@ -188,10 +188,16 @@ export class PlayerClass {
       if (!this.player.userData.live) {
 
         this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
+
         if (this.player.userData.deadPos != this.player.userData.startPos) {
+
           this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
             item.position.x >= this.player.position.x - 5
           )?.position;
+          if (this.player.userData.deadPos == undefined) {
+            this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data[this.levelClass.objs.grassPlanes.data.length - 1].position;
+          }
+
         }
 
         if (this.player.userData.playerAlive) {
@@ -207,7 +213,7 @@ export class PlayerClass {
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
-          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 1, this.player.userData.deadPos.z));
+          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 0.3, this.player.userData.deadPos.z));
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 

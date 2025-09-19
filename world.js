@@ -47,7 +47,7 @@ export class WorldClass {
   async loadWaterSky() {
 
 
-    this.waterGeometry = new THREE.PlaneGeometry(1000, 500);
+    this.waterGeometry = new THREE.PlaneGeometry(900, 500);
 
     this.water = new Water(
       this.waterGeometry,
@@ -69,6 +69,7 @@ export class WorldClass {
     );
 
     this.water.rotation.x = - Math.PI / 2;
+    this.water.position.x = 300;
     this.isMobile ? this.water.position.y = -5 : this.water.position.y = -2;
 
     this.sun = new THREE.Vector3();

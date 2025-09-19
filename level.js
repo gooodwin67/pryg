@@ -15,13 +15,15 @@ export class LevelClass {
 
     this.cameraSpeed = 0.01;
 
+    this.canReturn = false;
+
     this.planeWidth = 4;
     this.planeHeight = 10;
     this.planeDepth = 1;
 
     this.minPlaneWidthTic = 2;
 
-    this.fixedDistanceHor = { min: 1, max: 5 }
+    this.fixedDistanceHor = { min: 1, max: 6 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 100;
@@ -425,8 +427,19 @@ export class LevelClass {
 
           this.minPlaneWidthTic += 0.1;
 
+          if (i > this.count - 10) {
+            this.objs.planes.data[i].size.x = 0.1;
+            this.objs.planes.data[i].size.y = this.planeHeight;
 
-          if (i > 0) {
+            this.objs.topPlanes.data[i].size.x = 0.2 + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+            this.objs.grassPlanes.data[i].size.x = 0.2 + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+          }
+
+          else if (i > 0) {
             this.objs.planes.data[i].size.x = randomW;
             this.objs.planes.data[i].size.y = this.planeHeight;
 
@@ -451,9 +464,30 @@ export class LevelClass {
             this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
           }
 
+          if (i > this.count - 10) {
+            this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min * 2;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
+            this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min * 2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
-          if (i > 0) {
+            this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min * 2;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+          }
+
+          else if (i == 1) {
+            this.objs.planes.data[i].position.x = randomX / 1.2;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+
+            this.objs.topPlanes.data[i].position.x = randomX / 1.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+
+            this.objs.grassPlanes.data[i].position.x = randomX / 1.2;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+
+          }
+
+          else if (i > 0) {
             this.objs.planes.data[i].position.x = randomX;
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
@@ -583,6 +617,13 @@ export class LevelClass {
           this.objs.grassPlanes.data[i].size.y = 0.7;
           this.objs.sensorPlanes.data[i].size.y = 0.9;
 
+          if (i > this.count - 10) {
+            this.objs.topPlanes.data[i].size.x = randomW / 8 + 0.1;
+            this.objs.grassPlanes.data[i].size.x = randomW / 8 + 0.1
+            this.objs.sensorPlanes.data[i].size.x = randomW / 8 + 0.4
+
+          }
+
           if (i > 0) {
             this.objs.topPlanes.data[i].size.x = randomW + 0.3;
             this.objs.grassPlanes.data[i].size.x = randomW + 0.3
@@ -595,8 +636,13 @@ export class LevelClass {
             this.objs.sensorPlanes.data[i].size.x = 10;
           }
 
+          if (i > this.count - 10) {
+            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(8, 14) / 100;
+          }
+          else {
+            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(4, 8) / 100;
+          }
 
-          this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(4, 8) / 100;
 
 
           this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
@@ -893,9 +939,9 @@ export class LevelClass {
       this.boostHatModel.rotation.y = Math.PI / 2;
       this.boostHatModel.position.y = 2;
       this.boostHatModel.position.x = -40;
-      this.boostHatModel.scale.x = 0.015;
-      this.boostHatModel.scale.y = 0.015;
-      this.boostHatModel.scale.z = 0.015;
+      this.boostHatModel.scale.x = 0.025;
+      this.boostHatModel.scale.y = 0.025;
+      this.boostHatModel.scale.z = 0.025;
 
       this.boostHatModel.userData.fly = false;
     })
@@ -974,6 +1020,9 @@ export class LevelClass {
 
       if (this.paramsClass.gameDir == 'vert') {
         this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
+        if (i > this.count - 10) {
+          this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));
+        }
       }
       else {
         if (this.objs.grassPlanes.data[i].userData.moveHor) {
@@ -984,6 +1033,9 @@ export class LevelClass {
           this.objs.grassPlanes.data[i].userData.collide.setFriction(0);
           this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
         }
+      }
+      if (i > this.count - 10) {
+        this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));
       }
 
 
@@ -1004,11 +1056,11 @@ export class LevelClass {
         //newBoostHatModel.position.y = i * 3;
       }
       else {
-        //newBoostHatModel.position.x = i * 3;
+        newBoostHatModel.position.x = i * 3;
       }
-      // this.scene.add(newBoostHatModel);
-      // this.boostHatModels.push(newBoostHatModel);
-      // this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
+      this.scene.add(newBoostHatModel);
+      this.boostHatModels.push(newBoostHatModel);
+      this.boostHatMeshes.push(newBoostHatModel.children[0].children[0].children[0]);
     }
 
     this.clouds.forEach((value, index, array) => {
@@ -1369,12 +1421,14 @@ export class LevelClass {
 
     if (player && player.position.y > -1) {
       player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+      player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
       player.userData.live = false;
     }
     else if (!player) {
       this.players.forEach((value, index, array) => {
         if (value.player.position.y > 0) {
           value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+          value.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
           value.player.userData.live = false;
         }
       })
@@ -1538,10 +1592,12 @@ export class LevelClass {
 
         this.cameraSpeed += 0.000001;
 
+
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
-        camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
+        if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
+        console.log(this.paramsClass.gameStarting)
         camera.position.x = 0;
 
         camera.position.z = this.isMobile ? 25 : 25;
