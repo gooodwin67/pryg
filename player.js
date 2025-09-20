@@ -26,7 +26,10 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = true;
+    this.player.userData.canFly = false;
+    this.player.userData.canFlyNum = null;
+    this.player.userData.canFlyJumps = 0;
+    this.player.userData.canFlyJumpsMax = 3;
     this.player.userData.live = true;
     this.player.userData.startPos;
     this.player.userData.deadPos;
@@ -105,6 +108,36 @@ export class PlayerClass {
 
 
 
+    if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) {
+      if (!this.player.userData.canFly && this.player.userData.canFlyNum == null) {
+        this.player.userData.canFly = true;
+        this.player.userData.canFlyJumps = this.player.userData.canFlyJumpsMax;
+        this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes));
+        this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = true;
+      }
+
+
+
+
+    }
+
+    if (this.player.userData.canFlyJumps) {
+      this.levelClass.boostHatModels[this.player.userData.canFlyNum].position.copy(new THREE.Vector3(
+        this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.05,
+        this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.20,
+        this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0.1)
+      );
+      this.levelClass.boostHatModels[this.player.userData.canFlyNum].children[0].children[1].rotation.y += 0.4;
+
+    }
+
+
+
+
+
+
+
+
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.topPlanes.data) || detectCollisionCubeAndArrayInst(this.player, this.levelClass.playerOuts)) {
       this.player.userData.onGround = true;
     }
@@ -163,6 +196,8 @@ export class PlayerClass {
 
         this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
 
+        if (this.player.userData.canFlyNum) this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = false;
+
         if (this.player.userData.deadPos != this.player.userData.startPos) {
 
           this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
@@ -178,6 +213,8 @@ export class PlayerClass {
 
           this.player.userData.readyJump = false;
           this.player.userData.canFly = false;
+          this.player.userData.canFlyJumps = 0;
+          this.player.userData.canFlyNum = null;
 
 
           this.player.userData.jumping = false;

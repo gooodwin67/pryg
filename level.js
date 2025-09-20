@@ -20,6 +20,7 @@ export class LevelClass {
     this.boostHatMesh;
 
     this.boostHatModels = [];
+    this.boostHatMeshes = [];
 
     this.planeWidth = 4;
     this.planeHeight = 10;
@@ -497,7 +498,9 @@ export class LevelClass {
               let newHat = this.boostHatModel.clone();
               newHat.position.x = randomX;
               newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
+              newHat.userData.num = i;
               this.boostHatModels.push(newHat)
+              this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
               this.scene.add(newHat);
             }
 
@@ -664,9 +667,10 @@ export class LevelClass {
 
           if ((i + 1) % 7 === 0) {
             let newHat = this.boostHatModel.clone();
-            newHat.position.x = 0;
+            newHat.position.x = getRandomNumber(this.bounds.leftX + 1, this.bounds.rightX - 1);
             newHat.position.y = this.objs.topPlanes.data[i].position.y + 0.5;
             this.boostHatModels.push(newHat)
+            this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
             this.scene.add(newHat);
           }
 
@@ -948,15 +952,22 @@ export class LevelClass {
       this.boostHatPropeller = this.boostHatModel.children[0].children[1]
       this.boostHatMesh = this.boostHatModel.children[0].children[0].children[0];
 
+      // this.boostHatPropeller.children[0].material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+
+      const mat = this.boostHatPropeller.children[0].material; // ваш MeshPhysicalMaterial
+      mat.emissive.set(0xffffff);      // цвет «свечения»
+      mat.emissiveIntensity = 0.0;     // яркость
+
       this.boostHatModel.rotation.x = Math.PI / 13;
       this.boostHatModel.rotation.y = Math.PI / 2;
       this.boostHatModel.position.y = 2;
       this.boostHatModel.position.x = -40;
-      this.boostHatModel.scale.x = 0.025;
-      this.boostHatModel.scale.y = 0.025;
-      this.boostHatModel.scale.z = 0.025;
+      this.boostHatModel.scale.x = 0.030;
+      this.boostHatModel.scale.y = 0.030;
+      this.boostHatModel.scale.z = 0.030;
 
       this.boostHatModel.userData.fly = false;
+      this.boostHatModel.userData.num = 0;
     })
   }
 
@@ -1025,6 +1036,17 @@ export class LevelClass {
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
+
+    this.boostHatModels.forEach((value, index, array) => {
+      value.children[0].children[1].rotation.y += 0.05;
+
+      if (this.worldClass.night && value.children[0].children[1].children[0].material.emissiveIntensity == 0) {
+        value.children[0].children[1].children[0].material.emissiveIntensity = 0.1;
+      }
+      else if (!this.worldClass.night && value.children[0].children[1].children[0].material.emissiveIntensity != 0) {
+        value.children[0].children[1].children[0].material.emissiveIntensity = 0.0;
+      }
+    })
 
     //this.changePosBlocks();
 
@@ -1543,7 +1565,7 @@ export class LevelClass {
         break;
       case 4:
         if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
-        console.log(this.paramsClass.gameStarting)
+
         camera.position.x = 0;
 
         camera.position.z = this.isMobile ? 25 : 25;

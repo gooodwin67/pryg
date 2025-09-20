@@ -132,6 +132,7 @@ export class ControlClass {
       else if (player.userData.canFly) {
         player.userData.readyJump = true;
         player.userData.audio[0].play();
+
       }
       // player.userData.readyJump = true;
       // player.userData.audio[0].play();
@@ -142,6 +143,22 @@ export class ControlClass {
 
   upKeys(player) {
     if (player.userData.live) {
+
+      if (player.userData.canFly && !player.userData.onGround) {
+        if (player.userData.canFlyJumps > 0) {
+          player.userData.canFlyJumps--;
+          if (player.userData.canFlyJumps == 0) {
+
+            setTimeout(() => {
+              player.userData.canFly = false;
+              this.levelClass.boostHatModels[player.userData.canFlyNum].userData.fly = false;
+              player.userData.canFlyNum = null;
+            }, 1000);
+
+          }
+        }
+      }
+
       if (player.userData.readyJump && player.userData.onGround) {
         player.userData.jumping = true;
         player.userData.readyJump = false;
