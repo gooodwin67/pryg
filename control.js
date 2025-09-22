@@ -152,7 +152,7 @@ export class ControlClass {
             setTimeout(() => {
               player.userData.canFly = false;
               this.levelClass.boostHatModels[player.userData.canFlyNum].userData.fly = false;
-              player.userData.canFlyNum = null;
+              // player.userData.canFlyNum = null;
             }, 1000);
 
           }

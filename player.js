@@ -108,8 +108,9 @@ export class PlayerClass {
 
 
 
-    if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) {
-      if (!this.player.userData.canFly && this.player.userData.canFlyNum == null) {
+    if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes) && !this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes))].userData.fly && (this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) != this.player.userData.canFlyNum)) {
+
+      if (!this.player.userData.canFly) {
         this.player.userData.canFly = true;
         this.player.userData.canFlyJumps = this.player.userData.canFlyJumpsMax;
         this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes));
@@ -176,10 +177,12 @@ export class PlayerClass {
           else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
           this.paramsClass.gameStarting = false;
         }
+        this.player.userData.canFlyJumps = 0;
         this.player.userData.live = false;
       }
       else {
         if (this.player.userData.live) {
+          this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.paramsClass.gameStarting) {

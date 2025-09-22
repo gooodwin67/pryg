@@ -22,13 +22,15 @@ export class LevelClass {
     this.boostHatModels = [];
     this.boostHatMeshes = [];
 
+    this.boostHatCoords = [];
+
     this.planeWidth = 4;
     this.planeHeight = 10;
     this.planeDepth = 1;
 
     this.minPlaneWidthTic = 2;
 
-    this.fixedDistanceHor = { min: 1, max: 6 }
+    this.fixedDistanceHor = { min: 1, max: 4 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 100;
@@ -422,6 +424,8 @@ export class LevelClass {
           let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
+          if (i > 20) this.fixedDistanceHor.max = 6;
+
           this.minPlaneWidthTic += 0.1;
 
           if (i > this.count - 10) {
@@ -473,13 +477,13 @@ export class LevelClass {
           }
 
           else if (i == 1) {
-            this.objs.planes.data[i].position.x = randomX / 1.2;
+            this.objs.planes.data[i].position.x = 4;
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
-            this.objs.topPlanes.data[i].position.x = randomX / 1.2;
+            this.objs.topPlanes.data[i].position.x = 4;
             this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
-            this.objs.grassPlanes.data[i].position.x = randomX / 1.2;
+            this.objs.grassPlanes.data[i].position.x = 4;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
           }
@@ -501,6 +505,7 @@ export class LevelClass {
               newHat.userData.num = i;
               this.boostHatModels.push(newHat)
               this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
+              this.boostHatCoords.push([newHat.position.x, newHat.position.y]);
               this.scene.add(newHat);
             }
 
@@ -613,6 +618,10 @@ export class LevelClass {
 
           this.minPlaneWidthTic += 0.1;
 
+          if (Math.random() < 0.5) this.objs.grassPlanes.data[i].userData.direction = 1;
+          else this.objs.grassPlanes.data[i].userData.direction = -1;
+
+
 
           let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
 
@@ -644,10 +653,10 @@ export class LevelClass {
           }
 
           if (i > this.count - 10) {
-            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(8, 14) / 100;
+            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(10, 14) / 100;
           }
           else {
-            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(4, 8) / 100;
+            this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(6, 10) / 100;
           }
 
 
@@ -671,6 +680,7 @@ export class LevelClass {
             newHat.position.y = this.objs.topPlanes.data[i].position.y + 0.5;
             this.boostHatModels.push(newHat)
             this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
+            this.boostHatCoords.push([newHat.position.x, newHat.position.y]);
             this.scene.add(newHat);
           }
 
@@ -773,6 +783,8 @@ export class LevelClass {
   }
 
   animateTops() {
+
+
 
     if (this.paramsClass.gameDir == 'hor') {
       let anyChanged = false;
@@ -1609,6 +1621,9 @@ export class LevelClass {
   menuInGame = () => {
     document.querySelector('.popup_game_btn1').addEventListener('click', () => {
       this.hideScreen('popup_in_game');
+      this.boostHatModels.forEach((value, index, array) => {
+        value.userData.fly = false;
+      })
       this.players[0].playerAliving(false);
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
@@ -1619,6 +1634,13 @@ export class LevelClass {
       this.camera.position.y = 2;
       this.camera.position.x = 0;
       this.cameraSpeed = 0.01;
+
+      this.boostHatModels.forEach((value, index, array) => {
+        value.position.x = this.boostHatCoords[index][0];
+        value.position.y = this.boostHatCoords[index][1];
+        value.userData.fly = false;
+      })
+
       this.hideScreen('popup_in_game');
 
     })
