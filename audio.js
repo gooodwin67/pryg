@@ -2,6 +2,12 @@ import * as THREE from 'three';
 
 export class AudioClass {
   constructor() {
+
+    this.backAudio;
+    this.oceanAudio;
+
+    this.inwaterAudio;
+
     this.readyJumpAudio;
     this.jumpAudio;
     this.jumpAudio2;
@@ -9,6 +15,7 @@ export class AudioClass {
     this.jumpAudio4;
 
     this.quacks = [];
+    this.musics = [];
 
 
   }
@@ -17,6 +24,51 @@ export class AudioClass {
     const listener = new THREE.AudioListener();
 
     const audioLoader = new THREE.AudioLoader();
+
+    await audioLoader.loadAsync('audio/back1.mp3').then((buffer) => {
+      this.backAudio = new THREE.PositionalAudio(listener);
+      this.backAudio.setBuffer(buffer);
+      this.backAudio.setLoop(true);
+      this.backAudio.setRefDistance(100);
+      this.backAudio.setVolume(2);
+      this.musics.push({
+        name: 'back',
+        music: this.backAudio,
+      })
+
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/ocean.wav').then((buffer) => {
+      this.oceanAudio = new THREE.PositionalAudio(listener);
+      this.oceanAudio.setBuffer(buffer);
+      this.oceanAudio.setLoop(true);
+      this.oceanAudio.setRefDistance(100);
+      this.oceanAudio.setVolume(0.4);
+      this.musics.push({
+        name: 'ocean',
+        music: this.oceanAudio,
+      })
+
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/inwater.wav').then((buffer) => {
+      this.inwaterAudio = new THREE.PositionalAudio(listener);
+      this.inwaterAudio.setBuffer(buffer);
+      this.inwaterAudio.setLoop(false);
+      this.inwaterAudio.setRefDistance(200);
+      this.inwaterAudio.setVolume(1);
+      this.musics.push({
+        name: 'inwater',
+        music: this.inwaterAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
     await audioLoader.loadAsync('audio/ready-jump.wav').then((buffer) => {
       this.readyJumpAudio = new THREE.PositionalAudio(listener);
       this.readyJumpAudio.setBuffer(buffer);
@@ -72,5 +124,11 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
+
+  }
+  stopMusic(musics) {
+    musics.forEach((value, index, array) => {
+      this.musics.find((el) => el['name'] === value)['music'].stop();
+    })
   }
 }

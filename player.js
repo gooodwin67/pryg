@@ -173,6 +173,9 @@ export class PlayerClass {
       if (this.levelClass.players.length < 2) {
         if (this.player.userData.live) {
 
+          this.audioClass.stopMusic(['back']);
+          this.audioClass.inwaterAudio.play();
+
           if (this.levelClass.gameNum == 2) this.levelClass.showPopupInGame(true);
           else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
           this.paramsClass.gameStarting = false;
@@ -182,10 +185,13 @@ export class PlayerClass {
       }
       else {
         if (this.player.userData.live) {
+          this.audioClass.inwaterAudio.play();
+
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.paramsClass.gameStarting) {
+          this.audioClass.stopMusic(['back']);
           this.levelClass.showPopupInGame(false);
           this.paramsClass.gameStarting = false;
         }
@@ -199,6 +205,7 @@ export class PlayerClass {
 
         this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
 
+
         if (this.player.userData.canFlyNum) this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = false;
 
         if (this.player.userData.deadPos != this.player.userData.startPos) {
@@ -211,6 +218,7 @@ export class PlayerClass {
           }
 
         }
+
 
         if (this.player.userData.playerAlive) {
 

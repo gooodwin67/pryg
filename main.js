@@ -144,6 +144,9 @@ async function initEntity() {
   await worldClass.loadWorld();
   await audioClass.loadAudio();
 
+  audioClass.backAudio.play();
+  audioClass.oceanAudio.play();
+
 
 }
 async function initLevel() {
