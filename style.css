@@ -123,25 +123,94 @@ canvas {
     z-index: -1;
 }
 
-.btns {
-    position: absolute;
-    width: 100%;
-    z-index: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 20px;
-    bottom: 0px;
-    padding: 10px;
-    box-sizing: border-box;
+
+.players_panels>div {
+
+    padding: 3px 10px 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, .6);
+    background: rgba(0, 0, 0, .12);
+    backdrop-filter: blur(4px);
 }
 
-.btns>div {
-    background-color: red;
-    width: 50px;
-    height: 50px;
-    border-radius: 50px
+.player1_panel {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
+
+.player2_panel {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.player3_panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+
+.player1_panel .player_panel_out {
+    position: absolute;
+    top: 50%;
+    transform: translate(-150%, -50%);
+}
+
+.player2_panel .player_panel_out {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(150%, -50%);
+}
+
+.player3_panel .player_panel_out {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(150%, -50%);
+}
+
+.player1_panel .player_panel_top {
+    color: #f2b0b0;
+}
+
+.player2_panel .player_panel_top {
+    color: #b0f2b0;
+}
+
+.player3_panel .player_panel_top {
+    color: #f4f07a;
+}
+
+.player_panel_bottom {
+    display: flex;
+}
+
+.player_panel_bottom_lives {
+    margin-left: 10px;
+
+}
+
+
+.player_panel_top {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    font-size: 22px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+
+.players_panels>div {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+
+
+
 
 .loader_screen {
     position: absolute;

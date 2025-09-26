@@ -35,6 +35,8 @@ export class PlayerClass {
     this.player.userData.deadPos;
     this.player.userData.playerAlive = false;
 
+    this.player.userData.lives = 3;
+
 
     this.playerModel;
 
@@ -49,7 +51,7 @@ export class PlayerClass {
     this.head;
     this.headPosition;
 
-    this.playerColors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a, 0xb0b0f2];
+    this.playerColors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a];
   }
 
 
@@ -159,25 +161,31 @@ export class PlayerClass {
 
 
     if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor') {
+      this.player.userData.lives = 0;
       this.levelClass.needDeath(this.player);
     }
 
-    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.5 && this.player.userData.live) {
+    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 2 && this.player.userData.live) {
+      this.player.userData.lives = 0;
       this.levelClass.needDeath(this.player);
     }
 
 
 
 
-    if (this.playerModel.position.y < -4) {
+    if (this.player.position.y < -4) {
       if (this.levelClass.players.length < 2) {
+
         if (this.player.userData.live) {
+          if (this.levelClass.gameNum == 2) this.player.userData.lives--;
+          else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
 
-          this.audioClass.stopMusic(['back']);
-          this.audioClass.inwaterAudio.play();
+          this.audioClass.pauseMusic(['back']);
+          this.audioClass.playMusic(['inwater']);
 
-          if (this.levelClass.gameNum == 2) this.levelClass.showPopupInGame(true);
-          else if (this.levelClass.gameNum == 4) this.levelClass.showPopupInGame(false);
+
+          if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
+          else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
           this.paramsClass.gameStarting = false;
         }
         this.player.userData.canFlyJumps = 0;
@@ -185,17 +193,31 @@ export class PlayerClass {
       }
       else {
         if (this.player.userData.live) {
-          this.audioClass.inwaterAudio.play();
-
+          if (this.levelClass.gameNum == 2) this.player.userData.lives--;
+          else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
+          this.audioClass.stopMusic(['inwater']);
+          this.audioClass.playMusic(['inwater']);
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
         }
-        if (this.levelClass.players.every(value => !value.player.userData.live) && this.paramsClass.gameStarting) {
-          this.audioClass.stopMusic(['back']);
+        if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.paramsClass.gameStarting) {
+          this.audioClass.pauseMusic(['back']);
           this.levelClass.showPopupInGame(false);
           this.paramsClass.gameStarting = false;
         }
       }
+      if (this.player.userData.lives > 0) {
+        this.levelClass.boostHatModels.forEach((value, index, array) => {
+          value.userData.fly = false;
+        })
+        this.playerAliving(false);
+        console.log(this.player.userData.live)
+        this.audioClass.playMusic(['back']);
+      }
+
+
+
+
 
 
 
@@ -325,6 +347,7 @@ export class PlayerClass {
   playerAliving(reset) {
     if (reset) {
       this.player.userData.deadPos = this.player.userData.startPos;
+      this.player.userData.lives = 3;
     }
     this.player.userData.playerAlive = true;
     setTimeout(() => {

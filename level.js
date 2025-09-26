@@ -1400,11 +1400,13 @@ export class LevelClass {
   needDeath(player = false) {
 
     if (player && player.position.y > -1) {
+      this.audioClass.playMusic(['inwater']);
       player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
       player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
       player.userData.live = false;
     }
     else if (!player) {
+      this.audioClass.playMusic(['inwater']);
       this.players.forEach((value, index, array) => {
         if (value.player.position.y > 0) {
           value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
@@ -1625,6 +1627,7 @@ export class LevelClass {
         value.userData.fly = false;
       })
       this.players[0].playerAliving(false);
+      this.audioClass.playMusic(['back']);
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
       this.players.forEach((value, index, array) => {
@@ -1642,6 +1645,8 @@ export class LevelClass {
       })
 
       this.hideScreen('popup_in_game');
+      this.audioClass.stopMusic(['back']);
+      this.audioClass.playMusic(['back']);
 
     })
     document.querySelector('.popup_game_btn3').addEventListener('click', () => {
@@ -1652,6 +1657,7 @@ export class LevelClass {
       })
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
+      this.audioClass.stopMusic(0);
     })
   }
 

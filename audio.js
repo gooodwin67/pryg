@@ -127,8 +127,26 @@ export class AudioClass {
 
   }
   stopMusic(musics) {
+    if (musics == 0) {
+      this.musics.forEach((value, index, array) => {
+        value['music'].stop();
+      })
+    }
+    else {
+      musics.forEach((value, index, array) => {
+        this.musics.find((el) => el['name'] === value)['music'].stop();
+      })
+    }
+  }
+  pauseMusic(musics) {
     musics.forEach((value, index, array) => {
-      this.musics.find((el) => el['name'] === value)['music'].stop();
+      this.musics.find((el) => el['name'] === value)['music'].pause();
+    })
+  }
+  playMusic(musics) {
+    musics.forEach((value, index, array) => {
+      let mus = this.musics.find((el) => el['name'] === value)['music'];
+      if (!mus.isPlaying) mus.play();
     })
   }
 }
