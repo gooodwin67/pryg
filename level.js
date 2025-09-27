@@ -28,7 +28,7 @@ export class LevelClass {
     this.planeHeight = 10;
     this.planeDepth = 1;
 
-    this.minPlaneWidthTic = 2;
+    this.minPlaneWidthTic = 1;
 
     this.fixedDistanceHor = { min: 1, max: 4 }
     this.fixedDistanceVert = { min: 3, max: 4 }
@@ -502,6 +502,7 @@ export class LevelClass {
               let newHat = this.boostHatModel.clone();
               newHat.position.x = randomX;
               newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
+              newHat.rotation.y = -Math.PI / 2;
               newHat.userData.num = i;
               this.boostHatModels.push(newHat)
               this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
