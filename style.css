@@ -444,7 +444,6 @@ body .green_btn {
     margin-top: 5%;
     border: 2px solid rgba(251, 242, 227, 0.9);
     border-radius: 30px;
-
 }
 
 .together_game_screen_btns_wrap {
@@ -622,7 +621,36 @@ body .together_game_chels_active {
 }
 
 
+.levels_game_screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    background: url('/images/main.jpg')no-repeat;
+    background-size: cover;
+    background-position-y: 15%;
+    box-sizing: border-box;
+    overflow: auto;
+}
 
+.levels_game_screen_wrap {
+    max-width: 640px;
+    width: 100%;
+    background: rgba(249, 218, 180, 0.95);
+    padding: 30px;
+    padding-top: 15px;
+    margin-top: 5%;
+    border: 2px solid rgba(251, 242, 227, 0.9);
+    border-radius: 30px;
+}
+
+
+
+/*//////////////////////////////////////////////////*/
 .popup_in_game {
     position: absolute;
     width: 100%;

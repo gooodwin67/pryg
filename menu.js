@@ -23,6 +23,22 @@ export class MenuClass {
       this.showScreen('together_game_screen');
     })
 
+    document.querySelector('.new_game_btn3').addEventListener('click', () => {
+      this.hideScreen('main_screen');
+      this.showScreen('levels_game_screen');
+    })
+
+    document.querySelectorAll('.levels_blocks .levels_block').forEach((value, index, array) => {
+      value.addEventListener('click', () => {
+        this.hideScreen('levels_game_screen');
+        this.initMatch(1, 2, index + 1)
+      })
+    })
+
+
+
+
+
     // document.querySelector('.free_game_btn1_1').addEventListener('click', () => {
     //   this.hideScreen('free_game_screen');
     //   this.initMatch(1, 1);
@@ -30,6 +46,7 @@ export class MenuClass {
     document.querySelector('.free_game_btn1_2').addEventListener('click', () => {
       this.hideScreen('free_game_screen');
       this.initMatch(1, 2);
+
     })
     // document.querySelector('.free_game_btn1_3').addEventListener('click', () => {
     //   this.hideScreen('free_game_screen');

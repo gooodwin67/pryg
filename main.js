@@ -151,43 +151,26 @@ async function initEntity() {
 
 
 }
-async function initLevel() {
+async function initLevel(levelsMode) {
 
-
-  await levelClass.createLevel();
-
+  await levelClass.createLevel(levelsMode);
   await levelClass.loadEnvironments();
-
   await levelClass.loadPlayers();
-
-
-  //console.log(levelClass.grassPlanes[0].userData.collider)
-
 
   if (levelClass.objs.grassPlanes.data.length > 0) {
     levelClass.objs.grassPlanes.data.forEach((value, index) => {
       levelClass.objs.grassPlanes.data[index].userData.collide.setCollisionGroups(makeCollisionMaskFromArrays([0], [1]))
     })
   }
-
-
   if (levelClass.players.length > 0) {
     levelClass.players.forEach((value, index) => {
       levelClass.players[index].player.userData.collider.setCollisionGroups(makeCollisionMaskFromArrays([1], [0, 1]))
-
-
     })
   }
-
-
-
-
-
-
-
 }
 
-async function initMatch(chels, gameNum) {
+
+async function initMatch(chels, gameNum, levelsMode = false) {
   resetMatch();
   menuClass.toggleLoader(true);
 
@@ -196,7 +179,7 @@ async function initMatch(chels, gameNum) {
   await initClases(chels);
   levelClass.gameNum = gameNum
   await initEntity();
-  await initLevel();
+  await initLevel(levelsMode);
 
 
 
