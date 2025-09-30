@@ -126,9 +126,9 @@ export class PlayerClass {
 
     if (this.player.userData.canFlyJumps) {
       this.levelClass.boostHatModels[this.player.userData.canFlyNum].position.copy(new THREE.Vector3(
-        this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.05,
+        this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.1,
         this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.20,
-        this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0.1)
+        this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0)
       );
       this.levelClass.boostHatModels[this.player.userData.canFlyNum].children[0].children[1].rotation.y += 0.4;
 
@@ -256,7 +256,7 @@ export class PlayerClass {
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
-          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x, this.player.userData.deadPos.y + 0.3, this.player.userData.deadPos.z));
+          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 0.3, this.player.userData.deadPos.z));
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
