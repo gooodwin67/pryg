@@ -5,24 +5,43 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
    <title>Прыг</title>
-  <script type="module" crossorigin src="./assets/index-BHcygtPa.js"></script>
+  <script type="module" crossorigin src="./assets/index-CIPMtXzL.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-DjXYLer5.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-CVkY0HbJ.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-ieuSF_7O.css">
 </head>
 
 <body>
 
 
-   <div class="btns">
-      <div class='btn btn2'></div>
-      <div class='btn btn1'></div>
+   <div class="players_panels">
+      <div class='player_panel player1_panel hidden_screen'>
+         <div class='player_panel_top'>Player1</div>
+         <div class='player_panel_middle'>Record: <span>145</span></div>
+         <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span>o</span> <span>o</span> <span>o</span></div>
+         </div>
+         <div class='player_panel_out'>Click</div>
+      </div>
+      <div class='player_panel player2_panel hidden_screen'>
+         <div class='player_panel_top'>Player2</div>
+         <div class='player_panel_middle'>Record: <span>145</span></div>
+         <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span>o</span> <span>o</span> <span>o</span></div>
+         </div>
+         <div class='player_panel_out'>Z</div>
+      </div>
+      <div class='player_panel player3_panel hidden_screen'>
+         <div class='player_panel_top'>Player3</div>
+         <div class='player_panel_middle'>Record: <span>145</span></div>
+         <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span>o</span> <span>o</span> <span>o</span></div>
+         </div>
+         <div class='player_panel_out'>M</div>
+      </div>
    </div>
 
    <div class="main_screen">
       <h1>JUMPING DUCK</h1>
       <div class='main_screen_btns_wrap'>
          <div class='new_game_btn new_game_btn1 blue_btn'>Одиночная игра</div>
-         <div class='new_game_btn new_game_btn2 yellow_btn'>Игра на 2х, 3х, 4х</div>
+         <div class='new_game_btn new_game_btn2 yellow_btn'>Игра вдвоём / втроём</div>
          <div class='new_game_btn new_game_btn3 green_btn'>Уровни</div>
 
       </div>
@@ -94,7 +113,6 @@
          <div class='together_game_chels_wrap'>
             <div class='together_game_chels together_game_chels_active blue_btn'>2</div>
             <div class='together_game_chels yellow_btn'>3</div>
-            <div class='together_game_chels green_btn'>4</div>
          </div>
          <div class='together_game_screen_btns_wrap'>
             <div class='together_game_btn_wrap'>
@@ -157,6 +175,23 @@
       </div>
 
 
+   </div>
+
+   <div class="levels_game_screen hidden_screen">
+      <div class='levels_game_screen_wrap'>
+         <h3>Прохождение</h3>
+         <div class='levels_blocks'>
+            <div class='levels_block'>
+               1
+            </div>
+            <div class='levels_block'>
+               2
+            </div>
+            <div class='levels_block'>
+               3
+            </div>
+         </div>
+      </div>
    </div>
 
 
