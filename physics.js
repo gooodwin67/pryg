@@ -196,6 +196,32 @@ export class PhysicsClass {
       obj.userData.playerHandlesInside = new Set();
       this.allTops.push(obj);
     }
+
+    else if (obj != undefined && obj.userData.name.includes('bird')) {
+
+      let body;
+      let shape;
+
+      const originalRotation = obj.rotation.clone();
+      obj.rotation.set(0, 0, 0);
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = getMeshSizeIgnoringChildren(obj);
+      obj.rotation.copy(originalRotation);
+
+      obj.userData.size = size;
+      obj.userData.orgRotation = originalRotation;
+
+      body = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(obj.position.x, obj.position.y, obj.position.z).setRotation(obj.quaternion).setCanSleep(false).enabledRotations(false, false, false).setLinearDamping(0).setAngularDamping(2.0));
+      shape = this.RAPIER.ColliderDesc.cuboid(size.x / 2, size.y / 2, size.z / 2).setMass(1).setRestitution(1).setFriction(0);
+      shape.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
+      let collide = this.world.createCollider(shape, body);
+      obj.userData.body = body;
+      obj.userData.collide = collide;
+      this.allWallBodyCollision.push(collide);
+      obj.userData.handle = body.handle;
+      this.dynamicBodies.push([obj, body, obj.id])
+
+    }
   }
 
 }

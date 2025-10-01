@@ -26,6 +26,9 @@ export class LevelClass {
 
     this.boostHatCoords = [];
 
+    this.angryBird;
+    this.maxHeight = 0;
+
     this.planeWidth = 4;
     this.planeHeight = 10;
     this.planeDepth = 1;
@@ -405,10 +408,23 @@ export class LevelClass {
     );
   }
 
+  async loadBarriers() {
+    let geometryBird = new THREE.BoxGeometry(1, 1, 1);
+    let materialBird = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
+    this.angryBird = new THREE.Mesh(geometryBird, materialBird);
+    this.angryBird.userData.name = 'bird';
+    this.angryBird.userData.speed = 0.1;
+    this.angryBird.userData.flying = false;
+    this.angryBird.userData.flyingMark = 30;
+
+  }
+
   async createLevel(levelsMode) {
     this.levelsMode = levelsMode;
+    this.maxHeight = 0;
 
     await this.loadTexture();
+    await this.loadBarriers();
     await this.loadBoostsModel();
 
     this.cameraMove(this.camera);
@@ -467,6 +483,17 @@ export class LevelClass {
               this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
               this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
             }
+            else if (i == this.count - 1) {
+              this.objs.planes.data[i].size.x = 7;
+              this.objs.planes.data[i].size.y = this.planeHeight;
+
+              this.objs.topPlanes.data[i].size.x = 7 + 0.3;
+              this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+              this.objs.grassPlanes.data[i].size.x = 7 + 0.3;
+              this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+              this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+            }
             else {
               this.objs.planes.data[i].size.x = randomW;
               this.objs.planes.data[i].size.y = this.planeHeight;
@@ -479,6 +506,8 @@ export class LevelClass {
               this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
 
             }
+
+
             if (i == 0) {
               randomY = 1 - this.planeHeight / 1.5;
               this.objs.planes.data[i].position.x = 0;
@@ -789,8 +818,14 @@ export class LevelClass {
               };
               this.objs.planes.data[i].position.y = -10;
             }
+            if (this.objs.grassPlanes.data[i].position.y > this.maxHeight) this.maxHeight = this.objs.grassPlanes.data[i].position.y;
+
+
+
 
           }
+
+
 
 
           this.objs.planes.plane.instanceMatrix.needsUpdate = true;
@@ -807,6 +842,11 @@ export class LevelClass {
           this.scene.add(this.objs.lamps.lamp)
           this.scene.add(this.objs.plafons.plafon)
           this.scene.add(this.objs.bulbs.bulb)
+
+          this.angryBird.position.y = this.maxHeight + 1.2;
+          this.angryBird.position.x = 40;
+          this.physicsClass.addPhysicsToObject(this.angryBird);
+          this.scene.add(this.angryBird)
 
 
           break;
@@ -1256,6 +1296,8 @@ export class LevelClass {
     this.animateTops();
     this.lampsAnimate();
 
+
+
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
 
@@ -1267,7 +1309,19 @@ export class LevelClass {
       }
     })
 
-    //this.changePosBlocks();
+    if (this.players[0].player.position.x > this.angryBird.userData.flyingMark && !this.angryBird.userData.flying) {
+      this.angryBird.userData.flyingMark = this.angryBird.userData.flyingMark * 2;
+      this.angryBird.userData.flying = true;
+    }
+
+    if (this.angryBird.userData.flying) {
+      this.angryBird.userData.body.setNextKinematicTranslation({ x: this.angryBird.userData.body.translation().x -= this.angryBird.userData.speed, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
+      if (this.angryBird.userData.body.translation().x < this.players[this.maxSpeed(this.players)].player.position.x - 20) {
+        this.angryBird.userData.body.setNextKinematicTranslation({ x: this.players[this.maxSpeed(this.players)].player.position.x + 20, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
+        this.angryBird.userData.flying = false;
+      }
+    }
+
 
   }
 
