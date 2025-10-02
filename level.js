@@ -27,6 +27,9 @@ export class LevelClass {
     this.boostHatCoords = [];
 
     this.angryBird;
+    this.birdFlyingMark = 10;
+    this.distanceToBird = 20;
+    this.angryBirdModel;
     this.maxHeight = 0;
 
     this.planeWidth = 4;
@@ -409,23 +412,24 @@ export class LevelClass {
   }
 
   async loadBarriers() {
-    let geometryBird = new THREE.BoxGeometry(1, 1, 1);
-    let materialBird = new THREE.MeshPhongMaterial({ color: 0x00cc00 });
+    let geometryBird = new THREE.BoxGeometry(0.5, 0.3, 1);
+    let materialBird = new THREE.MeshBasicMaterial({ color: 0x00cc00, transparent: true, opacity: 0 });
     this.angryBird = new THREE.Mesh(geometryBird, materialBird);
     this.angryBird.userData.name = 'bird';
     this.angryBird.userData.speed = 0.1;
     this.angryBird.userData.flying = false;
-    this.angryBird.userData.flyingMark = 30;
 
   }
 
   async createLevel(levelsMode) {
     this.levelsMode = levelsMode;
     this.maxHeight = 0;
+    this.birdFlyingMark = 10;
 
     await this.loadTexture();
     await this.loadBarriers();
     await this.loadBoostsModel();
+    await this.loadBirdModel();
 
     this.cameraMove(this.camera);
     this.getHorizontalWorldBounds();
@@ -441,6 +445,8 @@ export class LevelClass {
       let panel = document.querySelectorAll('.player_panel');
       panel[index].classList.remove('hidden_screen');
     })
+
+    this.scene.add(this.angryBirdModel);
 
 
 
@@ -843,7 +849,7 @@ export class LevelClass {
           this.scene.add(this.objs.plafons.plafon)
           this.scene.add(this.objs.bulbs.bulb)
 
-          this.angryBird.position.y = this.maxHeight + 1.2;
+          this.angryBird.position.y = 50;
           this.angryBird.position.x = 40;
           this.physicsClass.addPhysicsToObject(this.angryBird);
           this.scene.add(this.angryBird)
@@ -1192,6 +1198,35 @@ export class LevelClass {
 
 
 
+  async loadBirdModel() {
+    const gltfLoader = new GLTFLoader();
+    const url = 'models/bird/bird.glb';
+
+
+    await gltfLoader.loadAsync(url).then((gltf) => {
+      const root = gltf.scene;
+      const anims = gltf.animations;
+
+      root.scale.x = 2;
+      root.scale.y = 2;
+      root.scale.z = 2;
+      root.position.y = 20;
+      root.rotation.y = -Math.PI / 3;
+
+      this.angryBirdModel = root;
+      this.angryBirdModel.userData.mixer = new THREE.AnimationMixer(this.angryBirdModel);
+      this.angryBirdModel.userData.action = this.angryBirdModel.userData.mixer.clipAction(anims[0]);
+      this.angryBirdModel.userData.action.play();
+
+      this.angryBirdModel.userData.clock = new THREE.Clock();
+
+      const mat = this.angryBirdModel.children[0].children[0].material; // ваш MeshPhysicalMaterial
+      console.log(mat)
+      mat.emissive.set(0xffffff);      // цвет «свечения»
+      mat.emissiveIntensity = 0.1;     // яркость
+    })
+  }
+
 
 
 
@@ -1215,6 +1250,7 @@ export class LevelClass {
       const mat = this.boostHatPropeller.children[0].material; // ваш MeshPhysicalMaterial
       mat.emissive.set(0xffffff);      // цвет «свечения»
       mat.emissiveIntensity = 0.0;     // яркость
+
 
       this.boostHatModel.rotation.x = Math.PI / 17;
       this.boostHatModel.rotation.y = Math.PI / 2;
@@ -1297,7 +1333,6 @@ export class LevelClass {
     this.lampsAnimate();
 
 
-
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
 
@@ -1309,16 +1344,23 @@ export class LevelClass {
       }
     })
 
-    if (this.players[0].player.position.x > this.angryBird.userData.flyingMark && !this.angryBird.userData.flying) {
-      this.angryBird.userData.flyingMark = this.angryBird.userData.flyingMark * 2;
-      this.angryBird.userData.flying = true;
-    }
+    this.angryBirdModel.position.copy(new THREE.Vector3(this.angryBird.position.x, this.angryBird.position.y - 0.2, this.angryBird.position.z + 0.9))
+    this.angryBirdModel.userData.mixer.update(this.angryBirdModel.userData.clock.getDelta());
 
-    if (this.angryBird.userData.flying) {
-      this.angryBird.userData.body.setNextKinematicTranslation({ x: this.angryBird.userData.body.translation().x -= this.angryBird.userData.speed, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
-      if (this.angryBird.userData.body.translation().x < this.players[this.maxSpeed(this.players)].player.position.x - 20) {
-        this.angryBird.userData.body.setNextKinematicTranslation({ x: this.players[this.maxSpeed(this.players)].player.position.x + 20, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
-        this.angryBird.userData.flying = false;
+    if (this.paramsClass.gameDir == 'hor') {
+
+      if (this.players[this.maxSpeed(this.players)].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
+        this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight), z: this.angryBird.userData.body.translation().z });
+        this.birdFlyingMark = this.birdFlyingMark + 10;
+        this.angryBird.userData.flying = true;
+      }
+
+      if (this.angryBird.userData.flying) {
+        this.angryBird.userData.body.setNextKinematicTranslation({ x: this.angryBird.userData.body.translation().x -= this.angryBird.userData.speed, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
+        if (this.angryBird.userData.body.translation().x < this.players[this.maxSpeed(this.players)].player.position.x - 20) {
+          this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
+          this.angryBird.userData.flying = false;
+        }
       }
     }
 
