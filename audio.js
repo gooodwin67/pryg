@@ -4,9 +4,12 @@ export class AudioClass {
   constructor() {
 
     this.backAudio;
+    this.backAudio2;
+    this.backAudio3;
     this.oceanAudio;
 
     this.inwaterAudio;
+    this.takeAudio;
 
     this.readyJumpAudio;
     this.jumpAudio;
@@ -16,6 +19,12 @@ export class AudioClass {
 
     this.quacks = [];
     this.musics = [];
+
+    this.musicDay = true;
+    this.musicNight = false;
+    this.timeToChange = 2;
+
+
 
 
   }
@@ -32,8 +41,38 @@ export class AudioClass {
       this.backAudio.setRefDistance(100);
       this.backAudio.setVolume(2);
       this.musics.push({
-        name: 'back',
+        name: 'back1',
         music: this.backAudio,
+      })
+
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/back2.mp3').then((buffer) => {
+      this.backAudio2 = new THREE.PositionalAudio(listener);
+      this.backAudio2.setBuffer(buffer);
+      this.backAudio2.setLoop(true);
+      this.backAudio2.setRefDistance(100);
+      this.backAudio2.setVolume(2);
+      this.musics.push({
+        name: 'back2',
+        music: this.backAudio2,
+      })
+
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/back3.mp3').then((buffer) => {
+      this.backAudio3 = new THREE.PositionalAudio(listener);
+      this.backAudio3.setBuffer(buffer);
+      this.backAudio3.setLoop(true);
+      this.backAudio3.setRefDistance(100);
+      this.backAudio3.setVolume(2);
+      this.musics.push({
+        name: 'back3',
+        music: this.backAudio3,
       })
 
     }).catch((error) => {
@@ -69,12 +108,40 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
+    await audioLoader.loadAsync('audio/loose.wav').then((buffer) => {
+      this.looseAudio = new THREE.PositionalAudio(listener);
+      this.looseAudio.setBuffer(buffer);
+      this.looseAudio.setLoop(false);
+      this.looseAudio.setRefDistance(200);
+      this.looseAudio.setVolume(1);
+      this.musics.push({
+        name: 'loose',
+        music: this.looseAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/take.wav').then((buffer) => {
+      this.takeAudio = new THREE.PositionalAudio(listener);
+      this.takeAudio.setBuffer(buffer);
+      this.takeAudio.setLoop(false);
+      this.takeAudio.setRefDistance(200);
+      this.takeAudio.setVolume(2);
+      this.musics.push({
+        name: 'take',
+        music: this.takeAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
     await audioLoader.loadAsync('audio/ready-jump.wav').then((buffer) => {
       this.readyJumpAudio = new THREE.PositionalAudio(listener);
       this.readyJumpAudio.setBuffer(buffer);
       this.readyJumpAudio.setLoop(false);
-      this.readyJumpAudio.setRefDistance(400);
-      this.readyJumpAudio.setVolume(30);
+      this.readyJumpAudio.setRefDistance(10);
+      this.readyJumpAudio.setVolume(2);
       this.readyJumpAudio.setPlaybackRate(2);
     }).catch((error) => {
       console.error('Ошибка при загрузке аудио:', error);
@@ -124,6 +191,11 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
+    this.musics.push({
+      name: 'back',
+      music: this.backAudio,
+    })
+
 
   }
   stopMusic(musics) {
@@ -148,5 +220,47 @@ export class AudioClass {
       let mus = this.musics.find((el) => el['name'] === value)['music'];
       if (!mus.isPlaying) mus.play();
     })
+  }
+  dayNight(day = true, hor = false) {
+    if (day && !this.musicDay) {
+
+      if (this.timeToChange > 0) {
+        this.timeToChange -= 0.01;
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(this.timeToChange);
+      }
+      else {
+        this.timeToChange = 0;
+        this.stopMusic(['back']);
+        this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => el['name'] === 'back1')['music'];
+        this.playMusic(['back']);
+        this.musicNight = false;
+        this.musicDay = true;
+        this.timeToChange = 2;
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(this.timeToChange);
+      }
+    }
+    else if (!day && !this.musicNight) {
+
+      if (this.timeToChange > 0) {
+        this.timeToChange -= 0.01;
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(this.timeToChange);
+      }
+      else {
+        this.timeToChange = 0;
+        this.stopMusic(['back']);
+        console.log(hor);
+        this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => !hor ? el['name'] === 'back2' : el['name'] === 'back3')['music'];
+        this.playMusic(['back']);
+        this.musicNight = true;
+        this.musicDay = false;
+        this.timeToChange = 2;
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(this.timeToChange);
+      }
+
+
+
+
+
+    }
   }
 }

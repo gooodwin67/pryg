@@ -1221,7 +1221,6 @@ export class LevelClass {
       this.angryBirdModel.userData.clock = new THREE.Clock();
 
       const mat = this.angryBirdModel.children[0].children[0].material; // ваш MeshPhysicalMaterial
-      console.log(mat)
       mat.emissive.set(0xffffff);      // цвет «свечения»
       mat.emissiveIntensity = 0.1;     // яркость
     })
@@ -1331,6 +1330,15 @@ export class LevelClass {
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
+
+    if (this.worldClass.night) {
+      if (this.paramsClass.gameDir == 'hor') this.audioClass.dayNight(false);
+      else this.audioClass.dayNight(false, 'vert');
+      this.audioClass.dayNight(false);
+    }
+    else {
+      this.audioClass.dayNight(true);
+    }
 
 
     this.boostHatModels.forEach((value, index, array) => {
@@ -1914,6 +1922,8 @@ export class LevelClass {
   }
 
   showPopupInGame(showNext) {
+    if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
+    this.audioClass.looseAudio.play();
     if (!showNext) {
       this.hideScreen('popup_game_btn1')
     }
@@ -1930,6 +1940,7 @@ export class LevelClass {
         value.userData.fly = false;
       })
       this.players[0].playerAliving(false);
+      this.audioClass.pauseMusic(['back']);
       this.audioClass.playMusic(['back']);
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {

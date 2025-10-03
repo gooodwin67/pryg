@@ -117,6 +117,8 @@ export class PlayerClass {
         this.player.userData.canFlyJumps = this.player.userData.canFlyJumpsMax;
         this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes));
         this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = true;
+        if (this.audioClass.takeAudio.isPlaying) this.audioClass.stopMusic(['take']);
+        this.audioClass.playMusic(['take']);
       }
 
 
@@ -211,7 +213,6 @@ export class PlayerClass {
           value.userData.fly = false;
         })
         this.playerAliving(false);
-        console.log(this.player.userData.live)
         this.audioClass.playMusic(['back']);
       }
 
