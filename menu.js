@@ -31,7 +31,7 @@ export class MenuClass {
     document.querySelectorAll('.levels_blocks .levels_block').forEach((value, index, array) => {
       value.addEventListener('click', () => {
         this.hideScreen('levels_game_screen');
-        this.initMatch(1, 2, index + 1)
+        this.initMatch(1, 2, index + 1, true)
       })
     })
 
@@ -54,7 +54,7 @@ export class MenuClass {
     // })
     document.querySelector('.free_game_btn1_4').addEventListener('click', () => {
       this.hideScreen('free_game_screen');
-      this.initMatch(1, 4);
+      this.initMatch(1, 4, false, false);
     })
 
 
@@ -69,11 +69,11 @@ export class MenuClass {
     })
     document.querySelector('.together_game_btn1_3').addEventListener('click', () => {
       this.hideScreen('together_game_screen');
-      this.initMatch(this.playersNum, 3);
+      this.initMatch(this.playersNum, 3, false, false);
     })
     document.querySelector('.together_game_btn1_4').addEventListener('click', () => {
       this.hideScreen('together_game_screen');
-      this.initMatch(this.playersNum, 4);
+      this.initMatch(this.playersNum, 4, false, false);
     })
 
 

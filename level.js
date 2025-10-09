@@ -16,6 +16,13 @@ export class LevelClass {
     this.cameraSpeed = 0.01;
 
     this.levelsMode = false;
+    this.levelsNoFric = false;
+
+    this.randomNoFric = 0;
+    this.randomAnimateHor = 0.2;
+    this.randomAnimateVert = 0.2;
+
+    this.canShowAds = true;
 
     this.boostHatModel;
     this.boostHatPropeller;
@@ -31,6 +38,7 @@ export class LevelClass {
     this.distanceToBird = 20;
     this.angryBirdModel;
     this.maxHeight = 0;
+    this.birdYes = true;
 
     this.planeWidth = 4;
     this.planeHeight = 10;
@@ -315,7 +323,7 @@ export class LevelClass {
       targetX: this.camera.position.x,
       velX: 0,             // для пружинки, если захочешь
       followBackSpeed: 12, // макс скорость назад (чтобы не "дергалось" при респауне)
-      maxBackJump: 8,      // максимум, насколько цель может "откатить" за 1 кадр
+      maxBackJump: 800,      // максимум, насколько цель может "откатить" за 1 кадр
     };
 
     this.dt = new THREE.Clock();
@@ -418,13 +426,18 @@ export class LevelClass {
     this.angryBird.userData.name = 'bird';
     this.angryBird.userData.speed = 0.1;
     this.angryBird.userData.flying = false;
+    this.angryBird.position.y = 20;
+
+    this.physicsClass.addPhysicsToObject(this.angryBird);
 
   }
 
-  async createLevel(levelsMode) {
+  async createLevel(levelsMode, bird) {
+    console.log('createlevel')
     this.levelsMode = levelsMode;
     this.maxHeight = 0;
     this.birdFlyingMark = 10;
+    this.birdYes = bird;
 
     await this.loadTexture();
     await this.loadBarriers();
@@ -446,178 +459,285 @@ export class LevelClass {
       panel[index].classList.remove('hidden_screen');
     })
 
-    this.scene.add(this.angryBirdModel);
+    if (this.birdYes) this.scene.add(this.angryBirdModel);
 
 
 
 
     if (levelsMode) {
       this.players[0].player.userData.lives = 0;
+      let previousX = -2.5; // Начальная позиция по оси X
       switch (levelsMode) {
         case 1:
-          this.count = 10;
+          this.birdYes = false;
+          this.count = 3;
           this.paramsClass.gameDir = 'hor'
-          let previousX = -2.5; // Начальная позиция по оси X
-
-          for (let i = 0; i < this.count; i++) {
-
-            let randomW = getRandomNumber(this.planeWidth, this.planeWidth - 1);
-            let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
-            let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
-
-            if (i == 0) {
-              this.objs.planes.data[i].size.x = this.planeWidth;
-              this.objs.planes.data[i].size.y = this.planeHeight;
-              this.objs.planes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
-
-              this.objs.topPlanes.data[i].size.x = this.planeWidth + 0.3;
-              this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
-
-
-              this.objs.grassPlanes.data[i].size.x = this.planeWidth + 0.3;
-              this.objs.grassPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
-              this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2;
-            }
-            else if (i == 1) {
-              this.objs.planes.data[i].size.x = randomW;
-              this.objs.planes.data[i].size.y = this.planeHeight;
-
-              this.objs.topPlanes.data[i].size.x = randomW + 0.3;
-              this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
-
-              this.objs.grassPlanes.data[i].size.x = randomW + 0.3;
-              this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
-              this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
-            }
-            else if (i == this.count - 1) {
-              this.objs.planes.data[i].size.x = 7;
-              this.objs.planes.data[i].size.y = this.planeHeight;
-
-              this.objs.topPlanes.data[i].size.x = 7 + 0.3;
-              this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
-
-              this.objs.grassPlanes.data[i].size.x = 7 + 0.3;
-              this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
-              this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
-            }
-            else {
-              this.objs.planes.data[i].size.x = randomW;
-              this.objs.planes.data[i].size.y = this.planeHeight;
-
-              this.objs.topPlanes.data[i].size.x = randomW + 0.3;
-              this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
-
-              this.objs.grassPlanes.data[i].size.x = randomW + 0.3;
-              this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
-              this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
-
-            }
-
-
-            if (i == 0) {
-              randomY = 1 - this.planeHeight / 1.5;
-              this.objs.planes.data[i].position.x = 0;
-              this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
-
-              this.objs.topPlanes.data[i].position.x = 0;
-              this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
-
-              this.objs.grassPlanes.data[i].position.x = 0;
-              this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
-            }
-            else if (i == 1) {
-              this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
-
-              this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
-
-              this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
-            }
-            else {
-              this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
-
-              this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
-
-              this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-              this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
-            }
-
-            this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
-            this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
-            this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
-
-            this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
-            this.objs.plafons.data[i].position.z = this.objs.lamps.data[i].position.z;
-            this.objs.plafons.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
-
-            this.objs.bulbs.data[i].position.x = this.objs.lamps.data[i].position.x;
-            this.objs.bulbs.data[i].position.z = this.objs.lamps.data[i].position.z;
-            this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
-
-
-            if (this.lights.length < this.lightsCount) {
-
-              const light = new THREE.PointLight(0xf7eaa8, 0, 4);
-              light.position.set(0, 0, 1.6);
-              this.lights.push(light)
-              this.scene.add(light);
-            }
-
-            this.apply(i, this.objs.planes.data, this.objs.planes.plane);
-            this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
-            this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
-            this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
-            this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
-            this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
-            previousX = randomX + randomW / 2;
-          }
-
-          for (let i = 0; i < this.count; i++) {
-            if (i > 4 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
-              this.objs.grassPlanes.data[i].userData.moveHor = {
-                x1: this.objs.grassPlanes.data[i - 1].position.x,
-                x2: this.objs.grassPlanes.data[i + 1].position.x,
-                w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
-                w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
-              };
-              this.objs.planes.data[i].position.y = -10;
-            }
-            if (i > 7 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor && !this.objs.grassPlanes.data[i - 1].userData.moveVert) {
-
-              this.objs.grassPlanes.data[i].userData.moveVert = {
-                x1: this.objs.grassPlanes.data[i - 1].position.x,
-                x2: this.objs.grassPlanes.data[i + 1].position.x,
-                w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
-                w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
-              };
-              this.objs.planes.data[i].position.y = -10;
-            }
-
-          }
-
-
-          this.objs.planes.plane.instanceMatrix.needsUpdate = true;
-          this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
-          this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
-          this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
-          this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
-          this.objs.bulbs.bulb.instanceMatrix.needsUpdate = true;
-
-
-          this.scene.add(this.objs.planes.plane)
-          this.scene.add(this.objs.topPlanes.planeTop)
-          this.scene.add(this.objs.grassPlanes.planeGrass)
-          this.scene.add(this.objs.lamps.lamp)
-          this.scene.add(this.objs.plafons.plafon)
-          this.scene.add(this.objs.bulbs.bulb)
-
-
+          this.levelsNoFric = true;
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
           break;
+        case 2:
+          this.birdYes = true;
+          this.count = 10;
+          this.paramsClass.gameDir = 'vert'
+
+
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
+          break;
+
       }
+
+      if (this.paramsClass.gameDir == 'hor') {
+        for (let i = 0; i < this.count; i++) {
+
+          let randomW = getRandomNumber(this.planeWidth, this.planeWidth - 1);
+          let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
+          let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
+
+          if (i == 0) {
+            this.objs.planes.data[i].size.x = this.planeWidth;
+            this.objs.planes.data[i].size.y = this.planeHeight;
+            this.objs.planes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+
+            this.objs.topPlanes.data[i].size.x = this.planeWidth + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+
+            this.objs.grassPlanes.data[i].size.x = this.planeWidth + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2;
+          }
+          else if (i == 1) {
+            this.objs.planes.data[i].size.x = randomW;
+            this.objs.planes.data[i].size.y = this.planeHeight;
+
+            this.objs.topPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+            this.objs.grassPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+          }
+          else if (i == this.count - 1) {
+            this.objs.planes.data[i].size.x = 5;
+            this.objs.planes.data[i].size.y = this.planeHeight;
+
+            this.objs.topPlanes.data[i].size.x = 5 + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+            this.objs.grassPlanes.data[i].size.x = 5 + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+          }
+          else {
+            this.objs.planes.data[i].size.x = randomW;
+            this.objs.planes.data[i].size.y = this.planeHeight;
+
+            this.objs.topPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
+
+            this.objs.grassPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
+            this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
+
+          }
+
+
+          if (i == 0) {
+            randomY = 1 - this.planeHeight / 1.5;
+            this.objs.planes.data[i].position.x = 0;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+
+            this.objs.topPlanes.data[i].position.x = 0;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+
+            this.objs.grassPlanes.data[i].position.x = 0;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+          }
+          else if (i == 1) {
+            this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+
+            this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+
+            this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+          }
+          else {
+            this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+
+            this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+
+            this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+          }
+
+          this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
+          this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+          this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
+
+          this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.plafons.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.plafons.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
+          this.objs.bulbs.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.bulbs.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
+
+          if (this.lights.length < this.lightsCount) {
+
+            const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+            light.position.set(0, 0, 1.6);
+            this.lights.push(light)
+            this.scene.add(light);
+          }
+
+          this.apply(i, this.objs.planes.data, this.objs.planes.plane);
+          this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
+          this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+          this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
+          this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
+          previousX = randomX + randomW / 2;
+        }
+        for (let i = 0; i < this.count; i++) {
+          if (i > 4 && i < this.count - 2 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
+            this.objs.grassPlanes.data[i].userData.moveHor = {
+              x1: this.objs.grassPlanes.data[i - 1].position.x,
+              x2: this.objs.grassPlanes.data[i + 1].position.x,
+              w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
+              w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
+            };
+            this.objs.planes.data[i].position.y = -10;
+          }
+          if (i > 7 && i < this.count - 2 && Math.random() < this.randomAnimateVert) {
+
+            this.objs.grassPlanes.data[i].userData.moveVert = {
+              x1: this.objs.grassPlanes.data[i - 1].position.x,
+              x2: this.objs.grassPlanes.data[i + 1].position.x,
+              w1: this.objs.grassPlanes.data[i - 1].size.x / 2,
+              w2: this.objs.grassPlanes.data[i + 1].size.x / 2,
+            };
+            this.objs.planes.data[i].position.y = -10;
+          }
+
+        }
+      }
+      else if (this.paramsClass.gameDir == 'vert') {
+        let previousY = -5;
+        this.birdYes = false;
+
+        for (let i = 0; i < this.count; i++) {
+
+          let randomW = getRandomNumber(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
+
+          this.minPlaneWidthTic += 0.1;
+
+          if (Math.random() < 0.5) this.objs.grassPlanes.data[i].userData.direction = 1;
+          else this.objs.grassPlanes.data[i].userData.direction = -1;
+
+
+
+          let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
+
+          this.objs.topPlanes.data[i].position.y = randomY - 1.3;
+          this.objs.grassPlanes.data[i].position.y = randomY;
+          this.objs.sensorPlanes.data[i].position.y = randomY - 0.3;
+
+          this.objs.topPlanes.data[i].size.y = 0.3;
+          this.objs.grassPlanes.data[i].size.y = 0.7;
+          this.objs.sensorPlanes.data[i].size.y = 0.9;
+
+
+          if (i > 0) {
+            this.objs.topPlanes.data[i].size.x = randomW + 0.3;
+            this.objs.grassPlanes.data[i].size.x = randomW + 0.3
+            this.objs.sensorPlanes.data[i].size.x = randomW + 0.7
+
+          }
+          else {
+            this.objs.topPlanes.data[i].size.x = 10;
+            this.objs.grassPlanes.data[i].size.x = 10;
+            this.objs.sensorPlanes.data[i].size.x = 10;
+          }
+
+
+
+          this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
+          this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+          this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
+
+          this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.plafons.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.plafons.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
+          this.objs.bulbs.data[i].position.x = this.objs.lamps.data[i].position.x;
+          this.objs.bulbs.data[i].position.z = this.objs.lamps.data[i].position.z;
+          this.objs.bulbs.data[i].position.y = this.objs.lamps.data[i].position.y + 1;
+
+          this.objs.grassPlanes.data[i].userData.speed = getRandomNumber(6, 10) / 100;
+
+
+          // if ((i + 1) % 7 === 0) {
+          //   let newHat = this.boostHatModel.clone();
+          //   newHat.position.x = getRandomNumber(this.bounds.leftX + 1, this.bounds.rightX - 1);
+          //   newHat.position.y = this.objs.topPlanes.data[i].position.y + 0.5;
+          //   this.boostHatModels.push(newHat)
+          //   this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
+          //   this.boostHatCoords.push([newHat.position.x, newHat.position.y]);
+          //   this.scene.add(newHat);
+          // }
+
+
+          if (this.lights.length < this.lightsCount) {
+
+            const light = new THREE.PointLight(0xf7eaa8, 0, 4);
+            // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
+            light.position.set(0, 0, 1.6);
+            this.lights.push(light)
+            this.scene.add(light);
+
+            // this.objs.lamps.data[i].userData.light = true;
+
+          }
+
+
+          this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
+          this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+          this.apply(i, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor);
+          this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
+          this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
+          this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
+
+          previousY = randomY;
+
+        }
+      }
+
+
+
+
+      if (this.paramsClass.gameDir == 'hor') this.objs.planes.plane.instanceMatrix.needsUpdate = true;
+      if (this.paramsClass.gameDir == 'vert') this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = true;
+      this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
+      this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
+      this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
+      this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
+      this.objs.bulbs.bulb.instanceMatrix.needsUpdate = true;
+
+
+      if (this.paramsClass.gameDir == 'hor') this.scene.add(this.objs.planes.plane)
+      if (this.paramsClass.gameDir == 'vert') this.scene.add(this.objs.sensorPlanes.planeSensor)
+      this.scene.add(this.objs.topPlanes.planeTop)
+      this.scene.add(this.objs.grassPlanes.planeGrass)
+      this.scene.add(this.objs.lamps.lamp)
+      this.scene.add(this.objs.plafons.plafon)
+      this.scene.add(this.objs.bulbs.bulb)
 
 
     }
@@ -805,7 +925,7 @@ export class LevelClass {
           }
 
           for (let i = 0; i < this.count; i++) {
-            if (i > 4 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
+            if (i > 4 && i < this.count - 2 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
               this.objs.grassPlanes.data[i].userData.moveHor = {
                 x1: this.objs.grassPlanes.data[i - 1].position.x,
                 x2: this.objs.grassPlanes.data[i + 1].position.x,
@@ -814,7 +934,7 @@ export class LevelClass {
               };
               this.objs.planes.data[i].position.y = -10;
             }
-            if (i > 7 && i < this.count - 2 && Math.random() < 0.2 && !this.objs.grassPlanes.data[i - 1].userData.moveHor && !this.objs.grassPlanes.data[i - 1].userData.moveVert) {
+            if (i > 7 && i < this.count - 2 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[i - 1].userData.moveHor && !this.objs.grassPlanes.data[i - 1].userData.moveVert) {
 
               this.objs.grassPlanes.data[i].userData.moveVert = {
                 x1: this.objs.grassPlanes.data[i - 1].position.x,
@@ -851,7 +971,6 @@ export class LevelClass {
 
           this.angryBird.position.y = 50;
           this.angryBird.position.x = 40;
-          this.physicsClass.addPhysicsToObject(this.angryBird);
           this.scene.add(this.angryBird)
 
 
@@ -862,6 +981,7 @@ export class LevelClass {
 
           this.paramsClass.gameDir = 'vert'
           let previousY = -5;
+          this.birdYes = false;
 
           for (let i = 0; i < this.count; i++) {
 
@@ -1148,6 +1268,7 @@ export class LevelClass {
         const newX = currentPos.x + moveX;
 
 
+
         if (i > 0) {
           body.setNextKinematicTranslation({
             x: newX,
@@ -1295,15 +1416,15 @@ export class LevelClass {
 
       if (this.paramsClass.gameDir == 'vert') {
         this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
-        if (i > this.count - 10) {
-          this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));
-        }
+        // if (i > this.count - 10) {
+        //   this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));
+        // }
       }
       else {
         if (this.objs.grassPlanes.data[i].userData.moveHor) {
           this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
         }
-        else if (Math.random() < 0.3 && i > 2) {
+        else if (Math.random() < this.randomNoFric && i > 2 && !this.levelsNoFric) {
           this.objs.grassPlanes.data[i].userData.noFriction = true;
           this.objs.grassPlanes.data[i].userData.collide.setFriction(0);
           this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
@@ -1312,6 +1433,9 @@ export class LevelClass {
 
       if (i > this.count - 10 && !this.levelsMode) {
         this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));  //Красим последние 10 сложных блоков
+      }
+      if (i == this.count - 1 && this.levelsMode) {
+        this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0x00ff00));
       }
 
 
@@ -1340,6 +1464,10 @@ export class LevelClass {
       this.audioClass.dayNight(true);
     }
 
+    if (this.camera.position.x > this.objs.topPlanes.data[this.count - 2].position.x) {
+      this.canShowAds = false;
+    }
+
 
     this.boostHatModels.forEach((value, index, array) => {
       value.children[0].children[1].rotation.y += 0.05;
@@ -1355,17 +1483,17 @@ export class LevelClass {
     this.angryBirdModel.position.copy(new THREE.Vector3(this.angryBird.position.x, this.angryBird.position.y - 0.2, this.angryBird.position.z + 0.9))
     this.angryBirdModel.userData.mixer.update(this.angryBirdModel.userData.clock.getDelta());
 
-    if (this.paramsClass.gameDir == 'hor') {
+    if (this.birdYes) {
 
-      if (this.players[this.maxSpeed(this.players)].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
+      if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
         this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight), z: this.angryBird.userData.body.translation().z });
-        this.birdFlyingMark = this.birdFlyingMark + 10;
+        this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
         this.angryBird.userData.flying = true;
       }
 
       if (this.angryBird.userData.flying) {
         this.angryBird.userData.body.setNextKinematicTranslation({ x: this.angryBird.userData.body.translation().x -= this.angryBird.userData.speed, y: this.angryBird.userData.body.translation().y, z: this.angryBird.userData.body.translation().z });
-        if (this.angryBird.userData.body.translation().x < this.players[this.maxSpeed(this.players)].player.position.x - 20) {
+        if (this.angryBird.userData.body.translation().x < this.players[this.maxSpeed()].player.position.x - 20) {
           this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
           this.angryBird.userData.flying = false;
         }
@@ -1750,8 +1878,11 @@ export class LevelClass {
 
 
 
-  maxSpeed() {
-    let players = this.players;
+  maxSpeed(cam = false) {
+    let players;
+    if (cam) players = this.players.filter((value, index, array) => { return value.player.userData.live });
+    else players = this.players;
+
     if (players.length === 0) return -1; // Если массив пустой, возвращаем -1
 
     let maxIndex = 0; // Начинаем с первого элемента
@@ -1765,7 +1896,7 @@ export class LevelClass {
 
     for (let i = 1; i < players.length; i++) {
       // Проверяем, существует ли player и его position
-      if (players[i].player && players[i].player.position) {
+      if (players[i].player && players[i].player.userData.live && players[i].player.position) {
         if (this.paramsClass.gameDir == 'vert') {
           if (players[i].player.position.y > maxValue) {
             maxValue = players[i].player.position.y; // Обновляем максимальное значение
@@ -1778,12 +1909,19 @@ export class LevelClass {
             maxIndex = i; // Обновляем индекс максимального значения
           }
         }
-      } else {
-        console.warn(`Player at index ${i} is missing player or position properties.`);
       }
+      // } else {
+      //   console.warn(`Player at index ${i} is missing player or position properties.`);
+      // }
     }
 
-    return maxIndex; // Возвращаем индекс элемента с максимальным значением
+    if (cam) return this.players.indexOf(players[maxIndex], 0);
+    else return maxIndex;
+
+
+
+
+
   }
 
 
@@ -1830,6 +1968,7 @@ export class LevelClass {
 
   cameraMove(camera, dt = this.dt.getDelta()) {
 
+
     switch (this.gameNum) {
       case 1:
         if (this.paramsClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
@@ -1839,16 +1978,13 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2: {
-        const leadIdx = this.maxSpeed(this.players);
+        const leadIdx = this.maxSpeed(true);
+
 
         if (leadIdx >= 0) {
 
 
           const leadX = this.players[leadIdx].player.position.x;
-
-
-
-
 
           // Ограничим резкие откаты назад, если надо
           const maxBack = this.cam.maxBackJump;
@@ -1867,7 +2003,7 @@ export class LevelClass {
             0.25, // smoothTime: 0.25 сек до сходимости
             dt
           );
-          if (camera.position.x - leadX < 1) camera.position.x = s.newPos;
+          /*if (camera.position.x - leadX < 1) */camera.position.x = s.newPos;
           this.cam.velX = s.newVel;
 
           // Остальные координаты
@@ -1889,7 +2025,7 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
-        if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed(this.players)].player.position.y + 3.5;
+        if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
 
         camera.position.x = 0;
 
@@ -1924,7 +2060,7 @@ export class LevelClass {
   showPopupInGame(showNext) {
     if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
     this.audioClass.looseAudio.play();
-    if (!showNext) {
+    if (!showNext || !this.canShowAds) {
       this.hideScreen('popup_game_btn1')
     }
     else {
@@ -1942,6 +2078,7 @@ export class LevelClass {
       this.players[0].playerAliving(false);
       this.audioClass.pauseMusic(['back']);
       this.audioClass.playMusic(['back']);
+      if (!this.levelsMode) this.canShowAds = false;
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
       this.players.forEach((value, index, array) => {
@@ -1951,6 +2088,17 @@ export class LevelClass {
       this.camera.position.y = 2;
       this.camera.position.x = 0;
       this.cameraSpeed = 0.01;
+
+      this.canShowAds = true;
+
+      if (this.birdYes) {
+        setTimeout(() => {
+          this.birdFlyingMark = 10;
+          this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
+          this.angryBird.userData.flying = false;
+        }, 100);
+      }
+
 
       this.boostHatModels.forEach((value, index, array) => {
         value.position.x = this.boostHatCoords[index][0];

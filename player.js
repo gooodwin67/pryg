@@ -37,6 +37,8 @@ export class PlayerClass {
 
     this.player.userData.lives = 3;
 
+    this.player.userData.finish = false;
+
 
     this.playerModel;
 
@@ -89,7 +91,11 @@ export class PlayerClass {
 
   playerMove() {
 
-    // console.log(this.levelClass.objs.grassPlanes.data[2].position.x)
+    // console.log(this.paramsClass.gameDir)
+
+    if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround)) {
+      console.log('finish')
+    }
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
       const [memberGroups, filterGroups] = getObjectGroupInfo(this.player.userData.collider);
@@ -179,15 +185,23 @@ export class PlayerClass {
       if (this.levelClass.players.length < 2) {
 
         if (this.player.userData.live) {
-          if (this.levelClass.gameNum == 2) this.player.userData.lives--;
-          else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
-
           this.audioClass.pauseMusic(['back']);
           this.audioClass.playMusic(['inwater']);
 
 
-          if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
-          else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
+
+
+          if (!this.levelClass.levelsMode) {
+            if (this.levelClass.gameNum == 2) this.player.userData.lives--;
+            else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
+
+            if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
+            else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
+          }
+          else {
+            this.player.userData.lives = 0;
+            this.levelClass.showPopupInGame(true);
+          }
           this.paramsClass.gameStarting = false;
         }
         this.player.userData.canFlyJumps = 0;

@@ -151,9 +151,9 @@ async function initEntity() {
 
 
 }
-async function initLevel(levelsMode) {
+async function initLevel(levelsMode, bird = bird) {
 
-  await levelClass.createLevel(levelsMode);
+  await levelClass.createLevel(levelsMode, bird = bird);
   await levelClass.loadEnvironments();
   await levelClass.loadPlayers();
 
@@ -170,7 +170,7 @@ async function initLevel(levelsMode) {
 }
 
 
-async function initMatch(chels, gameNum, levelsMode = false) {
+async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
   resetMatch();
   menuClass.toggleLoader(true);
 
@@ -179,7 +179,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   await initClases(chels);
   levelClass.gameNum = gameNum
   await initEntity();
-  await initLevel(levelsMode);
+  await initLevel(levelsMode, bird = bird);
 
 
 
@@ -270,7 +270,7 @@ function animate() {
 
 renderer.setAnimationLoop(() => {
   delta += clock.getDelta();
-  if (delta > interval/* && !pause*/ && gameInit && paramsClass.gameStarting) {
+  if (delta > interval/* && !pause*/ && gameInit) {
     animate()
     renderer.render(scene, camera);
     delta = delta % interval;
