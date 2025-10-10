@@ -475,15 +475,16 @@ export class LevelClass {
           this.levelsNoFric = true;
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
+          // this.gameNum = 1;
+          // this.cameraSpeed = 0.5;
           break;
         case 2:
           this.birdYes = true;
           this.count = 10;
           this.paramsClass.gameDir = 'vert'
-
-
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
+          // this.gameNum = 4; //////////////////////////////////////////////////////////////////////////////////////////
           break;
 
       }

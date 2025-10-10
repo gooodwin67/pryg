@@ -270,7 +270,7 @@ function animate() {
 
 renderer.setAnimationLoop(() => {
   delta += clock.getDelta();
-  if (delta > interval/* && !pause*/ && gameInit) {
+  if (delta > interval/* && !pause*/ && gameInit && !paramsClass.allDie) {
     animate()
     renderer.render(scene, camera);
     delta = delta % interval;

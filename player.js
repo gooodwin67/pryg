@@ -197,10 +197,12 @@ export class PlayerClass {
 
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
             else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
+            this.paramsClass.allDie = true;
           }
           else {
             this.player.userData.lives = 0;
             this.levelClass.showPopupInGame(true);
+            this.paramsClass.allDie = true;
           }
           this.paramsClass.gameStarting = false;
         }
@@ -219,6 +221,7 @@ export class PlayerClass {
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.paramsClass.gameStarting) {
           this.audioClass.pauseMusic(['back']);
           this.levelClass.showPopupInGame(false);
+          this.paramsClass.allDie = true;
           this.paramsClass.gameStarting = false;
         }
       }
@@ -360,6 +363,7 @@ export class PlayerClass {
 
 
   playerAliving(reset) {
+    this.paramsClass.allDie = false;
     if (reset) {
       this.player.userData.deadPos = this.player.userData.startPos;
       this.player.userData.lives = 3;
