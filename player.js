@@ -170,18 +170,20 @@ export class PlayerClass {
 
     if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor') {
       this.player.userData.lives = 0;
+      this.reLiveField();
       this.levelClass.needDeath(this.player);
     }
 
     if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 2 && this.player.userData.live) {
       this.player.userData.lives = 0;
+      this.reLiveField();
       this.levelClass.needDeath(this.player);
     }
 
 
 
 
-    if (this.player.position.y < -4) {
+    if (this.player.position.y < -4 && this.paramsClass.gameStarting) {
       if (this.levelClass.players.length < 2) {
 
         if (this.player.userData.live) {
@@ -192,8 +194,14 @@ export class PlayerClass {
 
 
           if (!this.levelClass.levelsMode) {
-            if (this.levelClass.gameNum == 2) this.player.userData.lives--;
-            else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
+
+            if (this.levelClass.gameNum == 2) {
+              this.player.userData.lives--;
+            }
+            else if (this.levelClass.gameNum == 4) {
+              this.player.userData.lives = 0;
+            }
+
 
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
             else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
@@ -211,8 +219,9 @@ export class PlayerClass {
       }
       else {
         if (this.player.userData.live) {
-          if (this.levelClass.gameNum == 2) this.player.userData.lives--;
-          else if (this.levelClass.gameNum == 4) this.player.userData.lives = 0;
+          console.log(this.levelClass.gameNum)
+          if (this.levelClass.gameNum == 2 || this.levelClass.gameNum == 1) this.player.userData.lives--;
+          else if (this.levelClass.gameNum == 4 || this.levelClass.gameNum == 3) this.player.userData.lives = 0;
           this.audioClass.stopMusic(['inwater']);
           this.audioClass.playMusic(['inwater']);
           this.player.userData.canFlyJumps = 0;
@@ -284,10 +293,12 @@ export class PlayerClass {
         }
 
       }
+      this.reLiveField()
     }
 
     else {
       //this.playerModel.quaternion.copy(this.player.userData.body.rotation())
+
 
       const targetRightHandRotation = this.player.userData.readyJump ? Math.PI / 2 : 0;
       const targetLeftHandRotation = this.player.userData.readyJump ? -Math.PI / 2 : 0;
@@ -364,15 +375,29 @@ export class PlayerClass {
 
   playerAliving(reset) {
     this.paramsClass.allDie = false;
+
     if (reset) {
       this.player.userData.deadPos = this.player.userData.startPos;
       this.player.userData.lives = 3;
     }
+
     this.player.userData.playerAlive = true;
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
-
     }, 100);
+  }
+
+  reLiveField() {
+    let mas = document.querySelectorAll('.player_panel_bottom_lives')[this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })].children;
+    for (let i = 0; i < mas.length; i++) {
+      if (i > this.player.userData.lives - 1) {
+        mas[i].classList.add('hidden_screen')
+      }
+      else {
+        if (mas[i].classList.contains('hidden_screen')) mas[i].classList.remove('hidden_screen');
+      }
+    }
+
   }
 
 

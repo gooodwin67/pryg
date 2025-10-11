@@ -380,7 +380,7 @@ export class LevelClass {
     const loader = new THREE.TextureLoader();
 
     loader.load(
-      'textures/povrezdennaa-tekstura-ili-fon.jpg',
+      'textures/plane.jpg',
       (texture) => {
         const material = new THREE.MeshStandardMaterial({
           map: texture,
@@ -400,7 +400,7 @@ export class LevelClass {
     );
 
     loader.load(
-      'textures/123.jpg',
+      'textures/grass.jpg',
       (texture) => {
         const material = new THREE.MeshStandardMaterial({
           map: texture,
@@ -420,20 +420,20 @@ export class LevelClass {
   }
 
   async loadBarriers() {
-    let geometryBird = new THREE.BoxGeometry(0.5, 0.3, 1);
+    let geometryBird = new THREE.BoxGeometry(0.5, 0.7, 1);
     let materialBird = new THREE.MeshBasicMaterial({ color: 0x00cc00, transparent: true, opacity: 0 });
     this.angryBird = new THREE.Mesh(geometryBird, materialBird);
     this.angryBird.userData.name = 'bird';
-    this.angryBird.userData.speed = 0.1;
+    this.angryBird.userData.speed = getRandomNumber(10, 13) / 100
     this.angryBird.userData.flying = false;
-    this.angryBird.position.y = 20;
+    this.angryBird.position.y = -5;
+    //this.angryBird.position.x = this.birdFlyingMark + this.bounds.rightX + this.distanceToBird * 3
 
     this.physicsClass.addPhysicsToObject(this.angryBird);
 
   }
 
   async createLevel(levelsMode, bird) {
-    console.log('createlevel')
     this.levelsMode = levelsMode;
     this.maxHeight = 0;
     this.birdFlyingMark = 10;
@@ -459,7 +459,7 @@ export class LevelClass {
       panel[index].classList.remove('hidden_screen');
     })
 
-    if (this.birdYes) this.scene.add(this.angryBirdModel);
+
 
 
 
@@ -1332,7 +1332,7 @@ export class LevelClass {
       root.scale.x = 2;
       root.scale.y = 2;
       root.scale.z = 2;
-      root.position.y = 20;
+      root.position.y = 0;
       root.rotation.y = -Math.PI / 3;
 
       this.angryBirdModel = root;
@@ -1345,6 +1345,7 @@ export class LevelClass {
       const mat = this.angryBirdModel.children[0].children[0].material; // ваш MeshPhysicalMaterial
       mat.emissive.set(0xffffff);      // цвет «свечения»
       mat.emissiveIntensity = 0.1;     // яркость
+      if (this.birdYes) this.scene.add(this.angryBirdModel);
     })
   }
 
@@ -1489,6 +1490,7 @@ export class LevelClass {
       if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
         this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight), z: this.angryBird.userData.body.translation().z });
         this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
+        this.angryBird.userData.speed = getRandomNumber(10, 13) / 100;
         this.angryBird.userData.flying = true;
       }
 
@@ -1982,10 +1984,12 @@ export class LevelClass {
         const leadIdx = this.maxSpeed(true);
 
 
+
         if (leadIdx >= 0) {
+          let leadX = 0;
+          if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
+          else leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
 
-
-          const leadX = this.players[leadIdx].player.position.x;
 
           // Ограничим резкие откаты назад, если надо
           const maxBack = this.cam.maxBackJump;
@@ -2077,6 +2081,7 @@ export class LevelClass {
         value.userData.fly = false;
       })
       this.players[0].playerAliving(false);
+      this.players[0].player.userData.lives = 1;
       this.audioClass.pauseMusic(['back']);
       this.audioClass.playMusic(['back']);
       if (!this.levelsMode) this.canShowAds = false;

@@ -268,11 +268,27 @@ function animate() {
 
 }
 
+
+
+let accumulator = 0;
+const dt = 1 / 60;
+const maxFrame = 0.1;
+
 renderer.setAnimationLoop(() => {
-  delta += clock.getDelta();
-  if (delta > interval/* && !pause*/ && gameInit && !paramsClass.allDie) {
-    animate()
-    renderer.render(scene, camera);
-    delta = delta % interval;
+  if (paramsClass != undefined) {
+    let frameDelta = clock.getDelta();
+    if (frameDelta > maxFrame) frameDelta = maxFrame;
+
+    accumulator += frameDelta;
+
+    while (accumulator >= dt) {
+      animate(dt); // твоя игровая логика и рендер
+      accumulator -= dt;
+    }
   }
 });
+
+
+
+
+

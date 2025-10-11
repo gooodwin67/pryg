@@ -15,7 +15,6 @@ export class AudioClass {
     this.jumpAudio;
     this.jumpAudio2;
     this.jumpAudio3;
-    this.jumpAudio4;
 
     this.quacks = [];
     this.musics = [];
@@ -69,7 +68,7 @@ export class AudioClass {
       this.backAudio3.setBuffer(buffer);
       this.backAudio3.setLoop(true);
       this.backAudio3.setRefDistance(100);
-      this.backAudio3.setVolume(2);
+      this.backAudio3.setVolume(0.5);
       this.musics.push({
         name: 'back3',
         music: this.backAudio3,
@@ -79,7 +78,7 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/ocean.wav').then((buffer) => {
+    await audioLoader.loadAsync('audio/ocean.mp3').then((buffer) => {
       this.oceanAudio = new THREE.PositionalAudio(listener);
       this.oceanAudio.setBuffer(buffer);
       this.oceanAudio.setLoop(true);
@@ -94,7 +93,7 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/inwater.wav').then((buffer) => {
+    await audioLoader.loadAsync('audio/inwater.mp3').then((buffer) => {
       this.inwaterAudio = new THREE.PositionalAudio(listener);
       this.inwaterAudio.setBuffer(buffer);
       this.inwaterAudio.setLoop(false);
@@ -108,7 +107,7 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/loose.wav').then((buffer) => {
+    await audioLoader.loadAsync('audio/loose.mp3').then((buffer) => {
       this.looseAudio = new THREE.PositionalAudio(listener);
       this.looseAudio.setBuffer(buffer);
       this.looseAudio.setLoop(false);
@@ -122,7 +121,7 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/take.wav').then((buffer) => {
+    await audioLoader.loadAsync('audio/take.mp3').then((buffer) => {
       this.takeAudio = new THREE.PositionalAudio(listener);
       this.takeAudio.setBuffer(buffer);
       this.takeAudio.setLoop(false);
@@ -136,7 +135,7 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/ready-jump.wav').then((buffer) => {
+    await audioLoader.loadAsync('audio/ready-jump.mp3').then((buffer) => {
       this.readyJumpAudio = new THREE.PositionalAudio(listener);
       this.readyJumpAudio.setBuffer(buffer);
       this.readyJumpAudio.setLoop(false);
@@ -180,16 +179,6 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
-    await audioLoader.loadAsync('audio/quack5.mp3').then((buffer) => {
-      this.jumpAudio4 = new THREE.PositionalAudio(listener);
-      this.jumpAudio4.setBuffer(buffer);
-      this.jumpAudio4.setLoop(false);
-      this.jumpAudio4.setRefDistance(400);
-      this.jumpAudio4.setVolume(0.3);
-      this.quacks.push(this.jumpAudio4)
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
 
     this.musics.push({
       name: 'back',
