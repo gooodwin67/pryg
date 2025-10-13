@@ -18,7 +18,7 @@ export class LevelClass {
     this.levelsMode = false;
     this.levelsNoFric = false;
 
-    this.randomNoFric = 0;
+    this.randomNoFric = 0.3;
     this.randomAnimateHor = 0.2;
     this.randomAnimateVert = 0.2;
 
@@ -39,6 +39,8 @@ export class LevelClass {
     this.angryBirdModel;
     this.maxHeight = 0;
     this.birdYes = true;
+
+    this.canHorDie = false;
 
     this.planeWidth = 4;
     this.planeHeight = 10;
@@ -424,7 +426,7 @@ export class LevelClass {
     let materialBird = new THREE.MeshBasicMaterial({ color: 0x00cc00, transparent: true, opacity: 0 });
     this.angryBird = new THREE.Mesh(geometryBird, materialBird);
     this.angryBird.userData.name = 'bird';
-    this.angryBird.userData.speed = getRandomNumber(10, 13) / 100
+    this.angryBird.userData.speed = getRandomNumber(8, 13) / 100
     this.angryBird.userData.flying = false;
     this.angryBird.position.y = -5;
     //this.angryBird.position.x = this.birdFlyingMark + this.bounds.rightX + this.distanceToBird * 3
@@ -446,6 +448,8 @@ export class LevelClass {
 
     this.cameraMove(this.camera);
     this.getHorizontalWorldBounds();
+
+
 
 
 
@@ -479,8 +483,8 @@ export class LevelClass {
           // this.cameraSpeed = 0.5;
           break;
         case 2:
-          this.birdYes = true;
-          this.count = 10;
+          this.birdYes = false;
+          this.count = 2;
           this.paramsClass.gameDir = 'vert'
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
@@ -630,6 +634,7 @@ export class LevelClass {
         }
       }
       else if (this.paramsClass.gameDir == 'vert') {
+
         let previousY = -5;
         this.birdYes = false;
 
@@ -644,7 +649,7 @@ export class LevelClass {
 
 
 
-          let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
+          let randomY = previousY + 2//getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
 
           this.objs.topPlanes.data[i].position.y = randomY - 1.3;
           this.objs.grassPlanes.data[i].position.y = randomY;
@@ -722,7 +727,6 @@ export class LevelClass {
 
 
 
-
       if (this.paramsClass.gameDir == 'hor') this.objs.planes.plane.instanceMatrix.needsUpdate = true;
       if (this.paramsClass.gameDir == 'vert') this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = true;
       this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
@@ -739,6 +743,8 @@ export class LevelClass {
       this.scene.add(this.objs.lamps.lamp)
       this.scene.add(this.objs.plafons.plafon)
       this.scene.add(this.objs.bulbs.bulb)
+
+
 
 
     }
@@ -986,7 +992,7 @@ export class LevelClass {
 
           for (let i = 0; i < this.count; i++) {
 
-            let randomW = getRandomNumber(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
+            let randomW = getRandomNumber(7 / this.minPlaneWidthTic, 18 / this.minPlaneWidthTic);
 
             this.minPlaneWidthTic += 0.1;
 
@@ -1107,6 +1113,11 @@ export class LevelClass {
           break;
       }
     }
+    this.players.forEach((value, index, array) => {
+      value.player.position.y = this.objs.grassPlanes.data[0].position.y + this.objs.grassPlanes.data[0].size.y;
+    })
+
+
   }
 
   getHorizontalWorldBounds(z = 0) {
@@ -1417,16 +1428,20 @@ export class LevelClass {
 
 
       if (this.paramsClass.gameDir == 'vert') {
+
         this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
         // if (i > this.count - 10) {
         //   this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xff0000));
         // }
       }
       else {
+
         if (this.objs.grassPlanes.data[i].userData.moveHor) {
+
           this.objs.grassPlanes.data[i].userData.collide.setFriction(500);
         }
         else if (Math.random() < this.randomNoFric && i > 2 && !this.levelsNoFric) {
+
           this.objs.grassPlanes.data[i].userData.noFriction = true;
           this.objs.grassPlanes.data[i].userData.collide.setFriction(0);
           this.objs.grassPlanes.planeGrass.setColorAt(i, new THREE.Color(0xccccee));
@@ -1488,9 +1503,9 @@ export class LevelClass {
     if (this.birdYes) {
 
       if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
-        this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight), z: this.angryBird.userData.body.translation().z });
+        this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight + 1), z: this.angryBird.userData.body.translation().z });
         this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
-        this.angryBird.userData.speed = getRandomNumber(10, 13) / 100;
+        this.angryBird.userData.speed = getRandomNumber(8, 13) / 100;
         this.angryBird.userData.flying = true;
       }
 
@@ -1530,7 +1545,7 @@ export class LevelClass {
 
       if (this.worldClass.night) {
         this.lampsAnimate.did = false
-        const left = this.camera.position.x - this.bounds.rightX / 2;
+        const left = this.camera.position.x - this.bounds.rightX / 1.3;
         const right = this.camera.position.x + this.bounds.rightX * 0.8;
         let colorsChanged = false;
 
@@ -1988,7 +2003,7 @@ export class LevelClass {
         if (leadIdx >= 0) {
           let leadX = 0;
           if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
-          else leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
+          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
 
 
           // Ограничим резкие откаты назад, если надо
@@ -2022,7 +2037,7 @@ export class LevelClass {
       case 3:
         if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 22;
+        camera.position.z = this.isMobile ? 20 : 32;
 
         this.cameraSpeed += 0.000001;
 
@@ -2034,7 +2049,7 @@ export class LevelClass {
 
         camera.position.x = 0;
 
-        camera.position.z = this.isMobile ? 25 : 25;
+        camera.position.z = this.isMobile ? 25 : 32;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
     }
@@ -2087,13 +2102,18 @@ export class LevelClass {
       if (!this.levelsMode) this.canShowAds = false;
     })
     document.querySelector('.popup_game_btn2').addEventListener('click', () => {
+
       this.players.forEach((value, index, array) => {
         value.playerAliving(true);
       })
-      this.camera.position.z = 7;
-      this.camera.position.y = 2;
-      this.camera.position.x = 0;
-      this.cameraSpeed = 0.01;
+
+      if (this.gameNum == 1 || this.gameNum == 3) {
+        this.camera.position.z = 7;
+        this.camera.position.y = 2;
+        this.camera.position.x = 0;
+        this.cameraSpeed = 0.01;
+      }
+
 
       this.canShowAds = true;
 

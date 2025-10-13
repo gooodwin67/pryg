@@ -283,8 +283,8 @@ void main() {
       this.parameters.elevation -= deltaY * 0.05;
 
       //this.stars.material.opacity -= deltaY * 0.1;
-      this.blackSky.material.opacity += deltaY * 0.05;
-      this.materialStars.uniforms.opacity.value += deltaY * 0.01;
+      this.blackSky.material.opacity += deltaY * 0.02;
+      this.materialStars.uniforms.opacity.value += deltaY * 0.008;
 
 
       if (this.camera.position.y < this.topLight && deltaY < 0) {
