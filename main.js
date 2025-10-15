@@ -177,6 +177,7 @@ async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
   paramsClass = new ParamsClass();
 
   await initClases(chels);
+
   levelClass.gameNum = gameNum
   await initEntity();
   await initLevel(levelsMode, bird = bird);
@@ -189,6 +190,7 @@ async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
     paramsClass.dataLoaded = true;
     paramsClass.gameStarting = true;
     gameInit = true;
+
   }, 300)
 
 }

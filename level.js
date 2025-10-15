@@ -61,7 +61,7 @@ export class LevelClass {
     this.objs = {
       planes: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(1, 1, 1),
@@ -74,7 +74,7 @@ export class LevelClass {
       /*//////////////////////////////////////////////////////////////////////////////*/
       topPlanes: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(1, 1, 1),
@@ -87,7 +87,7 @@ export class LevelClass {
       /*//////////////////////////////////////////////////////////////////////////////*/
       grassPlanes: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(1, 1, 1),
@@ -100,7 +100,7 @@ export class LevelClass {
       /*//////////////////////////////////////////////////////////////////////////////*/
       sensorPlanes: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(1, 1, 1),
@@ -113,7 +113,7 @@ export class LevelClass {
       /*//////////////////////////////////////////////////////////////////////////////*/
       lamps: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(0.1, 2, 0.1),
@@ -126,7 +126,7 @@ export class LevelClass {
       },
       plafons: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(0.6, 0.6, 0.6),
@@ -154,7 +154,7 @@ export class LevelClass {
       },
       bulbs: {
         data: Array.from({ length: this.count }, (_, i) => ({
-          position: new THREE.Vector3(0, 0, 0),
+          position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(0.3, 0.3, 0.3),
@@ -471,6 +471,7 @@ export class LevelClass {
     if (levelsMode) {
       this.players[0].player.userData.lives = 0;
       let previousX = -2.5; // Начальная позиция по оси X
+      let previousY = -5;
       switch (levelsMode) {
         case 1:
           this.birdYes = false;
@@ -484,11 +485,11 @@ export class LevelClass {
           break;
         case 2:
           this.birdYes = false;
-          this.count = 2;
+          this.count = 4;
           this.paramsClass.gameDir = 'vert'
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
-          // this.gameNum = 4; //////////////////////////////////////////////////////////////////////////////////////////
+          this.gameNum = 3; //////////////////////////////////////////////////////////////////////////////////////////
           break;
 
       }
@@ -635,11 +636,10 @@ export class LevelClass {
       }
       else if (this.paramsClass.gameDir == 'vert') {
 
-        let previousY = -5;
+
         this.birdYes = false;
 
         for (let i = 0; i < this.count; i++) {
-
           let randomW = getRandomNumber(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
 
           this.minPlaneWidthTic += 0.1;
@@ -649,7 +649,7 @@ export class LevelClass {
 
 
 
-          let randomY = previousY + 2//getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
+          let randomY = previousY + getRandomNumber(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
 
           this.objs.topPlanes.data[i].position.y = randomY - 1.3;
           this.objs.grassPlanes.data[i].position.y = randomY;
@@ -703,12 +703,9 @@ export class LevelClass {
           if (this.lights.length < this.lightsCount) {
 
             const light = new THREE.PointLight(0xf7eaa8, 0, 4);
-            // light.position.set(this.objs.lamps.data[i].position.x, this.objs.lamps.data[i].position.y + 1, 1.6);
             light.position.set(0, 0, 1.6);
             this.lights.push(light)
             this.scene.add(light);
-
-            // this.objs.lamps.data[i].userData.light = true;
 
           }
 
@@ -2037,9 +2034,11 @@ export class LevelClass {
       case 3:
         if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 32;
+        //camera.position.z = this.isMobile ? 20 : 32;
 
         this.cameraSpeed += 0.000001;
+
+        console.log(this.bounds.rightX)
 
 
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);

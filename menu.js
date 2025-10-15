@@ -31,7 +31,7 @@ export class MenuClass {
     document.querySelectorAll('.levels_blocks .levels_block').forEach((value, index, array) => {
       value.addEventListener('click', () => {
         this.hideScreen('levels_game_screen');
-        this.initMatch(1, 2, index + 1, true)
+        this.initMatch(1, 1, index + 1, true)
       })
     })
 
