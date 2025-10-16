@@ -70,8 +70,8 @@ stats.dom.style.left = "48%";
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+renderer.shadowMap.enabled = false;
+// renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -129,7 +129,7 @@ async function initClases(chels) {
 
 
   audioClass = new AudioClass();
-  worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile);
+  worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
   levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass);
 
@@ -144,6 +144,8 @@ async function initClases(chels) {
 async function initEntity() {
 
   await worldClass.loadWorld();
+  // worldClass.startThunder();
+  // worldClass.startRain();
   await audioClass.loadAudio();
 
   audioClass.backAudio.play();

@@ -1468,14 +1468,15 @@ export class LevelClass {
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
-
-    if (this.worldClass.night) {
-      if (this.paramsClass.gameDir == 'hor') this.audioClass.dayNight(false);
-      else this.audioClass.dayNight(false, 'vert');
-      this.audioClass.dayNight(false);
-    }
-    else {
-      this.audioClass.dayNight(true);
+    if (this.paramsClass.gameStarting) {
+      if (this.worldClass.night) {
+        if (this.paramsClass.gameDir == 'hor') this.audioClass.dayNight(false);
+        else this.audioClass.dayNight(false, 'vert');
+        this.audioClass.dayNight(false);
+      }
+      else {
+        this.audioClass.dayNight(true);
+      }
     }
 
     if (this.camera.position.x > this.objs.topPlanes.data[this.count - 2].position.x) {
@@ -1540,7 +1541,7 @@ export class LevelClass {
       const fadeOutSpeed = 0.2;          // скорость гашения днём (быстрее)
       const maxI = this.lightIntensity;  // целевая ночная яркость
 
-      if (this.worldClass.night) {
+      if (this.worldClass.night && !this.worldClass.thunder) {
         this.lampsAnimate.did = false
         const left = this.camera.position.x - this.bounds.rightX / 1.3;
         const right = this.camera.position.x + this.bounds.rightX * 0.8;
@@ -1982,6 +1983,8 @@ export class LevelClass {
 
 
   cameraMove(camera, dt = this.dt.getDelta()) {
+
+
 
 
     switch (this.gameNum) {

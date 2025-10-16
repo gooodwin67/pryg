@@ -8,6 +8,8 @@ export class AudioClass {
     this.backAudio3;
     this.oceanAudio;
 
+    this.rainAudio;
+
     this.inwaterAudio;
     this.takeAudio;
 
@@ -179,6 +181,20 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
+    await audioLoader.loadAsync('audio/rain.mp3').then((buffer) => {
+      this.rainAudio = new THREE.PositionalAudio(listener);
+      this.rainAudio.setBuffer(buffer);
+      this.rainAudio.setLoop(true);
+      this.rainAudio.setRefDistance(400);
+      this.rainAudio.setVolume(1);
+      this.musics.push({
+        name: 'rain',
+        music: this.rainAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
 
     this.musics.push({
       name: 'back',
@@ -210,6 +226,7 @@ export class AudioClass {
       if (!mus.isPlaying) mus.play();
     })
   }
+
   dayNight(day = true, hor = false) {
     if (day && !this.musicDay) {
 
@@ -237,7 +254,6 @@ export class AudioClass {
       else {
         this.timeToChange = 0;
         this.stopMusic(['back']);
-        console.log(hor);
         this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => !hor ? el['name'] === 'back2' : el['name'] === 'back3')['music'];
         this.playMusic(['back']);
         this.musicNight = true;
@@ -245,10 +261,6 @@ export class AudioClass {
         this.timeToChange = 2;
         this.musics.find((el) => el['name'] === 'back')['music'].setVolume(this.timeToChange);
       }
-
-
-
-
 
     }
   }

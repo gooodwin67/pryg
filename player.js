@@ -91,8 +91,6 @@ export class PlayerClass {
 
   playerMove() {
 
-    // console.log(this.paramsClass.gameDir)
-
     if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround)) {
       console.log('finish')
     }
@@ -188,6 +186,7 @@ export class PlayerClass {
 
 
     if (this.player.position.y < -4 && this.paramsClass.gameStarting) {
+      this.wor
       if (this.levelClass.players.length < 2) {
 
         if (this.player.userData.live) {

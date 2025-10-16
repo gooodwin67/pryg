@@ -1,14 +1,16 @@
 import * as THREE from "three";
 import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 
 export class WorldClass {
-  constructor(scene, camera, renderer, paramsClass, isMobile) {
+  constructor(scene, camera, renderer, paramsClass, isMobile, audioClass) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
     this.paramsClass = paramsClass;
     this.isMobile = isMobile;
+    this.audioClass = audioClass;
 
     this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); // soft white light
 
@@ -40,6 +42,71 @@ export class WorldClass {
     this.night = false;
 
     this._prevCamX = this.camera.position.x;
+
+    this.thunder = false;
+    this.thunderStart = false;
+
+    this.rain = false;
+    this.rainStart = false;
+
+    this.activeLightningLines = [];
+    // this.lightningMaterialBase = new THREE.LineBasicMaterial({
+    //   color: 0xffffff,
+    //   transparent: true,
+    //   opacity: 1,
+    //   emissive: new THREE.Color(0xffffff),
+    //   emissiveIntensity: 6.0,     // будем анимировать/задавать по инстансу
+    // });
+    this.lightningMaterialBase = new THREE.LineBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 1,
+      blending: THREE.AdditiveBlending,   // ← аддитивное смешивание
+      depthWrite: false                   // ← не пишем в глубину, чтобы свечение не “глушилось”
+    });
+
+    this.clock = new THREE.Clock;
+    this.deltaSeconds;
+    this.lightningFade = 0;
+
+
+    // --- RAIN: setup (дёшево и сердито)
+    this.rainDropCount = 1200;               // 800–1500 обычно хватает
+    this.rainAreaHalfWidth = 25;             // половина ширины облака по X
+    this.rainAreaHalfDepth = 20;             // половина глубины облака по Z
+    this.rainTopY = 10;
+    this.rainBottomY = -8;
+
+    this.rainGeometry = new THREE.BufferGeometry();
+    this.rainPositions = new Float32Array(this.rainDropCount * 3);
+    this.rainVelocities = new Float32Array(this.rainDropCount);   // скорость падения
+    this.rainWindPhase = new Float32Array(this.rainDropCount);     // индивидуальная фаза ветра
+
+
+  }
+
+  async loadRain() {
+    for (let i = 0; i < this.rainDropCount; i++) {
+      const baseIndex = i * 3;
+      this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2; // x
+      this.rainPositions[baseIndex + 1] = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY; // y
+      this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 40; // z
+      this.rainVelocities[i] = 10 + Math.random() * 35;         // юниты/сек
+      // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
+      this.rainWindPhase[i] = Math.random() * Math.PI * 2;
+    }
+
+    this.rainGeometry.setAttribute("position", new THREE.BufferAttribute(this.rainPositions, 3));
+    this.rainMaterial = new THREE.PointsMaterial({
+      color: 0x6666CC,
+      size: 0.20,                // размер в мировых юнитах
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+    this.rainPoints = new THREE.Points(this.rainGeometry, this.rainMaterial);
+    this.rainPoints.layers.set(1);
 
   }
 
@@ -182,6 +249,7 @@ void main() {
     this.stars.layers.set(1);
     this.scene.add(this.stars);
     this.camera.layers.enable(1);
+
   }
 
 
@@ -205,13 +273,16 @@ void main() {
     this.water.material.uniforms['sunDirection'].value.copy(this.sun).normalize();
 
     if (this.paramsClass.gameDir == 'hor') {
-      if (this.sun.y < -0.07 && this.materialStars.uniforms.opacity.value < 1) {
+      if (this.sun.y < -0.07 && this.materialStars.uniforms.opacity.value < 1 && !this.thunder) {
         this.materialStars.uniforms.opacity.value += 0.001;
         if (this.blackSky.material.opacity < 0.8) this.blackSky.material.opacity += 0.001;
       }
-      else if (this.sun.y > -0.07 && this.materialStars.uniforms.opacity.value > 0) {
+      else if (this.sun.y > -0.07 && this.materialStars.uniforms.opacity.value > 0 || this.thunder) {
         this.materialStars.uniforms.opacity.value -= 0.001;
-        this.blackSky.material.opacity -= 0.001;
+        this.blackSky.material.opacity -= 0.01;
+      }
+      if (this.thunder) {
+        this.blackSky.material.opacity = 0;
       }
 
       if (this.parameters.elevation < -8) {
@@ -226,20 +297,26 @@ void main() {
 
       if (!this.parameters.top) {
         //this.parameters.azimuth -= 3;
-        this.parameters.elevation -= 0.003;
+        if (!this.thunder) this.parameters.elevation -= 0.003;
 
         this.dirLight.intensity -= 0.0003;
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
         this.hemiLight.intensity -= 0.0003;
         this.hemiLight.intensity = Math.max(0.5, Math.min(2, this.hemiLight.intensity));
 
-        this.renderer.toneMappingExposure -= 0.0003;
-        this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
+        if (this.thunder) {
+          //this.renderer.toneMappingExposure = 0.05;
+        }
+        else {
+          this.renderer.toneMappingExposure -= 0.0003;
+          this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
+        }
+
 
       }
       else {
         //this.parameters.azimuth += 0.03;
-        this.parameters.elevation += 0.003;
+        if (!this.thunder) this.parameters.elevation += 0.003;
 
         this.dirLight.intensity += 0.0003;
         this.dirLight.intensity = Math.max(0.5, Math.min(2, this.dirLight.intensity));
@@ -251,6 +328,31 @@ void main() {
 
 
       }
+      console.log(this.parameters.elevation)
+      if (this.parameters.elevation < 0 && !this.rainStart) {
+        this.rain = true;
+        this.startRain();
+        this.audioClass.stopMusic(['back']);
+
+        this.audioClass.rainAudio.play();
+        this.rainStart = true;
+      }
+
+
+
+      if (this.parameters.elevation < -1.8 && !this.thunderStart) {
+        this.thunder = true;
+        this.startThunder();
+        this.thunderStart = true;
+      }
+      // else if (this.parameters.elevation > -0.5 && this.thunderStart) {
+      //   this.thunder = false;
+      //   this.rain = false;
+      //   this.scene.remove(this.rainPoints);
+      //   this.thunderStart = false;
+      // }
+
+
       if (this.parameters.elevation < -2) {
         this.night = true;
       }
@@ -344,6 +446,7 @@ void main() {
   async loadWorld() {
     //this.scene.add(this.ambientLight);
     await this.loadWaterSky()
+    await this.loadRain()
     this.scene.add(this.hemiLight);
     this.scene.add(this.dirLight);
     this.scene.add(this.targetObject);
@@ -363,13 +466,253 @@ void main() {
     this.dirLight.shadow.camera.top = d;
     this.dirLight.shadow.camera.bottom = -d;
 
+    this.deltaSeconds = Math.min(this.clock.getDelta(), 0.033);
+
+    for (let i = this.activeLightningLines.length - 1; i >= 0; i--) {
+      const line = this.activeLightningLines[i];
+      line.userData.life -= this.deltaSeconds / 1.5;
+      line.material.opacity *= 0.78;
+
+      if (line.userData.life <= 0 || line.material.opacity <= 0.02) {
+        this.scene.remove(line);
+        line.geometry.dispose();
+        line.material.dispose();
+        this.activeLightningLines.splice(i, 1);
+      }
+    }
+
+    if (this.lightningFade > 0) {
+      this.lightningFade -= this.deltaSeconds * 1.7; // 0.5 сек (1 / 2.0 = 0.5)
+      this.lightningFade = Math.max(0, this.lightningFade);
+      this.renderer.toneMappingExposure = 0.03 + this.lightningFade * 0.97;
+    }
+
+    if (this.rain) {
+      // --- RAIN: update
+      const rainPositionAttr = this.rainGeometry.getAttribute("position");
+      const windGlobal = Math.sin(performance.now() * 0.0012) * 0.8;  // общий ветер
+      const cameraCenterX = this.camera.position.x;
+      const cameraCenterZ = this.camera.position.z;
+
+      for (let i = 0; i < this.rainDropCount; i++) {
+        const baseIndex = i * 3;
+
+        // горизонтальный сдвиг: общий ветер + индивидуальная волна
+        const windLocal = Math.sin(this.rainWindPhase[i] + performance.now() * 0.002) * 0.35 + windGlobal * 0.4;
+        this.rainPositions[baseIndex + 0] += windLocal * this.deltaSeconds * 6.0;
+
+        // падение вниз
+        this.rainPositions[baseIndex + 1] -= this.rainVelocities[i] * (1.0 + Math.abs(windGlobal) * 0.3) * this.deltaSeconds;
+
+        // привязка “облака” к камере, чтобы частицы не улетали вдаль
+        const worldX = cameraCenterX + this.rainPositions[baseIndex + 0];
+        const worldZ = cameraCenterZ + this.rainPositions[baseIndex + 2];
+
+        // ресет капли снизу вверх
+        if (this.rainPositions[baseIndex + 1] < this.rainBottomY) {
+          this.rainPositions[baseIndex + 1] = this.rainTopY;
+          this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2;
+          this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 40;
+          this.rainWindPhase[i] = Math.random() * Math.PI * 2;
+        }
+
+        // переносим “облако” за камерой, если вышли за края (циклическая зона)
+        if (this.rainPositions[baseIndex + 0] > this.rainAreaHalfWidth) this.rainPositions[baseIndex + 0] -= this.rainAreaHalfWidth * 2;
+        if (this.rainPositions[baseIndex + 0] < -this.rainAreaHalfWidth) this.rainPositions[baseIndex + 0] += this.rainAreaHalfWidth * 2;
+        if (this.rainPositions[baseIndex + 2] > this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] -= this.rainAreaHalfDepth * 2 - 40;
+        if (this.rainPositions[baseIndex + 2] < -this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] += this.rainAreaHalfDepth * 2 - 40;
+      }
+
+      // центрируем облако у камеры и помечаем апдейт
+      this.rainPoints.position.set(cameraCenterX, 0, cameraCenterZ);
+      rainPositionAttr.needsUpdate = true;
+    }
 
 
     this.waterUpdate();
     this.updateSky();
   }
 
+  startRain() {
+    if (!this.rain) return;
 
+    this.scene.add(this.rainPoints);
+  }
+
+  startThunder() {
+    if (!this.thunder) return;
+
+    const flash = () => {
+      if (!this.thunder) return;
+
+      this.triggerLightningFlash();
+      this.lightningFade = 1.0; // запускаем затухание света
+
+      // следующая вспышка через 2–4 секунды
+      const next = 1000 + Math.random() * 2000;
+      setTimeout(flash, next);
+    };
+
+    flash();
+  }
+
+  createLightningBolt(startX, startY, startZ) {
+    const endX = startX + (Math.random() - 0.5) * 6;
+    const endY = -4 + Math.random() * 3;
+    const endZ = startZ + (Math.random() - 0.5) * 6;
+
+
+
+
+    // Простейший перпендикуляр (в плоскости XZ) для поперечного смещения
+
+
+
+    // Направление основного ствола
+    const dirX = endX - startX;
+    const dirY = endY - startY;
+    const dirZ = endZ - startZ;
+    const dirLen = Math.hypot(dirX, dirY, dirZ) || 1;
+    const tx = dirX / dirLen, ty = dirY / dirLen, tz = dirZ / dirLen; // tangent
+
+    const normX = dirX / dirLen, normY = dirY / dirLen, normZ = dirZ / dirLen;
+    const perpX = -normZ, perpY = 0, perpZ = normX;
+
+    // Строим два ортонормальных перпендикуляра к стволу (перп и бинормаль)
+    const upGuess = Math.abs(ty) > 0.9 ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
+    const tangent = new THREE.Vector3(tx, ty, tz);
+    const perp1 = new THREE.Vector3().crossVectors(tangent, upGuess).normalize();   // первый перпендикуляр
+    const perp2 = new THREE.Vector3().crossVectors(tangent, perp1).normalize();     // второй перпендикуляр (бинормаль)
+
+    // Параметры волн изгиба (можно подкрутить)
+    const waveFreq1 = 2.0 + Math.random() * 2.0;   // частота волны 1
+    const waveAmp1 = 1.2;                         // амплитуда волны 1
+    const wavePhase1 = Math.random() * Math.PI * 2;
+
+    const waveFreq2 = 3.0 + Math.random() * 2.5;   // частота волны 2
+    const waveAmp2 = 0.8;                         // амплитуда волны 2
+    const wavePhase2 = Math.random() * Math.PI * 2;
+
+    const segmentCount = 28;        // можно оставить как у тебя
+    const baseAmplitude = 4.0;      // базовый поперечный шум в начале
+    const positions = [];
+
+    // Генерим ломаную со спадающей амплитудой и редкими резкими изломами
+    for (let i = 0; i <= segmentCount; i++) {
+      const t = i / segmentCount;
+      const decay = 1.0 - t; // шум убывает к концу
+
+      // базовая точка на отрезке
+      let px = startX + dirX * t;
+      let py = startY + dirY * t;
+      let pz = startZ + dirZ * t;
+
+      // синус-изгибы вдоль траектории (в двух перпендикулярных осях)
+      const bend1 = Math.sin(t * Math.PI * waveFreq1 + wavePhase1) * waveAmp1 * (0.3 + 0.7 * decay);
+      const bend2 = Math.sin(t * Math.PI * waveFreq2 + wavePhase2) * waveAmp2 * (0.3 + 0.7 * decay);
+
+      // случайный рваный шум + редкий “спайк”
+      const jitter1 = (Math.random() - 0.5) * 2.0 * baseAmplitude * decay;
+      const jitter2 = (Math.random() - 0.5) * 1.6 * baseAmplitude * decay;
+      const spike = Math.random() < 0.12 ? (Math.random() - 0.5) * 3.5 * decay : 0;
+
+      // суммарное поперечное смещение
+      px += perp1.x * (bend1 + jitter1 + spike) + perp2.x * (bend2 + jitter2 * 0.7);
+      py += perp1.y * (bend1 + jitter1 * 0.5) + perp2.y * (bend2 + jitter2 * 0.5);
+      pz += perp1.z * (bend1 + jitter1 + spike) + perp2.z * (bend2 + jitter2 * 0.7);
+
+      positions.push(px, py, pz);
+
+      // Короткая боковая ветка с небольшой вероятностью
+      if (i > 3 && i < segmentCount - 3 && Math.random() < 0.22) {
+        const branchPositions = [];
+        const branchSteps = 3 + Math.floor(Math.random() * 2);
+        const branchScale = 0.25 + Math.random() * 0.35;
+
+        let bx = px, by = py, bz = pz;
+        branchPositions.push(bx, by, bz);
+        for (let s = 1; s <= branchSteps; s++) {
+          bx += (Math.random() - 0.5) * baseAmplitude * branchScale;
+          by += -(0.8 + Math.random() * 0.8) * branchScale; // вниз
+          bz += (Math.random() - 0.5) * baseAmplitude * branchScale;
+          branchPositions.push(bx, by, bz);
+        }
+        const branchGeometry = new THREE.BufferGeometry();
+        branchGeometry.setAttribute("position", new THREE.Float32BufferAttribute(branchPositions, 3));
+        const branchLine = new THREE.Line(branchGeometry, this.lightningMaterialBase.clone());
+        branchLine.material.opacity = 0.6;                  // слабее основного
+        branchLine.userData.life = 0.16 + Math.random() * 0.12;
+        this.scene.add(branchLine);
+        this.activeLightningLines.push(branchLine);
+      }
+    }
+
+    // Псевдо-толщина с веером и электрическим изгибом
+    const duplicateCount = 2; // 2–3 копии хватает
+    for (let d = -1; d <= duplicateCount; d++) {
+      const isCore = (d === -1);
+      const offsetDirection = isCore ? 0 : (d % 2 === 0 ? 1 : -1); // вправо/влево
+      const baseSpread = 0.55 + Math.random() * 0.45;             // базовый разлёт
+      const waveAmplitude = 0.35;                                  // амплитуда волны
+      const wavePhase = Math.random() * Math.PI * 2;               // фаза для различия копий
+
+      const jittered = [];
+      const pointCount = positions.length / 3;
+
+      for (let i = 0; i < pointCount; i++) {
+        const t = i / (pointCount - 1); // 0..1 вдоль молнии (к концу — больше разлёт)
+
+        // направленное смещение в плоскости перпендикулярной стволу
+        const fanScale = (0.35 + 0.85 * t); // к концу шире
+        const sineBend = Math.sin(t * Math.PI * 2 + wavePhase) * waveAmplitude * (0.2 + 0.8 * t);
+
+        const offsetX = perpX * offsetDirection * baseSpread * fanScale + perpZ * sineBend * 0.3;
+        const offsetY = perpY * offsetDirection * baseSpread * fanScale + sineBend * 0.05; // чуть-чуть по Y
+        const offsetZ = perpZ * offsetDirection * baseSpread * fanScale - perpX * sineBend * 0.3;
+
+        const ix = i * 3 + 0;
+        const iy = i * 3 + 1;
+        const iz = i * 3 + 2;
+
+        const baseX = positions[ix];
+        const baseY = positions[iy];
+        const baseZ = positions[iz];
+
+        if (isCore) {
+          // ядро без направленного смещения, только микро-джиттер чтобы не было идеально ровным
+          jittered.push(
+            baseX + (Math.random() - 0.5) * 0.05,
+            baseY + (Math.random() - 0.5) * 0.05,
+            baseZ + (Math.random() - 0.5) * 0.05
+          );
+        } else {
+          // копии — в стороны + волновой изгиб
+          jittered.push(
+            baseX + offsetX + (Math.random() - 0.5) * 0.2,
+            baseY + offsetY + (Math.random() - 0.5) * 0.2,
+            baseZ + offsetZ + (Math.random() - 0.5) * 0.2
+          );
+        }
+      }
+
+      const lightningGeometry = new THREE.BufferGeometry();
+      lightningGeometry.setAttribute("position", new THREE.Float32BufferAttribute(jittered, 3));
+
+      const line = new THREE.Line(lightningGeometry, this.lightningMaterialBase.clone());
+      line.material.opacity = isCore ? 0.95 : 0.32; // ядро ярче, копии мягче
+      line.userData.life = 0.22 + Math.random() * 0.18;
+      this.scene.add(line);
+      this.activeLightningLines.push(line);
+    }
+
+  }
+
+  triggerLightningFlash() {
+    const startX = this.camera.position.x + (Math.random() - 0.5) * 30;
+    const startY = 34 + Math.random() * 6;
+    const startZ = -10 - Math.random() * 20;
+    this.createLightningBolt(startX, startY, startZ);
+  }
 
 
 }
