@@ -168,6 +168,22 @@ export class LevelClass {
         }),
         bulb: null,
       },
+      livesBlocks: {
+        data: Array.from({ length: this.count }, (_, i) => ({
+          position: new THREE.Vector3(0, -10, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+          scale: new THREE.Vector3(1, 1, 1),
+          size: new THREE.Vector3(0.3, 0.3, 0.3),
+          userData: { name: 'liveBlock' },
+        })),
+        geometryLivesBlock: new THREE.SphereGeometry(0.3),
+        materialLivesBlock: new THREE.MeshStandardMaterial({
+          // emissive: new THREE.Color(0xffe7a3),
+          // emissiveIntensity: 6.0,     // будем анимировать/задавать по инстансу
+          color: 0xff0000
+        }),
+        livesBlock: null,
+      },
       /*//////////////////////////////////////////////////////////////////////////////*/
     }
 
@@ -209,6 +225,11 @@ export class LevelClass {
     this.objs.bulbs.bulb.frustumCulled = false;
 
     this.objs.bulbs.baseSize = this.objs.bulbs.data[0].size.clone();
+
+    this.objs.livesBlocks.livesBlock = new THREE.InstancedMesh(this.objs.livesBlocks.geometryLivesBlock, this.objs.livesBlocks.materialLivesBlock, this.count);
+    this.objs.livesBlocks.livesBlock.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    this.objs.livesBlocks.livesBlock.frustumCulled = false;
+    
 
 
 
@@ -860,6 +881,11 @@ export class LevelClass {
               this.objs.grassPlanes.data[i].position.x = randomX;
               this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
+              if (Math.random()<0.05) {
+                this.objs.livesBlocks.data[i].position.x = randomX - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x/2;
+                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y/2; 
+              }
+
               if ((i + 1) % 10 === 0) {
                 let newHat = this.boostHatModel.clone();
                 newHat.position.x = randomX;
@@ -918,6 +944,7 @@ export class LevelClass {
             this.apply(i, this.objs.planes.data, this.objs.planes.plane);
             this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
             this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
+            this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
             this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
             this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
             this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
@@ -961,6 +988,7 @@ export class LevelClass {
           this.objs.planes.plane.instanceMatrix.needsUpdate = true;
           this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = true;
           this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = true;
+          this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
           this.objs.lamps.lamp.instanceMatrix.needsUpdate = true;
           this.objs.plafons.plafon.instanceMatrix.needsUpdate = true;
           this.objs.bulbs.bulb.instanceMatrix.needsUpdate = true;
@@ -969,6 +997,7 @@ export class LevelClass {
           this.scene.add(this.objs.planes.plane)
           this.scene.add(this.objs.topPlanes.planeTop)
           this.scene.add(this.objs.grassPlanes.planeGrass)
+          this.scene.add(this.objs.livesBlocks.livesBlock)
           this.scene.add(this.objs.lamps.lamp)
           this.scene.add(this.objs.plafons.plafon)
           this.scene.add(this.objs.bulbs.bulb)
