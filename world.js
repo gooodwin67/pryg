@@ -71,7 +71,7 @@ export class WorldClass {
 
 
     // --- RAIN: setup (дёшево и сердито)
-    this.rainDropCount = 1200;               // 800–1500 обычно хватает
+    this.rainDropCount = 600;               // 800–1500 обычно хватает
     this.rainAreaHalfWidth = 25;             // половина ширины облака по X
     this.rainAreaHalfDepth = 20;             // половина глубины облака по Z
     this.rainTopY = 10;
@@ -91,15 +91,15 @@ export class WorldClass {
       this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2; // x
       this.rainPositions[baseIndex + 1] = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY; // y
       this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 40; // z
-      this.rainVelocities[i] = 10 + Math.random() * 35;         // юниты/сек
+      this.rainVelocities[i] = 15 + Math.random() * 35;         // юниты/сек
       // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
       this.rainWindPhase[i] = Math.random() * Math.PI * 2;
     }
 
     this.rainGeometry.setAttribute("position", new THREE.BufferAttribute(this.rainPositions, 3));
     this.rainMaterial = new THREE.PointsMaterial({
-      color: 0x6666CC,
-      size: 0.20,                // размер в мировых юнитах
+      color: 0x7777CC,
+      size: 0.15,                // размер в мировых юнитах
       transparent: true,
       opacity: 0.95,
       depthWrite: false,
@@ -328,22 +328,23 @@ void main() {
 
 
       }
-      console.log(this.parameters.elevation)
-      if (this.parameters.elevation < 0 && !this.rainStart) {
+      
+      if (this.parameters.elevation < -1 && !this.rainStart) {
         this.rain = true;
         this.startRain();
-        this.audioClass.stopMusic(['back']);
-
         this.audioClass.rainAudio.play();
         this.rainStart = true;
       }
 
 
 
-      if (this.parameters.elevation < -1.8 && !this.thunderStart) {
+      if (this.parameters.elevation < -2.1 && !this.thunderStart) {
         this.thunder = true;
         this.startThunder();
         this.thunderStart = true;
+        setTimeout(() => {
+          this.thunder = false;
+        }, 15000);
       }
       // else if (this.parameters.elevation > -0.5 && this.thunderStart) {
       //   this.thunder = false;
@@ -355,9 +356,19 @@ void main() {
 
       if (this.parameters.elevation < -2) {
         this.night = true;
+        
       }
       else {
         this.night = false;
+        this.thunderStart = false;
+        
+        if (this.rain) {
+          this.audioClass.rainAudio.stop();
+          this.rainStart = false;
+          this.scene.remove(this.rainPoints);
+          this.rain = false;
+        }
+        
       }
 
 
@@ -643,6 +654,7 @@ void main() {
         branchLine.material.opacity = 0.6;                  // слабее основного
         branchLine.userData.life = 0.16 + Math.random() * 0.12;
         this.scene.add(branchLine);
+        
         this.activeLightningLines.push(branchLine);
       }
     }
