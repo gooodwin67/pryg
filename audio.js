@@ -8,7 +8,12 @@ export class AudioClass {
     this.backAudio3;
     this.oceanAudio;
 
+
     this.rainAudio;
+    this.thunderAudio;
+    this.thunderAudio2;
+    this.thunderAudio3;
+    this.thundersAudio = [];
 
     this.inwaterAudio;
     this.takeAudio;
@@ -195,6 +200,47 @@ export class AudioClass {
       console.error('Ошибка при загрузке аудио:', error);
     });
 
+    await audioLoader.loadAsync('audio/thunder.mp3').then((buffer) => {
+      this.thunderAudio = new THREE.PositionalAudio(listener);
+      this.thunderAudio.setBuffer(buffer);
+      this.thunderAudio.setLoop(false);
+      this.thunderAudio.setRefDistance(400);
+      this.thunderAudio.setVolume(1);
+      this.thundersAudio.push({
+        name: 'thunder1',
+        music: this.thunderAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/thunder2.mp3').then((buffer) => {
+      this.thunderAudio2 = new THREE.PositionalAudio(listener);
+      this.thunderAudio2.setBuffer(buffer);
+      this.thunderAudio2.setLoop(false);
+      this.thunderAudio2.setRefDistance(400);
+      this.thunderAudio2.setVolume(1);
+      this.thundersAudio.push({
+        name: 'thunder2',
+        music: this.thunderAudio2,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/thunder3.mp3').then((buffer) => {
+      this.thunderAudio3 = new THREE.PositionalAudio(listener);
+      this.thunderAudio3.setBuffer(buffer);
+      this.thunderAudio3.setLoop(false);
+      this.thunderAudio3.setRefDistance(400);
+      this.thunderAudio3.setVolume(1);
+      this.thundersAudio.push({
+        name: 'thunder3',
+        music: this.thunderAudio3,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
 
     this.musics.push({
       name: 'back',

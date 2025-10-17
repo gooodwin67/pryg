@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 
 export class WorldClass {
   constructor(scene, camera, renderer, paramsClass, isMobile, audioClass) {
@@ -71,11 +70,11 @@ export class WorldClass {
 
 
     // --- RAIN: setup (дёшево и сердито)
-    this.rainDropCount = 600;               // 800–1500 обычно хватает
+    this.rainDropCount = 1500;               // 800–1500 обычно хватает
     this.rainAreaHalfWidth = 25;             // половина ширины облака по X
     this.rainAreaHalfDepth = 20;             // половина глубины облака по Z
     this.rainTopY = 10;
-    this.rainBottomY = -8;
+    this.rainBottomY = -4;
 
     this.rainGeometry = new THREE.BufferGeometry();
     this.rainPositions = new Float32Array(this.rainDropCount * 3);
@@ -86,25 +85,44 @@ export class WorldClass {
   }
 
   async loadRain() {
+
     for (let i = 0; i < this.rainDropCount; i++) {
       const baseIndex = i * 3;
       this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2; // x
       this.rainPositions[baseIndex + 1] = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY; // y
-      this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 40; // z
-      this.rainVelocities[i] = 15 + Math.random() * 35;         // юниты/сек
+      this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 35; // z
+      this.rainVelocities[i] = 15 + Math.random() * 25;         // юниты/сек
       // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
       this.rainWindPhase[i] = Math.random() * Math.PI * 2;
     }
 
+    const colors = new Float32Array(this.rainDropCount * 3);
+    for (let i = 0; i < this.rainDropCount; i++) {
+      const cBase = 0.80 + Math.random() * 0.2;  // лёгкая вариация
+      colors[i * 3 + 0] = 0.70 * cBase;            // R
+      colors[i * 3 + 1] = 0.80 * cBase;            // G
+      colors[i * 3 + 2] = 1.00 * cBase;            // B
+    }
     this.rainGeometry.setAttribute("position", new THREE.BufferAttribute(this.rainPositions, 3));
+    this.rainGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    // текстура-штрих
+    this.rainStreakTex = this.makeRainStreakTexture();
+
+    // МАТЕРИАЛ: один draw call, экранный размер (без sizeAttenuation)
     this.rainMaterial = new THREE.PointsMaterial({
-      color: 0x7777CC,
-      size: 0.15,                // размер в мировых юнитах
+      color: 0xccccff,
+      vertexColors: true,
+      map: this.rainStreakTex,
+      alphaTest: 0.83,           // режем края по альфе
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.84,
+      size: 10,                 // пиксели (т.к. sizeAttenuation: false)
+      sizeAttenuation: false,    // стабильный “штрих” независимо от дистанции
       depthWrite: false,
       blending: THREE.AdditiveBlending
     });
+
     this.rainPoints = new THREE.Points(this.rainGeometry, this.rainMaterial);
     this.rainPoints.layers.set(1);
 
@@ -328,8 +346,8 @@ void main() {
 
 
       }
-      
-      if (this.parameters.elevation < -1 && !this.rainStart) {
+
+      if (this.parameters.elevation < 2 && !this.rainStart) {
         this.rain = true;
         this.startRain();
         this.audioClass.rainAudio.play();
@@ -338,37 +356,31 @@ void main() {
 
 
 
-      if (this.parameters.elevation < -2.1 && !this.thunderStart) {
+      if (this.parameters.elevation < -4.1 && !this.thunderStart) {
         this.thunder = true;
         this.startThunder();
         this.thunderStart = true;
         setTimeout(() => {
           this.thunder = false;
-        }, 15000);
+        }, 16000);
       }
-      // else if (this.parameters.elevation > -0.5 && this.thunderStart) {
-      //   this.thunder = false;
-      //   this.rain = false;
-      //   this.scene.remove(this.rainPoints);
-      //   this.thunderStart = false;
-      // }
+
 
 
       if (this.parameters.elevation < -2) {
         this.night = true;
-        
       }
       else {
         this.night = false;
         this.thunderStart = false;
-        
-        if (this.rain) {
+
+        if (this.rain && this.parameters.elevation >= -1) {
           this.audioClass.rainAudio.stop();
           this.rainStart = false;
           this.scene.remove(this.rainPoints);
           this.rain = false;
         }
-        
+
       }
 
 
@@ -523,15 +535,15 @@ void main() {
         if (this.rainPositions[baseIndex + 1] < this.rainBottomY) {
           this.rainPositions[baseIndex + 1] = this.rainTopY;
           this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2;
-          this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 40;
+          this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 35;
           this.rainWindPhase[i] = Math.random() * Math.PI * 2;
         }
 
         // переносим “облако” за камерой, если вышли за края (циклическая зона)
         if (this.rainPositions[baseIndex + 0] > this.rainAreaHalfWidth) this.rainPositions[baseIndex + 0] -= this.rainAreaHalfWidth * 2;
         if (this.rainPositions[baseIndex + 0] < -this.rainAreaHalfWidth) this.rainPositions[baseIndex + 0] += this.rainAreaHalfWidth * 2;
-        if (this.rainPositions[baseIndex + 2] > this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] -= this.rainAreaHalfDepth * 2 - 40;
-        if (this.rainPositions[baseIndex + 2] < -this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] += this.rainAreaHalfDepth * 2 - 40;
+        if (this.rainPositions[baseIndex + 2] > this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] -= this.rainAreaHalfDepth * 2 - 35;
+        if (this.rainPositions[baseIndex + 2] < -this.rainAreaHalfDepth) this.rainPositions[baseIndex + 2] += this.rainAreaHalfDepth * 2 - 35;
       }
 
       // центрируем облако у камеры и помечаем апдейт
@@ -542,6 +554,7 @@ void main() {
 
     this.waterUpdate();
     this.updateSky();
+
   }
 
   startRain() {
@@ -550,11 +563,26 @@ void main() {
     this.scene.add(this.rainPoints);
   }
 
+
   startThunder() {
     if (!this.thunder) return;
+    let thunderNum = 0;
 
     const flash = () => {
       if (!this.thunder) return;
+
+      if (this.audioClass.thundersAudio[thunderNum].music.isPlaying) {
+        this.audioClass.thundersAudio[thunderNum].music.stop();
+      }
+      this.audioClass.thundersAudio[thunderNum].music.play();
+
+      if (thunderNum < this.audioClass.thundersAudio.length - 1) {
+        thunderNum++;
+      }
+      else {
+        thunderNum = 0;
+      }
+
 
       this.triggerLightningFlash();
       this.lightningFade = 1.0; // запускаем затухание света
@@ -654,7 +682,7 @@ void main() {
         branchLine.material.opacity = 0.6;                  // слабее основного
         branchLine.userData.life = 0.16 + Math.random() * 0.12;
         this.scene.add(branchLine);
-        
+
         this.activeLightningLines.push(branchLine);
       }
     }
@@ -724,6 +752,35 @@ void main() {
     const startY = 34 + Math.random() * 6;
     const startZ = -10 - Math.random() * 20;
     this.createLightningBolt(startX, startY, startZ);
+  }
+
+
+
+  makeRainStreakTexture() {
+    const width = 1;   // ширина капли (узкая)
+    const height = 32; // длина капли
+    const data = new Uint8Array(width * height * 4);
+
+    for (let y = 0; y < height; y++) {
+      const alpha = Math.sin((y / (height - 1)) * Math.PI); // мягкий градиент
+      for (let x = 0; x < width; x++) {
+        const i = (y * width + x) * 4;
+        data[i + 0] = 255;
+        data[i + 1] = 255;
+        data[i + 2] = 255;
+        data[i + 3] = Math.round(alpha * 255);
+      }
+    }
+
+    const tex = new THREE.DataTexture(data, width, height, THREE.RGBAFormat);
+    tex.needsUpdate = true;
+    tex.magFilter = THREE.LinearFilter;
+    tex.minFilter = THREE.LinearFilter;
+    tex.wrapS = THREE.ClampToEdgeWrapping;
+    tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.rotation = Math.PI / 2; // ← ПОВОРАЧИВАЕМ штрих вертикально
+    tex.center.set(0.5, 0.5);   // чтобы поворот происходил из центра
+    return tex;
   }
 
 
