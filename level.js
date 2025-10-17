@@ -189,6 +189,38 @@ export class LevelClass {
 
 
 
+
+
+    /*
+    
+     const x = 0, y = 0;
+const heartShape = new THREE.Shape();
+
+heartShape.moveTo(x + 0, y + 0.25);
+heartShape.bezierCurveTo(x + 0, y + 0.25, x - 0.25, y + 0.25, x - 0.25, y);
+heartShape.bezierCurveTo(x - 0.25, y - 0.3, x + 0, y - 0.3, x + 0, y - 0.55);
+heartShape.bezierCurveTo(x + 0, y - 0.3, x + 0.25, y - 0.3, x + 0.25, y);
+heartShape.bezierCurveTo(x + 0.25, y + 0.25, x + 0, y + 0.25, x + 0, y + 0.25);
+
+const extrudeSettings = {
+  depth: 0.2,
+  bevelEnabled: true,
+  bevelSegments: 2,
+  steps: 2,
+  bevelSize: 0.05,
+  bevelThickness: 0.05
+};
+
+const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const heart = new THREE.Mesh(geometry, material);
+
+scene.add(heart);
+    
+    */
+
+
+
     this.objs.planes.plane = new THREE.InstancedMesh(this.objs.planes.geometryPlane, this.objs.planes.materialPlane, this.count);
     this.objs.planes.plane.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
     this.objs.planes.plane.receiveShadow = true;
@@ -229,7 +261,7 @@ export class LevelClass {
     this.objs.livesBlocks.livesBlock = new THREE.InstancedMesh(this.objs.livesBlocks.geometryLivesBlock, this.objs.livesBlocks.materialLivesBlock, this.count);
     this.objs.livesBlocks.livesBlock.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     this.objs.livesBlocks.livesBlock.frustumCulled = false;
-    
+
 
 
 
@@ -881,9 +913,9 @@ export class LevelClass {
               this.objs.grassPlanes.data[i].position.x = randomX;
               this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
-              if (Math.random()<0.05) {
-                this.objs.livesBlocks.data[i].position.x = randomX - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x/2;
-                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y/2; 
+              if (Math.random() < 0.05) {
+                this.objs.livesBlocks.data[i].position.x = randomX - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x / 2;
+                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y / 2;
               }
 
               if ((i + 1) % 10 === 0) {

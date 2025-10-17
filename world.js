@@ -45,6 +45,14 @@ export class WorldClass {
     this.thunder = false;
     this.thunderStart = false;
 
+    // тайминг грозы
+    this.isThunderActive = false;                 // дублировать не обязательно, но удобно для читаемости
+    this.thunderEndTimestampMs = 0;               // когда гроза должна закончиться
+    this.nextThunderFlashTimestampMs = 0;         // когда делать следующую вспышку
+    this.minThunderIntervalMs = 1000;             // минимум между вспышками
+    this.maxThunderIntervalMs = 3000;             // максимум между вспышками
+    this.currentThunderIndex = 0;                 // какой звук грозы проигрывать далее
+
     this.rain = false;
     this.rainStart = false;
 
@@ -111,7 +119,7 @@ export class WorldClass {
 
     // МАТЕРИАЛ: один draw call, экранный размер (без sizeAttenuation)
     this.rainMaterial = new THREE.PointsMaterial({
-      color: 0xccccff,
+      color: 0xeeeeff,
       vertexColors: true,
       map: this.rainStreakTex,
       alphaTest: 0.83,           // режем края по альфе
@@ -122,6 +130,7 @@ export class WorldClass {
       depthWrite: false,
       blending: THREE.AdditiveBlending
     });
+
 
     this.rainPoints = new THREE.Points(this.rainGeometry, this.rainMaterial);
     this.rainPoints.layers.set(1);
@@ -358,11 +367,8 @@ void main() {
 
       if (this.parameters.elevation < -4.1 && !this.thunderStart) {
         this.thunder = true;
-        this.startThunder();
+        this.startThunder();        // теперь сама выставляет таймер окончания
         this.thunderStart = true;
-        setTimeout(() => {
-          this.thunder = false;
-        }, 16000);
       }
 
 
@@ -479,6 +485,24 @@ void main() {
 
 
   updateLighting() {
+
+    const nowMs = performance.now();
+
+    // --- ГРОЗА: управление без setTimeout
+    if (this.thunder) {
+      // если пришло время — делаем вспышку
+      if (nowMs >= this.nextThunderFlashTimestampMs) {
+        this.triggerThunderFlashNow();
+        this.scheduleNextThunderFlash(nowMs);
+      }
+
+      // если время грозы вышло — выключаем её
+      if (nowMs >= this.thunderEndTimestampMs) {
+        this.thunder = false;
+        this.isThunderActive = false;
+      }
+    }
+
     this.dirLight.target.position.set(this.camera.position.x - 4, -20, 10);
     this.dirLight.position.set(this.camera.position.x, this.camera.position.y, 0);
 
@@ -566,34 +590,84 @@ void main() {
 
   startThunder() {
     if (!this.thunder) return;
-    let thunderNum = 0;
 
-    const flash = () => {
-      if (!this.thunder) return;
+    const nowMs = performance.now();
 
-      if (this.audioClass.thundersAudio[thunderNum].music.isPlaying) {
-        this.audioClass.thundersAudio[thunderNum].music.stop();
-      }
-      this.audioClass.thundersAudio[thunderNum].music.play();
+    // Запускаем «сессию» грозы на 16 секунд (как было в setTimeout)
+    this.isThunderActive = true;
+    this.thunderEndTimestampMs = nowMs + 16000;
 
-      if (thunderNum < this.audioClass.thundersAudio.length - 1) {
-        thunderNum++;
-      }
-      else {
-        thunderNum = 0;
-      }
+    // Мгновенно даём первую вспышку, чтобы ощущалось реактивно
+    this.triggerThunderFlashNow();
 
-
-      this.triggerLightningFlash();
-      this.lightningFade = 1.0; // запускаем затухание света
-
-      // следующая вспышка через 2–4 секунды
-      const next = 1000 + Math.random() * 2000;
-      setTimeout(flash, next);
-    };
-
-    flash();
+    // Планируем следующую вспышку уже через случайный интервал
+    this.scheduleNextThunderFlash(nowMs);
   }
+
+  // Вспышка + звук прямо сейчас
+  triggerThunderFlashNow() {
+    if (!this.thunder) return;
+
+    // звук
+    const audioList = this.audioClass.thundersAudio;
+    if (audioList && audioList.length > 0) {
+      const sound = audioList[this.currentThunderIndex % audioList.length].music;
+      if (sound.isPlaying) sound.stop();
+      sound.play();
+      this.currentThunderIndex++;
+    }
+
+    // вспышка и экспозиция
+    this.triggerLightningFlash();
+    this.lightningFade = 1.0;
+  }
+
+  // Назначить время следующей вспышки
+  scheduleNextThunderFlash(referenceNowMs) {
+    const interval = this.minThunderIntervalMs
+      + Math.random() * (this.maxThunderIntervalMs - this.minThunderIntervalMs);
+    this.nextThunderFlashTimestampMs = referenceNowMs + interval;
+  }
+
+
+  stopThunderImmediately() {
+    this.thunder = false;
+    this.isThunderActive = false;
+    this.thunderEndTimestampMs = 0;
+    this.nextThunderFlashTimestampMs = 0;
+  }
+
+
+  // startThunder() {
+  //   if (!this.thunder) return;
+  //   let thunderNum = 0;
+
+  //   const flash = () => {
+  //     if (!this.thunder) return;
+
+  //     if (this.audioClass.thundersAudio[thunderNum].music.isPlaying) {
+  //       this.audioClass.thundersAudio[thunderNum].music.stop();
+  //     }
+  //     this.audioClass.thundersAudio[thunderNum].music.play();
+
+  //     if (thunderNum < this.audioClass.thundersAudio.length - 1) {
+  //       thunderNum++;
+  //     }
+  //     else {
+  //       thunderNum = 0;
+  //     }
+
+
+  //     this.triggerLightningFlash();
+  //     this.lightningFade = 1.0; // запускаем затухание света
+
+  //     // следующая вспышка через 2–4 секунды
+  //     const next = 1000 + Math.random() * 2000;
+  //     setTimeout(flash, next);
+  //   };
+
+  //   flash();
+  // }
 
   createLightningBolt(startX, startY, startZ) {
     const endX = startX + (Math.random() - 0.5) * 6;
