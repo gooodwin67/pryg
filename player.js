@@ -130,15 +130,7 @@ export class PlayerClass {
 
     }
 
-    if (this.player.userData.canFlyJumps) {
-      this.levelClass.boostHatModels[this.player.userData.canFlyNum].position.copy(new THREE.Vector3(
-        this.player.userData.head.getWorldPosition(new THREE.Vector3).x - 0.03,
-        this.player.userData.head.getWorldPosition(new THREE.Vector3).y + 0.20,
-        this.player.userData.head.getWorldPosition(new THREE.Vector3).z + 0)
-      );
-      this.levelClass.boostHatModels[this.player.userData.canFlyNum].children[0].children[1].rotation.y += 0.4;
-
-    }
+    
 
 
 
@@ -369,6 +361,45 @@ export class PlayerClass {
 
         this.player.userData.jumping = false;
       }
+    }
+    if (this.player.userData.canFlyJumps) {
+      const boostHatModel = this.levelClass.boostHatModels[this.player.userData.canFlyNum];
+      const playerHead = this.player.userData.head;
+    
+      // Один раз сохраняем исходный масштаб
+      if (!boostHatModel.userData.originalScale) {
+        boostHatModel.userData.originalScale = boostHatModel.scale.clone();
+      }
+    
+      // (Опционально) отцепляем в корень сцены, чтобы не ловить масштаб родителя
+      if (boostHatModel.parent !== this.scene) {
+        this.scene.attach(boostHatModel); // сохранит мировой трансформ при смене родителя
+      }
+    
+      // 1) Мировая поза головы
+      const headWorldPosition = new THREE.Vector3().setFromMatrixPosition(this.player.userData.head.matrixWorld);
+      const headWorldQuaternion = new THREE.Quaternion();
+      this.player.userData.head.getWorldQuaternion(headWorldQuaternion);
+
+      // 2) Твой фиксированный угловой оффсет шапки
+      const hatQuaternionOffset = new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(0, Math.PI / 2, 0) // подставь свои углы
+      );
+
+      // 3) Финальный кватернион шапки = голова * оффсет
+      const finalHatQuaternion = headWorldQuaternion.clone().multiply(hatQuaternionOffset);
+
+      // 4) Смещение задаём в ЛОКАЛЕ шапки (после оффсета), потом переводим в мир
+      const hatLocalOffset = new THREE.Vector3(-0.03, 0.20, 0.02); // тут X/Y/Z будут работать ожидаемо
+      const hatWorldOffset = hatLocalOffset.clone().applyQuaternion(finalHatQuaternion);
+
+      // 5) Применяем
+      
+      boostHatModel.quaternion.copy(finalHatQuaternion);
+      boostHatModel.position.copy(headWorldPosition).add(hatWorldOffset);
+
+      // Вращение пропеллера/декора
+      boostHatModel.children[0].children[1].rotation.y += 0.4;
     }
   }
   lerp(start, end, t) {
