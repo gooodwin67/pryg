@@ -91,7 +91,7 @@ export class ControlClass {
         })
         break;
       case 'KeyP':
-        this.levelClass.needDeath(this.levelClass.players[1].player);
+        this.paramsClass.gameStarting = !this.paramsClass.gameStarting;
     }
   }
 

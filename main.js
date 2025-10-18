@@ -225,7 +225,7 @@ function resetMatch() {
 
 
 function animate() {
-  if (paramsClass.dataLoaded) {
+  if (paramsClass.dataLoaded && paramsClass.gameStarting) {
 
 
 
@@ -237,12 +237,14 @@ function animate() {
     }
 
 
+
     levelClass.players.forEach((value, index, array) => {
-      value.playerMove()
+      if (!value.player.userData.finish) value.playerMove()
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
     levelClass.cameraMove(camera);
+
 
 
 
@@ -267,7 +269,7 @@ function animate() {
     }
     physicsClass.updateInstancedTransforms();
     world.step(eventQueue);
-    renderer.render(scene, camera);
+    if (paramsClass.gameStarting) renderer.render(scene, camera);
   }
 
 }

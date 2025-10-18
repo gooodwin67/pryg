@@ -80,7 +80,7 @@ export class WorldClass {
     // --- RAIN: setup (дёшево и сердито)
     this.rainDropCount = 1500;               // 800–1500 обычно хватает
     this.rainAreaHalfWidth = 25;             // половина ширины облака по X
-    this.rainAreaHalfDepth = 20;             // половина глубины облака по Z
+    this.rainAreaHalfDepth = 22;             // половина глубины облака по Z
     this.rainTopY = 10;
     this.rainBottomY = -4;
 
@@ -99,7 +99,7 @@ export class WorldClass {
       this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2; // x
       this.rainPositions[baseIndex + 1] = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY; // y
       this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 35; // z
-      this.rainVelocities[i] = 15 + Math.random() * 25;         // юниты/сек
+      this.rainVelocities[i] = 15 + Math.random() * 15;         // юниты/сек
       // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
       this.rainWindPhase[i] = Math.random() * Math.PI * 2;
     }
@@ -122,10 +122,10 @@ export class WorldClass {
       color: 0xeeeeff,
       vertexColors: true,
       map: this.rainStreakTex,
-      alphaTest: 0.83,           // режем края по альфе
+      alphaTest: 0.8,           // режем края по альфе
       transparent: true,
       opacity: 0.84,
-      size: 10,                 // пиксели (т.к. sizeAttenuation: false)
+      size: 9,                 // пиксели (т.к. sizeAttenuation: false)
       sizeAttenuation: false,    // стабильный “штрих” независимо от дистанции
       depthWrite: false,
       blending: THREE.AdditiveBlending
@@ -380,7 +380,7 @@ void main() {
         this.night = false;
         this.thunderStart = false;
 
-        if (this.rain && this.parameters.elevation >= -1) {
+        if (this.rain && this.parameters.elevation >= -3) {
           this.audioClass.rainAudio.stop();
           this.rainStart = false;
           this.scene.remove(this.rainPoints);
@@ -395,6 +395,8 @@ void main() {
 
 
     if (this.paramsClass.gameDir == 'vert') {
+
+
 
       const minElevation = -100;
       const maxElevation = 100;
@@ -435,21 +437,16 @@ void main() {
 
         this.renderer.toneMappingExposure -= deltaY * 0.01;
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
-
-
-
       }
 
-      if (this.dirLight.intensity > 0.55 && this.dirLight.intensity < 0.57) {
+      if (this.dirLight.intensity > 0.55 && this.dirLight.intensity < 0.57 && this.camera.position.y > 10) {
         this.topLight = this.camera.position.y
-
-
       }
 
 
 
       // Ограничиваем диапазон elevation (по желанию)
-      this.parameters.elevation = Math.max(minElevation, Math.min(maxElevation, this.parameters.elevation));
+      // this.parameters.elevation = Math.max(minElevation, Math.min(maxElevation, this.parameters.elevation));
 
       // Обновляем prevCameraYSun для следующего кадра!
       this.prevCameraYSun = this.camera.position.y;
@@ -832,7 +829,7 @@ void main() {
 
   makeRainStreakTexture() {
     const width = 1;   // ширина капли (узкая)
-    const height = 32; // длина капли
+    const height = 15; // длина капли
     const data = new Uint8Array(width * height * 4);
 
     for (let y = 0; y < height; y++) {

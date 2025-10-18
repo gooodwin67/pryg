@@ -190,7 +190,56 @@ canvas {
 
 .player_panel_bottom_lives {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    min-width: 40px;
+}
 
+.player_panel_bottom_lives span {
+    width: 5px;
+    height: 5px;
+    background: red;
+    position: relative;
+    transform: rotate(-45deg) translateY(2px);
+    margin-right: 8px;
+    transition: 0.5s;
+    animation: heart-pop 0.65s ease-out;
+}
+
+.player_panel_bottom_lives span::before,
+.player_panel_bottom_lives span::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: red;
+    border-radius: 50%;
+}
+
+.player_panel_bottom_lives span::before {
+    top: -3.5px;
+    left: 0;
+}
+
+.player_panel_bottom_lives span::after {
+    left: 2.5px;
+    top: 0;
+}
+
+/* короткое “всплывание” при появлении */
+@keyframes heart-pop {
+    0% {
+        transform: rotate(-45deg) translateY(2px) scale(0);
+    }
+
+    60% {
+        transform: rotate(-45deg) translateY(2px) scale(3.3);
+    }
+
+    100% {
+        transform: rotate(-45deg) translateY(2px) scale(1);
+    }
 }
 
 

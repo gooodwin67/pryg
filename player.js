@@ -92,7 +92,7 @@ export class PlayerClass {
   playerMove() {
 
     if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround)) {
-      console.log('finish')
+      this.player.userData.finish = true;
     }
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
@@ -112,8 +112,6 @@ export class PlayerClass {
 
 
 
-
-
     if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes) && !this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes))].userData.fly && (this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes)) != this.player.userData.canFlyNum)) {
 
       if (!this.player.userData.canFly) {
@@ -130,7 +128,7 @@ export class PlayerClass {
 
     }
 
-    
+
 
 
 
@@ -145,6 +143,18 @@ export class PlayerClass {
     else {
       this.player.userData.onGround = false;
     }
+
+    if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data) && !detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data).userData.taked) {
+      if (this.player.userData.lives < 3) {
+        this.player.userData.lives++;
+        if (this.audioClass.takeAudio.isPlaying) this.audioClass.stopMusic(['take']);
+        this.audioClass.playMusic(['take']);
+        this.reLiveField();
+        detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = true;
+      }
+
+    }
+
 
     this.playerModel.position.x = this.player.position.x;
     this.playerModel.position.y = this.player.position.y - this.playerHeight / 2;
@@ -178,7 +188,7 @@ export class PlayerClass {
 
 
     if (this.player.position.y < -4 && this.paramsClass.gameStarting) {
-      this.wor
+
       if (this.levelClass.players.length < 2) {
 
         if (this.player.userData.live) {
@@ -214,7 +224,7 @@ export class PlayerClass {
       }
       else {
         if (this.player.userData.live) {
-          console.log(this.levelClass.gameNum)
+
           if (this.levelClass.gameNum == 2 || this.levelClass.gameNum == 1) this.player.userData.lives--;
           else if (this.levelClass.gameNum == 4 || this.levelClass.gameNum == 3) this.player.userData.lives = 0;
           this.audioClass.stopMusic(['inwater']);
@@ -278,7 +288,7 @@ export class PlayerClass {
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
-          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 0.1, this.player.userData.deadPos.z));
+          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
@@ -365,42 +375,65 @@ export class PlayerClass {
     if (this.player.userData.canFlyJumps) {
       const boostHatModel = this.levelClass.boostHatModels[this.player.userData.canFlyNum];
       const playerHead = this.player.userData.head;
-    
+
       // Один раз сохраняем исходный масштаб
       if (!boostHatModel.userData.originalScale) {
         boostHatModel.userData.originalScale = boostHatModel.scale.clone();
       }
-    
-      // (Опционально) отцепляем в корень сцены, чтобы не ловить масштаб родителя
+
+      // Отцепляем в корень сцены, чтобы не ловить масштаб родителя
       if (boostHatModel.parent !== this.scene) {
-        this.scene.attach(boostHatModel); // сохранит мировой трансформ при смене родителя
+        this.scene.attach(boostHatModel);
       }
-    
+
+      // Обновляем мировые матрицы
+      this.playerModel.updateMatrixWorld(true);
+      playerHead.updateWorldMatrix(true, false);
+
       // 1) Мировая поза головы
       const headWorldPosition = new THREE.Vector3().setFromMatrixPosition(this.player.userData.head.matrixWorld);
       const headWorldQuaternion = new THREE.Quaternion();
       this.player.userData.head.getWorldQuaternion(headWorldQuaternion);
 
-      // 2) Твой фиксированный угловой оффсет шапки
-      const hatQuaternionOffset = new THREE.Quaternion().setFromEuler(
-        new THREE.Euler(0, Math.PI / 2, 0) // подставь свои углы
-      );
-
-      // 3) Финальный кватернион шапки = голова * оффсет
+      // 2) Фиксированный оффсет
+      const hatQuaternionOffset = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, Math.PI / 2, 0));
       const finalHatQuaternion = headWorldQuaternion.clone().multiply(hatQuaternionOffset);
 
-      // 4) Смещение задаём в ЛОКАЛЕ шапки (после оффсета), потом переводим в мир
-      const hatLocalOffset = new THREE.Vector3(-0.03, 0.20, 0.02); // тут X/Y/Z будут работать ожидаемо
+      // 3) Смещение
+      const hatLocalOffset = new THREE.Vector3(0.01, 0.14, 0.05);
       const hatWorldOffset = hatLocalOffset.clone().applyQuaternion(finalHatQuaternion);
 
-      // 5) Применяем
-      
+      // 4) Применяем
       boostHatModel.quaternion.copy(finalHatQuaternion);
       boostHatModel.position.copy(headWorldPosition).add(hatWorldOffset);
 
-      // Вращение пропеллера/декора
+      // Вращение пропеллера
       boostHatModel.children[0].children[1].rotation.y += 0.4;
+
+      // ⚠️ Запоминаем последнюю позицию и ориентацию, чтобы потом "заморозить" её
+      boostHatModel.userData.lastPos = boostHatModel.position.clone();
+      boostHatModel.userData.lastQuat = boostHatModel.quaternion.clone();
     }
+    else {
+      // Если прыжки закончились — шапка больше не следует за игроком
+      const num = this.player.userData.canFlyNum;
+      if (num !== null && this.levelClass.boostHatModels[num]) {
+        const boostHatModel = this.levelClass.boostHatModels[num];
+
+        // Возвращаем "стационарное" состояние
+        if (boostHatModel.userData.lastPos) {
+          boostHatModel.position.copy(boostHatModel.userData.lastPos);
+          boostHatModel.quaternion.copy(boostHatModel.userData.lastQuat);
+        }
+
+        // Сбрасываем флаг полёта
+        boostHatModel.userData.fly = false;
+
+        // Можно добавить лёгкое вращение пропеллера после “отсоединения”, чисто для красоты
+        boostHatModel.children[0].children[1].rotation.y += 0.02;
+      }
+    }
+
   }
   lerp(start, end, t) {
     return start + (end - start) * t;
@@ -414,12 +447,13 @@ export class PlayerClass {
       this.levelClass.canHorDie = false;
       this.player.userData.deadPos = this.player.userData.startPos;
       this.player.userData.lives = 3;
+      this.player.userData.finish = false;
     }
 
     this.player.userData.playerAlive = true;
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
-    }, 100);
+    }, 1);
   }
 
   reLiveField() {

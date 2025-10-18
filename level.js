@@ -51,11 +51,33 @@ export class LevelClass {
     this.fixedDistanceHor = { min: 1, max: 4 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
-    this.count = 100;
+    this.count = 120;
 
     this._dayColor = new THREE.Color(0xffffff);
     this._nightColor = new THREE.Color(0xffe9a0);
 
+    /*HEART*/
+    const x = 0, y = 0;
+    const heartShape = new THREE.Shape();
+
+    const s = 0.01; // масштаб контура (подбери под свой мир)
+
+    heartShape.moveTo(5 * s, 5 * s);
+    heartShape.bezierCurveTo(5 * s, 5 * s, 4 * s, 2 * s, 0 * s, 2 * s);
+    heartShape.bezierCurveTo(-6 * s, 2 * s, -6 * s, 7 * s, -6 * s, 7 * s);
+    heartShape.bezierCurveTo(-6 * s, 10 * s, -3 * s, 14 * s, 5 * s, 18 * s);
+    heartShape.bezierCurveTo(12 * s, 14 * s, 16 * s, 10 * s, 16 * s, 7 * s);
+    heartShape.bezierCurveTo(16 * s, 7 * s, 16 * s, 2 * s, 10 * s, 2 * s);
+    heartShape.bezierCurveTo(7 * s, 2 * s, 5 * s, 5 * s, 5 * s, 5 * s);
+
+    // Экструзия: без фасок — супердёшево. Если нужно «глянцевее» — включи bevel ниже.
+    const extrudeSettings = {
+      depth: 0.22,
+      bevelEnabled: false,   // самый дешёвый вариант
+      curveSegments: 12,     // можно 10–12
+      steps: 1
+    };
+    /*HEART*/
 
 
     this.objs = {
@@ -173,15 +195,11 @@ export class LevelClass {
           position: new THREE.Vector3(0, -10, 0),
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
-          size: new THREE.Vector3(0.3, 0.3, 0.3),
-          userData: { name: 'liveBlock' },
+          size: new THREE.Vector3(0.4, 0.3, 0.1),
+          userData: { name: 'liveBlock', taked: false, startPos: new THREE.Vector3(0, 0, 0) },
         })),
-        geometryLivesBlock: new THREE.SphereGeometry(0.3),
-        materialLivesBlock: new THREE.MeshStandardMaterial({
-          // emissive: new THREE.Color(0xffe7a3),
-          // emissiveIntensity: 6.0,     // будем анимировать/задавать по инстансу
-          color: 0xff0000
-        }),
+        geometryLivesBlock: new THREE.ExtrudeGeometry(heartShape, extrudeSettings),
+        materialLivesBlock: new THREE.MeshStandardMaterial({ color: 0xff0000 }),
         livesBlock: null,
       },
       /*//////////////////////////////////////////////////////////////////////////////*/
@@ -191,33 +209,15 @@ export class LevelClass {
 
 
 
-    /*
-    
-     const x = 0, y = 0;
-const heartShape = new THREE.Shape();
 
-heartShape.moveTo(x + 0, y + 0.25);
-heartShape.bezierCurveTo(x + 0, y + 0.25, x - 0.25, y + 0.25, x - 0.25, y);
-heartShape.bezierCurveTo(x - 0.25, y - 0.3, x + 0, y - 0.3, x + 0, y - 0.55);
-heartShape.bezierCurveTo(x + 0, y - 0.3, x + 0.25, y - 0.3, x + 0.25, y);
-heartShape.bezierCurveTo(x + 0.25, y + 0.25, x + 0, y + 0.25, x + 0, y + 0.25);
 
-const extrudeSettings = {
-  depth: 0.2,
-  bevelEnabled: true,
-  bevelSegments: 2,
-  steps: 2,
-  bevelSize: 0.05,
-  bevelThickness: 0.05
-};
 
-const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-const heart = new THREE.Mesh(geometry, material);
 
-scene.add(heart);
-    
-    */
+
+
+
+
+
 
 
 
@@ -261,6 +261,14 @@ scene.add(heart);
     this.objs.livesBlocks.livesBlock = new THREE.InstancedMesh(this.objs.livesBlocks.geometryLivesBlock, this.objs.livesBlocks.materialLivesBlock, this.count);
     this.objs.livesBlocks.livesBlock.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     this.objs.livesBlocks.livesBlock.frustumCulled = false;
+
+    this.objs.livesBlocks.geometryLivesBlock.center();
+    this.objs.livesBlocks.geometryLivesBlock.rotateZ(Math.PI); // ← разворот сердечка
+    this.objs.livesBlocks.geometryLivesBlock.center();
+
+    this.objs.livesBlocks.livesBlock.castShadow = true;
+
+
 
 
 
@@ -817,7 +825,7 @@ scene.add(heart);
 
             this.minPlaneWidthTic += 0.1;
 
-            if (i > this.count - 10) {
+            if (i > this.count - 20) {
               this.objs.planes.data[i].size.x = 0.1;
               this.objs.planes.data[i].size.y = this.planeHeight;
 
@@ -913,12 +921,15 @@ scene.add(heart);
               this.objs.grassPlanes.data[i].position.x = randomX;
               this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
-              if (Math.random() < 0.05) {
+              if (i > 7 && Math.random() < 0.1) {
                 this.objs.livesBlocks.data[i].position.x = randomX - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x / 2;
-                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y / 2;
+                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y / 2 + 0.2;
+                this.objs.livesBlocks.data[i].userData.startPos = this.objs.livesBlocks.data[i].position.clone();
+
+
               }
 
-              if ((i + 1) % 10 === 0) {
+              if ((i + 1) % 10 === 1) {
                 let newHat = this.boostHatModel.clone();
                 newHat.position.x = randomX;
                 newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
@@ -1069,7 +1080,7 @@ scene.add(heart);
             this.objs.grassPlanes.data[i].size.y = 0.7;
             this.objs.sensorPlanes.data[i].size.y = 0.9;
 
-            if (i > this.count - 10) {
+            if (i > this.count - 20) {
               this.objs.topPlanes.data[i].size.x = randomW / 8 + 0.1;
               this.objs.grassPlanes.data[i].size.x = randomW / 8 + 0.1
               this.objs.sensorPlanes.data[i].size.x = randomW / 8 + 0.4
@@ -1232,68 +1243,93 @@ scene.add(heart);
       let anyChanged = false;
 
       for (let i = 0; i < this.objs.grassPlanes.data.length; i++) {
+
+
+
         const grass = this.objs.grassPlanes.data[i];
         const body = grass.userData.body;     // должен быть после addInstancedKinematic
         const mh = grass.userData.moveHor;
         const mv = grass.userData.moveVert;
 
 
-        if ((!mh && !mv) || !body) continue;
-        if (mh) {
-          const cur = body.translation();
-          // границы движения (между соседними платформами), с учётом половин их ширин
-          const leftLimit = mh.x1 + mh.w1 + grass.size.x * 0.5;
-          const rightLimit = mh.x2 - mh.w2 - grass.size.x * 0.5;
+        if (body && (mh || mv)) {
+          if (mh) {
+            const cur = body.translation();
+            // границы движения (между соседними платформами), с учётом половин их ширин
+            const leftLimit = mh.x1 + mh.w1 + grass.size.x * 0.5;
+            const rightLimit = mh.x2 - mh.w2 - grass.size.x * 0.5;
 
-          // скорость — возьми фикс или из userData
-          const speed = (grass.userData.speed ?? 0.05);
-          if (cur.x >= rightLimit) grass.userData.direction = -1;
-          if (cur.x <= leftLimit) grass.userData.direction = 1;
+            // скорость — возьми фикс или из userData
+            const speed = (grass.userData.speed ?? 0.05);
+            if (cur.x >= rightLimit) grass.userData.direction = -1;
+            if (cur.x <= leftLimit) grass.userData.direction = 1;
 
-          const dx = grass.userData.direction * speed;
-          const newX = cur.x + dx;
+            const dx = grass.userData.direction * speed;
+            const newX = cur.x + dx;
 
-          // двигаем тело (кинематическое)
-          body.setNextKinematicTranslation({ x: newX, y: cur.y, z: cur.z });
+            // двигаем тело (кинематическое)
+            body.setNextKinematicTranslation({ x: newX, y: cur.y, z: cur.z });
 
-          // и обновляем графику от него
-          grass.position.x = newX;
+            // и обновляем графику от него
+            grass.position.x = newX;
 
-          this.objs.lamps.data[i].position.x = newX;
-          this.objs.plafons.data[i].position.x = newX;
-          this.objs.bulbs.data[i].position.x = newX;
-          this.objs.topPlanes.data[i].position.x = newX;
+            this.objs.lamps.data[i].position.x = newX;
+            this.objs.plafons.data[i].position.x = newX;
+            this.objs.bulbs.data[i].position.x = newX;
+            this.objs.topPlanes.data[i].position.x = newX;
+          }
+          else if (mv) {
+
+            const cur = body.translation();
+            const topLimit = 2;
+            const bottomLimit = 0.5;
+
+            const speed = (grass.userData.speed ?? 0.03);
+
+            if (cur.y >= topLimit) grass.userData.direction = -1;
+            if (cur.y <= bottomLimit) grass.userData.direction = 1;
+
+            const dx = grass.userData.direction * speed;
+            const newY = cur.y + dx;
+
+
+
+
+            // двигаем тело (кинематическое)
+            body.setNextKinematicTranslation({ x: cur.x, y: newY, z: cur.z });
+
+            // и обновляем графику от него
+            grass.position.y = newY;
+
+            this.objs.lamps.data[i].position.y = newY + this.objs.lamps.lampHeight;
+            this.objs.plafons.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
+            this.objs.bulbs.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
+            this.objs.topPlanes.data[i].position.y = newY + 0.2;
+
+
+          }
         }
-        else if (mv) {
 
-          const cur = body.translation();
-          const topLimit = 2;
-          const bottomLimit = 0.5;
+        for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
 
-          const speed = (grass.userData.speed ?? 0.03);
+          if (this.objs.livesBlocks.data[i].userData.taked) {
+            if (this.objs.livesBlocks.data[i].position.y < 10) {
+              this.objs.livesBlocks.data[i].position.y += 0.001;
+              this.objs.livesBlocks.data[i].rotation.y += 0.004;
+            }
+            else {
+              this.objs.livesBlocks.data[i].userData.taked = false;
+            }
+          }
 
-          if (cur.y >= topLimit) grass.userData.direction = -1;
-          if (cur.y <= bottomLimit) grass.userData.direction = 1;
+          else {
+            this.objs.livesBlocks.data[i].rotation.y += 0.0004;
+          }
 
-          const dx = grass.userData.direction * speed;
-          const newY = cur.y + dx;
-
-
-
-
-          // двигаем тело (кинематическое)
-          body.setNextKinematicTranslation({ x: cur.x, y: newY, z: cur.z });
-
-          // и обновляем графику от него
-          grass.position.y = newY;
-
-          this.objs.lamps.data[i].position.y = newY + this.objs.lamps.lampHeight;
-          this.objs.plafons.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
-          this.objs.bulbs.data[i].position.y = newY + this.objs.lamps.lampHeight + 1;
-          this.objs.topPlanes.data[i].position.y = newY + 0.2;
-
-
+          this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
         }
+
+        this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
 
         this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
         this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
@@ -2102,7 +2138,7 @@ scene.add(heart);
 
         this.cameraSpeed += 0.000001;
 
-        console.log(this.bounds.rightX)
+
 
 
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
@@ -2194,6 +2230,12 @@ scene.add(heart);
         value.position.y = this.boostHatCoords[index][1];
         value.userData.fly = false;
       })
+
+      for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
+        this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
+        this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+      }
+      this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
 
       this.hideScreen('popup_in_game');
       this.audioClass.stopMusic(['back']);
