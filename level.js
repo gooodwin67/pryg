@@ -2134,7 +2134,7 @@ export class LevelClass {
       case 3:
         if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
-        //camera.position.z = this.isMobile ? 20 : 32;
+        camera.position.z = this.isMobile ? 20 : 32;
 
         this.cameraSpeed += 0.000001;
 

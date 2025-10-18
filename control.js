@@ -126,13 +126,13 @@ export class ControlClass {
 
     if (player.userData.live) {
       if (player.userData.onGround) {
+        if (!player.userData.readyJump) player.userData.audio[0].play();
         player.userData.readyJump = true;
-        player.userData.audio[0].play();
+        
       }
       else if (player.userData.canFly) {
         player.userData.readyJump = true;
-        player.userData.audio[0].play();
-
+        if (!player.userData.readyJump) player.userData.audio[0].play();
       }
       // player.userData.readyJump = true;
       // player.userData.audio[0].play();
