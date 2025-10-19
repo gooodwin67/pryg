@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -12,11 +12,13 @@ export class LevelClass {
     this.isMobile = isMobile;
     this.paramsClass = paramsClass;
     this.worldClass = worldClass;
+    this.initMatch = initMatch;
 
     this.cameraSpeed = 0.01;
 
     this.levelsMode = false;
     this.levelsNoFric = false;
+    this.allLevels = 0;
 
     this.randomNoFric = 0.3;
     this.randomAnimateHor = 0.2;
@@ -552,8 +554,8 @@ export class LevelClass {
           this.randomAnimateVert = 0;
           this.gameNum = 3; //////////////////////////////////////////////////////////////////////////////////////////
           break;
-
       }
+      this.allLevels = 2;
 
       if (this.paramsClass.gameDir == 'hor') {
         for (let i = 0; i < this.count; i++) {
@@ -1949,25 +1951,25 @@ export class LevelClass {
   }
 
 
-  needDeath(player = false) {
+  // needDeath(player = false) {
 
-    if (player && player.position.y > -1) {
-      this.audioClass.playMusic(['inwater']);
-      player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-      player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      player.userData.live = false;
-    }
-    else if (!player) {
-      this.audioClass.playMusic(['inwater']);
-      this.players.forEach((value, index, array) => {
-        if (value.player.position.y > 0) {
-          value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-          value.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
-          value.player.userData.live = false;
-        }
-      })
-    }
-  }
+  //   if (player && player.position.y > -1) {
+  //     this.audioClass.playMusic(['inwater']);
+  //     player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+  //     player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+  //     player.userData.live = false;
+  //   }
+  //   else if (!player) {
+  //     this.audioClass.playMusic(['inwater']);
+  //     this.players.forEach((value, index, array) => {
+  //       if (value.player.position.y > 0) {
+  //         value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+  //         value.player.userData.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+  //         value.player.userData.live = false;
+  //       }
+  //     })
+  //   }
+  // }
 
 
 
@@ -2083,7 +2085,6 @@ export class LevelClass {
 
 
 
-
     switch (this.gameNum) {
       case 1:
         if (this.paramsClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
@@ -2176,20 +2177,40 @@ export class LevelClass {
     return { newPos, newVel };
   }
 
-  showPopupInGame(showNext) {
-    if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
-    this.audioClass.looseAudio.play();
-    if (!showNext || !this.canShowAds) {
-      this.hideScreen('popup_game_btn1')
+  showPopupInGame(showNext = false, levels = false) {
+    
+    if (this.players.every(value => !value.player.userData.finish)) {
+      if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
+      this.audioClass.looseAudio.play();
+    }
+    
+    if (!levels) {
+      
+      if (!showNext || !this.canShowAds) {
+        this.hideScreen('popup_game_btn1')
+      }
+      else {
+        this.showScreen('popup_game_btn1')
+      }
     }
     else {
-      this.showScreen('popup_game_btn1')
+      this.hideScreen('popup_game_btn1')
+      if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15')
+      else this.hideScreen('popup_game_btn15')
     }
     this.showScreen('popup_in_game');
   }
 
+  rebindButton(selector, handler) {
+    const oldButton = document.querySelector(selector);
+    const newButton = oldButton.cloneNode(true); // клонирование удаляет все старые слушатели
+    oldButton.parentNode.replaceChild(newButton, oldButton);
+    newButton.addEventListener('click', handler);
+    return newButton;
+  }
+
   menuInGame = () => {
-    document.querySelector('.popup_game_btn1').addEventListener('click', () => {
+    this.rebindButton('.popup_game_btn1', () => {
       this.hideScreen('popup_in_game');
       this.boostHatModels.forEach((value, index, array) => {
         value.userData.fly = false;
@@ -2200,11 +2221,14 @@ export class LevelClass {
       this.audioClass.playMusic(['back']);
       if (!this.levelsMode) this.canShowAds = false;
     })
-    document.querySelector('.popup_game_btn2').addEventListener('click', () => {
+    this.rebindButton('.popup_game_btn2', () => {
 
       this.players.forEach((value, index, array) => {
+        value.player.userData.finish = false;
         value.playerAliving(true);
       })
+
+
 
       if (this.gameNum == 1 || this.gameNum == 3) {
         this.camera.position.z = 7;
@@ -2212,8 +2236,6 @@ export class LevelClass {
         this.camera.position.x = 0;
         this.cameraSpeed = 0.01;
       }
-
-
       this.canShowAds = true;
 
       if (this.birdYes) {
@@ -2223,8 +2245,6 @@ export class LevelClass {
           this.angryBird.userData.flying = false;
         }, 100);
       }
-
-
       this.boostHatModels.forEach((value, index, array) => {
         value.position.x = this.boostHatCoords[index][0];
         value.position.y = this.boostHatCoords[index][1];
@@ -2240,9 +2260,60 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
       this.audioClass.stopMusic(['back']);
       this.audioClass.playMusic(['back']);
+      //this.paramsClass.gameStarting = true;
 
     })
-    document.querySelector('.popup_game_btn3').addEventListener('click', () => {
+    this.rebindButton('.popup_game_btn15', () => {
+
+      
+      this.paramsClass.dataLoaded = false;
+      disposeScene(this.scene);
+      this.audioClass.stopMusic(0);
+
+      this.hideScreen('popup_in_game');
+
+      setTimeout(() => {
+        let level = this.levelsMode < this.allLevels ? this.levelsMode+1 : 777;
+        this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
+      }, 1000);
+
+      this.players.forEach((value, index, array) => {
+        value.playerAliving(true);
+      })
+
+      // if (this.gameNum == 1 || this.gameNum == 3) {
+      //   this.camera.position.z = 7;
+      //   this.camera.position.y = 2;
+      //   this.camera.position.x = 0;
+      //   this.cameraSpeed = 0.01;
+      // }
+      // this.canShowAds = true;
+
+      // if (this.birdYes) {
+      //   setTimeout(() => {
+      //     this.birdFlyingMark = 10;
+      //     this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
+      //     this.angryBird.userData.flying = false;
+      //   }, 100);
+      // }
+      // this.boostHatModels.forEach((value, index, array) => {
+      //   value.position.x = this.boostHatCoords[index][0];
+      //   value.position.y = this.boostHatCoords[index][1];
+      //   value.userData.fly = false;
+      // })
+
+      // for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
+      //   this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
+      //   this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+      // }
+      // this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
+
+      
+      // this.audioClass.stopMusic(['back']);
+      // this.audioClass.playMusic(['back']);
+
+    })
+    this.rebindButton('.popup_game_btn3', () => {
       this.hideScreen('popup_in_game');
       this.showScreen('main_screen');
       this.players.forEach((value, index, array) => {

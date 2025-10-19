@@ -131,7 +131,7 @@ async function initClases(chels) {
   audioClass = new AudioClass();
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera));
@@ -180,7 +180,7 @@ async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
 
   await initClases(chels);
 
-  levelClass.gameNum = gameNum
+  levelClass.gameNum = gameNum;
   await initEntity();
   await initLevel(levelsMode, bird = bird);
 
@@ -225,6 +225,8 @@ function resetMatch() {
 
 
 function animate() {
+  
+  
   if (paramsClass.dataLoaded && paramsClass.gameStarting) {
 
 
@@ -239,7 +241,7 @@ function animate() {
 
 
     levelClass.players.forEach((value, index, array) => {
-      if (!value.player.userData.finish) value.playerMove()
+       value.playerMove()
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);

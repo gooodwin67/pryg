@@ -223,7 +223,7 @@ canvas {
 }
 
 .player_panel_bottom_lives span::after {
-    left: 2.5px;
+    left: 3.5px;
     top: 0;
 }
 
@@ -695,6 +695,34 @@ body .together_game_chels_active {
     margin-top: 5%;
     border: 2px solid rgba(251, 242, 227, 0.9);
     border-radius: 30px;
+}
+
+
+.level_game_chels_wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.level_game_chels {
+    width: 30px;
+    box-shadow: none !important;
+    border: 2px solid transparent !important;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 7px;
+    cursor: pointer;
+    border-radius: 9px;
+    transition: transform 0.5s;
+    font-weight: bold;
+}
+
+body .level_game_chels_active {
+    border: 2px solid #ffffff !important;
+    transform: translateY(-2px);
+
 }
 
 

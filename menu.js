@@ -6,6 +6,7 @@ export class MenuClass {
     this.mainMenu(this.initMatch);
 
     this.playersNum = 2;
+    this.levelPlayersNum = 1;
 
   }
 
@@ -31,7 +32,19 @@ export class MenuClass {
     document.querySelectorAll('.levels_blocks .levels_block').forEach((value, index, array) => {
       value.addEventListener('click', () => {
         this.hideScreen('levels_game_screen');
-        this.initMatch(1, 1, index + 1, true)
+        this.initMatch(this.levelPlayersNum, 1, index + 1, true)
+      })
+    })
+
+    document.querySelectorAll('.level_game_chels').forEach((value, index, array) => {
+      value.addEventListener('click', () => {
+        document.querySelectorAll('.level_game_chels').forEach((item) => {
+
+          item.classList.remove('level_game_chels_active');
+        });
+        value.classList.add('level_game_chels_active');
+        
+        this.levelPlayersNum = index + 1;
       })
     })
 

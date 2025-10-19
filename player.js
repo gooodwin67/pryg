@@ -90,9 +90,39 @@ export class PlayerClass {
   }
 
   playerMove() {
-
+    
     if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround)) {
-      this.player.userData.finish = true;
+
+      if (!this.player.userData.finish) {
+
+        this.player.userData.finish = true;
+        
+          if (this.levelClass.players.every(value => value.player.userData.finish)) {
+            this.levelClass.players.forEach(element => {
+              element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+            });
+          }
+          else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
+            this.levelClass.players.forEach(element => {
+              element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+              this.player.userData.finish = false;
+            });
+
+          }
+          
+        
+        
+        
+        
+          
+        // setTimeout(() => {
+        //   // this.paramsClass.gameStarting = false;
+        //   this.levelClass.showPopupInGame(false, true);
+        //   this.player.userData.finish = true;
+        // }, 200);
+        
+      }
+      
     }
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
@@ -171,13 +201,13 @@ export class PlayerClass {
     if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor' && this.levelClass.canHorDie) {
       this.player.userData.lives = 0;
       this.reLiveField();
-      this.levelClass.needDeath(this.player);
+      this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
     if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.3 && this.player.userData.live) {
       this.player.userData.lives = 0;
       this.reLiveField();
-      this.levelClass.needDeath(this.player);
+      this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
     if (!this.levelClass.canHorDie && this.camera.position.x > 1 && this.camera.position.x < 12 && this.paramsClass.gameDir == 'hor') {
@@ -193,7 +223,9 @@ export class PlayerClass {
 
         if (this.player.userData.live) {
           this.audioClass.pauseMusic(['back']);
-          this.audioClass.playMusic(['inwater']);
+          if (!this.player.userData.finish) {
+            this.audioClass.playMusic(['inwater']);
+          }
 
 
 
@@ -207,14 +239,21 @@ export class PlayerClass {
               this.player.userData.lives = 0;
             }
 
-
+            
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
             else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
             this.paramsClass.allDie = true;
           }
           else {
+
             this.player.userData.lives = 0;
-            this.levelClass.showPopupInGame(true);
+            if (this.player.userData.finish) {
+              this.levelClass.showPopupInGame(false, true);
+            }
+            else {
+              this.levelClass.showPopupInGame(true, true);
+            }
+            
             this.paramsClass.allDie = true;
           }
           this.paramsClass.gameStarting = false;
@@ -227,14 +266,25 @@ export class PlayerClass {
 
           if (this.levelClass.gameNum == 2 || this.levelClass.gameNum == 1) this.player.userData.lives--;
           else if (this.levelClass.gameNum == 4 || this.levelClass.gameNum == 3) this.player.userData.lives = 0;
+
+          if (this.levelClass.levelsMode) this.player.userData.lives = 0;
+
           this.audioClass.stopMusic(['inwater']);
-          this.audioClass.playMusic(['inwater']);
+          if (!this.player.userData.finish) {
+            this.audioClass.playMusic(['inwater']);
+          }
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.paramsClass.gameStarting) {
           this.audioClass.pauseMusic(['back']);
-          this.levelClass.showPopupInGame(false);
+          if (this.levelClass.players.every(value => value.player.userData.finish)) {
+            this.levelClass.showPopupInGame(false, true);
+          }
+          else {
+            this.levelClass.showPopupInGame(false);
+          }
+          
           this.paramsClass.allDie = true;
           this.paramsClass.gameStarting = false;
         }
@@ -255,7 +305,7 @@ export class PlayerClass {
 
 
 
-      if (!this.player.userData.live) {
+      if (!this.player.userData.live || this.player.userData.finish) {
 
         this.player.userData.body.setLinvel(new THREE.Vector3(0, 0, 0));
 
@@ -287,14 +337,15 @@ export class PlayerClass {
 
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
-
+          
           this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
-
+          
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
           this.player.userData.live = true;
 
           this.player.userData.playerAlive = false;
+          
         }
 
       }
@@ -442,15 +493,17 @@ export class PlayerClass {
 
   playerAliving(reset) {
     this.paramsClass.allDie = false;
+    this.player.userData.playerAlive = true;
 
     if (reset) {
       this.levelClass.canHorDie = false;
       this.player.userData.deadPos = this.player.userData.startPos;
       this.player.userData.lives = 3;
-      this.player.userData.finish = false;
+      this.reLiveField();
+      
     }
 
-    this.player.userData.playerAlive = true;
+    
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
     }, 1);
