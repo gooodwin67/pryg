@@ -755,11 +755,17 @@ body .level_game_chels_active {
     margin-top: 8%;
     border: 2px solid rgba(251, 242, 227, 0.9);
     border-radius: 30px;
-
     background: url('/images/back-dead.png')no-repeat;
     background-size: cover;
     background-position-y: 15%;
 }
+
+.popup_in_game_wrap_win {
+    background: url('/images/back-win.png')no-repeat !important;
+    background-size: cover !important;
+    background-position-y: 15% !important;
+}
+
 
 .popup_screen_btns_wrap {
     display: flex;

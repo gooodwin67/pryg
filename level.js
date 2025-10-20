@@ -379,7 +379,7 @@ export class LevelClass {
     this.rightEdge.unproject(camera);
 
     this.bounds;
-    this.getHorizontalWorldBounds()
+
 
     this.gameNum = 1;
 
@@ -532,9 +532,10 @@ export class LevelClass {
 
 
     if (levelsMode) {
-      this.players[0].player.userData.lives = 0;
+      //this.players[0].player.userData.lives = 0;
       let previousX = -2.5; // Начальная позиция по оси X
       let previousY = -5;
+
       switch (levelsMode) {
         case 1:
           this.birdYes = false;
@@ -547,15 +548,35 @@ export class LevelClass {
           // this.cameraSpeed = 0.5;
           break;
         case 2:
+          this.gameNum = 4; ////////////////////////////////////////////////////////////////////////////////////////// 3 / 4 верт
           this.birdYes = false;
           this.count = 4;
           this.paramsClass.gameDir = 'vert'
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
-          this.gameNum = 3; //////////////////////////////////////////////////////////////////////////////////////////
+          break;
+        case 3:
+          this.birdYes = true;
+          this.count = 5;
+          this.paramsClass.gameDir = 'hor'
+          this.levelsNoFric = true;
+          this.randomAnimateHor = 1;
+          this.randomAnimateVert = 0;
+          this.gameNum = 2;
+          this.cameraSpeed = 0.5;
+          break;
+        case 4:
+          this.gameNum = 4;
+          this.birdYes = true;
+          this.count = 5;
+          this.paramsClass.gameDir = 'vert'
+          this.levelsNoFric = true;
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
+          this.cameraSpeed = 0.7;
           break;
       }
-      this.allLevels = 2;
+      this.allLevels = 4;
 
       if (this.paramsClass.gameDir == 'hor') {
         for (let i = 0; i < this.count; i++) {
@@ -923,13 +944,7 @@ export class LevelClass {
               this.objs.grassPlanes.data[i].position.x = randomX;
               this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
 
-              if (i > 7 && Math.random() < 0.1) {
-                this.objs.livesBlocks.data[i].position.x = randomX - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x / 2;
-                this.objs.livesBlocks.data[i].position.y = randomY + this.planeHeight / 1.5 + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y / 2 + 0.2;
-                this.objs.livesBlocks.data[i].userData.startPos = this.objs.livesBlocks.data[i].position.clone();
 
-
-              }
 
               if ((i + 1) % 10 === 1) {
                 let newHat = this.boostHatModel.clone();
@@ -989,7 +1004,6 @@ export class LevelClass {
             this.apply(i, this.objs.planes.data, this.objs.planes.plane);
             this.apply(i, this.objs.topPlanes.data, this.objs.topPlanes.planeTop);
             this.apply(i, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass);
-            this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
             this.apply(i, this.objs.lamps.data, this.objs.lamps.lamp);
             this.apply(i, this.objs.plafons.data, this.objs.plafons.plafon);
             this.apply(i, this.objs.bulbs.data, this.objs.bulbs.bulb);
@@ -1023,7 +1037,12 @@ export class LevelClass {
             if (this.objs.grassPlanes.data[i].position.y > this.maxHeight) this.maxHeight = this.objs.grassPlanes.data[i].position.y;
 
 
-
+            if (i > 7 && Math.random() < 0.1 && !this.objs.grassPlanes.data[i].userData.moveHor && !this.objs.grassPlanes.data[i].userData.moveVert) {
+              this.objs.livesBlocks.data[i].position.x = this.objs.grassPlanes.data[i].position.x - this.objs.grassPlanes.data[i].size.x / 2 + this.objs.livesBlocks.data[i].size.x / 2;
+              this.objs.livesBlocks.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.livesBlocks.data[i].size.y / 2 + 0.2;
+              this.objs.livesBlocks.data[i].userData.startPos = this.objs.livesBlocks.data[i].position.clone();
+            }
+            this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
 
           }
 
@@ -2133,18 +2152,17 @@ export class LevelClass {
         break;
       }
       case 3:
+        this.getHorizontalWorldBounds();
         if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 32;
 
         this.cameraSpeed += 0.000001;
 
-
-
-
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
+        this.getHorizontalWorldBounds();
         if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
 
         camera.position.x = 0;
@@ -2178,14 +2196,19 @@ export class LevelClass {
   }
 
   showPopupInGame(showNext = false, levels = false) {
-    
+
     if (this.players.every(value => !value.player.userData.finish)) {
+      document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win')
       if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
       this.audioClass.looseAudio.play();
     }
-    
+    else {
+      console.log(123)
+      document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win')
+    }
+
     if (!levels) {
-      
+
       if (!showNext || !this.canShowAds) {
         this.hideScreen('popup_game_btn1')
       }
@@ -2231,7 +2254,7 @@ export class LevelClass {
 
 
       if (this.gameNum == 1 || this.gameNum == 3) {
-        this.camera.position.z = 7;
+        // this.camera.position.z = 7;
         this.camera.position.y = 2;
         this.camera.position.x = 0;
         this.cameraSpeed = 0.01;
@@ -2265,7 +2288,7 @@ export class LevelClass {
     })
     this.rebindButton('.popup_game_btn15', () => {
 
-      
+
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
@@ -2273,9 +2296,9 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
 
       setTimeout(() => {
-        let level = this.levelsMode < this.allLevels ? this.levelsMode+1 : 777;
+        let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 777;
         this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
-      }, 1000);
+      }, 100);
 
       this.players.forEach((value, index, array) => {
         value.playerAliving(true);
@@ -2308,7 +2331,7 @@ export class LevelClass {
       // }
       // this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
 
-      
+
       // this.audioClass.stopMusic(['back']);
       // this.audioClass.playMusic(['back']);
 

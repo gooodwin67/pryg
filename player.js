@@ -90,39 +90,46 @@ export class PlayerClass {
   }
 
   playerMove() {
-    
-    if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround)) {
+
+
+
+    if (this.levelClass.levelsMode) {
+      if (this.levelClass.players.every(value => value.player.userData.finish)) {
+        this.levelClass.players.forEach(element => {
+          element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+        });
+      }
+      else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
+
+        this.levelClass.players.forEach(element => {
+          element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+          this.player.userData.finish = false;
+        });
+      }
+    }
+
+    if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround && this.player.userData.body.linvel().y < 0)) {
 
       if (!this.player.userData.finish) {
 
         this.player.userData.finish = true;
-        
-          if (this.levelClass.players.every(value => value.player.userData.finish)) {
-            this.levelClass.players.forEach(element => {
-              element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-            });
-          }
-          else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
-            this.levelClass.players.forEach(element => {
-              element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-              this.player.userData.finish = false;
-            });
 
-          }
-          
-        
-        
-        
-        
-          
+
+
+
+
+
+
+
+
         // setTimeout(() => {
         //   // this.paramsClass.gameStarting = false;
         //   this.levelClass.showPopupInGame(false, true);
         //   this.player.userData.finish = true;
         // }, 200);
-        
+
       }
-      
+
     }
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.sensorPlanes.data)) {
@@ -197,14 +204,13 @@ export class PlayerClass {
 
 
 
-
     if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor' && this.levelClass.canHorDie) {
       this.player.userData.lives = 0;
       this.reLiveField();
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
-    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY) * 1.3 && this.player.userData.live) {
+    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {
       this.player.userData.lives = 0;
       this.reLiveField();
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
@@ -239,7 +245,7 @@ export class PlayerClass {
               this.player.userData.lives = 0;
             }
 
-            
+
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
             else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
             this.paramsClass.allDie = true;
@@ -253,7 +259,7 @@ export class PlayerClass {
             else {
               this.levelClass.showPopupInGame(true, true);
             }
-            
+
             this.paramsClass.allDie = true;
           }
           this.paramsClass.gameStarting = false;
@@ -284,7 +290,7 @@ export class PlayerClass {
           else {
             this.levelClass.showPopupInGame(false);
           }
-          
+
           this.paramsClass.allDie = true;
           this.paramsClass.gameStarting = false;
         }
@@ -337,15 +343,15 @@ export class PlayerClass {
 
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
-          
+
           this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
-          
+
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
           this.player.userData.live = true;
 
           this.player.userData.playerAlive = false;
-          
+
         }
 
       }
@@ -500,10 +506,10 @@ export class PlayerClass {
       this.player.userData.deadPos = this.player.userData.startPos;
       this.player.userData.lives = 3;
       this.reLiveField();
-      
+
     }
 
-    
+
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
     }, 1);

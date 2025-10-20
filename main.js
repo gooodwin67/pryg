@@ -57,7 +57,7 @@ scene.background = new THREE.Color(0xc9e1f4);
 
 
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
-camera.position.z = 7;
+//camera.position.z = 7;
 camera.position.y = 2;
 
 const isMobile = detectDevice();
@@ -201,7 +201,7 @@ menuClass = new MenuClass(initMatch);
 
 function resetMatch() {
 
-  camera.position.z = 7;
+  // camera.position.z = 7;
   camera.position.y = 2;
   camera.position.x = 0;
 
@@ -225,8 +225,8 @@ function resetMatch() {
 
 
 function animate() {
-  
-  
+
+
   if (paramsClass.dataLoaded && paramsClass.gameStarting) {
 
 
@@ -241,7 +241,7 @@ function animate() {
 
 
     levelClass.players.forEach((value, index, array) => {
-       value.playerMove()
+      value.playerMove()
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
