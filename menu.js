@@ -1,8 +1,10 @@
 import * as THREE from "three";
 
 export class MenuClass {
-  constructor(initMatch) {
+  constructor(initMatch, loadLevels) {
     this.initMatch = initMatch;
+    this.loadLevels = loadLevels;
+    this.loadLevels();
     this.mainMenu(this.initMatch);
 
     this.playersNum = 2;
@@ -24,7 +26,7 @@ export class MenuClass {
       this.showScreen('together_game_screen');
     })
 
-    document.querySelector('.new_game_btn3').addEventListener('click', () => {
+    document.querySelector('.new_game_btn3').addEventListener('click', async () => {
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen');
     })

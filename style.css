@@ -722,8 +722,187 @@ body .together_game_chels_active {
 body .level_game_chels_active {
     border: 2px solid #ffffff !important;
     transform: translateY(-2px);
-
 }
+
+
+
+
+/* сетка уже есть у тебя; слегка расширю под статус и «кнопочность» */
+.levels_blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 12px;
+    max-width: 480px;
+    margin: 30px auto;
+    padding: 10px;
+  }
+  
+  /* базовый «карточный» стиль */
+  .levels_block {
+    position: relative;
+    border-radius: 15px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    text-shadow: 0 1px 2px rgba(0,0,0,.8);
+    border: 1px solid transparent;      /* будет переопределяться модификаторами */
+    box-shadow: 0 4px 0 transparent;    /* будет переопределяться модификаторами */
+  }
+  
+  /* номер уровня — крупный */
+  .levels_block_number {
+    font-family: 'Russo One', Tahoma;
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 6px;
+    -webkit-text-stroke: .2px rgba(255,255,255,.9);
+  }
+  
+  /* статус — чип под номером */
+  .levels_block_status {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .status_chip {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.85);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.35);
+  }
+  
+  /* чипы по состояниям */
+  .status_chip--completed { background: rgba(78, 175, 5, .75); }
+  .status_chip--available { background: rgba(254, 144, 0, .75); }
+  .status_chip--locked    { background: rgba(60, 60, 60, .65);  }
+  
+  /* ——— МОДИФИКАТОРЫ ПОД ТВОИ КНОПКИ ——— */
+  
+  /* Пройден (green_btn) */
+  .levels_block--completed {
+    background: linear-gradient(1deg, rgba(78, 175, 5, 1) 1%, rgba(149, 224, 128, 1) 100%);
+    border: 1px solid #3d8903;
+    box-shadow: 0 4px 0 #3d8903;
+    color: #fff;
+  }
+  
+  /* Доступен (yellow_btn) */
+  .levels_block--available {
+    background: linear-gradient(1deg, rgba(254, 144, 0, 1) 1%, rgba(247, 197, 131, 1) 100%);
+    border: 1px solid #d96a02;
+    box-shadow: 0 4px 0 #d96a02;
+    color: #fff;
+  }
+  
+  /* Закрыт — глушим, отключаем курсор/hover */
+  .levels_block--locked {
+    background: linear-gradient(145deg, #3b3b3b, #2a2a2a);
+    border: 1px solid #4a4a4a;
+    box-shadow: 0 4px 0 #2a2a2a;
+    color: #cfcfcf;
+    cursor: not-allowed;
+    filter: grayscale(.15) saturate(.8);
+  }
+  
+  /* hover/active — только для доступных и пройденных */
+  .levels_block--completed:hover,
+  .levels_block--available:hover {
+    transform: translateY(-2px);
+  }
+  
+  .levels_block--completed:active,
+  .levels_block--available:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+  
+  /* выбранный (active) — универсально */
+  .levels_block.active {
+    outline: 2px solid rgba(255,255,255,.9);
+    box-shadow: 0 0 10px rgba(255,255,255,.55);
+  }
+  
+  /* маленькая иконка-замок для закрытого */
+  .levels_block--locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 14px;
+    opacity: .9;
+  }
+
+  /* Стартовые скрытые состояния для плавного появления */
+.levels_block {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  
+  /* Класс запуска входной анимации; задержка задаётся через --show-delay */
+  .levels_block--enter {
+    animation: level-tile-in 0.45s cubic-bezier(.2,.8,.2,1) both;
+    animation-delay: var(--show-delay, 0ms);
+  }
+  
+  /* Чуть бодрее для доступных/пройденных, тише для закрытых */
+  .levels_block--completed.levels_block--enter,
+  .levels_block--available.levels_block--enter {
+    animation-duration: 0.42s;
+  }
+  .levels_block--locked.levels_block--enter {
+    animation-duration: 0.5s;
+    filter: grayscale(.2) saturate(.9);
+  }
+  
+  @keyframes level-tile-in {
+    0% {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      box-shadow: 0 4px 0 transparent; /* чтобы не мигал */
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-2px) scale(1.03); /* лёгкий “поп” */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Реакция на повторный показ (когда переключаешь экраны) */
+  .levels_blocks--reenter .levels_block {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  
+  /* Доступность: без анимаций для тех, кто отключил движения */
+  @media (prefers-reduced-motion: reduce) {
+    .levels_block,
+    .levels_block--enter {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+  
+  
+
 
 
 

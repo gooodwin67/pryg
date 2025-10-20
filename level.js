@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -18,7 +18,7 @@ export class LevelClass {
 
     this.levelsMode = false;
     this.levelsNoFric = false;
-    this.allLevels = 0;
+    this.allLevels = allLevels;
 
     this.randomNoFric = 0.3;
     this.randomAnimateHor = 0.2;
@@ -576,7 +576,7 @@ export class LevelClass {
           this.cameraSpeed = 0.7;
           break;
       }
-      this.allLevels = 4;
+      
 
       if (this.paramsClass.gameDir == 'hor') {
         for (let i = 0; i < this.count; i++) {
