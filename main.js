@@ -49,12 +49,12 @@ let controlClass;
 let paramsClass;
 let scoreClass;
 
-let allLevels = 4;
+
 const levelsStatus = [
-  'completed','completed','completed',
-  'available','available',
-  'locked','locked','locked','locked','locked','locked','locked'
+  // 'available','completed','locked',
+  'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available',
 ];
+let allLevels = levelsStatus.length;
 
 
 
@@ -160,9 +160,9 @@ async function initEntity() {
 
 
 }
-async function initLevel(levelsMode, bird = bird) {
+async function initLevel(levelsMode) {
 
-  await levelClass.createLevel(levelsMode, bird = bird);
+  await levelClass.createLevel(levelsMode);
   await levelClass.loadEnvironments();
   await levelClass.loadPlayers();
 
@@ -179,7 +179,7 @@ async function initLevel(levelsMode, bird = bird) {
 }
 
 
-async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
+async function initMatch(chels, gameNum, levelsMode = false) {
   resetMatch();
   menuClass.toggleLoader(true);
 
@@ -189,7 +189,7 @@ async function initMatch(chels, gameNum, levelsMode = false, bird = true) {
 
   levelClass.gameNum = gameNum;
   await initEntity();
-  await initLevel(levelsMode, bird = bird);
+  await initLevel(levelsMode);
 
 
 
@@ -360,13 +360,12 @@ async function loadLevels() {
     statusElement.className = 'levels_block_status';
 
     const statusChipElement = document.createElement('span');
-    statusChipElement.className = `status_chip ${
-      levelStatus === 'completed'
-        ? 'status_chip--completed'
-        : levelStatus === 'available'
+    statusChipElement.className = `status_chip ${levelStatus === 'completed'
+      ? 'status_chip--completed'
+      : levelStatus === 'available'
         ? 'status_chip--available'
         : 'status_chip--locked'
-    }`;
+      }`;
     statusChipElement.textContent = labelText;
 
     statusElement.append(statusChipElement);

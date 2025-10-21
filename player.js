@@ -91,19 +91,24 @@ export class PlayerClass {
 
   playerMove() {
 
-
+    // console.log(new THREE.Vector3(
+    //   this.levelClass.players[0].player.userData.finish,
+    //   this.levelClass.players[1].player.userData.finish,
+    //   // this.levelClass.players[2].player.userData.finish,
+    // ))
 
     if (this.levelClass.levelsMode) {
       if (this.levelClass.players.every(value => value.player.userData.finish)) {
         this.levelClass.players.forEach(element => {
           element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+
         });
       }
       else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
 
         this.levelClass.players.forEach(element => {
           element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-          this.player.userData.finish = false;
+          //this.player.userData.finish = false;
         });
       }
     }
@@ -113,13 +118,6 @@ export class PlayerClass {
       if (!this.player.userData.finish) {
 
         this.player.userData.finish = true;
-
-
-
-
-
-
-
 
 
         // setTimeout(() => {
@@ -213,6 +211,7 @@ export class PlayerClass {
     if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {
       this.player.userData.lives = 0;
       this.reLiveField();
+
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
@@ -288,6 +287,7 @@ export class PlayerClass {
             this.levelClass.showPopupInGame(false, true);
           }
           else {
+
             this.levelClass.showPopupInGame(false);
           }
 
@@ -504,7 +504,8 @@ export class PlayerClass {
     if (reset) {
       this.levelClass.canHorDie = false;
       this.player.userData.deadPos = this.player.userData.startPos;
-      this.player.userData.lives = 3;
+      if (!this.levelClass.levelsMode) this.player.userData.lives = 3;
+      else this.player.userData.lives = 1;
       this.reLiveField();
 
     }
@@ -512,7 +513,7 @@ export class PlayerClass {
 
     setTimeout(() => {
       this.paramsClass.gameStarting = true;
-    }, 1);
+    }, 100);
   }
 
   reLiveField() {

@@ -498,11 +498,11 @@ export class LevelClass {
 
   }
 
-  async createLevel(levelsMode, bird) {
+  async createLevel(levelsMode) {
     this.levelsMode = levelsMode;
     this.maxHeight = 0;
     this.birdFlyingMark = 10;
-    this.birdYes = bird;
+
 
     await this.loadTexture();
     await this.loadBarriers();
@@ -535,6 +535,8 @@ export class LevelClass {
       //this.players[0].player.userData.lives = 0;
       let previousX = -2.5; // Начальная позиция по оси X
       let previousY = -5;
+      let randomWLevel = false;
+      let grassSpeed = false;
 
       switch (levelsMode) {
         case 1:
@@ -544,13 +546,14 @@ export class LevelClass {
           this.levelsNoFric = true;
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
-          // this.gameNum = 1;
-          // this.cameraSpeed = 0.5;
+          this.gameNum = 2;
+          this.cameraSpeed = 0.01;
+          this.fixedDistanceHor.min = 1.5;
           break;
         case 2:
           this.gameNum = 4; ////////////////////////////////////////////////////////////////////////////////////////// 3 / 4 верт
           this.birdYes = false;
-          this.count = 4;
+          this.count = 3;
           this.paramsClass.gameDir = 'vert'
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
@@ -562,21 +565,96 @@ export class LevelClass {
           this.levelsNoFric = true;
           this.randomAnimateHor = 1;
           this.randomAnimateVert = 0;
-          this.gameNum = 2;
-          this.cameraSpeed = 0.5;
+          this.gameNum = 1;
+          this.cameraSpeed = 0.01;
+          this.fixedDistanceHor.min = 1.5;
           break;
         case 4:
-          this.gameNum = 4;
+          this.gameNum = 3;
           this.birdYes = true;
           this.count = 5;
           this.paramsClass.gameDir = 'vert'
           this.levelsNoFric = true;
           this.randomAnimateHor = 0;
           this.randomAnimateVert = 0;
-          this.cameraSpeed = 0.7;
+          this.cameraSpeed = 0.01;
+          break;
+        case 5:
+          this.birdYes = true;
+          this.count = 7;
+          this.paramsClass.gameDir = 'hor'
+          this.levelsNoFric = false;
+          this.randomNoFric = 1;
+          this.randomAnimateHor = 1;
+          this.randomAnimateVert = 0;
+          this.gameNum = 1;
+          this.cameraSpeed = 0.01;
+          this.fixedDistanceHor.min = 1.5;
+          break;
+        case 6:
+          this.birdYes = true;
+          this.count = 9;
+          this.paramsClass.gameDir = 'hor'
+          this.levelsNoFric = false;
+          this.randomNoFric = 1;
+          this.randomAnimateHor = 0.5;
+          this.randomAnimateVert = 1;
+          this.gameNum = 2;
+          this.cameraSpeed = 0.01;
+          this.fixedDistanceHor.min = 1.5;
+          break;
+        case 7:
+          this.gameNum = 4;
+          this.birdYes = false;
+          this.count = 6;
+          this.paramsClass.gameDir = 'vert'
+          this.levelsNoFric = true;
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
+          this.cameraSpeed = 0.01;
+          randomWLevel = [5, 6, 5, 6, 5, 6, 5, 6, 5, 6, 5, 6];
+          grassSpeed = grassSpeed
+          break;
+        case 8:
+          this.birdYes = true;
+          this.count = 5;
+          this.paramsClass.gameDir = 'hor'
+          this.levelsNoFric = true;
+          this.randomNoFric = 0;
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
+          this.gameNum = 2;
+          this.cameraSpeed = 0.01;
+          randomWLevel = [3, 2, 2, 2, 1, 6, 5, 6, 5, 6, 5, 1];
+          this.fixedDistanceHor.min = 2;
+          break;
+        case 9:
+          this.gameNum = 3;
+          this.birdYes = false;
+          this.count = 6;
+          this.paramsClass.gameDir = 'vert'
+          this.levelsNoFric = true;
+          this.randomAnimateHor = 0;
+          this.randomAnimateVert = 0;
+          this.cameraSpeed = 0.01;
+          randomWLevel = [6, 4, 3, 2, 1, 6, 5, 6, 5, 6, 5, 6];
+          grassSpeed = grassSpeed;
+          break;
+        case 10:
+          this.birdYes = true;
+          this.count = 10;
+          this.paramsClass.gameDir = 'hor'
+          this.levelsNoFric = false;
+          this.randomNoFric = 0.5;
+          this.randomAnimateHor = 0.5;
+          this.randomAnimateVert = 0.5;
+          this.gameNum = 1;
+          this.cameraSpeed = 0.01;
+          randomWLevel = [2, 2, 1, 1, 1, 1, 1, 1, 5, 6, 5, 0.5];
+          this.fixedDistanceHor.min = 3;
           break;
       }
-      
+
 
       if (this.paramsClass.gameDir == 'hor') {
         for (let i = 0; i < this.count; i++) {
@@ -584,6 +662,8 @@ export class LevelClass {
           let randomW = getRandomNumber(this.planeWidth, this.planeWidth - 1);
           let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
           let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
+
+          if (randomWLevel) randomW = randomWLevel[i];
 
           if (i == 0) {
             this.objs.planes.data[i].size.x = this.planeWidth;
@@ -610,13 +690,13 @@ export class LevelClass {
             this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
           }
           else if (i == this.count - 1) {
-            this.objs.planes.data[i].size.x = 5;
+            !randomWLevel ? this.objs.planes.data[i].size.x = 5 : this.objs.planes.data[i].size.x = randomWLevel[randomWLevel.length - 1] - 0.2;
             this.objs.planes.data[i].size.y = this.planeHeight;
 
-            this.objs.topPlanes.data[i].size.x = 5 + 0.3;
+            !randomWLevel ? this.objs.topPlanes.data[i].size.x = 5 + 0.3 : this.objs.topPlanes.data[i].size.x = randomWLevel[randomWLevel.length - 1]; + 1;
             this.objs.topPlanes.data[i].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height;
 
-            this.objs.grassPlanes.data[i].size.x = 5 + 0.3;
+            !randomWLevel ? this.objs.grassPlanes.data[i].size.x = 5 + 0.3 : this.objs.grassPlanes.data[i].size.x = randomWLevel[randomWLevel.length - 1]; + 1;
             this.objs.grassPlanes.data[i].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height;
             this.objs.grassPlanes.data[i].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth;
           }
@@ -696,7 +776,7 @@ export class LevelClass {
           previousX = randomX + randomW / 2;
         }
         for (let i = 0; i < this.count; i++) {
-          if (i > 4 && i < this.count - 2 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
+          if (i > 1 && i < this.count - 1 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[i - 1].userData.moveHor) {
             this.objs.grassPlanes.data[i].userData.moveHor = {
               x1: this.objs.grassPlanes.data[i - 1].position.x,
               x2: this.objs.grassPlanes.data[i + 1].position.x,
@@ -705,7 +785,7 @@ export class LevelClass {
             };
             this.objs.planes.data[i].position.y = -10;
           }
-          if (i > 7 && i < this.count - 2 && Math.random() < this.randomAnimateVert) {
+          if (i > 1 && i < this.count - 1 && Math.random() < this.randomAnimateVert) {
 
             this.objs.grassPlanes.data[i].userData.moveVert = {
               x1: this.objs.grassPlanes.data[i - 1].position.x,
@@ -725,6 +805,8 @@ export class LevelClass {
 
         for (let i = 0; i < this.count; i++) {
           let randomW = getRandomNumber(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
+
+          if (randomWLevel) randomW = randomWLevel[i];
 
           this.minPlaneWidthTic += 0.1;
 
@@ -1205,6 +1287,10 @@ export class LevelClass {
     }
     this.players.forEach((value, index, array) => {
       value.player.position.y = this.objs.grassPlanes.data[0].position.y + this.objs.grassPlanes.data[0].size.y;
+      if (levelsMode) {
+        value.player.userData.lives = 1;
+        value.reLiveField();
+      }
     })
 
 
@@ -2115,12 +2201,10 @@ export class LevelClass {
       case 2: {
         const leadIdx = this.maxSpeed(true);
 
-
-
         if (leadIdx >= 0) {
           let leadX = 0;
           if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
-          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
+          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x;
 
 
           // Ограничим резкие откаты назад, если надо
@@ -2156,7 +2240,6 @@ export class LevelClass {
         if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 32;
-
         this.cameraSpeed += 0.000001;
 
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
@@ -2197,30 +2280,64 @@ export class LevelClass {
 
   showPopupInGame(showNext = false, levels = false) {
 
-    if (this.players.every(value => !value.player.userData.finish)) {
-      document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win')
-      if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
-      this.audioClass.looseAudio.play();
-    }
-    else {
-      console.log(123)
-      document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win')
-    }
-
-    if (!levels) {
-
+    if (!this.levelsMode) {
       if (!showNext || !this.canShowAds) {
         this.hideScreen('popup_game_btn1')
       }
       else {
         this.showScreen('popup_game_btn1')
       }
+      document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
+      if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
+      this.audioClass.looseAudio.play();
     }
     else {
-      this.hideScreen('popup_game_btn1')
-      if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15')
-      else this.hideScreen('popup_game_btn15')
+      if (this.players.every(value => value.player.userData.finish)) {
+        document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
+        if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
+      }
+      else {
+        this.hideScreen('popup_game_btn15');
+        document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
+      }
     }
+
+
+
+
+
+    // if (this.players.some(value => !value.player.userData.finish)) {
+    //   document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win')
+    //   if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
+    //   this.audioClass.looseAudio.play();
+    // }
+    // else {
+    //   document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win')
+    //   this.hideScreen('popup_game_btn15');
+    // }
+
+    // if (!levels) {
+
+    //   if (!showNext || !this.canShowAds) {
+    //     this.hideScreen('popup_game_btn1')
+    //   }
+    //   else {
+    //     this.showScreen('popup_game_btn1')
+    //   }
+    // }
+    // else {
+    //   this.hideScreen('popup_game_btn1')
+    //   if (this.levelsMode >= this.allLevels) {
+    //     this.hideScreen('popup_game_btn15')
+    //   }
+    //   else {
+    //     if (this.players.every(value => value.player.userData.finish)) {
+    //       console.log(123)
+    //       this.showScreen('popup_game_btn15')
+    //     }
+    //   }
+
+    // }
     this.showScreen('popup_in_game');
   }
 
@@ -2251,14 +2368,13 @@ export class LevelClass {
         value.playerAliving(true);
       })
 
-
-
       if (this.gameNum == 1 || this.gameNum == 3) {
         // this.camera.position.z = 7;
-        this.camera.position.y = 2;
+        this.camera.position.y = 0;
         this.camera.position.x = 0;
         this.cameraSpeed = 0.01;
       }
+      //this.getHorizontalWorldBounds();
       this.canShowAds = true;
 
       if (this.birdYes) {
@@ -2297,6 +2413,7 @@ export class LevelClass {
 
       setTimeout(() => {
         let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 777;
+
         this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
       }, 100);
 
