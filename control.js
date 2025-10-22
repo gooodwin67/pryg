@@ -14,21 +14,23 @@ export class ControlClass {
   }
 
   addKeyListeners() {
+    const el = this.renderer.domElement; // ← canvas
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
-    window.addEventListener('mousedown', this.onKeyDown);
-    window.addEventListener('mouseup', this.onKeyUp);
-    document.addEventListener('touchend', this.onTapUp);
-    document.addEventListener('touchstart', this.onTapDown);
+    el.addEventListener('mousedown', this.onKeyDown);
+    el.addEventListener('mouseup', this.onKeyUp);
+    el.addEventListener('touchstart', this.onTapDown, { passive: false });
+    el.addEventListener('touchend', this.onTapUp);
   }
 
   removedKeyListeners() {
+    const el = this.renderer.domElement; // ← canvas
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
-    window.removeEventListener('mousedown', this.onKeyDown);
-    window.removeEventListener('mouseup', this.onKeyUp);
-    document.removeEventListener('touchend', this.onTapUp);
-    document.removeEventListener('touchstart', this.onTapDown);
+    el.removeEventListener('mousedown', this.onKeyDown);
+    el.removeEventListener('mouseup', this.onKeyUp);
+    el.removeEventListener('touchstart', this.onTapDown);
+    el.removeEventListener('touchend', this.onTapUp);
   }
 
 
@@ -85,13 +87,12 @@ export class ControlClass {
         break;
       case 'KeyD':
       case 'ArrowRight':
-        this.levelClass.players.forEach((value, index, array) => {
-          value.player.userData.playerAlive = true;
-          //this.levelClass.resetLevel();
-        })
+        // this.levelClass.players.forEach((value, index, array) => {
+        //   value.player.userData.playerAlive = true;
+        // })
         break;
       case 'KeyP':
-        this.paramsClass.gameStarting = !this.paramsClass.gameStarting;
+
     }
   }
 
@@ -128,14 +129,12 @@ export class ControlClass {
       if (player.userData.onGround) {
         if (!player.userData.readyJump) player.userData.audio[0].play();
         player.userData.readyJump = true;
-        
+
       }
       else if (player.userData.canFly) {
         player.userData.readyJump = true;
         if (!player.userData.readyJump) player.userData.audio[0].play();
       }
-      // player.userData.readyJump = true;
-      // player.userData.audio[0].play();
     }
   }
 

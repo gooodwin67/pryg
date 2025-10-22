@@ -24,6 +24,8 @@ import { WorldClass } from './world';
 import { MenuClass } from './menu';
 import { ParamsClass } from './params';
 import { ScoreClass } from './score';
+import { GameClass } from './game';
+import { contain } from 'three/src/extras/TextureUtils.js';
 
 
 console.clear();
@@ -48,6 +50,7 @@ let audioClass;
 let controlClass;
 let paramsClass;
 let scoreClass;
+let gameClass = new GameClass();
 
 
 const levelsStatus = [
@@ -67,7 +70,21 @@ const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerH
 //camera.position.z = 7;
 camera.position.y = 2;
 
+
 const isMobile = detectDevice();
+
+///////////////////////////////////////
+
+
+function setVhVar() {
+  const h = (window.visualViewport?.height || window.innerHeight) * 0.01;
+  document.documentElement.style.setProperty('--vh', `${h}px`);
+}
+setVhVar();
+window.addEventListener('resize', setVhVar);
+window.addEventListener('orientationchange', setVhVar);
+
+///////////////////////////////////////
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
@@ -120,9 +137,18 @@ function onWindowResize() {
 
 
 
+async function BeforeStart() {
+  toggleLoader(true);
+  audioClass = new AudioClass();
+  await audioClass.loadAudio();
+  menuClass = new MenuClass(initMatch, loadLevels, gameClass, audioClass);
+  toggleLoader(false);
+}
+await BeforeStart();
+
+
 
 async function initClases(chels) {
-
 
 
   const RAPIER = await import('@dimforge/rapier3d');
@@ -135,15 +161,15 @@ async function initClases(chels) {
 
 
 
-  audioClass = new AudioClass();
+
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass);
 
   for (let i = 0; i < chels; i++) {
-    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera));
+    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera, gameClass));
   }
-  controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass);
+  controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass, gameClass);
   controlClass.addKeyListeners();
 }
 
@@ -153,7 +179,7 @@ async function initEntity() {
   await worldClass.loadWorld();
   // worldClass.startThunder();
   // worldClass.startRain();
-  await audioClass.loadAudio();
+
 
   audioClass.backAudio.play();
   audioClass.oceanAudio.play();
@@ -197,13 +223,13 @@ async function initMatch(chels, gameNum, levelsMode = false) {
     menuClass.showScreen('hud');
     menuClass.toggleLoader(false);
     paramsClass.dataLoaded = true;
-    paramsClass.gameStarting = true;
+    gameClass.gameStarting = true;
     gameInit = true;
 
   }, 300)
 
 }
-menuClass = new MenuClass(initMatch, loadLevels);
+
 
 
 function resetMatch() {
@@ -219,7 +245,7 @@ function resetMatch() {
   worldClass = null;
   physicsClass = null;
   levelClass = null;
-  audioClass = null;
+
   controlClass = null;
   paramsClass = null;
   scoreClass = null;
@@ -234,7 +260,20 @@ function resetMatch() {
 function animate() {
 
 
-  if (paramsClass.dataLoaded && paramsClass.gameStarting) {
+  if (gameClass.pause || gameClass.gameStarting) {
+    if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+      document.querySelector('.menu_in_game').classList.remove('hidden_screen');
+    }
+  }
+  else if (!gameClass.pause && !gameClass.gameStarting) {
+    if (!document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+      document.querySelector('.menu_in_game').classList.add('hidden_screen');
+    }
+  }
+
+
+
+  if (paramsClass.dataLoaded && gameClass.gameStarting) {
 
 
 
@@ -278,7 +317,7 @@ function animate() {
     }
     physicsClass.updateInstancedTransforms();
     world.step(eventQueue);
-    if (paramsClass.gameStarting) renderer.render(scene, camera);
+    if (gameClass.gameStarting) renderer.render(scene, camera);
   }
 
 }
@@ -417,3 +456,68 @@ function replayLevelsEnterAnimation() {
     levelElement.classList.add('levels_block--enter');
   });
 }
+
+
+function toggleLoader(need) {
+  if (!need) document.querySelector('.loader_screen').classList.add('hidden_screen');
+  else document.querySelector('.loader_screen').classList.remove('hidden_screen');
+}
+
+
+
+
+document.addEventListener("visibilitychange", function () {
+
+  if (document.visibilityState === 'visible') {
+    if (!gameClass.pause && !gameClass.showGamePopup) {
+      gameClass.gameStarting = true;
+
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+    }
+    gameClass.visible = true;
+
+  } else {
+
+    if (!gameClass.pause && !gameClass.showGamePopup) {
+      gameClass.gameStarting = false;
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+    }
+    else if (!gameClass.pause) {
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+    }
+    gameClass.visible = false;
+
+  }
+
+});
+
+
+document.querySelector('.pause_btn').addEventListener('click', () => {
+
+  if (gameClass.pause || gameClass.gameStarting) {
+    gameClass.pause = !gameClass.pause;
+
+    if (gameClass.pause) {
+
+      gameClass.gameStarting = false;
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+
+    }
+    else {
+      gameClass.gameStarting = true;
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+    }
+  }
+
+
+
+
+
+  // audioClass.togglePauseAll(!gameClass.gameStarting);
+  // if (gameClass.gameStarting) {
+  //   levelClass.hideScreen('popup_in_game');
+  // }
+  // else {
+  //   levelClass.showPopupInGame();
+  // }
+})

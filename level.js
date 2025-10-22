@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -13,6 +13,7 @@ export class LevelClass {
     this.paramsClass = paramsClass;
     this.worldClass = worldClass;
     this.initMatch = initMatch;
+    this.gameClass = gameClass;
 
     this.cameraSpeed = 0.01;
 
@@ -1672,7 +1673,7 @@ export class LevelClass {
   levelAnimate() {
     this.animateTops();
     this.lampsAnimate();
-    if (this.paramsClass.gameStarting) {
+    if (this.gameClass.gameStarting) {
       if (this.worldClass.night) {
         if (this.paramsClass.gameDir == 'hor') this.audioClass.dayNight(false);
         else this.audioClass.dayNight(false, 'vert');
@@ -2192,9 +2193,9 @@ export class LevelClass {
 
     switch (this.gameNum) {
       case 1:
-        if (this.paramsClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
+        if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
         this.cameraSpeed += 0.000001;
-        camera.position.y = this.isMobile ? 4 : 3;
+        camera.position.y = this.isMobile ? 3 : 3;
         camera.position.z = this.isMobile ? 20 : 25;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
@@ -2228,7 +2229,7 @@ export class LevelClass {
           this.cam.velX = s.newVel;
 
           // Остальные координаты
-          camera.position.y = this.isMobile ? 4 : 3; //3.5
+          camera.position.y = this.isMobile ? 3 : 3; //3.5
           camera.position.z = this.isMobile ? 20 : 25; //13
           camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
@@ -2237,7 +2238,7 @@ export class LevelClass {
       }
       case 3:
         this.getHorizontalWorldBounds();
-        if (this.paramsClass.gameStarting) camera.position.y += this.cameraSpeed;
+        if (this.gameClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 32;
         this.cameraSpeed += 0.000001;
@@ -2246,7 +2247,7 @@ export class LevelClass {
         break;
       case 4:
         this.getHorizontalWorldBounds();
-        if (this.paramsClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
+        if (this.gameClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
 
         camera.position.x = 0;
 
@@ -2280,25 +2281,29 @@ export class LevelClass {
 
   showPopupInGame(showNext = false, levels = false) {
 
-    if (!this.levelsMode) {
-      if (!showNext || !this.canShowAds) {
-        this.hideScreen('popup_game_btn1')
-      }
-      else {
-        this.showScreen('popup_game_btn1')
-      }
-      document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
-      if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
-      this.audioClass.looseAudio.play();
-    }
-    else {
-      if (this.players.every(value => value.player.userData.finish)) {
-        document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
-        if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
-      }
-      else {
-        this.hideScreen('popup_game_btn15');
+    if (!this.gameClass.pause) {
+
+      this.gameClass.showGamePopup = true;
+      if (!this.levelsMode) {
+        if (!showNext || !this.canShowAds) {
+          this.hideScreen('popup_game_btn1')
+        }
+        else {
+          this.showScreen('popup_game_btn1')
+        }
         document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
+        if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
+        this.audioClass.looseAudio.play();
+      }
+      else {
+        if (this.players.every(value => value.player.userData.finish)) {
+          document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
+          if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
+        }
+        else {
+          this.hideScreen('popup_game_btn15');
+          document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
+        }
       }
     }
 
@@ -2360,6 +2365,7 @@ export class LevelClass {
       this.audioClass.pauseMusic(['back']);
       this.audioClass.playMusic(['back']);
       if (!this.levelsMode) this.canShowAds = false;
+      this.gameClass.showGamePopup = false;
     })
     this.rebindButton('.popup_game_btn2', () => {
 
@@ -2399,7 +2405,8 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
       this.audioClass.stopMusic(['back']);
       this.audioClass.playMusic(['back']);
-      //this.paramsClass.gameStarting = true;
+      //this.gameClass.gameStarting = true;
+      this.gameClass.showGamePopup = false;
 
     })
     this.rebindButton('.popup_game_btn15', () => {
@@ -2420,6 +2427,7 @@ export class LevelClass {
       this.players.forEach((value, index, array) => {
         value.playerAliving(true);
       })
+      this.gameClass.showGamePopup = false;
 
       // if (this.gameNum == 1 || this.gameNum == 3) {
       //   this.camera.position.z = 7;
@@ -2462,6 +2470,7 @@ export class LevelClass {
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
+      this.gameClass.showGamePopup = false;
     })
   }
 

@@ -1088,6 +1088,15 @@ body .level_game_chels_active {
     flex-direction: column;
 }
 
+.menu_in_game {
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #ccc;
+}
+
 
 
 @media (max-width: 800px) {

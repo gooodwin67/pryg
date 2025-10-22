@@ -5,12 +5,13 @@ import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionC
 
 
 export class PlayerClass {
-  constructor(scene, audioClass, levelClass, paramsClass, camera) {
+  constructor(scene, audioClass, levelClass, paramsClass, camera, gameClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.levelClass = levelClass;
     this.paramsClass = paramsClass;
     this.camera = camera;
+    this.gameClass = gameClass;
 
     this.playerHeight = 0.9;
     this.playerWidth = 0.5;
@@ -121,7 +122,7 @@ export class PlayerClass {
 
 
         // setTimeout(() => {
-        //   // this.paramsClass.gameStarting = false;
+        //   // this.gameClass.gameStarting = false;
         //   this.levelClass.showPopupInGame(false, true);
         //   this.player.userData.finish = true;
         // }, 200);
@@ -202,13 +203,13 @@ export class PlayerClass {
 
 
 
-    if (this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor' && this.levelClass.canHorDie) {
+    if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor' && this.levelClass.canHorDie) {
       this.player.userData.lives = 0;
       this.reLiveField();
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
-    if (this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {
+    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {
       this.player.userData.lives = 0;
       this.reLiveField();
 
@@ -222,7 +223,7 @@ export class PlayerClass {
 
 
 
-    if (this.player.position.y < -4 && this.paramsClass.gameStarting) {
+    if (this.player.position.y < -4 && this.gameClass.gameStarting) {
 
       if (this.levelClass.players.length < 2) {
 
@@ -261,7 +262,7 @@ export class PlayerClass {
 
             this.paramsClass.allDie = true;
           }
-          this.paramsClass.gameStarting = false;
+          if (this.player.userData.lives < 1) this.gameClass.gameStarting = false;
         }
         this.player.userData.canFlyJumps = 0;
         this.player.userData.live = false;
@@ -281,7 +282,7 @@ export class PlayerClass {
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
         }
-        if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.paramsClass.gameStarting) {
+        if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.gameClass.gameStarting) {
           this.audioClass.pauseMusic(['back']);
           if (this.levelClass.players.every(value => value.player.userData.finish)) {
             this.levelClass.showPopupInGame(false, true);
@@ -292,7 +293,7 @@ export class PlayerClass {
           }
 
           this.paramsClass.allDie = true;
-          this.paramsClass.gameStarting = false;
+          this.gameClass.gameStarting = false;
         }
       }
       if (this.player.userData.lives > 0) {
@@ -512,7 +513,7 @@ export class PlayerClass {
 
 
     setTimeout(() => {
-      this.paramsClass.gameStarting = true;
+      this.gameClass.gameStarting = true;
     }, 100);
   }
 

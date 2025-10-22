@@ -164,7 +164,7 @@ export class WorldClass {
 
     this.water.rotation.x = - Math.PI / 2;
     this.water.position.x = 200;
-    this.isMobile ? this.water.position.y = -5 : this.water.position.y = -2;
+    this.isMobile ? this.water.position.y = -2 : this.water.position.y = -2;
 
     this.sun = new THREE.Vector3();
 

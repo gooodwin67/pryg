@@ -1,9 +1,11 @@
 import * as THREE from "three";
 
 export class MenuClass {
-  constructor(initMatch, loadLevels) {
+  constructor(initMatch, loadLevels, gameClass, audioClass) {
     this.initMatch = initMatch;
     this.loadLevels = loadLevels;
+    this.gameClass = gameClass;
+    this.audioClass = audioClass;
     this.loadLevels();
     this.mainMenu(this.initMatch);
 
@@ -45,7 +47,7 @@ export class MenuClass {
           item.classList.remove('level_game_chels_active');
         });
         value.classList.add('level_game_chels_active');
-        
+
         this.levelPlayersNum = index + 1;
       })
     })
@@ -103,6 +105,9 @@ export class MenuClass {
         this.playersNum = index + 2;
       })
     })
+
+
+
 
 
 
