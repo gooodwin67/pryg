@@ -501,11 +501,14 @@ document.querySelector('.pause_btn').addEventListener('click', () => {
 
       gameClass.gameStarting = false;
       audioClass.togglePauseAll(!gameClass.gameStarting);
+      // levelClass.showPopupInGame()
+      levelClass.showScreen('popup_in_game');
 
     }
     else {
       gameClass.gameStarting = true;
       audioClass.togglePauseAll(!gameClass.gameStarting);
+      levelClass.hideScreen('popup_in_game');
     }
   }
 

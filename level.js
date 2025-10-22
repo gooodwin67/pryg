@@ -2311,6 +2311,7 @@ export class LevelClass {
 
 
 
+
     // if (this.players.some(value => !value.player.userData.finish)) {
     //   document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win')
     //   if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
@@ -2405,8 +2406,11 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
       this.audioClass.stopMusic(['back']);
       this.audioClass.playMusic(['back']);
-      //this.gameClass.gameStarting = true;
+      
+      this.hideScreen('popup_in_game');
+      this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
+      
 
     })
     this.rebindButton('.popup_game_btn15', () => {
@@ -2470,7 +2474,9 @@ export class LevelClass {
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
+      this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
+      
     })
   }
 
