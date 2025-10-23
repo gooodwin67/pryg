@@ -2189,8 +2189,6 @@ export class LevelClass {
 
   cameraMove(camera, dt = this.dt.getDelta()) {
 
-
-
     switch (this.gameNum) {
       case 1:
         if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
@@ -2293,7 +2291,7 @@ export class LevelClass {
         }
         document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
-        this.audioClass.looseAudio.play();
+        if (this.audioClass.musicOn) this.audioClass.looseAudio.play();
       }
       else {
         if (this.players.every(value => value.player.userData.finish)) {
@@ -2305,6 +2303,10 @@ export class LevelClass {
           document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         }
       }
+    }
+    else {
+      document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
+      this.hideScreen('popup_game_btn1')
     }
 
 
@@ -2369,8 +2371,10 @@ export class LevelClass {
       this.gameClass.showGamePopup = false;
     })
     this.rebindButton('.popup_game_btn2', () => {
-
+      this.audioClass.hardStopAll();
       this.players.forEach((value, index, array) => {
+        value.player.userData.live = false;
+        value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
         value.player.userData.finish = false;
         value.playerAliving(true);
       })
@@ -2406,16 +2410,16 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
       this.audioClass.stopMusic(['back']);
       this.audioClass.playMusic(['back']);
-      
+
       this.hideScreen('popup_in_game');
       this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
-      
+
 
     })
     this.rebindButton('.popup_game_btn15', () => {
 
-
+      this.audioClass.hardStopAll();
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
@@ -2466,17 +2470,19 @@ export class LevelClass {
 
     })
     this.rebindButton('.popup_game_btn3', () => {
+      this.audioClass.hardStopAll();
+      this.gameClass.pause = false;
+      this.gameClass.showGamePopup = false;
       this.hideScreen('popup_in_game');
       this.showScreen('main_screen');
-      this.players.forEach((value, index, array) => {
-        value.playerAliving(true);
-      })
+      // this.players.forEach((value, index, array) => {
+      //   value.playerAliving(true);
+      // })
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
-      this.gameClass.pause = false;
-      this.gameClass.showGamePopup = false;
-      
+
+
     })
   }
 

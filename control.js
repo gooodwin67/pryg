@@ -1,12 +1,13 @@
 import * as THREE from "three";
 
 export class ControlClass {
-  constructor(levelClass, isMobile, renderer, camera, paramsClass) {
+  constructor(levelClass, isMobile, renderer, camera, paramsClass, audioClass) {
     this.levelClass = levelClass;
     this.isMobile = isMobile;
     this.renderer = renderer;
     this.camera = camera;
     this.paramsClass = paramsClass;
+    this.audioClass = audioClass;
 
     this.mouse = new THREE.Vector3;
     this.raycaster = new THREE.Raycaster;
@@ -42,11 +43,29 @@ export class ControlClass {
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    if (this.mouse.x > 0) {
+
+
+    if (this.levelClass.players.length == 1) {
       this.downKeys(this.levelClass.players[0].player);
     }
-    else {
-      if (this.levelClass.players.length > 1) this.downKeys(this.levelClass.players[1].player);
+    else if (this.levelClass.players.length == 2) {
+      if (this.mouse.x > 0) {
+        this.downKeys(this.levelClass.players[0].player);
+      }
+      else {
+        this.downKeys(this.levelClass.players[1].player);
+      }
+    }
+    else if (this.levelClass.players.length == 3) {
+      if (this.mouse.x > 0) {
+        this.downKeys(this.levelClass.players[0].player);
+      }
+      else if (this.mouse.y < 0) {
+        this.downKeys(this.levelClass.players[1].player);
+      }
+      else {
+        this.downKeys(this.levelClass.players[2].player);
+      }
     }
   }
 
@@ -58,11 +77,28 @@ export class ControlClass {
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    if (this.mouse.x > 0) {
+
+    if (this.levelClass.players.length == 1) {
       this.upKeys(this.levelClass.players[0].player);
     }
-    else {
-      if (this.levelClass.players.length > 1) this.upKeys(this.levelClass.players[1].player);
+    else if (this.levelClass.players.length == 2) {
+      if (this.mouse.x > 0) {
+        this.upKeys(this.levelClass.players[0].player);
+      }
+      else {
+        this.upKeys(this.levelClass.players[1].player);
+      }
+    }
+    else if (this.levelClass.players.length == 3) {
+      if (this.mouse.x > 0) {
+        this.upKeys(this.levelClass.players[0].player);
+      }
+      else if (this.mouse.y < 0) {
+        this.upKeys(this.levelClass.players[1].player);
+      }
+      else {
+        this.upKeys(this.levelClass.players[2].player);
+      }
     }
   }
 
@@ -127,13 +163,13 @@ export class ControlClass {
 
     if (player.userData.live) {
       if (player.userData.onGround) {
-        if (!player.userData.readyJump) player.userData.audio[0].play();
+        if (!player.userData.readyJump && this.audioClass.musicOn) player.userData.audio[0].play();
         player.userData.readyJump = true;
 
       }
       else if (player.userData.canFly) {
         player.userData.readyJump = true;
-        if (!player.userData.readyJump) player.userData.audio[0].play();
+        if (!player.userData.readyJump && this.audioClass.musicOn) player.userData.audio[0].play();
       }
     }
   }
@@ -162,7 +198,7 @@ export class ControlClass {
         player.userData.jumping = true;
         player.userData.readyJump = false;
         player.userData.audio[0].stop();
-        if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
+        if (!player.userData.audio[1].isPlaying && this.audioClass.musicOn) player.userData.audio[1].play();
         player.userData.onGround = false;
       }
       else if (!player.userData.onGround) {
@@ -170,7 +206,7 @@ export class ControlClass {
           player.userData.jumping = true;
           player.userData.readyJump = false;
           player.userData.audio[0].stop();
-          if (!player.userData.audio[1].isPlaying) player.userData.audio[1].play();
+          if (!player.userData.audio[1].isPlaying && this.audioClass.musicOn) player.userData.audio[1].play();
           player.userData.onGround = false;
           player.userData.hatBoost--;
           if (player.userData.hatBoost == 0) {

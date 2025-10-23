@@ -37,9 +37,38 @@ export class AudioClass {
 
     this.listener = new THREE.AudioListener();
 
+    this.musicOn = true;
 
 
+  }
 
+  hardStopAll() {
+    // останавливаем всё, что есть
+    this.musics.forEach(({ music }) => {
+      try { music.stop(); } catch { }
+    });
+    this.quacks.forEach(s => { try { s.stop(); } catch { } });
+    this.thundersAudio.forEach(t => { try { t.music.stop(); } catch { } });
+
+    // пустим очередь возобновления паузы
+    this.musicNowPlaying = [];
+  }
+
+  toggleMute(isMuted) {
+    if (isMuted) {
+      // При выключении — останавливаем полностью аудио поток
+      this.musicOn = false;
+      this.listener.context.suspend();
+    } else {
+      // При включении — возобновляем
+      this.musicOn = true;
+      this.listener.context.resume();
+      this.playMusic(['back']);
+    }
+  }
+
+  isMuted() {
+    return this.listener.context.state === 'suspended';
   }
 
   attachTo(camera) {
@@ -291,52 +320,61 @@ export class AudioClass {
 
   }
   stopMusic(musics) {
-    if (musics == 0) {
-      this.musics.forEach((value, index, array) => {
-        value['music'].stop();
-      })
-    }
-    else {
-      musics.forEach((value, index, array) => {
-        this.musics.find((el) => el['name'] === value)['music'].stop();
-      })
+    if (this.musicOn) {
+      if (musics == 0) {
+        this.musics.forEach((value, index, array) => {
+          value['music'].stop();
+        })
+      }
+      else {
+        musics.forEach((value, index, array) => {
+          this.musics.find((el) => el['name'] === value)['music'].stop();
+        })
+      }
     }
   }
   pauseMusic(musics) {
-    musics.forEach((value, index, array) => {
-      this.musics.find((el) => el['name'] === value)['music'].pause();
-    })
+    if (this.musicOn) {
+      musics.forEach((value, index, array) => {
+        this.musics.find((el) => el['name'] === value)['music'].pause();
+      })
+    }
   }
   playMusic(musics) {
+
     musics.forEach((value, index, array) => {
       let mus = this.musics.find((el) => el['name'] === value)['music'];
-      if (!mus.isPlaying) mus.play();
+      if (!mus.isPlaying && this.musicOn) mus.play();
     })
+
   }
 
   togglePauseAll(isPaused) {
-    if (isPaused) {
-      // Если включили паузу — создаём пустой список и запоминаем, что играло
-      this.musicNowPlaying = [];
-      this.musics.forEach(({ music }) => {
-        if (music.isPlaying) {
-          music.pause();
-          this.musicNowPlaying.push(music);
-        }
-      });
-    } else {
-      // Если снимаем паузу — возобновляем только те, что играли
-      if (this.musicNowPlaying && this.musicNowPlaying.length) {
-        this.musicNowPlaying.forEach((playingMusic) => {
-          if (!playingMusic.isPlaying) playingMusic.play();
-        });
-        // очищаем после восстановления, чтобы не было накопления ссылок
+    if (this.musicOn) {
+      if (isPaused) {
+        // Если включили паузу — создаём пустой список и запоминаем, что играло
         this.musicNowPlaying = [];
+        this.musics.forEach(({ music }) => {
+          if (music.isPlaying) {
+            music.pause();
+            this.musicNowPlaying.push(music);
+          }
+        });
+      } else {
+        // Если снимаем паузу — возобновляем только те, что играли
+        if (this.musicNowPlaying && this.musicNowPlaying.length) {
+          this.musicNowPlaying.forEach((playingMusic) => {
+            if (!playingMusic.isPlaying) playingMusic.play();
+          });
+          // очищаем после восстановления, чтобы не было накопления ссылок
+          this.musicNowPlaying = [];
+        }
       }
     }
   }
 
   dayNight(day = true, hor = false) {
+
     if (day && !this.musicDay) {
 
       if (this.timeToChange > 0) {
@@ -347,7 +385,7 @@ export class AudioClass {
         this.timeToChange = 0;
         this.stopMusic(['back']);
         this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => el['name'] === 'back1')['music'];
-        this.playMusic(['back']);
+        if (this.musicOn) this.playMusic(['back']);
         this.musicNight = false;
         this.musicDay = true;
         this.timeToChange = 2;
@@ -364,7 +402,7 @@ export class AudioClass {
         this.timeToChange = 0;
         this.stopMusic(['back']);
         this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => !hor ? el['name'] === 'back2' : el['name'] === 'back3')['music'];
-        this.playMusic(['back']);
+        if (this.musicOn) this.playMusic(['back']);
         this.musicNight = true;
         this.musicDay = false;
         this.timeToChange = 2;
@@ -372,5 +410,6 @@ export class AudioClass {
       }
 
     }
+
   }
 }

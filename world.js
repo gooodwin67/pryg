@@ -359,7 +359,7 @@ void main() {
       if (this.parameters.elevation < 2 && !this.rainStart) {
         this.rain = true;
         this.startRain();
-        this.audioClass.rainAudio.play();
+        if (this.audioClass.musicOn) this.audioClass.rainAudio.play();
         this.rainStart = true;
       }
 
@@ -610,7 +610,7 @@ void main() {
     if (audioList && audioList.length > 0) {
       const sound = audioList[this.currentThunderIndex % audioList.length].music;
       if (sound.isPlaying) sound.stop();
-      sound.play();
+      if (this.audioClass.musicOn) sound.play();
       this.currentThunderIndex++;
     }
 

@@ -124,10 +124,14 @@ function onWindowResize() {
   // renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// document.body.addEventListener("touchstart", function () {
-//   document.body.requestFullscreen();
 
-// }, false);
+
+document.body.addEventListener("touchstart", function () {
+  document.body.requestFullscreen().then(() => {
+    screen.orientation.lock("landscape");
+  })
+
+}, false);
 
 
 
@@ -169,7 +173,7 @@ async function initClases(chels) {
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera, gameClass));
   }
-  controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass, gameClass);
+  controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass, audioClass);
   controlClass.addKeyListeners();
 }
 
@@ -181,8 +185,8 @@ async function initEntity() {
   // worldClass.startRain();
 
 
-  audioClass.backAudio.play();
-  audioClass.oceanAudio.play();
+  if (audioClass.musicOn) audioClass.backAudio.play();
+  if (audioClass.musicOn) audioClass.oceanAudio.play();
 
 
 }
@@ -260,17 +264,23 @@ function resetMatch() {
 function animate() {
 
 
-  if (gameClass.pause || gameClass.gameStarting) {
-    if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
-      document.querySelector('.menu_in_game').classList.remove('hidden_screen');
-    }
-  }
-  else if (!gameClass.pause && !gameClass.gameStarting) {
+  if (!gameClass.gameStarting && !gameClass.showGamePopup) {
+
     if (!document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
       document.querySelector('.menu_in_game').classList.add('hidden_screen');
     }
   }
-
+  if (gameClass.pause || (gameClass.gameStarting && !gameClass.showGamePopup)) {
+    if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+      document.querySelector('.menu_in_game').classList.remove('hidden_screen');
+    }
+    if (!gameClass.pause) {
+      document.querySelector('.sound_btn_wrap').classList.remove('hidden_screen');
+    }
+    else {
+      document.querySelector('.sound_btn_wrap').classList.add('hidden_screen');
+    }
+  }
 
 
   if (paramsClass.dataLoaded && gameClass.gameStarting) {
@@ -501,8 +511,8 @@ document.querySelector('.pause_btn').addEventListener('click', () => {
 
       gameClass.gameStarting = false;
       audioClass.togglePauseAll(!gameClass.gameStarting);
-      // levelClass.showPopupInGame()
-      levelClass.showScreen('popup_in_game');
+      levelClass.showPopupInGame()
+
 
     }
     else {
@@ -513,14 +523,9 @@ document.querySelector('.pause_btn').addEventListener('click', () => {
   }
 
 
+})
 
-
-
-  // audioClass.togglePauseAll(!gameClass.gameStarting);
-  // if (gameClass.gameStarting) {
-  //   levelClass.hideScreen('popup_in_game');
-  // }
-  // else {
-  //   levelClass.showPopupInGame();
-  // }
+document.querySelector('.sound_btn').addEventListener('click', () => {
+  const muted = audioClass.isMuted();
+  audioClass.toggleMute(!muted)
 })

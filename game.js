@@ -6,7 +6,6 @@ export class GameClass {
   this.pause = false;
   this.visible = true;
   this.showGamePopup = false;
-
  }
 
 

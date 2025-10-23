@@ -156,7 +156,7 @@ export class PlayerClass {
         this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(detectCollisionCubeAndArrayInst(this.player, this.levelClass.boostHatMeshes));
         this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = true;
         if (this.audioClass.takeAudio.isPlaying) this.audioClass.stopMusic(['take']);
-        this.audioClass.playMusic(['take']);
+        if (this.audioClass.musicOn) this.audioClass.playMusic(['take']);
       }
 
 
@@ -184,7 +184,7 @@ export class PlayerClass {
       if (this.player.userData.lives < 3) {
         this.player.userData.lives++;
         if (this.audioClass.takeAudio.isPlaying) this.audioClass.stopMusic(['take']);
-        this.audioClass.playMusic(['take']);
+        if (this.audioClass.musicOn) this.audioClass.playMusic(['take']);
         this.reLiveField();
         detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = true;
       }
@@ -203,7 +203,7 @@ export class PlayerClass {
 
 
 
-    if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.paramsClass.gameDir == 'hor' && this.levelClass.canHorDie) {
+    if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie) {
       this.player.userData.lives = 0;
       this.reLiveField();
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
@@ -216,7 +216,7 @@ export class PlayerClass {
       this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
     }
 
-    if (!this.levelClass.canHorDie && this.camera.position.x > 1 && this.camera.position.x < 12 && this.paramsClass.gameDir == 'hor') {
+    if (!this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == 'hor') {
       this.levelClass.canHorDie = true;
     }
 
@@ -229,8 +229,8 @@ export class PlayerClass {
 
         if (this.player.userData.live) {
           this.audioClass.pauseMusic(['back']);
-          if (!this.player.userData.finish) {
-            this.audioClass.playMusic(['inwater']);
+          if (!this.player.userData.finish && !this.gameClass.pause) {
+            if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
           }
 
 
@@ -277,7 +277,7 @@ export class PlayerClass {
 
           this.audioClass.stopMusic(['inwater']);
           if (!this.player.userData.finish) {
-            this.audioClass.playMusic(['inwater']);
+            if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
           }
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
@@ -301,7 +301,7 @@ export class PlayerClass {
           value.userData.fly = false;
         })
         this.playerAliving(false);
-        this.audioClass.playMusic(['back']);
+        if (this.audioClass.musicOn) this.audioClass.playMusic(['back']);
       }
 
 
