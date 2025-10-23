@@ -2203,7 +2203,7 @@ export class LevelClass {
         if (leadIdx >= 0) {
           let leadX = 0;
           if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
-          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x;
+          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
 
 
           // Ограничим резкие откаты назад, если надо
