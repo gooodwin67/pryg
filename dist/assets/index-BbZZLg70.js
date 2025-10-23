@@ -923,7 +923,7 @@ import { B as Q, V as d, Q as cs, M as gt, a as Ps, b as G, c as hs, d as V, G a
                         const a = this.maxSpeed(!0);
                         if (a >= 0) {
                             let t = 0;
-                            this.players.length > 1 ? t = this.players[a].player.position.x : this.paramsClass.gameDir == "hor" && (t = this.players[a].player.position.x);
+                            this.players.length > 1 ? t = this.players[a].player.position.x : this.paramsClass.gameDir == "hor" && (t = this.players[a].player.position.x + this.bounds.rightX / 2);
                             const e = this.cam.maxBackJump;
                             t < this.cam.targetX - e ? this.cam.targetX = this.cam.targetX - e : this.cam.targetX = t;
                             const o = this.spring(s.position.x, this.cam.targetX, this.cam.velX, .25, i);
