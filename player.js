@@ -40,6 +40,8 @@ export class PlayerClass {
 
     this.player.userData.finish = false;
 
+    this.player.userData.splash = false;
+
 
     this.playerModel;
 
@@ -221,9 +223,21 @@ export class PlayerClass {
     }
 
 
+    if (this.player.position.y < -2 && this.gameClass.gameStarting) {
+
+      if (!this.player.userData.splash) {
+        if (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live) {
+          if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
+        }
+        this.levelClass.splash.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.0, this.player.position.z), 2.0);
+        this.levelClass.ring.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.1, this.player.position.z));
+      }
+      this.player.userData.splash = true;
+    }
 
 
     if (this.player.position.y < -4 && this.gameClass.gameStarting) {
+      this.player.userData.splash = false;
 
       if (this.levelClass.players.length < 2) {
 
@@ -514,6 +528,7 @@ export class PlayerClass {
 
     setTimeout(() => {
       this.gameClass.gameStarting = true;
+      this.player.userData.splash = false;
     }, 100);
   }
 

@@ -11,7 +11,7 @@ import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
+import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo, createSplashSystem, createRippleRing } from "./functions";
 
 
 import { PlayerClass } from "./player";
@@ -50,6 +50,10 @@ let audioClass;
 let controlClass;
 let paramsClass;
 let scoreClass;
+
+
+
+
 let gameClass = new GameClass();
 
 
@@ -64,6 +68,9 @@ let allLevels = levelsStatus.length;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xc9e1f4);
 // scene.fog = new THREE.Fog(scene.background, 1, 50);
+
+const splash = createSplashSystem({ scene });
+const ring = createRippleRing({ scene });
 
 
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
@@ -168,7 +175,7 @@ async function initClases(chels) {
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass, splash, ring);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera, gameClass));
@@ -191,6 +198,7 @@ async function initEntity() {
 
 }
 async function initLevel(levelsMode) {
+
 
   await levelClass.createLevel(levelsMode);
   await levelClass.loadEnvironments();
@@ -280,6 +288,11 @@ function animate() {
     else {
       document.querySelector('.sound_btn_wrap').classList.add('hidden_screen');
     }
+  }
+
+  if (gameClass.gameStarting) {
+    splash.update(dt);
+    ring.update(dt);
   }
 
 

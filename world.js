@@ -154,7 +154,7 @@ export class WorldClass {
 
         }),
         sunDirection: new THREE.Vector3(),
-        sunColor: 0xffffff,
+        sunColor: 0xffaaaa,
         waterColor: 0x001e4f,
         distortionScale: 0.5,
 
