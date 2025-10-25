@@ -25,6 +25,8 @@ import { MenuClass } from './menu';
 import { ParamsClass } from './params';
 import { ScoreClass } from './score';
 import { GameClass } from './game';
+import { DataClass } from './data';
+
 import { contain } from 'three/src/extras/TextureUtils.js';
 
 
@@ -50,6 +52,8 @@ let audioClass;
 let controlClass;
 let paramsClass;
 let scoreClass;
+
+let dataClass;
 
 
 
@@ -150,9 +154,14 @@ document.body.addEventListener("touchstart", function () {
 
 async function BeforeStart() {
   toggleLoader(true);
+
+  dataClass = new DataClass();
+  await dataClass.loadLocalData();
+
   audioClass = new AudioClass();
   await audioClass.loadAudio();
-  menuClass = new MenuClass(initMatch, loadLevels, gameClass, audioClass);
+
+  menuClass = new MenuClass(initMatch, loadLevels, gameClass, audioClass, dataClass);
   toggleLoader(false);
 }
 await BeforeStart();

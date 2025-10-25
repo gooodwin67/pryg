@@ -1,20 +1,84 @@
 import * as THREE from "three";
 
 export class MenuClass {
-  constructor(initMatch, loadLevels, gameClass, audioClass) {
+  constructor(initMatch, loadLevels, gameClass, audioClass, dataClass) {
     this.initMatch = initMatch;
     this.loadLevels = loadLevels;
     this.gameClass = gameClass;
     this.audioClass = audioClass;
+    this.dataClass = dataClass;
     this.loadLevels();
     this.mainMenu(this.initMatch);
 
-    this.playersNum = 2;
+    this.playersNum = 1;
     this.levelPlayersNum = 1;
+
+    this.loadRecsData();
 
   }
 
+  loadRecsData() {
 
+    this.dataClass.loadLocalData()
+
+    let masTables = this.dataClass.masTables;
+    let tables = document.querySelectorAll('.rec_table_small');
+
+    let my = 'free_game_my_rec';
+    let notMy = '';
+
+    tables[0].innerHTML = '';
+    tables[1].innerHTML = '';
+
+    masTables.forEach((value, index, array) => {
+      masTables[index].forEach((val, i, array) => {
+
+        if (masTables[index][i].findIndex(el => el.name === 'Мой рекорд') < 3) {
+
+          tables[index].insertAdjacentHTML('beforeend', `
+          <div class='rec_table_small_block ${this.playersNum == i + 1 ? "" : "hidden_screen"}'>
+            <div class='yellow_back one_place ${masTables[index][i][0].name == "Мой рекорд" ? my : notMy}'>
+                <span class='place_num'>1</span>
+                <span class='rec_table_small_name'>${masTables[index][i][0].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>м</span></div>
+            </div>
+            <div class='green_back two_place ${masTables[index][i][1].name == "Мой рекорд" ? my : notMy}'>
+                <span class='place_num'>2</span>
+                <span class='rec_table_small_name'>${masTables[index][i][1].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>м</span></div>
+            </div>
+            <div class='blue_back three_place ${masTables[index][i][2].name == "Мой рекорд" ? my : notMy}'>
+                <span class='place_num'>3</span>
+                <span class='rec_table_small_name'>${masTables[index][i][2].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][2].rec}</span><span>м</span></div>
+            </div>
+          </div>
+        `);
+        }
+        else {
+          tables[index].insertAdjacentHTML('beforeend', `
+          <div class='rec_table_small_block ${this.playersNum == i + 1 ? "" : "hidden_screen"}'>
+            <div class='yellow_back one_place'>
+                <span class='place_num'>1</span>
+                <span class='rec_table_small_name'>${masTables[index][i][0].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>м</span></div>
+            </div>
+            <div class='green_back two_place}'>
+                <span class='place_num'>2</span>
+                <span class='rec_table_small_name'>${masTables[index][i][1].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>м</span></div>
+            </div>
+            <div class='blue_back three_place ${my}'>
+                <span class='place_num'>${masTables[index][i][3].pos}</span>
+                <span class='rec_table_small_name'>${masTables[index][i][3].name}</span>
+                <div><span class='place_rec'>${masTables[index][i][3].rec}</span><span>м</span></div>
+            </div>
+          </div>
+        `);
+        }
+      })
+    })
+  }
 
 
   mainMenu = () => {
@@ -23,10 +87,6 @@ export class MenuClass {
       this.showScreen('free_game_screen');
     })
 
-    document.querySelector('.new_game_btn2').addEventListener('click', () => {
-      this.hideScreen('main_screen');
-      this.showScreen('together_game_screen');
-    })
 
     document.querySelector('.new_game_btn3').addEventListener('click', async () => {
       this.hideScreen('main_screen');
@@ -62,7 +122,7 @@ export class MenuClass {
     // })
     document.querySelector('.free_game_btn1_2').addEventListener('click', () => {
       this.hideScreen('free_game_screen');
-      this.initMatch(1, 2);
+      this.initMatch(this.playersNum, 2);
 
     })
     // document.querySelector('.free_game_btn1_3').addEventListener('click', () => {
@@ -71,38 +131,21 @@ export class MenuClass {
     // })
     document.querySelector('.free_game_btn1_4').addEventListener('click', () => {
       this.hideScreen('free_game_screen');
-      this.initMatch(1, 4, false, false);
-    })
-
-
-
-    document.querySelector('.together_game_btn1_1').addEventListener('click', () => {
-      this.hideScreen('together_game_screen');
-      this.initMatch(this.playersNum, 1);
-    })
-    document.querySelector('.together_game_btn1_2').addEventListener('click', () => {
-      this.hideScreen('together_game_screen');
-      this.initMatch(this.playersNum, 2);
-    })
-    document.querySelector('.together_game_btn1_3').addEventListener('click', () => {
-      this.hideScreen('together_game_screen');
-      this.initMatch(this.playersNum, 3, false, false);
-    })
-    document.querySelector('.together_game_btn1_4').addEventListener('click', () => {
-      this.hideScreen('together_game_screen');
       this.initMatch(this.playersNum, 4, false, false);
     })
 
 
 
 
-    document.querySelectorAll('.together_game_chels').forEach((value, index, array) => {
+
+    document.querySelectorAll('.free_game_chels').forEach((value, index, array) => {
       value.addEventListener('click', () => {
-        document.querySelectorAll('.together_game_chels').forEach((item) => {
-          item.classList.remove('together_game_chels_active');
+        document.querySelectorAll('.free_game_chels').forEach((item) => {
+          item.classList.remove('free_game_chels_active');
         });
-        value.classList.add('together_game_chels_active');
-        this.playersNum = index + 2;
+        value.classList.add('free_game_chels_active');
+        this.playersNum = index + 1;
+        this.loadRecsData();
       })
     })
 
