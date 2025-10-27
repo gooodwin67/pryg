@@ -1532,9 +1532,6 @@ export class LevelClass {
 
 
 
-
-
-
   async loadBirdModel() {
     const gltfLoader = new GLTFLoader();
     const url = 'models/bird/bird.glb';
@@ -1563,9 +1560,6 @@ export class LevelClass {
       if (this.birdYes) this.scene.add(this.angryBirdModel);
     })
   }
-
-
-
 
 
 
@@ -1601,10 +1595,6 @@ export class LevelClass {
       this.boostHatModel.userData.num = 0;
     })
   }
-
-
-
-
 
 
 
@@ -1707,11 +1697,14 @@ export class LevelClass {
 
     if (this.birdYes) {
 
-      if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying) {
+      if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying && !this.worldClass.thunder) {
         this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight + 1), z: this.angryBird.userData.body.translation().z });
         this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
         this.angryBird.userData.speed = getRandomNumber(8, 13) / 100;
         this.angryBird.userData.flying = true;
+      }
+      else if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying && this.worldClass.thunder) {
+        this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
       }
 
       if (this.angryBird.userData.flying) {
@@ -1913,9 +1906,10 @@ export class LevelClass {
 
       if (this.worldClass.night) {
         this.lampsAnimate.did = false
-        const left = this.camera.position.y - this.bounds.topY / 2;
-        const right = this.camera.position.y + this.bounds.topY * 0.2;
+        const left = this.camera.position.y - this.bounds.topY / 1;
+        const right = this.camera.position.y + this.bounds.topY * 0.8;
         let colorsChanged = false;
+
 
         this.objs.plafons.data.forEach((plafon, index) => {
 
@@ -2191,6 +2185,7 @@ export class LevelClass {
 
   cameraMove(camera, dt = this.dt.getDelta()) {
 
+
     switch (this.gameNum) {
       case 1:
         if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
@@ -2200,13 +2195,12 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2: {
-        const leadIdx = this.maxSpeed(true);
-
-        if (leadIdx >= 0) {
+        const leadIdx = Math.max(0, this.maxSpeed(true));
+        if ((leadIdx >= 0 && !this.worldClass.thunder) || this.levelsMode) {
           let leadX = 0;
+
           if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
           else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
-
 
           // Ограничим резкие откаты назад, если надо
           const maxBack = this.cam.maxBackJump;
@@ -2233,11 +2227,17 @@ export class LevelClass {
           camera.position.z = this.isMobile ? 20 : 25; //13
           camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
+        else if (this.worldClass.thunder || !this.levelsMode) {
+          if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 2;
+          camera.position.y = this.isMobile ? 3 : 3;
+          camera.position.z = this.isMobile ? 20 : 25;
+          camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+        }
 
         break;
       }
       case 3:
-        this.getHorizontalWorldBounds();
+        // this.getHorizontalWorldBounds();
         if (this.gameClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
         camera.position.z = this.isMobile ? 20 : 32;
@@ -2246,7 +2246,7 @@ export class LevelClass {
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 4:
-        this.getHorizontalWorldBounds();
+        // this.getHorizontalWorldBounds();
         if (this.gameClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
 
         camera.position.x = 0;
@@ -2348,7 +2348,11 @@ export class LevelClass {
     //   }
 
     // }
+
     this.showScreen('popup_in_game');
+    this.gameClass.gameStarting = false;
+
+
   }
 
   rebindButton(selector, handler) {
@@ -2361,17 +2365,34 @@ export class LevelClass {
 
   menuInGame = () => {
     this.rebindButton('.popup_game_btn1', () => {
-      this.hideScreen('popup_in_game');
+
+
       this.boostHatModels.forEach((value, index, array) => {
         value.userData.fly = false;
       })
-      this.players[0].playerAliving(false);
-      this.players[0].player.userData.lives = 1;
+      let mas = [];
+      this.players.forEach((value, index, array) => {
+        mas.push(value.player.position.x);
+      })
+
+      this.players.forEach((value, index, array) => {
+
+        value.playerAliving(false);
+        value.player.userData.lives = 1;
+        value.player.position.x = Math.max(...mas);
+      })
+
+
+
+
       this.audioClass.pauseMusic(['back']);
       this.audioClass.playMusic(['back']);
       if (!this.levelsMode) this.canShowAds = false;
       this.gameClass.showGamePopup = false;
+
+      this.hideScreen('popup_in_game');
     })
+
     this.rebindButton('.popup_game_btn2', () => {
       this.audioClass.hardStopAll();
       this.players.forEach((value, index, array) => {
@@ -2409,15 +2430,20 @@ export class LevelClass {
       }
       this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
 
-      this.hideScreen('popup_in_game');
+
       this.audioClass.stopMusic(['back']);
       this.audioClass.playMusic(['back']);
       this.audioClass.stopMusic(['ocean']);
       this.audioClass.playMusic(['ocean']);
 
-      this.hideScreen('popup_in_game');
+      this.camera.position.x = 0;
+
+
+
       this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
+
+      this.hideScreen('popup_in_game');
 
 
     })
@@ -2428,7 +2454,7 @@ export class LevelClass {
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
 
-      this.hideScreen('popup_in_game');
+
 
       setTimeout(() => {
         let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 777;
@@ -2440,6 +2466,8 @@ export class LevelClass {
         value.playerAliving(true);
       })
       this.gameClass.showGamePopup = false;
+
+      this.hideScreen('popup_in_game');
 
       // if (this.gameNum == 1 || this.gameNum == 3) {
       //   this.camera.position.z = 7;

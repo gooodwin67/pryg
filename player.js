@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo } from "./functions";
+import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo, getRandomNumber } from "./functions";
 
 
 export class PlayerClass {
@@ -227,6 +227,7 @@ export class PlayerClass {
 
       if (!this.player.userData.splash) {
         if (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live) {
+          this.audioClass.stopMusic(['inwater'])
           if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
         }
         this.levelClass.splash.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.0, this.player.position.z), 2.0);
@@ -244,7 +245,7 @@ export class PlayerClass {
         if (this.player.userData.live) {
           this.audioClass.pauseMusic(['back']);
           if (!this.player.userData.finish && !this.gameClass.pause) {
-            if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
+            // if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
           }
 
 
@@ -276,7 +277,12 @@ export class PlayerClass {
 
             this.paramsClass.allDie = true;
           }
-          if (this.player.userData.lives < 1) this.gameClass.gameStarting = false;
+          if (this.player.userData.lives < 1) {
+
+            // this.gameClass.gameStarting = false;
+
+
+          }
         }
         this.player.userData.canFlyJumps = 0;
         this.player.userData.live = false;
@@ -289,9 +295,9 @@ export class PlayerClass {
 
           if (this.levelClass.levelsMode) this.player.userData.lives = 0;
 
-          this.audioClass.stopMusic(['inwater']);
+          // this.audioClass.stopMusic(['inwater']);
           if (!this.player.userData.finish) {
-            if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
+            // if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
           }
           this.player.userData.canFlyJumps = 0;
           this.player.userData.live = false;
@@ -303,11 +309,11 @@ export class PlayerClass {
           }
           else {
 
-            this.levelClass.showPopupInGame(false);
+            this.levelClass.showPopupInGame(true);
           }
 
           this.paramsClass.allDie = true;
-          this.gameClass.gameStarting = false;
+          // this.gameClass.gameStarting = false;
         }
       }
       if (this.player.userData.lives > 0) {
@@ -359,7 +365,12 @@ export class PlayerClass {
           this.player.userData.onGround = false;
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
-          this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
+          if (this.paramsClass.gameDir == 'vert') {
+            this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
+          }
+          else {
+            this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + getRandomNumber(1.1, 3.1), this.player.userData.deadPos.z));
+          }
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 

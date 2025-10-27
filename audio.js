@@ -270,7 +270,7 @@ export class AudioClass {
       })
       this.musics.push({
         name: 'thunder1',
-        music: this.rainAudio,
+        music: this.thunderAudio,
       })
     }).catch((error) => {
       console.error('Ошибка при загрузке аудио:', error);
@@ -288,7 +288,7 @@ export class AudioClass {
       })
       this.musics.push({
         name: 'thunder2',
-        music: this.rainAudio,
+        music: this.thunderAudio2,
       })
     }).catch((error) => {
       console.error('Ошибка при загрузке аудио:', error);
@@ -306,7 +306,7 @@ export class AudioClass {
       })
       this.musics.push({
         name: 'thunder3',
-        music: this.rainAudio,
+        music: this.thunderAudio3,
       })
     }).catch((error) => {
       console.error('Ошибка при загрузке аудио:', error);

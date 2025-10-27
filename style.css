@@ -151,25 +151,40 @@ canvas {
     left: 10px;
 }
 
+.player_panel_out {
+    border: 1px solid #fff;
+    background-color: #ccc;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    padding: 6px;
+
+    text-shadow: none;
+}
 
 .player1_panel .player_panel_out {
     position: absolute;
     top: 50%;
     transform: translate(-150%, -50%);
+
+
 }
 
 .player2_panel .player_panel_out {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translate(150%, -50%);
+    transform: translate(110%, -50%);
 }
 
 .player3_panel .player_panel_out {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translate(150%, -50%);
+    transform: translate(110%, -50%);
 }
 
 .player1_panel .player_panel_top {
@@ -225,6 +240,26 @@ canvas {
 .player_panel_bottom_lives span::after {
     left: 3.5px;
     top: 0;
+}
+
+.mouse_icon_css {
+    width: 14px;
+    height: 25px;
+    border: 2px solid #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px #000;
+}
+
+.mouse_icon_css::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 8px;
+    width: 9px;
+    height: 13px;
+    background: #2c2c2c;
+    border-radius: 9px 1px 1px 1px;
+
 }
 
 /* короткое “всплывание” при появлении */
@@ -1082,6 +1117,75 @@ body .level_game_chels_active {
 
 
 @media (max-width: 800px) {
+    .hud {
+        top: 5px;
+        right: 5px;
+    }
+
+    .menu_in_game {
+        right: 110px;
+        top: 5px;
+    }
+
+    .player1_panel {
+        bottom: 5px;
+        right: 5px;
+    }
+
+    .player2_panel {
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .player3_panel {
+        top: 5px;
+        left: 5px;
+    }
+
+    .hud__value {
+        font-size: 20px;
+    }
+
+    .hud--outline {
+        padding: 3px 6px;
+    }
+
+    .player_panel_top {
+        font-size: 15px;
+    }
+
+    .players_panels>div {
+        font-size: 12px;
+    }
+
+    .player1_panel .player_panel_out {
+        background-color: #f2b0b0;
+    }
+
+    .player2_panel .player_panel_out {
+        background-color: #b0f2b0;
+    }
+
+    .player3_panel .player_panel_out {
+        background-color: #f4f07a;
+    }
+
+    .player_panel_out {
+        border-radius: 50%;
+    }
+
+    .player_panel_out {
+        width: 15px;
+        height: 15px;
+
+    }
+
+    .player_panel_out span {
+        display: none;
+
+    }
+
+
     .main_screen h1 {
         padding-top: 0;
     }

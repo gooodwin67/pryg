@@ -77,9 +77,17 @@ const splash = createSplashSystem({ scene });
 const ring = createRippleRing({ scene });
 
 
+
+
+
 const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 2000);
-//camera.position.z = 7;
 camera.position.y = 2;
+
+
+// ★ фиксируем HFOV не от текущего окна, а от референсного aspect
+const DESIGN_ASPECT = 16 / 9; // выбери свою базу (можно 16/9)
+const baseVFOV = THREE.MathUtils.degToRad(25);
+const FIXED_HFOV = 2 * Math.atan(Math.tan(baseVFOV / 2) * DESIGN_ASPECT);
 
 
 const isMobile = detectDevice();
@@ -102,7 +110,8 @@ document.body.appendChild(stats.dom);
 stats.dom.style.top = "0px";
 stats.dom.style.left = "48%";
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
@@ -113,27 +122,51 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
 
 
-onWindowResize();
 
 
 
-window.addEventListener('resize', onWindowResize, false);
+
+
+
+// window.addEventListener('resize', onWindowResize, false);
+// function onWindowResize() {
+//   if (isMobile) {
+//     camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+//     camera.updateProjectionMatrix();
+//     renderer.setSize(innerWidth, innerHeight);
+//   }
+//   else {
+//     camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
+//     camera.updateProjectionMatrix();
+//     renderer.setSize(document.body.offsetWidth, document.body.offsetHeight);
+//   }
+//   // camera.aspect = window.innerWidth / window.innerHeight;
+//   // camera.updateProjectionMatrix();
+
+//   // renderer.setSize(window.innerWidth, window.innerHeight);
+// }
+
 function onWindowResize() {
-  if (isMobile) {
-    camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  }
-  else {
-    camera.aspect = document.body.offsetWidth / document.body.offsetHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(document.body.offsetWidth, document.body.offsetHeight);
-  }
-  // camera.aspect = window.innerWidth / window.innerHeight;
-  // camera.updateProjectionMatrix();
+  const w = document.body.offsetWidth;
+  const h = document.body.offsetHeight;
+  const aspect = w / h;
 
-  // renderer.setSize(window.innerWidth, window.innerHeight);
+  // пересчитываем вертикальный FOV при фиксированном горизонтальном
+  let vFOV = 2.5 * Math.atan(Math.tan(FIXED_HFOV / 2) / aspect);
+
+  // необязательные «ограждения», чтобы на экстремальных экранах не уходить в микроскопические/гигантские значения
+  const vMin = THREE.MathUtils.degToRad(12);
+  const vMax = THREE.MathUtils.degToRad(70);
+  vFOV = THREE.MathUtils.clamp(vFOV, vMin, vMax);
+
+  camera.fov = THREE.MathUtils.radToDeg(vFOV);
+  camera.aspect = aspect;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(w, h);
 }
+window.addEventListener('resize', onWindowResize);
+onWindowResize();
 
 
 
