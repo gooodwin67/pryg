@@ -5,9 +5,9 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
    <title>Прыг</title>
-  <script type="module" crossorigin src="./assets/index-Bfc0qZg6.js"></script>
+  <script type="module" crossorigin src="./assets/index-QK8lVYa1.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-B76v5LAa.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-CFgYYQcz.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-x-T4cVvb.css">
 </head>
 
 <body>
@@ -18,27 +18,27 @@
          <div class='player_panel_top'>Player1</div>
          <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span></div>
          </div>
-         <div class='player_panel_out'>Click</div>
+         <div class='player_panel_out'><span class='mouse_icon_css'></span></div>
       </div>
       <div class='player_panel player2_panel hidden_screen'>
          <div class='player_panel_top'>Player2</div>
          <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span></div>
          </div>
-         <div class='player_panel_out'>Z</div>
+         <div class='player_panel_out'><span>Z</span></div>
       </div>
       <div class='player_panel player3_panel hidden_screen'>
          <div class='player_panel_top'>Player3</div>
          <div class='player_panel_bottom'>Lives: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span></div>
          </div>
-         <div class='player_panel_out'>M</div>
+         <div class='player_panel_out'><span>M</span></div>
       </div>
    </div>
 
    <div class="main_screen">
       <h1>JUMPING DUCK</h1>
       <div class='main_screen_btns_wrap'>
-         <div class='new_game_btn new_game_btn1 blue_btn'>Одиночная игра</div>
-         <div class='new_game_btn new_game_btn2 yellow_btn'>Игра вдвоём / втроём</div>
+         <div class='new_game_btn new_game_btn1 yellow_btn'>Чемпионат</div>
+
          <div class='new_game_btn new_game_btn3 green_btn'>Уровни</div>
 
       </div>
@@ -46,30 +46,37 @@
 
    <div class="free_game_screen hidden_screen">
       <div class='free_game_screen_wrap'>
+         <h3>Сколько игроков</h3>
+         <div class='free_game_chels_wrap'>
+            <div class='free_game_chels free_game_chels_active green_btn'>1</div>
+            <div class='free_game_chels blue_btn'>2</div>
+            <div class='free_game_chels yellow_btn'>3</div>
+         </div>
          <h3>Выбор игры</h3>
          <div class='free_game_screen_btns_wrap'>
             <div class='free_game_btn_wrap'>
                <div class='free_game_btn free_game_btn1_2 green_btn'>Горизонтально</div>
+
+
                <div class='rec_h_wrap'>
                   <div class='rec_h'>Рекорды</div>
-                  <!-- <div class='free_game_btns small_btn'>Полная таблица</div> -->
                </div>
-               <div class='rec_table_small'>
-                  <div class='yellow_back'>
-                     <span>1</span>
+               <div class='rec_table_small rec_table_small_hor'>
+                  <!-- <div class='yellow_back one_place'>
+                     <span class='place_num'>1</span>
                      <span class='rec_table_small_name'>Александр Динозавров</span>
-                     <div><span>136</span><span>м</span></div>
+                     <div><span class='place_rec'>136</span><span>м</span></div>
                   </div>
-                  <div class='green_back'>
-                     <span>2</span>
+                  <div class='green_back two_place'>
+                     <span class='place_num'>2</span>
                      <span class='rec_table_small_name'>Федор Смолов</span>
-                     <div><span>13</span><span>м</span></div>
+                     <div><span class='place_rec'>13</span><span>м</span></div>
                   </div>
-                  <div class='blue_back free_game_my_rec'>
-                     <span>12</span>
+                  <div class='blue_back three_place free_game_my_rec'>
+                     <span class='place_num'>12</span>
                      <span class='rec_table_small_name'>Мой рекорд</span>
-                     <div><span>3</span><span>м</span></div>
-                  </div>
+                     <div><span class='place_rec'>3</span><span>м</span></div>
+                  </div> -->
 
                </div>
 
@@ -80,99 +87,31 @@
                   <div class='rec_h'>Рекорды</div>
                   <!-- <div class='free_game_btns small_btn'>Полная таблица</div> -->
                </div>
-               <div class='rec_table_small'>
-                  <div class='yellow_back'>
-                     <span>1</span>
+               <div class='rec_table_small rec_table_small_vert'>
+                  <!-- <div class='yellow_back one_place'>
+                     <span class='place_num'>1</span>
                      <span class='rec_table_small_name'>Александр Динозавров</span>
-                     <div><span>136</span><span>м</span></div>
+                     <div><span class='place_rec'>136</span><span>м</span></div>
                   </div>
-                  <div class='green_back'>
-                     <span>2</span>
-                     <span class='rec_table_small_name'>Птиродактиль Птиродактилевич 18</span>
-                     <div><span>13</span><span>м</span></div>
-                  </div>
-                  <div class='blue_back free_game_my_rec'>
-                     <span>143</span>
-                     <span class='rec_table_small_name'>Мой рекорд</span>
-                     <div><span>3</span><span>м</span></div>
-                  </div>
-
-               </div>
-            </div>
-         </div>
-
-      </div>
-   </div>
-
-   <div class="together_game_screen hidden_screen">
-      <div class='together_game_screen_wrap'>
-         <h3>Сколько игроков</h3>
-         <div class='together_game_chels_wrap'>
-            <div class='together_game_chels together_game_chels_active blue_btn'>2</div>
-            <div class='together_game_chels yellow_btn'>3</div>
-         </div>
-         <div class='together_game_screen_btns_wrap'>
-            <div class='together_game_btn_wrap'>
-               <h3>Горизонтально</h3>
-               <div class='together_game_btn together_game_btn1_1 yellow_btn'>На скорость</div>
-               <div class='together_game_btn together_game_btn1_2 green_btn'>На дистанцию</div>
-               <div class='rec_h_wrap'>
-                  <div class='rec_h'>Рекорды</div>
-                  <!-- <div class='free_game_btns small_btn'>Полная таблица</div> -->
-               </div>
-               <div class='rec_table_small'>
-                  <div class='yellow_back'>
-                     <span>1</span>
-                     <span class='rec_table_small_name'>Александр Динозавров</span>
-                     <div><span>136</span><span>м</span></div>
-                  </div>
-                  <div class='green_back'>
-                     <span>2</span>
+                  <div class='green_back two_place'>
+                     <span class='place_num'>2</span>
                      <span class='rec_table_small_name'>Федор Смолов</span>
-                     <div><span>13</span><span>м</span></div>
+                     <div><span class='place_rec'>13</span><span>м</span></div>
                   </div>
-                  <div class='blue_back free_game_my_rec'>
-                     <span>12</span>
+                  <div class='blue_back three_place free_game_my_rec'>
+                     <span class='place_num'>12</span>
                      <span class='rec_table_small_name'>Мой рекорд</span>
-                     <div><span>3</span><span>м</span></div>
-                  </div>
+                     <div><span class='place_rec'>3</span><span>м</span></div>
+                  </div> -->
 
                </div>
             </div>
-            <div class='together_game_btn_wrap'>
-               <h3>Вертикально</h3>
-               <div class='together_game_btn together_game_btn1_3 yellow_btn'>На скорость</div>
-               <div class='together_game_btn together_game_btn1_4 green_btn'>На дистанцию</div>
-               <div class='rec_h_wrap'>
-                  <div class='rec_h'>Рекорды</div>
-                  <!-- <div class='free_game_btns small_btn'>Полная таблица</div> -->
-               </div>
-               <div class='rec_table_small'>
-                  <div class='yellow_back'>
-                     <span>1</span>
-                     <span class='rec_table_small_name'>Александр Динозавров</span>
-                     <div><span>136</span><span>м</span></div>
-                  </div>
-                  <div class='green_back'>
-                     <span>2</span>
-                     <span class='rec_table_small_name'>Птиродактиль Птиродактилевич 18</span>
-                     <div><span>13</span><span>м</span></div>
-                  </div>
-                  <div class='blue_back free_game_my_rec'>
-                     <span>143</span>
-                     <span class='rec_table_small_name'>Мой рекорд</span>
-                     <div><span>3</span><span>м</span></div>
-                  </div>
-
-               </div>
-            </div>
-
-
          </div>
+
       </div>
-
-
    </div>
+
+
 
    <div class="levels_game_screen hidden_screen">
       <div class='levels_game_screen_wrap'>
@@ -225,7 +164,7 @@
          <div class="sound_btn sound_btn_off"></div>
       </div>
       <div class="pause_btn_wrap">
-         <div class="pause_btn">123</div>
+         <div class="pause_btn">||</div>
       </div>
    </div>
 
