@@ -96,25 +96,42 @@ export class MenuClass {
       this.showScreen('levels_game_screen');
     })
 
-    document.querySelectorAll('.levels_blocks .levels_block').forEach((value, index, array) => {
-      value.addEventListener('click', () => {
-        this.hideScreen('levels_game_screen');
-        this.initMatch(this.levelPlayersNum, 1, index + 1, true)
-      })
-    })
+    
+
+
+    const levelsContainer = document.querySelector('.levels_blocks');
+    levelsContainer.addEventListener('click', (e) => {
+      const block = e.target.closest('.levels_block');
+      if (!block) return;
+
+      // не пускаем в закрытые уровни
+      if (block.classList.contains('levels_block--locked')) return;
+
+      const levelIndex = Number(block.dataset.level) || 1; // из data-level
+      // визуальная подсветка (если нужна)
+      levelsContainer.querySelectorAll('.levels_block').forEach(el => el.classList.remove('active'));
+      block.classList.add('active');
+
+      this.hideScreen('levels_game_screen');
+      this.initMatch(this.levelPlayersNum, 1, levelIndex, true);
+    });
+
+
 
     document.querySelectorAll('.level_game_chels').forEach((value, index, array) => {
       value.addEventListener('click', () => {
 
+        if (this.levelPlayersNum != index+1) {
+          document.querySelectorAll('.level_game_chels').forEach((item) => {
 
-        document.querySelectorAll('.level_game_chels').forEach((item) => {
+            item.classList.remove('level_game_chels_active');
+          });
+          value.classList.add('level_game_chels_active');
 
-          item.classList.remove('level_game_chels_active');
-        });
-        value.classList.add('level_game_chels_active');
-
-        this.levelPlayersNum = index + 1;
-        this.loadLevels(this.levelPlayersNum - 1);
+          this.levelPlayersNum = index + 1;
+          
+          this.dataClass.loadLevels(this.levelPlayersNum - 1);
+        }
       })
     })
 

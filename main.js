@@ -185,6 +185,8 @@ async function BeforeStart() {
 
   dataClass = new DataClass();
   await dataClass.loadLocalData();
+  await dataClass.loadLevels(0);
+  
 
 
 
@@ -194,7 +196,7 @@ async function BeforeStart() {
   await audioClass.loadAudio();
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
-  menuClass.levelPlayersNum;
+  
   toggleLoader(false);
 }
 await BeforeStart();
@@ -312,6 +314,7 @@ function resetMatch() {
 
 
 function animate() {
+  
 
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
     levelClass.showScreen('menu_in_game');

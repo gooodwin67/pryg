@@ -163,7 +163,7 @@ export class DataClass {
 
   this.table = {
    player: {
-    levels: [1, 2, 3],
+    levels: [1, 2, 9],
     bonusHat: false,
    },
    hor: [
@@ -321,10 +321,10 @@ export class DataClass {
 
   for (let i = 0; i < 3; i++) {
    for (let j = 0; j < this.allLevels; j++) {
-    if (j <= this.table.player.levels[i]) {
+    if (j < this.table.player.levels[i]) {
      this.levelsStatus[i][j] = 'completed'
     }
-    else if (j == this.table.player.levels[i] + 1) {
+    else if (j == this.table.player.levels[i]) {
      this.levelsStatus[i][j] = 'available'
     }
     else {
@@ -366,6 +366,8 @@ export class DataClass {
   * Допустимые значения: 'completed' | 'available' | 'locked'
   */
  async loadLevels(numChels) {
+  
+  
   const levelsContainer = document.querySelector('.levels_blocks');
   if (!levelsContainer) return;
 
@@ -376,6 +378,8 @@ export class DataClass {
   const documentFragment = document.createDocumentFragment();
 
   const getLevelConfig = (levelStatus) => {
+    console.log(levelStatus)
+    
    switch (levelStatus) {
     case 'completed':
      return { modifierClass: 'levels_block--completed', labelText: 'Пройден', ariaState: 'уровень пройден' };
@@ -389,11 +393,11 @@ export class DataClass {
   const baseDelayMs = 40;     // базовая задержка между плитками
   const startDelayMs = 60;    // стартовая задержка для первой
   const maxDelayMs = 600;     // ограничим максимальную задержку
-  console.log(numChels)
+  
 
   for (let levelIndex = 0; levelIndex < this.levelsStatus[numChels].length; levelIndex++) {
    const levelStatus = this.levelsStatus[numChels][levelIndex];
-   const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus[numChels]);
+   const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus);
 
    const levelElement = document.createElement('div');
    levelElement.className = `levels_block ${modifierClass}`;
