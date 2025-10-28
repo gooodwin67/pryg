@@ -61,13 +61,6 @@ let dataClass;
 let gameClass = new GameClass();
 
 
-const levelsStatus = [
-  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',],
-  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',],
-  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',]
-];
-let allLevels = levelsStatus[0].length;
-
 
 
 
@@ -190,15 +183,17 @@ document.body.addEventListener("touchstart", function () {
 async function BeforeStart() {
   toggleLoader(true);
 
-  dataClass = new DataClass(levelsStatus);
+  dataClass = new DataClass();
   await dataClass.loadLocalData();
 
-  // console.log(levelsStatus)
+
+
+
 
   audioClass = new AudioClass();
   await audioClass.loadAudio();
 
-  menuClass = new MenuClass(initMatch, loadLevels, gameClass, audioClass, dataClass);
+  menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
   menuClass.levelPlayersNum;
   toggleLoader(false);
 }
@@ -222,7 +217,7 @@ async function initClases(chels) {
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass, splash, ring);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass.allLevels, gameClass, splash, ring);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera, gameClass));
@@ -418,117 +413,6 @@ renderer.setAnimationLoop(() => {
 
 
 
-/**
- * levelsStatus: массив статусов уровней.
- * Допустимые значения: 'completed' | 'available' | 'locked'
- */
-async function loadLevels(numChels) {
-  const levelsContainer = document.querySelector('.levels_blocks');
-  if (!levelsContainer) return;
-
-  // Перегенерируем контейнер и помечаем, что будет re-enter
-  levelsContainer.classList.add('levels_blocks--reenter');
-  levelsContainer.innerHTML = '';
-
-  const documentFragment = document.createDocumentFragment();
-
-  const getLevelConfig = (levelStatus) => {
-    switch (levelStatus) {
-      case 'completed':
-        return { modifierClass: 'levels_block--completed', labelText: 'Пройден', ariaState: 'уровень пройден' };
-      case 'available':
-        return { modifierClass: 'levels_block--available', labelText: 'Доступен', ariaState: 'уровень доступен' };
-      default:
-        return { modifierClass: 'levels_block--locked', labelText: 'Закрыт', ariaState: 'уровень закрыт' };
-    }
-  };
-
-  const baseDelayMs = 40;     // базовая задержка между плитками
-  const startDelayMs = 60;    // стартовая задержка для первой
-  const maxDelayMs = 600;     // ограничим максимальную задержку
-  console.log(numChels)
-
-  for (let levelIndex = 0; levelIndex < levelsStatus[numChels].length; levelIndex++) {
-    const levelStatus = levelsStatus[numChels][levelIndex];
-    const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus[numChels]);
-
-    const levelElement = document.createElement('div');
-    levelElement.className = `levels_block ${modifierClass}`;
-    levelElement.setAttribute('data-level', String(levelIndex + 1));
-    levelElement.setAttribute('role', 'button');
-    levelElement.setAttribute('tabindex', levelStatus === 'locked' ? '-1' : '0');
-    levelElement.setAttribute('aria-label', `Уровень ${levelIndex + 1}, ${ariaState}`);
-
-    // Задаём индивидуальную задержку входа через CSS-переменную
-    const computedDelay = Math.min(startDelayMs + levelIndex * baseDelayMs, maxDelayMs);
-    levelElement.style.setProperty('--show-delay', `${computedDelay}ms`);
-
-    // Внутренняя разметка
-    const numberElement = document.createElement('div');
-    numberElement.className = 'levels_block_number';
-    numberElement.textContent = String(levelIndex + 1);
-
-    const statusElement = document.createElement('div');
-    statusElement.className = 'levels_block_status';
-
-    const statusChipElement = document.createElement('span');
-    statusChipElement.className = `status_chip ${levelStatus === 'completed'
-      ? 'status_chip--completed'
-      : levelStatus === 'available'
-        ? 'status_chip--available'
-        : 'status_chip--locked'
-      }`;
-    statusChipElement.textContent = labelText;
-
-    statusElement.append(statusChipElement);
-    levelElement.append(numberElement, statusElement);
-
-    // Клики/клавиатура
-    levelElement.addEventListener('click', () => {
-      if (levelStatus === 'locked') return;
-      document.querySelectorAll('.levels_block').forEach((element) => element.classList.remove('active'));
-      levelElement.classList.add('active');
-      console.log(`Выбран уровень ${levelIndex + 1}`);
-      // startLevel(levelIndex + 1);
-    });
-
-    levelElement.addEventListener('keydown', (keyboardEvent) => {
-      if (levelStatus === 'locked') return;
-      if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
-        keyboardEvent.preventDefault();
-        levelElement.click();
-      }
-    });
-
-    documentFragment.append(levelElement);
-  }
-
-  levelsContainer.append(documentFragment);
-
-  // Отдельным кадром включаем класс анимации — чтобы браузер посчитал стартовые стили
-  requestAnimationFrame(() => {
-    levelsContainer.classList.remove('levels_blocks--reenter');
-    levelsContainer.querySelectorAll('.levels_block').forEach((levelElement) => {
-      levelElement.classList.add('levels_block--enter');
-    });
-  });
-}
-
-/**
- * Пере-анимация уже отрисованных уровней (например, при возвращении на экран)
- */
-function replayLevelsEnterAnimation() {
-  const levelsContainer = document.querySelector('.levels_blocks');
-  if (!levelsContainer) return;
-  const levelElements = Array.from(levelsContainer.querySelectorAll('.levels_block'));
-  levelElements.forEach((levelElement) => {
-    levelElement.classList.remove('levels_block--enter');
-    // Сброс анимации
-    // eslint-disable-next-line no-unused-expressions
-    void levelElement.offsetWidth;
-    levelElement.classList.add('levels_block--enter');
-  });
-}
 
 
 function toggleLoader(need) {
