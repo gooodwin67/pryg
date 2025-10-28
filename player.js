@@ -208,7 +208,7 @@ export class PlayerClass {
     if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie) {
       this.player.userData.lives = 0;
       this.reLiveField();
-      this.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+      this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
     }
 
     if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {

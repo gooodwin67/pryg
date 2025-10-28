@@ -128,6 +128,8 @@ export class ControlClass {
         // })
         break;
       case 'KeyP':
+        // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 10));
+        this.renderer.setPixelRatio(1);
 
     }
   }

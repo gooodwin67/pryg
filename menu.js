@@ -7,11 +7,14 @@ export class MenuClass {
     this.gameClass = gameClass;
     this.audioClass = audioClass;
     this.dataClass = dataClass;
-    this.loadLevels();
-    this.mainMenu(this.initMatch);
 
     this.playersNum = 1;
     this.levelPlayersNum = 1;
+
+    // this.loadLevels(this.levelPlayersNum - 1);
+    this.mainMenu(this.initMatch);
+
+
 
     this.loadRecsData();
 
@@ -102,6 +105,8 @@ export class MenuClass {
 
     document.querySelectorAll('.level_game_chels').forEach((value, index, array) => {
       value.addEventListener('click', () => {
+
+
         document.querySelectorAll('.level_game_chels').forEach((item) => {
 
           item.classList.remove('level_game_chels_active');
@@ -109,6 +114,7 @@ export class MenuClass {
         value.classList.add('level_game_chels_active');
 
         this.levelPlayersNum = index + 1;
+        this.loadLevels(this.levelPlayersNum - 1);
       })
     })
 
@@ -138,16 +144,83 @@ export class MenuClass {
 
 
 
-    document.querySelectorAll('.free_game_chels').forEach((value, index, array) => {
+    document.querySelectorAll('.free_game_chels').forEach((value, index) => {
       value.addEventListener('click', () => {
+        // визуально подсветим выбранную “человечку”
         document.querySelectorAll('.free_game_chels').forEach((item) => {
           item.classList.remove('free_game_chels_active');
         });
         value.classList.add('free_game_chels_active');
-        this.playersNum = index + 1;
-        this.loadRecsData();
-      })
-    })
+
+        const nextPlayersNum = index + 1;
+
+        // 1) плавно прячем текущие видимые блоки в обеих таблицах
+        const tables = document.querySelectorAll('.rec_table_small');
+        const visibles = [];
+        tables.forEach(t => {
+          const cur = t.querySelector('.rec_table_small_block:not(.hidden_screen)');
+          if (cur) {
+            visibles.push(cur);
+            // чтобы анимация точно стартанула
+            cur.getBoundingClientRect();
+            cur.classList.add('anim-out');
+          }
+        });
+
+        // 2) когда ВСЕ видимые скрылись — перерисуем и плавно покажем новые
+        let done = 0;
+        const afterOut = () => {
+          done++;
+          if (done < visibles.length) return;
+
+          // обновляем целевое число игроков и перестраиваем DOM
+          this.playersNum = nextPlayersNum;
+          this.loadRecsData();
+
+          // 3) добавим “появление” для новых видимых блоков
+          const newVisibles = [];
+          document.querySelectorAll('.rec_table_small').forEach(t => {
+            const nv = t.querySelector('.rec_table_small_block:not(.hidden_screen)');
+            if (nv) {
+              nv.classList.add('anim-in');
+              newVisibles.push(nv);
+            }
+          });
+
+          // следующий кадр — включаем проигрывание
+          requestAnimationFrame(() => {
+            newVisibles.forEach(nv => {
+              // форсим рефлоу для надёжного старта
+              nv.getBoundingClientRect();
+              nv.classList.add('anim-play');
+            });
+
+            // убрать служебные классы после завершения перехода
+            const clear = (el) => {
+              el.classList.remove('anim-in', 'anim-play');
+              el.removeEventListener('transitionend', clear);
+            };
+            newVisibles.forEach(nv => nv.addEventListener('transitionend', () => clear(nv), { once: true }));
+          });
+        };
+
+        // подписываемся на завершение скрытия
+        if (visibles.length === 0) {
+          // если вдруг ничего видимого не было, просто обновим
+          this.playersNum = nextPlayersNum;
+          this.loadRecsData();
+        } else {
+          visibles.forEach(v => {
+            v.addEventListener('transitionend', () => {
+              v.classList.remove('anim-out');
+              v.removeEventListener('transitionend', afterOut);
+              afterOut();
+            }, { once: true });
+          });
+        }
+      });
+    });
+
 
 
 

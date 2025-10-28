@@ -62,10 +62,12 @@ let gameClass = new GameClass();
 
 
 const levelsStatus = [
-  // 'available','completed','locked',
-  'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available', 'available',
+  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',],
+  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',],
+  ['completed', 'completed', 'available', 'available', 'available', 'available', 'available', 'available', 'locked', 'locked',]
 ];
-let allLevels = levelsStatus.length;
+let allLevels = levelsStatus[0].length;
+
 
 
 
@@ -110,8 +112,8 @@ document.body.appendChild(stats.dom);
 stats.dom.style.top = "0px";
 stats.dom.style.left = "48%";
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
@@ -188,13 +190,16 @@ document.body.addEventListener("touchstart", function () {
 async function BeforeStart() {
   toggleLoader(true);
 
-  dataClass = new DataClass();
+  dataClass = new DataClass(levelsStatus);
   await dataClass.loadLocalData();
+
+  // console.log(levelsStatus)
 
   audioClass = new AudioClass();
   await audioClass.loadAudio();
 
   menuClass = new MenuClass(initMatch, loadLevels, gameClass, audioClass, dataClass);
+  menuClass.levelPlayersNum;
   toggleLoader(false);
 }
 await BeforeStart();
@@ -313,24 +318,26 @@ function resetMatch() {
 
 function animate() {
 
-
-  if (!gameClass.gameStarting && !gameClass.showGamePopup) {
-
-    if (!document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
-      document.querySelector('.menu_in_game').classList.add('hidden_screen');
-    }
+  if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+    levelClass.showScreen('menu_in_game');
   }
-  if (gameClass.pause || (gameClass.gameStarting && !gameClass.showGamePopup)) {
-    if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
-      document.querySelector('.menu_in_game').classList.remove('hidden_screen');
-    }
-    if (!gameClass.pause) {
-      document.querySelector('.sound_btn_wrap').classList.remove('hidden_screen');
-    }
-    else {
-      document.querySelector('.sound_btn_wrap').classList.add('hidden_screen');
-    }
-  }
+  // if (!gameClass.gameStarting && !gameClass.showGamePopup && !gameClass.pause) {
+
+  //   if (!document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+  //     document.querySelector('.menu_in_game').classList.add('hidden_screen');
+  //   }
+  // }
+  // if (gameClass.pause || (gameClass.gameStarting && !gameClass.showGamePopup)) {
+  //   if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+  //     document.querySelector('.menu_in_game').classList.remove('hidden_screen');
+  //   }
+  //   if (!gameClass.pause) {
+  //     document.querySelector('.sound_btn_wrap').classList.remove('hidden_screen');
+  //   }
+  //   else {
+  //     document.querySelector('.sound_btn_wrap').classList.add('hidden_screen');
+  //   }
+  // }
 
   if (gameClass.gameStarting) {
     splash.update(dt);
@@ -415,7 +422,7 @@ renderer.setAnimationLoop(() => {
  * levelsStatus: массив статусов уровней.
  * Допустимые значения: 'completed' | 'available' | 'locked'
  */
-async function loadLevels() {
+async function loadLevels(numChels) {
   const levelsContainer = document.querySelector('.levels_blocks');
   if (!levelsContainer) return;
 
@@ -439,10 +446,11 @@ async function loadLevels() {
   const baseDelayMs = 40;     // базовая задержка между плитками
   const startDelayMs = 60;    // стартовая задержка для первой
   const maxDelayMs = 600;     // ограничим максимальную задержку
+  console.log(numChels)
 
-  for (let levelIndex = 0; levelIndex < levelsStatus.length; levelIndex++) {
-    const levelStatus = levelsStatus[levelIndex];
-    const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus);
+  for (let levelIndex = 0; levelIndex < levelsStatus[numChels].length; levelIndex++) {
+    const levelStatus = levelsStatus[numChels][levelIndex];
+    const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus[numChels]);
 
     const levelElement = document.createElement('div');
     levelElement.className = `levels_block ${modifierClass}`;
@@ -559,28 +567,44 @@ document.addEventListener("visibilitychange", function () {
 
 document.querySelector('.pause_btn').addEventListener('click', () => {
 
-  if (gameClass.pause || gameClass.gameStarting) {
+  if (!gameClass.pause && gameClass.gameStarting) {
     gameClass.pause = !gameClass.pause;
 
     if (gameClass.pause) {
 
-      gameClass.gameStarting = false;
-      audioClass.togglePauseAll(!gameClass.gameStarting);
       levelClass.showPopupInGame()
 
+      gameClass.gameStarting = false;
+      audioClass.togglePauseAll(!gameClass.gameStarting);
+
+      levelClass.showScreen('popup_game_btn_close');
+
+
 
     }
-    else {
-      gameClass.gameStarting = true;
-      audioClass.togglePauseAll(!gameClass.gameStarting);
-      levelClass.hideScreen('popup_in_game');
-    }
+    // else {
+    //   gameClass.gameStarting = true;
+    //   audioClass.togglePauseAll(!gameClass.gameStarting);
+    //   levelClass.hideScreen('popup_in_game');
+    // }
   }
 
 
+})
+
+document.querySelector('.popup_game_btn_close').addEventListener('click', () => {
+  if (gameClass.pause || gameClass.gameStarting) {
+    gameClass.pause = !gameClass.pause;
+    gameClass.gameStarting = true;
+    audioClass.togglePauseAll(!gameClass.gameStarting);
+    levelClass.hideScreen('popup_in_game');
+    levelClass.hideScreen('popup_game_btn_close');
+  }
 })
 
 document.querySelector('.sound_btn').addEventListener('click', () => {
   const muted = audioClass.isMuted();
   audioClass.toggleMute(!muted)
 })
+
+

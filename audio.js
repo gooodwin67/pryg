@@ -249,7 +249,7 @@ export class AudioClass {
       this.rainAudio.setBuffer(buffer);
       this.rainAudio.setLoop(true);
       this.rainAudio.setRefDistance(400);
-      this.rainAudio.setVolume(1);
+      this.rainAudio.setVolume(1.5);
       this.musics.push({
         name: 'rain',
         music: this.rainAudio,

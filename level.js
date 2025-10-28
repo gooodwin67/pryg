@@ -2280,6 +2280,8 @@ export class LevelClass {
   }
 
   showPopupInGame(showNext = false, levels = false) {
+    this.hideScreen('popup_game_btn_close');
+    this.hideScreen('menu_in_game');
 
     if (!this.gameClass.pause) {
 
@@ -2315,40 +2317,6 @@ export class LevelClass {
 
 
 
-
-    // if (this.players.some(value => !value.player.userData.finish)) {
-    //   document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win')
-    //   if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
-    //   this.audioClass.looseAudio.play();
-    // }
-    // else {
-    //   document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win')
-    //   this.hideScreen('popup_game_btn15');
-    // }
-
-    // if (!levels) {
-
-    //   if (!showNext || !this.canShowAds) {
-    //     this.hideScreen('popup_game_btn1')
-    //   }
-    //   else {
-    //     this.showScreen('popup_game_btn1')
-    //   }
-    // }
-    // else {
-    //   this.hideScreen('popup_game_btn1')
-    //   if (this.levelsMode >= this.allLevels) {
-    //     this.hideScreen('popup_game_btn15')
-    //   }
-    //   else {
-    //     if (this.players.every(value => value.player.userData.finish)) {
-    //       console.log(123)
-    //       this.showScreen('popup_game_btn15')
-    //     }
-    //   }
-
-    // }
-
     this.showScreen('popup_in_game');
     this.gameClass.gameStarting = false;
 
@@ -2380,6 +2348,7 @@ export class LevelClass {
         value.playerAliving(false);
         value.player.userData.lives = 1;
         value.player.position.x = Math.max(...mas);
+        this.camera.position.x = value.player.position.x;
       })
 
 

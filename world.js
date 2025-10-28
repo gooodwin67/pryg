@@ -55,6 +55,8 @@ export class WorldClass {
 
     this.rain = false;
     this.rainStart = false;
+    this.isRainActive = false;
+    this.rainEndTimestampMs = 0;
 
     this.activeLightningLines = [];
     // this.lightningMaterialBase = new THREE.LineBasicMaterial({
@@ -101,6 +103,7 @@ export class WorldClass {
       this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 35; // z
       this.rainVelocities[i] = 15 + Math.random() * 15;         // юниты/сек
       // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
+
       this.rainWindPhase[i] = Math.random() * Math.PI * 2;
     }
 
@@ -320,6 +323,7 @@ void main() {
       else if (this.parameters.elevation > 6) {
         //this.parameters.azimuth = 150;
         this.parameters.top = false;
+        this.rainStart = false;
       }
 
       if (!this.parameters.top) {
@@ -356,7 +360,8 @@ void main() {
 
       }
 
-      if (this.parameters.elevation < 2 && !this.rainStart) {
+
+      if (!this.rainStart && this.parameters.elevation < 2 && this.parameters.elevation > 1.5) {
         this.rain = true;
         this.startRain();
         if (this.audioClass.musicOn) this.audioClass.rainAudio.play();
@@ -380,12 +385,7 @@ void main() {
         this.night = false;
         this.thunderStart = false;
 
-        if (this.rain && this.parameters.elevation >= -3) {
-          this.audioClass.rainAudio.stop();
-          this.rainStart = false;
-          this.scene.remove(this.rainPoints);
-          this.rain = false;
-        }
+
 
       }
 
@@ -483,6 +483,14 @@ void main() {
 
   updateLighting() {
 
+    // --- ДОЖДЬ: отключение по времени
+    if (this.isRainActive && performance.now() >= this.rainEndTimestampMs) {
+      this.scene.remove(this.rainPoints);
+      this.isRainActive = false;
+      this.rain = false;
+      if (this.audioClass.musicOn) this.audioClass.rainAudio.stop();
+    }
+
     const nowMs = performance.now();
 
     // --- ГРОЗА: управление без setTimeout
@@ -543,7 +551,7 @@ void main() {
 
         // горизонтальный сдвиг: общий ветер + индивидуальная волна
         const windLocal = Math.sin(this.rainWindPhase[i] + performance.now() * 0.002) * 0.35 + windGlobal * 0.4;
-        this.rainPositions[baseIndex + 0] += windLocal * this.deltaSeconds * 6.0;
+        this.rainPositions[baseIndex + 0] += windLocal * this.deltaSeconds * 8.0;
 
         // падение вниз
         this.rainPositions[baseIndex + 1] -= this.rainVelocities[i] * (1.0 + Math.abs(windGlobal) * 0.3) * this.deltaSeconds;
@@ -579,9 +587,13 @@ void main() {
   }
 
   startRain() {
-    if (!this.rain) return;
+    if (this.isRainActive) return;
 
     this.scene.add(this.rainPoints);
+    this.isRainActive = true;
+
+    const nowMs = performance.now();
+    this.rainEndTimestampMs = nowMs + 70000; // дождь длится 15 секунд (можешь менять)
   }
 
 
@@ -635,36 +647,6 @@ void main() {
   }
 
 
-  // startThunder() {
-  //   if (!this.thunder) return;
-  //   let thunderNum = 0;
-
-  //   const flash = () => {
-  //     if (!this.thunder) return;
-
-  //     if (this.audioClass.thundersAudio[thunderNum].music.isPlaying) {
-  //       this.audioClass.thundersAudio[thunderNum].music.stop();
-  //     }
-  //     this.audioClass.thundersAudio[thunderNum].music.play();
-
-  //     if (thunderNum < this.audioClass.thundersAudio.length - 1) {
-  //       thunderNum++;
-  //     }
-  //     else {
-  //       thunderNum = 0;
-  //     }
-
-
-  //     this.triggerLightningFlash();
-  //     this.lightningFade = 1.0; // запускаем затухание света
-
-  //     // следующая вспышка через 2–4 секунды
-  //     const next = 1000 + Math.random() * 2000;
-  //     setTimeout(flash, next);
-  //   };
-
-  //   flash();
-  // }
 
   createLightningBolt(startX, startY, startZ) {
     const endX = startX + (Math.random() - 0.5) * 6;
@@ -828,12 +810,12 @@ void main() {
 
 
   makeRainStreakTexture() {
-    const width = 1;   // ширина капли (узкая)
-    const height = 15; // длина капли
+    const width = 2;   // ширина капли (узкая)
+    const height = 40; // длина капли
     const data = new Uint8Array(width * height * 4);
 
     for (let y = 0; y < height; y++) {
-      const alpha = Math.sin((y / (height - 1)) * Math.PI); // мягкий градиент
+      const alpha = Math.pow(Math.sin((y / (height - 1)) * Math.PI), 1.5); // мягкий градиент
       for (let x = 0; x < width; x++) {
         const i = (y * width + x) * 4;
         data[i + 0] = 255;

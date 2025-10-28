@@ -1,7 +1,8 @@
 import * as THREE from "three";
 
 export class DataClass {
- constructor() {
+ constructor(levelsStatus) {
+  this.levelsStatus = levelsStatus;
   this.table00 = {
    player: {
     hor: [
@@ -153,7 +154,7 @@ export class DataClass {
 
   this.table = {
    player: {
-    levels: 0,
+    levels: [1, 2, 3],
     bonusHat: false,
    },
    hor: [
@@ -307,6 +308,24 @@ export class DataClass {
  }
 
  async loadLocalData() {
+
+
+  for (let i = 0; i < 3; i++) {
+   for (let j = 0; j < this.levelsStatus.length; j++) {
+    if (j <= this.table.player.levels[i]) {
+     console.log(123)
+     this.levelsStatus[i][j] == 'completed'
+    }
+    else if (j == this.table.player.levels[i] + 1) {
+     this.levelsStatus[i][j] == 'available'
+    }
+    else {
+     this.levelsStatus[i][j] == 'locked'
+    }
+   }
+  }
+  // console.log(this.levelsStatus)
+
 
 
 
