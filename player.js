@@ -5,7 +5,8 @@ import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionC
 
 
 export class PlayerClass {
-  constructor(scene, audioClass, levelClass, paramsClass, camera, gameClass) {
+  constructor(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass) {
+    this.dataClass = dataClass;
     this.scene = scene;
     this.audioClass = audioClass;
     this.levelClass = levelClass;
@@ -27,16 +28,22 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
+    this.player.userData.canFly = true;
     this.player.userData.canFlyNum = null;
     this.player.userData.canFlyJumps = 0;
     this.player.userData.canFlyJumpsMax = 3;
+
     this.player.userData.live = true;
     this.player.userData.startPos;
     this.player.userData.deadPos;
     this.player.userData.playerAlive = false;
 
-    this.player.userData.lives = 3;
+
+    this.player.userData.maxLives = 3;
+
+    this.player.userData.lives = this.player.userData.maxLives;
+
+    this.player.userData.bonusHeart = 0;
 
     this.player.userData.finish = false;
 
@@ -183,7 +190,7 @@ export class PlayerClass {
     }
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data) && !detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.livesBlocks.data).userData.taked) {
-      if (this.player.userData.lives < 3) {
+      if (this.player.userData.lives < this.player.userData.maxLives) {
         this.player.userData.lives++;
         if (this.audioClass.takeAudio.isPlaying) this.audioClass.stopMusic(['take']);
         if (this.audioClass.musicOn) this.audioClass.playMusic(['take']);
@@ -528,10 +535,12 @@ export class PlayerClass {
     this.player.userData.playerAlive = true;
 
     if (reset) {
+      this.levelClass.reloadLevel(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }));
       this.levelClass.canHorDie = false;
       this.player.userData.deadPos = this.player.userData.startPos;
-      if (!this.levelClass.levelsMode) this.player.userData.lives = 3;
+      if (!this.levelClass.levelsMode) this.player.userData.lives = this.player.userData.maxLives;
       else this.player.userData.lives = 1;
+      //console.log(this.player.userData.maxLives)
       this.reLiveField();
 
     }
@@ -547,10 +556,10 @@ export class PlayerClass {
     let mas = document.querySelectorAll('.player_panel_bottom_lives')[this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })].children;
     for (let i = 0; i < mas.length; i++) {
       if (i > this.player.userData.lives - 1) {
-        mas[i].classList.add('hidden_screen')
+        mas[i].classList.add('opacity_screen')
       }
       else {
-        if (mas[i].classList.contains('hidden_screen')) mas[i].classList.remove('hidden_screen');
+        if (mas[i].classList.contains('opacity_screen')) mas[i].classList.remove('opacity_screen');
       }
     }
 

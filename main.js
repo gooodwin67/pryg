@@ -186,7 +186,7 @@ async function BeforeStart() {
   dataClass = new DataClass();
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
-  
+
 
 
 
@@ -196,7 +196,7 @@ async function BeforeStart() {
   await audioClass.loadAudio();
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
-  
+
   toggleLoader(false);
 }
 await BeforeStart();
@@ -219,10 +219,10 @@ async function initClases(chels) {
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass.allLevels, gameClass, splash, ring);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring);
 
   for (let i = 0; i < chels; i++) {
-    levelClass.players.push(new PlayerClass(scene, audioClass, levelClass, paramsClass, camera, gameClass));
+    levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass));
   }
   controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass, audioClass);
   controlClass.addKeyListeners();
@@ -314,7 +314,7 @@ function resetMatch() {
 
 
 function animate() {
-  
+
 
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
     levelClass.showScreen('menu_in_game');

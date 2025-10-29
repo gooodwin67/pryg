@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, allLevels, gameClass, splash, ring) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -16,12 +16,13 @@ export class LevelClass {
     this.gameClass = gameClass;
     this.splash = splash;
     this.ring = ring;
+    this.dataClass = dataClass;
 
     this.cameraSpeed = 0.01;
 
     this.levelsMode = false;
     this.levelsNoFric = false;
-    this.allLevels = allLevels;
+    this.allLevels = this.dataClass.allLevels;
 
     this.randomNoFric = 0.3;
     this.randomAnimateHor = 0.2;
@@ -2144,8 +2145,14 @@ export class LevelClass {
 
   async loadPlayers() {
 
+    this.reloadLevel();
+
     for (let i = 0; i < this.players.length; i++) {
       let player = this.players[i];
+
+
+      if (!this.levelsMode) player.reLiveField();
+
       player.player.position.x = player.player.position.x - i * 1 + 1;
       this.physicsClass.addPhysicsToObject(player.player);
       if (this.paramsClass.gameDir == 'vert') {
@@ -2301,6 +2308,20 @@ export class LevelClass {
         if (this.players.every(value => value.player.userData.finish)) {
           document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
           if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
+
+          this.players.forEach((value, index, array) => {
+            if (this.levelsMode == this.allLevels) {
+              this.dataClass.table.player.bonusHeart[index] = 2;
+            }
+
+            if (this.levelsMode + 1 > this.dataClass.table.player.levels[index]) {
+              this.dataClass.table.player.levels[index] = this.levelsMode;
+            }
+          })
+          this.dataClass.saveLocalData();
+          this.dataClass.loadLocalData();
+          this.dataClass.loadLevels(this.players.length - 1)
+
         }
         else {
           this.hideScreen('popup_game_btn15');
@@ -2323,6 +2344,46 @@ export class LevelClass {
 
   }
 
+  reloadLevel(clelNum = -1) {
+    if (clelNum >= 0) {
+      let player = this.players[clelNum];
+      if (this.dataClass.table.player.bonusHeart[clelNum]) {
+
+        player.player.userData.maxLives = 4;
+        player.player.userData.lives = player.player.userData.maxLives;
+        if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
+          this.dataClass.table.player.bonusHeart[clelNum]--;
+        }
+      }
+      else {
+        player.player.userData.maxLives = 3;
+        player.player.userData.lives = player.player.userData.maxLives;
+      }
+    }
+    else {
+      for (let i = 0; i < this.players.length; i++) {
+        let player = this.players[i];
+        if (this.dataClass.table.player.bonusHeart[i]) {
+
+          player.player.userData.maxLives = 4;
+          player.player.userData.lives = player.player.userData.maxLives;
+          if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
+            this.dataClass.table.player.bonusHeart[i]--;
+          }
+        }
+        else {
+          player.player.userData.maxLives = 3;
+          player.player.userData.lives = player.player.userData.maxLives;
+        }
+        if (!this.levelsMode) player.reLiveField();
+
+      }
+    }
+
+    this.dataClass.saveLocalData();
+    this.dataClass.loadLocalData();
+  }
+
   rebindButton(selector, handler) {
     const oldButton = document.querySelector(selector);
     const newButton = oldButton.cloneNode(true); // клонирование удаляет все старые слушатели
@@ -2331,7 +2392,10 @@ export class LevelClass {
     return newButton;
   }
 
+
+
   menuInGame = () => {
+
     this.rebindButton('.popup_game_btn1', () => {
 
 
@@ -2363,6 +2427,7 @@ export class LevelClass {
     })
 
     this.rebindButton('.popup_game_btn2', () => {
+
       this.audioClass.hardStopAll();
       this.players.forEach((value, index, array) => {
         value.player.userData.live = false;

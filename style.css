@@ -201,6 +201,15 @@ canvas {
 
 .player_panel_bottom {
     display: flex;
+    position: relative;
+}
+
+.num_bonus_heart {
+    position: absolute;
+    font-size: 10px;
+    left: 95%;
+    bottom: 12px;
+    color: #ccc;
 }
 
 .player_panel_bottom_lives {
@@ -1778,4 +1787,11 @@ body .level_game_chels_active {
 .rec_table_small_block.anim-in.anim-play {
     opacity: 1;
     transform: translateY(0);
+}
+
+.opacity_screen {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
