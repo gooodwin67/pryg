@@ -16,7 +16,7 @@ export class DataClass {
       player: {
         levels: [9, 9, 9],
         bonusHat: [false, false, false],
-        bonusHeart: [1, 1, 1],
+        bonusHeart: [3, 0, 9],
       },
       hor: [
         [
@@ -172,7 +172,7 @@ export class DataClass {
 
     // console.log(this.table.player.bonusHeart[0])
 
-    this.clearData();
+    // this.clearData();
     if (localStorage.getItem('table') !== null) {
       this.table = JSON.parse(localStorage.getItem('table', this.table));
     }

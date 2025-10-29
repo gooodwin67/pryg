@@ -554,6 +554,7 @@ export class PlayerClass {
 
   reLiveField() {
     let mas = document.querySelectorAll('.player_panel_bottom_lives')[this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })].children;
+    let masHeartNum = document.querySelectorAll('.num_bonus_heart')[this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })];
     for (let i = 0; i < mas.length; i++) {
       if (i > this.player.userData.lives - 1) {
         mas[i].classList.add('opacity_screen')
@@ -562,6 +563,15 @@ export class PlayerClass {
         if (mas[i].classList.contains('opacity_screen')) mas[i].classList.remove('opacity_screen');
       }
     }
+    if (this.player.userData.lives > 3) {
+      if (masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.remove('opacity_screen');
+      masHeartNum.textContent = this.player.userData.bonusHeart;
+      
+    }
+    else {
+      if (!masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.add('opacity_screen');
+    }
+    
 
   }
 

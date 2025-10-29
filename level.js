@@ -1291,7 +1291,7 @@ export class LevelClass {
     }
     this.players.forEach((value, index, array) => {
       value.player.position.y = this.objs.grassPlanes.data[0].position.y + this.objs.grassPlanes.data[0].size.y;
-      if (levelsMode) {
+      if (levelsMode || this.paramsClass.gameDir == 'vert') {
         value.player.userData.lives = 1;
         value.reLiveField();
       }
@@ -2145,6 +2145,7 @@ export class LevelClass {
 
   async loadPlayers() {
 
+    
     this.reloadLevel();
 
     for (let i = 0; i < this.players.length; i++) {
@@ -2345,43 +2346,50 @@ export class LevelClass {
   }
 
   reloadLevel(clelNum = -1) {
-    if (clelNum >= 0) {
-      let player = this.players[clelNum];
-      if (this.dataClass.table.player.bonusHeart[clelNum]) {
-
-        player.player.userData.maxLives = 4;
-        player.player.userData.lives = player.player.userData.maxLives;
-        if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
-          this.dataClass.table.player.bonusHeart[clelNum]--;
-        }
-      }
-      else {
-        player.player.userData.maxLives = 3;
-        player.player.userData.lives = player.player.userData.maxLives;
-      }
-    }
-    else {
-      for (let i = 0; i < this.players.length; i++) {
-        let player = this.players[i];
-        if (this.dataClass.table.player.bonusHeart[i]) {
+    
+    if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
+      if (clelNum >= 0) {
+        let player = this.players[clelNum];
+        if (this.dataClass.table.player.bonusHeart[clelNum]) {
 
           player.player.userData.maxLives = 4;
           player.player.userData.lives = player.player.userData.maxLives;
-          if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
-            this.dataClass.table.player.bonusHeart[i]--;
-          }
+          player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[clelNum];
+          
+          this.dataClass.table.player.bonusHeart[clelNum]--;
+          console.log(111)
+          
         }
         else {
           player.player.userData.maxLives = 3;
           player.player.userData.lives = player.player.userData.maxLives;
         }
-        if (!this.levelsMode) player.reLiveField();
-
       }
-    }
+      else {
+        for (let i = 0; i < this.players.length; i++) {
+          let player = this.players[i];
+          if (this.dataClass.table.player.bonusHeart[i]) {
 
-    this.dataClass.saveLocalData();
-    this.dataClass.loadLocalData();
+            player.player.userData.maxLives = 4;
+            player.player.userData.lives = player.player.userData.maxLives;
+            player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[i];
+            
+            this.dataClass.table.player.bonusHeart[i]--;
+            console.log(222)
+            
+          }
+          else {
+            player.player.userData.maxLives = 3;
+            player.player.userData.lives = player.player.userData.maxLives;
+          }
+          if (!this.levelsMode) player.reLiveField();
+
+        }
+      }
+
+      this.dataClass.saveLocalData();
+      this.dataClass.loadLocalData();
+    }
   }
 
   rebindButton(selector, handler) {
