@@ -90,13 +90,22 @@ export class MenuClass {
       this.showScreen('free_game_screen');
     })
 
-
-    document.querySelector('.new_game_btn3').addEventListener('click', async () => {
+    document.querySelector('.new_game_btn2').addEventListener('click', async () => {
+      this.gameClass.levelCoopMode = 'coop';
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen');
     })
 
-    
+    document.querySelector('.new_game_btn3').addEventListener('click', async () => {
+      this.gameClass.levelCoopMode = 'contest';
+      this.hideScreen('main_screen');
+      this.showScreen('levels_game_screen_contest');
+    })
+
+
+
+
+
 
 
     const levelsContainer = document.querySelector('.levels_blocks');
@@ -121,7 +130,7 @@ export class MenuClass {
     document.querySelectorAll('.level_game_chels').forEach((value, index, array) => {
       value.addEventListener('click', () => {
 
-        if (this.levelPlayersNum != index+1) {
+        if (this.levelPlayersNum != index + 1) {
           document.querySelectorAll('.level_game_chels').forEach((item) => {
 
             item.classList.remove('level_game_chels_active');
@@ -129,7 +138,7 @@ export class MenuClass {
           value.classList.add('level_game_chels_active');
 
           this.levelPlayersNum = index + 1;
-          
+
           this.dataClass.loadLevels(this.levelPlayersNum - 1);
         }
       })

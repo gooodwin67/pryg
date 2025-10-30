@@ -10,6 +10,12 @@ export class DataClass {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ]];
 
+    this.levelsStatusContest = [
+      1, 2, 0, 3, 0, 0, 0, 0, 0, 0
+    ];
+
+    this.levelCoopMode = 'coop' //contest
+
     this.allLevels = 10;
 
     this.table = {
@@ -218,7 +224,6 @@ export class DataClass {
    */
   async loadLevels(numChels) {
 
-
     const levelsContainer = document.querySelector('.levels_blocks');
     if (!levelsContainer) return;
 
@@ -229,7 +234,6 @@ export class DataClass {
     const documentFragment = document.createDocumentFragment();
 
     const getLevelConfig = (levelStatus) => {
-      console.log(levelStatus)
 
       switch (levelStatus) {
         case 'completed':
@@ -311,6 +315,80 @@ export class DataClass {
       });
     });
   }
+
+  loadLevelsContest() {
+    const levelsContainer = document.querySelector('.levels_blocks_contest');
+    if (!levelsContainer) return;
+
+    levelsContainer.classList.add('levels_blocks--reenter');
+    levelsContainer.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
+
+    const baseDelay = 40;
+    const startDelay = 60;
+    const maxDelay = 600;
+
+    for (let i = 0; i < this.allLevels; i++) {
+      const levelNumber = i + 1;
+      const contestValue = this.levelsStatusContest?.[i] ?? 0;
+
+      const levelElement = document.createElement('div');
+      levelElement.className = 'levels_block levels_block--contest';
+      levelElement.setAttribute('data-level', levelNumber);
+      levelElement.setAttribute('role', 'button');
+      levelElement.setAttribute('tabindex', '0');
+      levelElement.setAttribute(
+        'aria-label',
+        `Уровень ${levelNumber}, значение ${contestValue}`
+      );
+
+      // задержка появления
+      const delay = Math.min(startDelay + i * baseDelay, maxDelay);
+      levelElement.style.setProperty('--show-delay', `${delay}ms`);
+
+      // номер уровня (как раньше)
+      const numberElement = document.createElement('div');
+      numberElement.className = 'levels_block_number';
+      numberElement.textContent = String(levelNumber);
+
+      // вместо статуса — число из массива
+      const statusElement = document.createElement('div');
+      statusElement.className = 'levels_block_status';
+      statusElement.textContent = String(contestValue);
+
+      levelElement.append(numberElement, statusElement);
+
+      // кликабельность без ограничений
+      levelElement.addEventListener('click', () => {
+        document.querySelectorAll('.levels_block').forEach((el) =>
+          el.classList.remove('active')
+        );
+        levelElement.classList.add('active');
+        console.log(`Выбран уровень ${levelNumber} (значение: ${contestValue})`);
+        // startLevel(levelNumber);
+      });
+
+      levelElement.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          levelElement.click();
+        }
+      });
+
+      fragment.append(levelElement);
+    }
+
+    levelsContainer.append(fragment);
+
+    requestAnimationFrame(() => {
+      levelsContainer.classList.remove('levels_blocks--reenter');
+      levelsContainer.querySelectorAll('.levels_block').forEach((el) => {
+        el.classList.add('levels_block--enter');
+      });
+    });
+  }
+
 
   /**
    * Пере-анимация уже отрисованных уровней (например, при возвращении на экран)

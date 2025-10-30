@@ -186,6 +186,7 @@ async function BeforeStart() {
   dataClass = new DataClass();
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
+  await dataClass.loadLevelsContest();
 
 
 
@@ -316,7 +317,7 @@ function resetMatch() {
 function animate() {
 
 
-  if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
+  if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     levelClass.showScreen('menu_in_game');
   }
   // if (!gameClass.gameStarting && !gameClass.showGamePopup && !gameClass.pause) {

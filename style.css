@@ -710,6 +710,17 @@ body .level_game_chels_active {
     padding-top: 0
 }
 
+.levels_blocks_contest {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 12px;
+    max-width: 480px;
+    margin: 30px auto;
+    padding: 10px;
+    margin-top: 0;
+    padding-top: 0
+}
+
 /* базовый «карточный» стиль */
 .levels_block {
     position: relative;
@@ -876,6 +887,11 @@ body .level_game_chels_active {
 
 /* Реакция на повторный показ (когда переключаешь экраны) */
 .levels_blocks--reenter .levels_block {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+}
+
+.levels_blocks_contest--reenter .levels_block {
     opacity: 0;
     transform: translateY(8px) scale(0.96);
 }
@@ -1548,6 +1564,14 @@ body .level_game_chels_active {
     padding: 6px 4px 2px;
 }
 
+.levels_blocks_contest {
+    gap: 14px;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 6px 4px 2px;
+}
+
+
 /* Тайл уровня — «пухлая карточка» по умолчанию */
 .levels_block {
     position: relative;
@@ -1664,6 +1688,11 @@ body .level_game_chels_active {
     }
 
     .levels_blocks {
+        gap: 10px;
+        max-width: 90%;
+    }
+
+    .levels_blocks_contest {
         gap: 10px;
         max-width: 90%;
     }

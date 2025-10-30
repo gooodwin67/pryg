@@ -28,7 +28,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = true;
+    this.player.userData.canFly = false;
     this.player.userData.canFlyNum = null;
     this.player.userData.canFlyJumps = 0;
     this.player.userData.canFlyJumpsMax = 3;
@@ -311,6 +311,7 @@ export class PlayerClass {
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.gameClass.gameStarting) {
           this.audioClass.pauseMusic(['back']);
+          this.audioClass.pauseMusic(['rain']);
           if (this.levelClass.players.every(value => value.player.userData.finish)) {
             this.levelClass.showPopupInGame(false, true);
           }
@@ -329,6 +330,7 @@ export class PlayerClass {
         })
         this.playerAliving(false);
         if (this.audioClass.musicOn) this.audioClass.playMusic(['back']);
+        if (this.audioClass.musicOn && this.levelClass.worldClass.rain) this.audioClass.playMusic(['rain']);
       }
 
 
@@ -566,12 +568,12 @@ export class PlayerClass {
     if (this.player.userData.lives > 3) {
       if (masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.remove('opacity_screen');
       masHeartNum.textContent = this.player.userData.bonusHeart;
-      
+
     }
     else {
       if (!masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.add('opacity_screen');
     }
-    
+
 
   }
 
