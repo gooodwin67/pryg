@@ -91,13 +91,14 @@ export class MenuClass {
     })
 
     document.querySelector('.new_game_btn2').addEventListener('click', async () => {
-      this.gameClass.levelCoopMode = 'coop';
+      this.dataClass.levelCoopMode = 'coop';
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen');
     })
 
     document.querySelector('.new_game_btn3').addEventListener('click', async () => {
-      this.gameClass.levelCoopMode = 'contest';
+      this.dataClass.levelCoopMode = 'contest';
+      this.levelPlayersNum = 2;
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen_contest');
     })
@@ -125,6 +126,23 @@ export class MenuClass {
       this.initMatch(this.levelPlayersNum, 1, levelIndex, true);
     });
 
+    const levelsContainerContest = document.querySelector('.levels_blocks_contest');
+    levelsContainerContest.addEventListener('click', (e) => {
+      const block = e.target.closest('.levels_block');
+      if (!block) return;
+
+      // не пускаем в закрытые уровни
+      //if (block.classList.contains('levels_block--locked')) return;
+
+      const levelIndex = Number(block.dataset.level) || 1; // из data-level
+      // визуальная подсветка (если нужна)
+      levelsContainerContest.querySelectorAll('.levels_block').forEach(el => el.classList.remove('active'));
+      block.classList.add('active');
+
+      this.hideScreen('levels_game_screen_contest');
+      this.initMatch(this.levelPlayersNum, 1, levelIndex, true);
+    });
+
 
 
     document.querySelectorAll('.level_game_chels').forEach((value, index, array) => {
@@ -140,6 +158,25 @@ export class MenuClass {
           this.levelPlayersNum = index + 1;
 
           this.dataClass.loadLevels(this.levelPlayersNum - 1);
+        }
+      })
+    })
+    document.querySelectorAll('.level_game_chels_contest').forEach((value, index, array) => {
+      value.addEventListener('click', () => {
+        
+
+        if (this.levelPlayersNum != index+2) {
+          console.log(this.levelPlayersNum)
+          console.log(index)
+          document.querySelectorAll('.level_game_chels_contest').forEach((item) => {
+
+            item.classList.remove('level_game_chels_contest_active');
+          });
+          value.classList.add('level_game_chels_contest_active');
+
+          this.levelPlayersNum = index + 2;
+
+          this.dataClass.loadLevelsContest(this.levelPlayersNum - 2);
         }
       })
     })

@@ -81,10 +81,10 @@ export class WorldClass {
 
     // --- RAIN: setup (дёшево и сердито)
     this.rainDropCount = 1500;               // 800–1500 обычно хватает
-    this.rainAreaHalfWidth = 25;             // половина ширины облака по X
+    this.rainAreaHalfWidth = 10;             // половина ширины облака по X
     this.rainAreaHalfDepth = 22;             // половина глубины облака по Z
-    this.rainTopY = 10;
-    this.rainBottomY = -4;
+    this.rainTopY = 7;
+    this.rainBottomY = -2;
 
     this.rainGeometry = new THREE.BufferGeometry();
     this.rainPositions = new Float32Array(this.rainDropCount * 3);
@@ -101,10 +101,10 @@ export class WorldClass {
       this.rainPositions[baseIndex + 0] = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2; // x
       this.rainPositions[baseIndex + 1] = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY; // y
       this.rainPositions[baseIndex + 2] = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2 - 35; // z
-      this.rainVelocities[i] = 15 + Math.random() * 15;         // юниты/сек
+      this.rainVelocities[i] = 10 + Math.random() * 10;         // юниты/сек
       // this.rainVelocities[i] = 6 + Math.random() * 1;         // юниты/сек
 
-      this.rainWindPhase[i] = Math.random() * Math.PI * 2;
+      this.rainWindPhase[i] = Math.random() * Math.PI * 20;
     }
 
     const colors = new Float32Array(this.rainDropCount * 3);
@@ -122,15 +122,15 @@ export class WorldClass {
 
     // МАТЕРИАЛ: один draw call, экранный размер (без sizeAttenuation)
     this.rainMaterial = new THREE.PointsMaterial({
-      color: 0xeeeeff,
+      color: 0x8888cc,
       vertexColors: true,
       map: this.rainStreakTex,
-      alphaTest: 0.8,           // режем края по альфе
+      alphaTest: 0.75,           // режем края по альфе
       transparent: true,
-      opacity: 0.84,
-      size: 9,                 // пиксели (т.к. sizeAttenuation: false)
-      sizeAttenuation: false,    // стабильный “штрих” независимо от дистанции
-      depthWrite: false,
+      opacity: 0.81,
+      size: 0.15,                 // пиксели (т.к. sizeAttenuation: false)
+      sizeAttenuation: true,    // стабильный “штрих” независимо от дистанции
+      depthWrite: true,
       blending: THREE.AdditiveBlending
     });
 
@@ -361,7 +361,7 @@ void main() {
       }
 
 
-      if (!this.rainStart && this.parameters.elevation < 2 && this.parameters.elevation > 1.5) {
+      if (!this.rainStart && this.parameters.elevation < 2 && this.parameters.elevation > 1.5) { //
         this.rain = true;
         this.startRain();
         if (this.audioClass.musicOn) this.audioClass.rainAudio.play();

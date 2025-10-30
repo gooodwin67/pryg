@@ -107,7 +107,7 @@ export class PlayerClass {
     //   // this.levelClass.players[2].player.userData.finish,
     // ))
 
-    if (this.levelClass.levelsMode) {
+    if (this.levelClass.levelsMode && this.dataClass.levelCoopMode == 'coop') {
       if (this.levelClass.players.every(value => value.player.userData.finish)) {
         this.levelClass.players.forEach(element => {
           element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
@@ -121,6 +121,22 @@ export class PlayerClass {
           //this.player.userData.finish = false;
         });
       }
+    }
+    else if (this.levelClass.levelsMode && this.dataClass.levelCoopMode == 'contest') {
+      
+      if (this.levelClass.players.some(value => value.player.userData.finish)) {
+        this.levelClass.players.forEach(element => {
+          element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+
+        });
+      }
+      // else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
+
+      //   this.levelClass.players.forEach(element => {
+      //     element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+      //     //this.player.userData.finish = false;
+      //   });
+      // }
     }
 
     if ((this.paramsClass.gameDir == 'hor' && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround) || (this.paramsClass.gameDir == 'vert' && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + 0.5 && this.player.userData.onGround && this.player.userData.body.linvel().y < 0)) {
@@ -310,18 +326,36 @@ export class PlayerClass {
           this.player.userData.live = false;
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.gameClass.gameStarting) {
+          
           this.audioClass.pauseMusic(['back']);
           this.audioClass.pauseMusic(['rain']);
-          if (this.levelClass.players.every(value => value.player.userData.finish)) {
-            this.levelClass.showPopupInGame(false, true);
-          }
-          else {
+          if (this.dataClass.levelCoopMode == 'coop') {
+            if (this.levelClass.players.every(value => value.player.userData.finish)) {
+              this.levelClass.showPopupInGame(false, true);
+            }
+            else {
 
-            this.levelClass.showPopupInGame(true);
-          }
+              this.levelClass.showPopupInGame(true);
+            }
 
-          this.paramsClass.allDie = true;
-          // this.gameClass.gameStarting = false;
+            this.paramsClass.allDie = true;
+            // this.gameClass.gameStarting = false;
+          }
+          else if (this.dataClass.levelCoopMode == 'contest') {
+            if (this.levelClass.players.some(value => value.player.userData.finish)) {
+              this.levelClass.showPopupInGame(false, true);
+              console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })+1)//////////////////////////////////
+            }
+            else {
+              this.levelClass.showPopupInGame(true);
+            }
+
+
+            this.paramsClass.allDie = true;
+            // this.gameClass.gameStarting = false;
+          }{
+
+          }
         }
       }
       if (this.player.userData.lives > 0) {

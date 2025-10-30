@@ -2306,19 +2306,23 @@ export class LevelClass {
         if (this.audioClass.musicOn) this.audioClass.looseAudio.play();
       }
       else {
-        if (this.players.every(value => value.player.userData.finish)) {
+        if ((this.players.every(value => value.player.userData.finish) && this.dataClass.levelCoopMode == 'coop') || (this.players.some(value => value.player.userData.finish) && this.dataClass.levelCoopMode == 'contest')) {
           document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
           if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
 
-          this.players.forEach((value, index, array) => {
-            if (this.levelsMode == this.allLevels) {
-              this.dataClass.table.player.bonusHeart[index] = 2;
-            }
+          if (this.dataClass.levelCoopMode == 'coop') {
+            this.players.forEach((value, index, array) => {
+              if (this.levelsMode == this.allLevels) {
+                this.dataClass.table.player.bonusHeart[index] = 2;
+              }
 
-            if (this.levelsMode + 1 > this.dataClass.table.player.levels[index]) {
-              this.dataClass.table.player.levels[index] = this.levelsMode;
-            }
-          })
+              if (this.levelsMode + 1 > this.dataClass.table.player.levels[index]) {
+                this.dataClass.table.player.levels[index] = this.levelsMode;
+              }
+              
+            })
+          }
+
           this.dataClass.saveLocalData();
           this.dataClass.loadLocalData();
           this.dataClass.loadLevels(this.players.length - 1)
@@ -2357,7 +2361,6 @@ export class LevelClass {
           player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[clelNum];
           
           this.dataClass.table.player.bonusHeart[clelNum]--;
-          console.log(111)
           
         }
         else {
@@ -2375,7 +2378,7 @@ export class LevelClass {
             player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[i];
             
             this.dataClass.table.player.bonusHeart[i]--;
-            console.log(222)
+            
             
           }
           else {
