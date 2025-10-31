@@ -1014,6 +1014,8 @@ body .level_game_chels_contest_active {
     font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
+.hud_recs_label {}
+
 /* outline-стиль твоей плашки */
 .hud--outline {
     padding: 3px 10px 6px 10px;
@@ -1762,7 +1764,8 @@ body .level_game_chels_contest_active {
     }
 
     .free_game_chels,
-    .level_game_chels, .level_game_chels_contest {
+    .level_game_chels,
+    .level_game_chels_contest {
         min-width: 22px;
         height: 29px;
     }

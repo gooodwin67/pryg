@@ -2,6 +2,10 @@ import * as THREE from "three";
 
 export class DataClass {
   constructor() {
+    this.gameInit = false;
+
+
+
     this.levelsStatus = [[
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ], [
@@ -178,7 +182,7 @@ export class DataClass {
 
     // console.log(this.table.player.bonusHeart[0])
 
-    // this.clearData();
+    this.clearData();
     if (localStorage.getItem('table') !== null) {
       this.table = JSON.parse(localStorage.getItem('table', this.table));
     }
@@ -213,9 +217,6 @@ export class DataClass {
       }
     }
   }
-
-
-
 
 
   /**

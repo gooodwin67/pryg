@@ -34,7 +34,7 @@ console.clear();
 
 let world;
 
-let gameInit = false;
+
 
 
 let delta = 0;
@@ -213,14 +213,14 @@ async function initClases(chels) {
   eventQueue = new RAPIER.EventQueue(true);
 
   physicsClass = new PhysicsClass(world, RAPIER);
-  scoreClass = new ScoreClass(camera);
 
+  scoreClass = new ScoreClass(camera, dataClass);
 
 
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass));
@@ -275,13 +275,15 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   await initLevel(levelsMode);
 
 
+  paramsClass.gameDir === 'hor' ? scoreClass.loadRecsToHud(0, levelClass.players.length - 1) : scoreClass.loadRecsToHud(1, levelClass.players.length - 1);
+
 
   setTimeout(() => {
-    menuClass.showScreen('hud');
     menuClass.toggleLoader(false);
     paramsClass.dataLoaded = true;
     gameClass.gameStarting = true;
-    gameInit = true;
+    dataClass.gameInit = true;
+
 
   }, 300)
 
@@ -316,27 +318,19 @@ function resetMatch() {
 
 function animate() {
 
-
+  console.log(dataClass.gameInit)
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     levelClass.showScreen('menu_in_game');
   }
-  // if (!gameClass.gameStarting && !gameClass.showGamePopup && !gameClass.pause) {
 
-  //   if (!document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
-  //     document.querySelector('.menu_in_game').classList.add('hidden_screen');
-  //   }
-  // }
-  // if (gameClass.pause || (gameClass.gameStarting && !gameClass.showGamePopup)) {
-  //   if (document.querySelector('.menu_in_game').classList.contains('hidden_screen')) {
-  //     document.querySelector('.menu_in_game').classList.remove('hidden_screen');
-  //   }
-  //   if (!gameClass.pause) {
-  //     document.querySelector('.sound_btn_wrap').classList.remove('hidden_screen');
-  //   }
-  //   else {
-  //     document.querySelector('.sound_btn_wrap').classList.add('hidden_screen');
-  //   }
-  // }
+  if (dataClass.gameInit && !levelClass.levelsMode && document.querySelector('.hud').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
+    menuClass.showScreen('hud');
+  }
+  else if (!dataClass.gameInit && !document.querySelector('.hud').classList.contains('hidden_screen')) {
+    menuClass.hideScreen('hud');
+  }
+
+
 
   if (gameClass.gameStarting) {
     splash.update(dt);
@@ -348,12 +342,8 @@ function animate() {
 
 
 
-    if (paramsClass.gameDir == 'hor') {
-      scoreClass.updateMetersFloat(camera.position.x - scoreClass.startX);
-    }
-    else {
-      scoreClass.updateMetersFloat(camera.position.y - scoreClass.startY);
-    }
+
+
 
 
 
@@ -485,6 +475,8 @@ document.querySelector('.popup_game_btn_close').addEventListener('click', () => 
     gameClass.pause = !gameClass.pause;
     gameClass.gameStarting = true;
     audioClass.togglePauseAll(!gameClass.gameStarting);
+    if (worldClass.rain && !audioClass.rainAudio.isPlaying) audioClass.rainAudio.play();
+    if (!audioClass.oceanAudio.isPlaying) audioClass.oceanAudio.play();
     levelClass.hideScreen('popup_in_game');
     levelClass.hideScreen('popup_game_btn_close');
   }

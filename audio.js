@@ -18,6 +18,7 @@ export class AudioClass {
     this.inwaterAudio;
     this.takeAudio;
     this.looseAudio;
+    this.winAudio;
 
     this.readyJumpAudio;
     this.jumpAudio;
@@ -165,6 +166,20 @@ export class AudioClass {
       this.musics.push({
         name: 'loose',
         music: this.looseAudio,
+      })
+    }).catch((error) => {
+      console.error('Ошибка при загрузке аудио:', error);
+    });
+
+    await audioLoader.loadAsync('audio/win.mp3').then((buffer) => {
+      this.winAudio = new THREE.PositionalAudio(this.listener);
+      this.winAudio.setBuffer(buffer);
+      this.winAudio.setLoop(false);
+      this.winAudio.setRefDistance(200);
+      this.winAudio.setVolume(2);
+      this.musics.push({
+        name: 'win',
+        music: this.winAudio,
       })
     }).catch((error) => {
       console.error('Ошибка при загрузке аудио:', error);

@@ -123,7 +123,7 @@ export class PlayerClass {
       }
     }
     else if (this.levelClass.levelsMode && this.dataClass.levelCoopMode == 'contest') {
-      
+
       if (this.levelClass.players.some(value => value.player.userData.finish)) {
         this.levelClass.players.forEach(element => {
           element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
@@ -251,7 +251,13 @@ export class PlayerClass {
       if (!this.player.userData.splash) {
         if (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live) {
           this.audioClass.stopMusic(['inwater'])
-          if (this.audioClass.musicOn) this.audioClass.playMusic(['inwater']);
+          if (this.audioClass.musicOn && this.dataClass.levelCoopMode == 'coop') {
+
+            this.audioClass.playMusic(['inwater']);
+          }
+          else if (this.audioClass.musicOn && this.dataClass.levelCoopMode == 'contest' && !this.levelClass.players.some(value => value.player.userData.finish)) {
+            this.audioClass.playMusic(['inwater']);
+          }
         }
         this.levelClass.splash.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.0, this.player.position.z), 2.0);
         this.levelClass.ring.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.1, this.player.position.z));
@@ -326,7 +332,7 @@ export class PlayerClass {
           this.player.userData.live = false;
         }
         if (this.levelClass.players.every(value => !value.player.userData.live) && this.levelClass.players.every(value => value.player.userData.lives < 1) && this.gameClass.gameStarting) {
-          
+
           this.audioClass.pauseMusic(['back']);
           this.audioClass.pauseMusic(['rain']);
           if (this.dataClass.levelCoopMode == 'coop') {
@@ -344,7 +350,7 @@ export class PlayerClass {
           else if (this.dataClass.levelCoopMode == 'contest') {
             if (this.levelClass.players.some(value => value.player.userData.finish)) {
               this.levelClass.showPopupInGame(false, true);
-              console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })+1)//////////////////////////////////
+              console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }) + 1)//////////////////////////////////
             }
             else {
               this.levelClass.showPopupInGame(true);
@@ -353,7 +359,7 @@ export class PlayerClass {
 
             this.paramsClass.allDie = true;
             // this.gameClass.gameStarting = false;
-          }{
+          } {
 
           }
         }
@@ -384,11 +390,22 @@ export class PlayerClass {
 
         if (this.player.userData.deadPos != this.player.userData.startPos) {
 
-          this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
-            item.position.x >= this.player.position.x - 5
-          )?.position;
+
+          const planes = this.levelClass.objs.grassPlanes.data;
+          for (let i = 0; i < planes.length - 1; i++) {
+            const item = planes[i];
+            if (item.position.x >= this.player.position.x - 1 && !item.userData.moveHor && !item.userData.moveVert) {
+              this.player.userData.deadPos = item.position;
+              break;
+            }
+          }
+
+
+          // this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data.find(item =>
+          //   item.position.x <= this.player.position.x - 5
+          // )?.position;
           if (this.player.userData.deadPos == undefined) {
-            this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data[this.levelClass.objs.grassPlanes.data.length - 1].position;
+            this.player.userData.deadPos = this.levelClass.objs.grassPlanes.data[this.levelClass.objs.grassPlanes.data.length - 1].position;///////////////////////////////
           }
 
         }

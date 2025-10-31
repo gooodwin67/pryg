@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -17,6 +17,7 @@ export class LevelClass {
     this.splash = splash;
     this.ring = ring;
     this.dataClass = dataClass;
+    this.scoreClass = scoreClass;
 
     this.cameraSpeed = 0.01;
 
@@ -514,7 +515,7 @@ export class LevelClass {
     await this.loadBirdModel();
 
     this.cameraMove(this.camera);
-    this.getHorizontalWorldBounds();
+
 
 
 
@@ -536,6 +537,7 @@ export class LevelClass {
 
 
     if (levelsMode) {
+      this.getHorizontalWorldBounds(-7);
       //this.players[0].player.userData.lives = 0;
       let previousX = -2.5; // Начальная позиция по оси X
       let previousY = -5;
@@ -918,7 +920,9 @@ export class LevelClass {
 
 
     else {
+      this.getHorizontalWorldBounds();
       switch (this.gameNum) {
+
         case 1:
         case 2:
           this.paramsClass.gameDir = 'hor'
@@ -1032,17 +1036,7 @@ export class LevelClass {
 
 
 
-              if ((i + 1) % 10 === 1) {
-                let newHat = this.boostHatModel.clone();
-                newHat.position.x = randomX;
-                newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
-                newHat.rotation.y = -Math.PI / 2;
-                newHat.userData.num = i;
-                this.boostHatModels.push(newHat)
-                this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
-                this.boostHatCoords.push([newHat.position.x, newHat.position.y]);
-                this.scene.add(newHat);
-              }
+
 
             }
 
@@ -1129,6 +1123,18 @@ export class LevelClass {
               this.objs.livesBlocks.data[i].userData.startPos = this.objs.livesBlocks.data[i].position.clone();
             }
             this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+
+            if (i > 2 && (i + 1) % 10 === 1) {
+              let newHat = this.boostHatModel.clone();
+              newHat.position.x = this.objs.grassPlanes.data[i].position.x;
+              newHat.position.y = this.objs.topPlanes.data[i].position.y + 2;
+              newHat.rotation.y = -Math.PI / 2;
+              newHat.userData.num = i;
+              this.boostHatModels.push(newHat)
+              this.boostHatMeshes.push(newHat.children[0].children[0].children[0]);
+              this.boostHatCoords.push([newHat.position.x, newHat.position.y]);
+              this.scene.add(newHat);
+            }
 
           }
 
@@ -1298,6 +1304,8 @@ export class LevelClass {
     })
 
 
+
+
   }
 
   getHorizontalWorldBounds(z = 0) {
@@ -1334,12 +1342,26 @@ export class LevelClass {
       const worldTop = cameraPos.clone().add(dirTop.multiplyScalar(distance2));
       const worldBottom = cameraPos.clone().add(dirBottom.multiplyScalar(distance2));
 
+      // if (this.gameNum == 3 || this.gameNum == 4) {
+      //   this.bounds = {
+      //     leftX: worldLeft.x,
+      //     rightX: worldRight.x,
+      //     topY: 0,
+      //     bottomY: 0
+      //   };
+      // }
+      // else {
       this.bounds = {
         leftX: worldLeft.x,
         rightX: worldRight.x,
         topY: worldTop.y,
         bottomY: worldBottom.y
       };
+      console.log(this.bounds.rightX)
+      console.log(this.camera.position.z)
+      // }
+
+
 
 
     }
@@ -1472,6 +1494,7 @@ export class LevelClass {
         const speed = grass.userData.speed;
 
         const currentPos = body.translation();
+
 
 
         // Используем реальные границы экрана
@@ -1664,6 +1687,25 @@ export class LevelClass {
 
 
   levelAnimate() {
+
+    // if (this.scoreClass.score + 1 > this.scoreClass.myRec) {
+    //   this.scoreClass.myRec = this.scoreClass.score + 1;
+    //   this.scoreClass.myRecField.textContent = this.scoreClass.myRec;
+    // }
+
+    if (this.paramsClass.gameDir == 'hor') {
+      if (this.players.length > 1) {
+        this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX);
+      }
+      else {
+        this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX - 6);
+      }
+
+    }
+    else {
+      this.scoreClass.updateMetersFloat(this.camera.position.y - this.scoreClass.startY);
+    }
+
     this.animateTops();
     this.lampsAnimate();
     if (this.gameClass.gameStarting) {
@@ -1700,12 +1742,12 @@ export class LevelClass {
 
       if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying && !this.worldClass.thunder) {
         this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: getRandomNumber(this.maxHeight - 1.5, this.maxHeight + 1), z: this.angryBird.userData.body.translation().z });
-        this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
+        this.birdFlyingMark = this.birdFlyingMark + getRandomNumber(this.distanceToBird, this.distanceToBird + 10);
         this.angryBird.userData.speed = getRandomNumber(8, 13) / 100;
         this.angryBird.userData.flying = true;
       }
       else if (this.players[this.maxSpeed()].player.position.x > this.birdFlyingMark && !this.angryBird.userData.flying && this.worldClass.thunder) {
-        this.birdFlyingMark = this.birdFlyingMark + this.distanceToBird;
+        this.birdFlyingMark = this.birdFlyingMark + getRandomNumber(this.distanceToBird, this.distanceToBird + 10);
       }
 
       if (this.angryBird.userData.flying) {
@@ -1905,6 +1947,8 @@ export class LevelClass {
       const fadeOutSpeed = 0.2;          // скорость гашения днём (быстрее)
       const maxI = this.lightIntensity;  // целевая ночная яркость
 
+
+
       if (this.worldClass.night) {
         this.lampsAnimate.did = false
         const left = this.camera.position.y - this.bounds.topY / 1;
@@ -2012,7 +2056,7 @@ export class LevelClass {
 
           if (light) {
             // плавно к нулю (можно и быстрее, чем ночью)
-            light.intensity = THREE.MathUtils.lerp(light.intensity, 0, fadeOutSpeed);
+            light.intensity = THREE.MathUtils.lerp(light.intensity, 0, 1);
             if (light.intensity <= 0.01) {
               light.intensity = 0;
               this.lights.push(light);
@@ -2145,7 +2189,7 @@ export class LevelClass {
 
   async loadPlayers() {
 
-    
+
     this.reloadLevel();
 
     for (let i = 0; i < this.players.length; i++) {
@@ -2207,8 +2251,20 @@ export class LevelClass {
         if ((leadIdx >= 0 && !this.worldClass.thunder) || this.levelsMode) {
           let leadX = 0;
 
-          if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
-          else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
+          // if (this.players.length > 1) leadX = this.players[leadIdx].player.position.x;
+          // else if (this.paramsClass.gameDir == 'hor') leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
+
+
+          if (this.players.filter(item => item.player.userData.live).length != 1) {
+            leadX = this.players[leadIdx].player.position.x;
+          }
+          else if (this.paramsClass.gameDir == 'hor') {
+            leadX = this.players[leadIdx].player.position.x + this.bounds.rightX / 2;
+
+
+          }
+
+
 
           // Ограничим резкие откаты назад, если надо
           const maxBack = this.cam.maxBackJump;
@@ -2291,6 +2347,10 @@ export class LevelClass {
     this.hideScreen('popup_game_btn_close');
     this.hideScreen('menu_in_game');
 
+
+    if (this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.stop();
+    if (this.audioClass.rainAudio.isPlaying) this.audioClass.rainAudio.stop();
+
     if (!this.gameClass.pause) {
 
       this.gameClass.showGamePopup = true;
@@ -2304,10 +2364,21 @@ export class LevelClass {
         document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
         if (this.audioClass.musicOn) this.audioClass.looseAudio.play();
+
+        if (this.scoreClass.score + 1 > this.scoreClass.myRec) {
+
+          this.dataClass.saveLocalData();
+          this.dataClass.loadLocalData();
+        }
+
       }
       else {
         if ((this.players.every(value => value.player.userData.finish) && this.dataClass.levelCoopMode == 'coop') || (this.players.some(value => value.player.userData.finish) && this.dataClass.levelCoopMode == 'contest')) {
           document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
+
+          if (this.audioClass.winAudio.isPlaying) this.audioClass.winAudio.stop();
+          if (this.audioClass.musicOn) this.audioClass.winAudio.play();
+
           if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
 
           if (this.dataClass.levelCoopMode == 'coop') {
@@ -2319,7 +2390,7 @@ export class LevelClass {
               if (this.levelsMode + 1 > this.dataClass.table.player.levels[index]) {
                 this.dataClass.table.player.levels[index] = this.levelsMode;
               }
-              
+
             })
           }
 
@@ -2350,7 +2421,7 @@ export class LevelClass {
   }
 
   reloadLevel(clelNum = -1) {
-    
+
     if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
       if (clelNum >= 0) {
         let player = this.players[clelNum];
@@ -2359,9 +2430,9 @@ export class LevelClass {
           player.player.userData.maxLives = 4;
           player.player.userData.lives = player.player.userData.maxLives;
           player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[clelNum];
-          
+
           this.dataClass.table.player.bonusHeart[clelNum]--;
-          
+
         }
         else {
           player.player.userData.maxLives = 3;
@@ -2376,10 +2447,10 @@ export class LevelClass {
             player.player.userData.maxLives = 4;
             player.player.userData.lives = player.player.userData.maxLives;
             player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[i];
-            
+
             this.dataClass.table.player.bonusHeart[i]--;
-            
-            
+
+
           }
           else {
             player.player.userData.maxLives = 3;
@@ -2409,7 +2480,7 @@ export class LevelClass {
 
     this.rebindButton('.popup_game_btn1', () => {
 
-
+      if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
       this.boostHatModels.forEach((value, index, array) => {
         value.userData.fly = false;
       })
@@ -2558,7 +2629,7 @@ export class LevelClass {
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
-
+      this.dataClass.gameInit = false;
 
     })
   }
