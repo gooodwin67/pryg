@@ -350,7 +350,7 @@ export class PlayerClass {
           else if (this.dataClass.levelCoopMode == 'contest') {
             if (this.levelClass.players.some(value => value.player.userData.finish)) {
               this.levelClass.showPopupInGame(false, true);
-              console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }) + 1)//////////////////////////////////
+              //console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }) + 1)//////////////////////////////////
             }
             else {
               this.levelClass.showPopupInGame(true);
@@ -591,9 +591,13 @@ export class PlayerClass {
       this.levelClass.reloadLevel(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }));
       this.levelClass.canHorDie = false;
       this.player.userData.deadPos = this.player.userData.startPos;
-      if (!this.levelClass.levelsMode) this.player.userData.lives = this.player.userData.maxLives;
-      else this.player.userData.lives = 1;
-      //console.log(this.player.userData.maxLives)
+      if (!this.levelClass.levelsMode) {
+        this.player.userData.lives = this.player.userData.maxLives;
+      }
+      else {
+        this.player.userData.lives = 1;
+      }
+      
       this.reLiveField();
 
     }

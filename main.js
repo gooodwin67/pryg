@@ -276,13 +276,13 @@ async function initMatch(chels, gameNum, levelsMode = false) {
 
 
   paramsClass.gameDir === 'hor' ? scoreClass.loadRecsToHud(0, levelClass.players.length - 1) : scoreClass.loadRecsToHud(1, levelClass.players.length - 1);
-
+  paramsClass.dataLoaded = true;
+  gameClass.gameStarting = true;
+  dataClass.gameInit = true;
 
   setTimeout(() => {
     menuClass.toggleLoader(false);
-    paramsClass.dataLoaded = true;
-    gameClass.gameStarting = true;
-    dataClass.gameInit = true;
+    
 
 
   }, 300)
@@ -318,7 +318,7 @@ function resetMatch() {
 
 function animate() {
 
-  console.log(dataClass.gameInit)
+  
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     levelClass.showScreen('menu_in_game');
   }

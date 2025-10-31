@@ -1357,8 +1357,7 @@ export class LevelClass {
         topY: worldTop.y,
         bottomY: worldBottom.y
       };
-      console.log(this.bounds.rightX)
-      console.log(this.camera.position.z)
+      
       // }
 
 
@@ -2191,14 +2190,20 @@ export class LevelClass {
 
 
     this.reloadLevel();
+    
 
     for (let i = 0; i < this.players.length; i++) {
       let player = this.players[i];
 
 
       if (!this.levelsMode) player.reLiveField();
-
+      
+      
+      
       player.player.position.x = player.player.position.x - i * 1 + 1;
+
+      
+      
       this.physicsClass.addPhysicsToObject(player.player);
       if (this.paramsClass.gameDir == 'vert') {
         player.player.position.y = -0;
@@ -2421,7 +2426,7 @@ export class LevelClass {
   }
 
   reloadLevel(clelNum = -1) {
-
+    
     if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
       if (clelNum >= 0) {
         let player = this.players[clelNum];
@@ -2440,8 +2445,27 @@ export class LevelClass {
         }
       }
       else {
+        
+        let masPos = [0, -1 , 1]
+        
+
         for (let i = 0; i < this.players.length; i++) {
           let player = this.players[i];
+          let randNum = Math.floor(Math.random() * masPos.length);
+
+          if (!this.levelsMode) {
+            player.reLiveField();
+            
+            player.player.position.x = player.player.position.x - i*0.3 + 1;
+          }
+          else {
+            player.player.position.x = masPos[randNum];
+          }
+                
+          
+
+          masPos.splice(randNum, 1)
+
           if (this.dataClass.table.player.bonusHeart[i]) {
 
             player.player.userData.maxLives = 4;
@@ -2510,12 +2534,33 @@ export class LevelClass {
 
     this.rebindButton('.popup_game_btn2', () => {
 
+
+
+
+      let masPos = [0, -1 , 1]
+
+      
+      
+
+
+
+
       this.audioClass.hardStopAll();
       this.players.forEach((value, index, array) => {
         value.player.userData.live = false;
         value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
         value.player.userData.finish = false;
         value.playerAliving(true);
+
+        if (this.levelsMode) {
+          let player = this.players[index];
+          let randNum = Math.floor(Math.random() * masPos.length);
+          player.player.userData.startPos.x = masPos[randNum];
+          masPos.splice(randNum, 1)
+        }
+        else {
+          value.player.position.x = value.player.position.x - index * 1 + 1;
+        }
       })
 
       if (this.gameNum == 1 || this.gameNum == 3) {
@@ -2626,6 +2671,33 @@ export class LevelClass {
       // this.players.forEach((value, index, array) => {
       //   value.playerAliving(true);
       // })
+      this.paramsClass.dataLoaded = false;
+      disposeScene(this.scene);
+      this.audioClass.stopMusic(0);
+      this.dataClass.gameInit = false;
+
+    })
+
+    this.rebindButton('.popup_game_btn4', () => {
+      this.audioClass.hardStopAll();
+      this.gameClass.pause = false;
+      this.gameClass.showGamePopup = false;
+      this.hideScreen('popup_in_game');
+
+
+      if (this.dataClass.levelCoopMode == 'contest') {
+        this.showScreen('levels_game_screen_contest');
+      }
+      else {
+        this.showScreen('levels_game_screen');
+      }
+        
+        
+      
+      
+      
+
+
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
