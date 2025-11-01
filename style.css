@@ -160,10 +160,10 @@ canvas {
 }
 
 .player_panel_out {
-    border: 1px solid #fff;
+    border: 5px solid #fff;
     background-color: #ccc;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,6 +265,7 @@ canvas {
     border: 2px solid #fff;
     border-radius: 12px;
     box-shadow: 0 0 0 1px #000;
+    background: white;
 }
 
 .mouse_icon_css::before {
@@ -350,8 +351,8 @@ canvas {
     font-size: 180px;
     text-align: center;
     font-family: 'blackberry', Tahoma;
-    letter-spacing: 5px;
-    margin-top: 40px;
+    letter-spacing: 0px;
+    margin-top: 150px;
     margin-bottom: 50px;
     color: #f76951;
 
@@ -363,7 +364,68 @@ canvas {
 }
 
 
+.levels_game_screen_wrap {
+    position: relative;
+}
+.free_game_screen_wrap {
+    position: relative;
+}
+.levels_game_screen_contest_wrap {
+    position: relative;
+}
 
+
+.arrow_back {
+	
+	position: relative;
+	height: 10px; width: 10px;
+	border: 8px solid white;
+	border-color: 
+		rgb(255, 255, 255)
+		rgb(255, 255, 255)
+		transparent
+		transparent;
+	transform: rotate(-135deg); 
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    
+}
+
+.arrow_back:before, .arrow_back:after {
+	content: '';
+	display: block;
+	position: absolute;
+	
+	
+	height: 0; width: 0;
+	
+
+	border: 5px solid;	
+    
+}
+
+.arrow_back:before {
+	border-color:
+		rgb(255, 255, 255)
+		transparent
+		transparent
+		rgb(255, 255, 255);
+	display: block;
+	top: -1px; right: 0px;
+	transform-origin: top right;
+	transform: rotate(45deg); 
+}
+.arrow_back:after {
+	border-color:
+		transparent
+		rgb(255, 255, 255)
+		rgb(255, 255, 255)
+		transparent;
+	top: 0px; right: -1px;
+	transform-origin: top right;
+	transform: rotate(-45deg);
+} 
 
 
 
@@ -727,17 +789,7 @@ body .free_game_chels_active {
 
 
 
-.player1_panel .player_panel_out {
-    background-color: #f2b0b0;
-}
 
-.player2_panel .player_panel_out {
-    background-color: #b0f2b0;
-}
-
-.player3_panel .player_panel_out {
-    background-color: #f4f07a;
-}
 
 
 
@@ -1275,7 +1327,18 @@ body .level_game_chels_contest_active {
 
 
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
+    .player1_panel .player_panel_out {
+        background-color: #f2b0b0;
+    }
+    
+    .player2_panel .player_panel_out {
+        background-color: #b0f2b0;
+    }
+    
+    .player3_panel .player_panel_out {
+        background-color: #f4f07a;
+    }
     .hud {
         top: 5px;
         right: 5px;
@@ -1346,8 +1409,8 @@ body .level_game_chels_contest_active {
 
 
     .main_screen h1 {
-        margin-top: 0px;
-        margin-bottom: 0;
+        margin-top: 4%;
+        margin-bottom: 2%;
         font-size: 90px;
         padding: 0;
 

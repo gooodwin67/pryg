@@ -107,6 +107,14 @@ export class MenuClass {
 
 
 
+    document.querySelectorAll('.arrow_back').forEach((value, index, array) => {
+      value.addEventListener('click', () => {
+        value.parentElement.parentElement.classList.add('hidden_screen');
+        this.showScreen('main_screen');
+      })
+    })
+
+
 
 
     const levelsContainer = document.querySelector('.levels_blocks');
