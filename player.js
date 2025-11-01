@@ -127,7 +127,6 @@ export class PlayerClass {
       if (this.levelClass.players.some(value => value.player.userData.finish)) {
         this.levelClass.players.forEach(element => {
           element.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-
         });
       }
       // else if (this.levelClass.players.every(value => value.player.userData.finish || value.player.userData.lives <= 0)) {
@@ -350,7 +349,16 @@ export class PlayerClass {
           else if (this.dataClass.levelCoopMode == 'contest') {
             if (this.levelClass.players.some(value => value.player.userData.finish)) {
               this.levelClass.showPopupInGame(false, true);
-              //console.log(this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player }) + 1)//////////////////////////////////
+
+              this.levelClass.players.forEach((value, index, array) => {
+                if (value.player.userData.finish) {
+                  this.dataClass.table.levelsStatusContest[this.levelClass.levelsMode - 1] = index + 1;
+                  console.log(this.dataClass.table.levelsStatusContest)
+                  this.dataClass.saveLocalData();
+                  this.dataClass.loadLevelsContest();
+                  this.dataClass.loadLocalData();
+                }
+              })
             }
             else {
               this.levelClass.showPopupInGame(true);
@@ -597,7 +605,7 @@ export class PlayerClass {
       else {
         this.player.userData.lives = 1;
       }
-      
+
       this.reLiveField();
 
     }

@@ -64,6 +64,14 @@
     /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+@font-face {
+    font-display: swap;
+    font-family: 'blackberry';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/blackberry.woff2') format('woff2');
+}
+
 
 
 html {
@@ -339,18 +347,34 @@ canvas {
 }
 
 .main_screen h1 {
-    font-size: 60px;
-    /* color: #a5ffed; */
-    background: -webkit-linear-gradient(rgba(170, 253, 240, 1), rgba(67, 251, 200, 1));
-    font-family: 'Russo One', Tahoma;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(5px 5px 0 rgba(2, 188, 155, 1));
-    -webkit-text-stroke: 3px #02bc9b;
-    padding-top: 2em;
+    font-size: 180px;
+    text-align: center;
+    font-family: 'blackberry', Tahoma;
+    letter-spacing: 5px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    color: #f76951;
 
+
+    text-shadow:
+        6px 6px 2px rgb(255, 255, 255),
+        -4px -4px 2px rgb(255, 255, 255);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .main_screen_btns_wrap {
     display: flex;
@@ -363,20 +387,30 @@ canvas {
     border: 2px solid #6f727d;
     background: #009AA9;
     border-radius: 15px;
-    max-width: 300px;
+    max-width: 370px;
     width: 100%;
-    height: 60px;
+    height: 75px;
     box-sizing: border-box;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     position: relative;
     cursor: pointer;
     transition: 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 19px;
+    font-size: 22px;
     text-transform: uppercase;
     font-weight: 800;
+    display: flex;
+    flex-direction: column;
+}
+
+.new_game_btn span {
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: none;
+    opacity: 0.9;
+
 }
 
 body .blue_btn {
@@ -468,7 +502,7 @@ body .green_btn {
     font-size: 20px;
     text-transform: uppercase;
     color: #009AA9;
-    font-family: 'Russo One';
+    font-family: 'Nunito Sans';
     /* text-shadow: 2px 2px 0px rgba(255, 255, 255, 1); */
     background-color: #009AA9;
     -webkit-background-clip: text;
@@ -640,11 +674,81 @@ body .free_game_chels_active {
     overflow-y: auto;
 }
 
+.levels_game_screen_contest {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    background: url('/images/main.jpg')no-repeat;
+    background-size: cover;
+    background-position-y: 15%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+
+.levels_game_screen_contest .level_player1 {
+    background: linear-gradient(180deg, #f57171 0%, #f79d9d 100%);
+    border-color: #f2b0b0;
+    color: #fff;
+}
+
+.levels_game_screen_contest .level_player1 .levels_block_number {
+    color: #fff;
+}
+
+.levels_game_screen_contest .level_player2 {
+    background: linear-gradient(180deg, #6cf46c 0%, #a2f4a2 100%);
+    border-color: #b0f2b0;
+    color: #fff;
+}
+
+.levels_game_screen_contest .level_player2 .levels_block_number {
+    color: #fff;
+}
+
+.levels_game_screen_contest .level_player3 {
+    background: linear-gradient(180deg, #e7e13a 0%, #f3ef82 100%);
+    border-color: #f4f07a;
+    color: #fff;
+}
+
+.levels_game_screen_contest .level_player3 .levels_block_number {
+    color: #fff;
+}
+
+
+
+
+
+
+.player1_panel .player_panel_out {
+    background-color: #f2b0b0;
+}
+
+.player2_panel .player_panel_out {
+    background-color: #b0f2b0;
+}
+
+.player3_panel .player_panel_out {
+    background-color: #f4f07a;
+}
+
+
+
+
+
+
 .levels_game_screen_wrap h3 {
     font-size: 20px;
     text-transform: uppercase;
     color: #009AA9;
-    font-family: 'Russo One';
+    font-family: 'Nunito Sans';
     /* text-shadow: 2px 2px 0px rgba(255, 255, 255, 1); */
     background-color: #009AA9;
     -webkit-background-clip: text;
@@ -762,7 +866,7 @@ body .level_game_chels_contest_active {
 
 /* номер уровня — крупный */
 .levels_block_number {
-    font-family: 'Russo One', Tahoma;
+    font-family: 'Nunito Sans', Tahoma;
     font-size: 24px;
     line-height: 1;
     margin-bottom: 6px;
@@ -1171,7 +1275,7 @@ body .level_game_chels_contest_active {
 
 
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .hud {
         top: 5px;
         right: 5px;
@@ -1242,12 +1346,17 @@ body .level_game_chels_contest_active {
 
 
     .main_screen h1 {
-        padding-top: 0;
+        margin-top: 0px;
+        margin-bottom: 0;
+        font-size: 90px;
+        padding: 0;
+
     }
 
     .new_game_btn {
-        height: 50px;
-        font-size: 17px;
+        height: 55px;
+        font-size: 16px;
+        max-width: 300px;
     }
 
     .free_game_btn {
@@ -1297,7 +1406,7 @@ body .level_game_chels_contest_active {
     margin: 10px 0 18px;
     padding: 8px 14px;
     border-radius: 999px;
-    font-family: 'Russo One', Tahoma;
+    font-family: 'Nunito Sans', Tahoma;
     font-size: 22px;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -1517,7 +1626,7 @@ body .level_game_chels_contest_active {
     margin: 10px 0 18px;
     padding: 8px 14px;
     border-radius: 999px;
-    font-family: 'Russo One', Tahoma;
+    font-family: 'Nunito Sans', Tahoma;
     font-size: 22px;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -1641,10 +1750,14 @@ body .level_game_chels_contest_active {
 }
 
 .levels_block_number {
-    font-family: 'Russo One', Tahoma;
+    font-family: 'Nunito Sans', Tahoma;
     color: #fff;
     -webkit-text-stroke: 0;
     text-shadow: 0 1px 0 rgba(255, 255, 255, .75), 0 2px 0 rgba(0, 0, 0, .06);
+}
+
+.levels_blocks_contest .levels_block_number {
+    color: #b7b7b7;
 }
 
 /* Чип статуса — пастельная «пилюля» */

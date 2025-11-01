@@ -4,6 +4,8 @@ export class DataClass {
   constructor() {
     this.gameInit = false;
 
+    this.names = ["Билли", "Вилли", "Дилли"];
+
 
 
     this.levelsStatus = [[
@@ -14,17 +16,16 @@ export class DataClass {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ]];
 
-    this.levelsStatusContest = [
-      1, 2, 0, 3, 0, 0, 0, 0, 0, 0
-    ];
 
     this.levelCoopMode = 'coop' //contest
 
     this.allLevels = 10;
 
     this.table = {
+      updateDate: 11125,
+      levelsStatusContest: [1, 2, 0, 3, 0, 0, 0, 0, 0, 0],
       player: {
-        levels: [9, 9, 9],
+        levels: [0, 9, 9],
         bonusHat: [false, false, false],
         bonusHeart: [3, 0, 9],
       },
@@ -169,12 +170,17 @@ export class DataClass {
     this.masTables = [];
 
 
+
+
+
+
   }
 
   async clearData() {
     localStorage.clear();
   }
   async saveLocalData() {
+    console.log(this.table.levelsStatusContest)
     localStorage.setItem('table', JSON.stringify(this.table));
   }
 
@@ -182,9 +188,17 @@ export class DataClass {
 
     // console.log(this.table.player.bonusHeart[0])
 
-    this.clearData();
+    // this.clearData();
+
     if (localStorage.getItem('table') !== null) {
-      this.table = JSON.parse(localStorage.getItem('table', this.table));
+      let tableTemp = JSON.parse(localStorage.getItem('table', this.table));
+      if (tableTemp.updateDate != this.table.updateDate) {
+        this.clearData();
+        localStorage.setItem('table', JSON.stringify(this.table));
+      }
+      else {
+        this.table = JSON.parse(localStorage.getItem('table', this.table));
+      }
     }
     else {
       localStorage.setItem('table', JSON.stringify(this.table));
@@ -332,7 +346,9 @@ export class DataClass {
 
     for (let i = 0; i < this.allLevels; i++) {
       const levelNumber = i + 1;
-      const contestValue = this.levelsStatusContest?.[i] ?? 0;
+      const contestValue = this.table.levelsStatusContest?.[i] ?? 0;
+
+
 
       const levelElement = document.createElement('div');
       levelElement.className = 'levels_block levels_block--contest';
@@ -348,6 +364,8 @@ export class DataClass {
       const delay = Math.min(startDelay + i * baseDelay, maxDelay);
       levelElement.style.setProperty('--show-delay', `${delay}ms`);
 
+      if (contestValue) levelElement.classList.add(`level_player${contestValue}`);
+
       // номер уровня (как раньше)
       const numberElement = document.createElement('div');
       numberElement.className = 'levels_block_number';
@@ -356,7 +374,7 @@ export class DataClass {
       // вместо статуса — число из массива
       const statusElement = document.createElement('div');
       statusElement.className = 'levels_block_status';
-      statusElement.textContent = String(contestValue);
+      if (contestValue) statusElement.textContent = this.names[contestValue - 1];
 
       levelElement.append(numberElement, statusElement);
 

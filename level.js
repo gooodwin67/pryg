@@ -1357,7 +1357,7 @@ export class LevelClass {
         topY: worldTop.y,
         bottomY: worldBottom.y
       };
-      
+
       // }
 
 
@@ -2190,20 +2190,20 @@ export class LevelClass {
 
 
     this.reloadLevel();
-    
+
 
     for (let i = 0; i < this.players.length; i++) {
       let player = this.players[i];
 
 
       if (!this.levelsMode) player.reLiveField();
-      
-      
-      
+
+
+
       player.player.position.x = player.player.position.x - i * 1 + 1;
 
-      
-      
+
+
       this.physicsClass.addPhysicsToObject(player.player);
       if (this.paramsClass.gameDir == 'vert') {
         player.player.position.y = -0;
@@ -2386,6 +2386,8 @@ export class LevelClass {
 
           if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
 
+          this.hideScreen('popup_game_btn4');
+
           if (this.dataClass.levelCoopMode == 'coop') {
             this.players.forEach((value, index, array) => {
               if (this.levelsMode == this.allLevels) {
@@ -2406,13 +2408,17 @@ export class LevelClass {
         }
         else {
           this.hideScreen('popup_game_btn15');
+          this.showScreen('popup_game_btn4');
           document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         }
       }
     }
     else {
       document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
+      this.hideScreen('popup_game_btn15')
       this.hideScreen('popup_game_btn1')
+      this.showScreen('popup_game_btn4');
+
     }
 
 
@@ -2426,7 +2432,7 @@ export class LevelClass {
   }
 
   reloadLevel(clelNum = -1) {
-    
+
     if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
       if (clelNum >= 0) {
         let player = this.players[clelNum];
@@ -2445,9 +2451,9 @@ export class LevelClass {
         }
       }
       else {
-        
-        let masPos = [0, -1 , 1]
-        
+
+        let masPos = [0, -1, 1]
+
 
         for (let i = 0; i < this.players.length; i++) {
           let player = this.players[i];
@@ -2455,14 +2461,14 @@ export class LevelClass {
 
           if (!this.levelsMode) {
             player.reLiveField();
-            
-            player.player.position.x = player.player.position.x - i*0.3 + 1;
+
+            player.player.position.x = player.player.position.x - i * 0.3 + 1;
           }
           else {
             player.player.position.x = masPos[randNum];
           }
-                
-          
+
+
 
           masPos.splice(randNum, 1)
 
@@ -2537,10 +2543,10 @@ export class LevelClass {
 
 
 
-      let masPos = [0, -1 , 1]
+      let masPos = [0, -1, 1]
 
-      
-      
+
+
 
 
 
@@ -2682,8 +2688,8 @@ export class LevelClass {
       this.audioClass.hardStopAll();
       this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
-      this.hideScreen('popup_in_game');
 
+      this.hideScreen('popup_in_game');
 
       if (this.dataClass.levelCoopMode == 'contest') {
         this.showScreen('levels_game_screen_contest');
@@ -2691,12 +2697,6 @@ export class LevelClass {
       else {
         this.showScreen('levels_game_screen');
       }
-        
-        
-      
-      
-      
-
 
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);

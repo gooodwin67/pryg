@@ -125,10 +125,10 @@ export class WorldClass {
       color: 0x8888cc,
       vertexColors: true,
       map: this.rainStreakTex,
-      alphaTest: 0.75,           // режем края по альфе
+      alphaTest: 0.79,           // режем края по альфе
       transparent: true,
-      opacity: 0.81,
-      size: 0.15,                 // пиксели (т.к. sizeAttenuation: false)
+      opacity: 0.96,
+      size: 0.18,                 // пиксели (т.к. sizeAttenuation: false)
       sizeAttenuation: true,    // стабильный “штрих” независимо от дистанции
       depthWrite: true,
       blending: THREE.AdditiveBlending

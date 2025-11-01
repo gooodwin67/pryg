@@ -282,7 +282,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
 
   setTimeout(() => {
     menuClass.toggleLoader(false);
-    
+
 
 
   }, 300)
@@ -318,7 +318,7 @@ function resetMatch() {
 
 function animate() {
 
-  
+
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     levelClass.showScreen('menu_in_game');
   }
@@ -486,5 +486,6 @@ document.querySelector('.sound_btn').addEventListener('click', () => {
   const muted = audioClass.isMuted();
   audioClass.toggleMute(!muted)
 })
+
 
 
