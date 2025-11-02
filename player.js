@@ -38,6 +38,8 @@ export class PlayerClass {
     this.player.userData.deadPos;
     this.player.userData.playerAlive = false;
 
+    this.player.userData.score;
+
 
     this.player.userData.maxLives = 3;
 

@@ -913,6 +913,8 @@ export class LevelClass {
       this.scene.add(this.objs.plafons.plafon)
       this.scene.add(this.objs.bulbs.bulb)
 
+      this.getHorizontalWorldBounds();
+
 
 
 
@@ -2417,7 +2419,7 @@ export class LevelClass {
       document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
       this.hideScreen('popup_game_btn15')
       this.hideScreen('popup_game_btn1')
-      this.showScreen('popup_game_btn4');
+      if (this.levelsMode) this.showScreen('popup_game_btn4');
 
     }
 
