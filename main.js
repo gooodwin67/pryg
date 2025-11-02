@@ -103,7 +103,7 @@ window.addEventListener('orientationchange', setVhVar);
 let stats = new Stats();
 document.body.appendChild(stats.dom);
 stats.dom.style.top = "0px";
-stats.dom.style.left = "48%";
+stats.dom.style.left = "548%";
 
 const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
@@ -339,9 +339,11 @@ function animate() {
 
   if (dataClass.gameInit && !levelClass.levelsMode && document.querySelector('.hud').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     menuClass.showScreen('hud');
+    
   }
   else if (!dataClass.gameInit && !document.querySelector('.hud').classList.contains('hidden_screen')) {
     menuClass.hideScreen('hud');
+    
   }
 
 
@@ -356,7 +358,7 @@ function animate() {
 
 
 
-
+    stats.dom.style.left = "48%";
 
 
 
@@ -424,8 +426,15 @@ renderer.setAnimationLoop(() => {
 
 
 function toggleLoader(need) {
-  if (!need) document.querySelector('.loader_screen').classList.add('hidden_screen');
-  else document.querySelector('.loader_screen').classList.remove('hidden_screen');
+  const loader = document.querySelector('.loader_screen');
+  if (!loader) return;
+
+  if (need) {
+    loader.classList.remove('hidden_screen');
+  } else {
+    // Плавное скрытие
+    loader.classList.add('hidden_screen');
+  }
 }
 
 
@@ -623,4 +632,78 @@ function initCustomScroll() {
   bindToActive();
 }
 initCustomScroll();
+
+
+// --- Плавное скрытие для всех .fadeable с .hidden_screen --- //
+(function installSmoothHidden() {
+  const TAG = '_screen';
+
+  const makeFadeable = (el) => {
+    if (!(el instanceof Element)) return;
+    if (!el.classList) return;
+    if (!el.className.includes(TAG)) return; // экраны вида main_screen, loader_screen...
+    if (!el.classList.contains('fadeable')) el.classList.add('fadeable');
+
+    // запомним нормальный display
+    if (!el.dataset.displayOrig) {
+      const cs = getComputedStyle(el);
+      el.dataset.displayOrig = cs.display !== 'none' ? cs.display : 'block';
+    }
+    // если изначально скрыт — сразу уберём из потока
+    if (el.classList.contains('hidden_screen')) {
+      el.style.display = 'none';
+    }
+  };
+
+  // 1) промаркировать уже существующие
+  document.querySelectorAll('[class*="_screen"]').forEach(makeFadeable);
+
+  // 2) следить за добавлением новых узлов и изменением классов
+  const mo = new MutationObserver((muts) => {
+    for (const m of muts) {
+      // новые элементы
+      if (m.type === 'childList') {
+        m.addedNodes.forEach((n) => {
+          if (!(n instanceof Element)) return;
+          if (n.matches?.('[class*="_screen"]')) makeFadeable(n);
+          // и вложенные
+          n.querySelectorAll?.('[class*="_screen"]').forEach(makeFadeable);
+        });
+      }
+      // изменения классов
+      if (m.type === 'attributes' && m.attributeName === 'class') {
+        const el = m.target;
+        if (!(el instanceof Element)) continue;
+        if (!el.classList.contains('fadeable')) continue;
+
+        // показываем: вернуть display ПЕРЕД началом fade-in
+        if (!el.classList.contains('hidden_screen')) {
+          const orig = el.dataset.displayOrig || 'block';
+          el.style.display = orig;
+          // форс-рефлоу — чтобы точно стартовал переход opacity
+          // eslint-disable-next-line no-unused-expressions
+          el.offsetWidth;
+        }
+      }
+    }
+  });
+
+  mo.observe(document.body, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+
+  // 3) когда opacity-переход закончился и элемент скрыт — убрать из потока
+  document.body.addEventListener('transitionend', (e) => {
+    const el = e.target;
+    if (!(el instanceof Element)) return;
+    if (!el.classList.contains('fadeable')) return;
+    if (e.propertyName !== 'opacity') return;
+    if (el.classList.contains('hidden_screen')) {
+      el.style.display = 'none';
+    }
+  }, true);
+})();
 

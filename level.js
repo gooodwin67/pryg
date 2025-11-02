@@ -1689,23 +1689,29 @@ export class LevelClass {
 
   levelAnimate() {
 
-    // if (this.scoreClass.score + 1 > this.scoreClass.myRec) {
-    //   this.scoreClass.myRec = this.scoreClass.score + 1;
-    //   this.scoreClass.myRecField.textContent = this.scoreClass.myRec;
+    
+
+    // if (this.paramsClass.gameDir == 'hor') {
+    //   if (this.players.length > 1) {
+    //     this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX, this.players);
+    //   }
+    //   else {
+    //     this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX - 6, this.players);
+    //   }
+
+    // }
+    // else {
+    //   this.scoreClass.updateMetersFloat(this.camera.position.y - this.scoreClass.startY, this.players);
     // }
 
-    if (this.paramsClass.gameDir == 'hor') {
-      if (this.players.length > 1) {
-        this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX);
-      }
-      else {
-        this.scoreClass.updateMetersFloat(this.camera.position.x - this.scoreClass.startX - 6);
-      }
 
+    if (this.paramsClass.gameDir == 'hor') {
+      this.scoreClass.updateMetersFloat(null, this.players, 'hor');
+    } else {
+      this.scoreClass.updateMetersFloat(null, this.players, 'vert');
     }
-    else {
-      this.scoreClass.updateMetersFloat(this.camera.position.y - this.scoreClass.startY);
-    }
+
+
 
     this.animateTops();
     this.lampsAnimate();
@@ -2318,7 +2324,11 @@ export class LevelClass {
         break;
       case 4:
         // this.getHorizontalWorldBounds();
-        if (this.gameClass.gameStarting) camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
+        if (this.gameClass.gameStarting) {
+          if (this.players[this.maxSpeed()].player.userData.body.linvel().y > -20) {
+            camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
+          }
+        }
 
         camera.position.x = 0;
 
@@ -2549,14 +2559,15 @@ export class LevelClass {
 
 
 
-
-
-
-
       this.audioClass.hardStopAll();
+      
       this.players.forEach((value, index, array) => {
         value.player.userData.live = false;
+        value.player.userData.score = 0;
+        value.player.userData._lastMeterPos = null; 
+        value.player.userData._wasLive = false;   
         value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+
         value.player.userData.finish = false;
         value.playerAliving(true);
 
@@ -2577,7 +2588,7 @@ export class LevelClass {
         this.camera.position.x = 0;
         this.cameraSpeed = 0.01;
       }
-      //this.getHorizontalWorldBounds();
+      
       this.canShowAds = true;
 
       if (this.birdYes) {

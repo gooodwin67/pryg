@@ -109,6 +109,8 @@ export class PlayerClass {
     //   // this.levelClass.players[2].player.userData.finish,
     // ))
 
+    // console.log(this.levelClass.players[1].player.position.y)
+
     if (this.levelClass.levelsMode && this.dataClass.levelCoopMode == 'coop') {
       if (this.levelClass.players.every(value => value.player.userData.finish)) {
         this.levelClass.players.forEach(element => {
@@ -235,7 +237,7 @@ export class PlayerClass {
       this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
     }
 
-    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live) {
+    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 3.7 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
       this.player.userData.lives = 0;
       this.reLiveField();
 
@@ -436,11 +438,13 @@ export class PlayerClass {
           this.player.userData.body.setLinvel({ x: 0.0, y: 0.0, z: 0.0 }, true);
 
           if (this.paramsClass.gameDir == 'vert') {
-            this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + 1.1, this.player.userData.deadPos.z));
+            this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y, this.player.userData.deadPos.z));
           }
           else {
             this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + getRandomNumber(1.1, 3.1), this.player.userData.deadPos.z));
           }
+
+          
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
@@ -609,6 +613,7 @@ export class PlayerClass {
       }
 
       this.reLiveField();
+      this.player.userData.score = 0;
 
     }
 
@@ -624,20 +629,21 @@ export class PlayerClass {
     let masHeartNum = document.querySelectorAll('.num_bonus_heart')[this.levelClass.players.findIndex((value, index, array) => { return value.player == this.player })];
     for (let i = 0; i < mas.length; i++) {
       if (i > this.player.userData.lives - 1) {
-        mas[i].classList.add('opacity_screen')
+        mas[i].classList.add('opacity_my-screen')
       }
       else {
-        if (mas[i].classList.contains('opacity_screen')) mas[i].classList.remove('opacity_screen');
+        if (mas[i].classList.contains('opacity_my-screen')) mas[i].classList.remove('opacity_my-screen');
       }
     }
     if (this.player.userData.lives > 3) {
-      if (masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.remove('opacity_screen');
+      if (masHeartNum.classList.contains('opacity_my-screen')) masHeartNum.classList.remove('opacity_my-screen');
       masHeartNum.textContent = this.player.userData.bonusHeart;
 
     }
     else {
-      if (!masHeartNum.classList.contains('opacity_screen')) masHeartNum.classList.add('opacity_screen');
+      if (!masHeartNum.classList.contains('opacity_my-screen')) masHeartNum.classList.add('opacity_my-screen');
     }
+
 
 
   }

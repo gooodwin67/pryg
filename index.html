@@ -16,22 +16,25 @@
       <div class='player_panel player1_panel hidden_screen'>
          <div class='player_panel_top'>Билли</div>
          <div class='player_panel_bottom'>Жизни: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
-            <span class='num_bonus_heart opacity_screen'>1</span>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
          </div>
+         <div class='player_panel_rec'><span>м </span><span class = 'player_panel_rec_num'>0</span></div>
          <div class='player_panel_out'><span class='mouse_icon_css'></span></div>
       </div>
       <div class='player_panel player2_panel hidden_screen'>
          <div class='player_panel_top'>Вилли</div>
          <div class='player_panel_bottom'>Жизни: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
-            <span class='num_bonus_heart opacity_screen'>1</span>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
          </div>
+         <div class='player_panel_rec'><span>м </span><span class = 'player_panel_rec_num'>0</span></div>
          <div class='player_panel_out'><span>Я</span></div>
       </div>
       <div class='player_panel player3_panel hidden_screen'>
          <div class='player_panel_top'>Дилли</div>
          <div class='player_panel_bottom'>Жизни: <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
-            <span class='num_bonus_heart opacity_screen'>1</span>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
          </div>
+         <div class='player_panel_rec'><span>м </span><span class = 'player_panel_rec_num'>0</span></div>
          <div class='player_panel_out'><span>Ь</span></div>
       </div>
    </div>
@@ -60,13 +63,25 @@
 
    <div class="free_game_screen hidden_screen scrollable">
       <div class='free_game_screen_wrap'>
-         <h3>Сколько игроков</h3>
-         <div class='free_game_chels_wrap'>
-            <div class='free_game_chels free_game_chels_active green_btn'>1</div>
-            <div class='free_game_chels blue_btn'>2</div>
-            <div class='free_game_chels yellow_btn'>3</div>
+
+         <div class="free_game_screen_wrap_top">
+            <div class = 'free_game_screen_wrap_top_left'>
+               <div>
+                  <h3>Сколько игроков</h3>
+                  <div class='free_game_chels_wrap'>
+                     <div class='free_game_chels free_game_chels_active green_btn'>1</div>
+                     <div class='free_game_chels blue_btn'>2</div>
+                     <div class='free_game_chels yellow_btn'>3</div>
+                  </div>
+               </div>
+               <h3>Выбор игры</h3>
+            </div>
+            <div class = 'free_game_screen_wrap_top_right'>
+               <span>Для каждого количества игроков своя таблица рекордов.</span><span>Учитывается пройденный путь каждого игрока в команде</span><span>Проходите 10 уровень в кооперативе, чтобы получить 4ю жизнь на 10 попыток</span>
+            </div>
          </div>
-         <h3>Выбор игры</h3>
+
+
          <div class='free_game_screen_btns_wrap'>
             <div class='free_game_btn_wrap'>
                <div class='free_game_btn free_game_btn1_2 green_btn'>Горизонтально</div>
@@ -76,21 +91,7 @@
                   <div class='rec_h'>Рекорды</div>
                </div>
                <div class='rec_table_small rec_table_small_hor'>
-                  <!-- <div class='yellow_back one_place'>
-                     <span class='place_num'>1</span>
-                     <span class='rec_table_small_name'>Александр Динозавров</span>
-                     <div><span class='place_rec'>136</span><span>м</span></div>
-                  </div>
-                  <div class='green_back two_place'>
-                     <span class='place_num'>2</span>
-                     <span class='rec_table_small_name'>Федор Смолов</span>
-                     <div><span class='place_rec'>13</span><span>м</span></div>
-                  </div>
-                  <div class='blue_back three_place free_game_my_rec'>
-                     <span class='place_num'>12</span>
-                     <span class='rec_table_small_name'>Мой рекорд</span>
-                     <div><span class='place_rec'>3</span><span>м</span></div>
-                  </div> -->
+
 
                </div>
 
@@ -171,8 +172,30 @@
 
 
    <div class="loader_screen">
-      Загрузка...
-   </div>
+      <div class="cloud cloud--1"></div>
+      <div class="cloud cloud--2"></div>
+      <div class="cloud cloud--3"></div>
+      <div class="cloud cloud--4"></div>
+    
+      <div class="duck__wrapper">
+        <div class="duck">
+          <div class="duck duck__inner">
+            <div class="duck__mouth"></div>
+            <div class="duck__head">
+              <div class="duck__eye"></div>
+              <div class="duck__eye--shadow"></div>
+              <div class="duck__white"></div>
+            </div>
+            <div class="duck__body"></div>
+            <div class="duck__wing"></div>
+          </div>
+          <div class="duck__foot duck__foot--1"></div>
+          <div class="duck__foot duck__foot--2"></div>
+          <div class="surface"><span>Загрузка...</span></div>
+        </div>
+      </div>
+    </div>
+    
 
    <div class="popup_in_game hidden_screen">
       <div class='popup_in_game_wrap'>
