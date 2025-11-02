@@ -5,9 +5,9 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
    <title>Прыг</title>
-  <script type="module" crossorigin src="./assets/index-B0Jo5dAF.js"></script>
+  <script type="module" crossorigin src="./assets/index-DY5zXF5B.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-B76v5LAa.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-D1sj4HIT.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-DTvSaAJl.css">
 </head>
 
 <body>
@@ -211,26 +211,47 @@
       </div>
    </div>
 
+   <div class = 'huds'>
+      <div class="hud hud--outline hud--stacked hidden_screen">
+         <div class="hud__top">
+            <span class="hud__label">м</span>
+            <span class="hud__value" id="meters-float">000</span>
+         </div>
+         <div class="hud__records">
+            <div class='hud_recs_label'>Рекорды:</div>
+            <div class='records_block'></div>
+            <span class="hud__record hud__record--me">Мой: <strong id="myRecord">0</strong></span><br>
+            <span class="hud__record hud__record--world">Мировой: <strong id="worldRecord">0</strong></span>
+         </div>
+      </div>
 
-   <div class="hud hud--outline hud--stacked hidden_screen">
-      <div class="hud__top">
-         <span class="hud__label">м</span>
-         <span class="hud__value" id="meters-float">000</span>
-      </div>
-      <div class="hud__records">
-         <div class='hud_recs_label'>Рекорды:</div>
-         <div class='records_block'></div>
-         <span class="hud__record hud__record--me">Мой: <strong id="myRecord">0</strong></span><br>
-         <span class="hud__record hud__record--world">Мировой: <strong id="worldRecord">0</strong></span>
-      </div>
-   </div>
+      <div class="menu_in_game hidden_screen">
+         <div class="sound_btn_wrap">
+            
 
-   <div class="menu_in_game hidden_screen">
-      <div class="sound_btn_wrap">
-         <div class="sound_btn sound_btn_off"></div>
-      </div>
-      <div class="pause_btn_wrap">
-         <div class="pause_btn">||</div>
+
+            <label class="volume-icon sound_btn">
+               <input class="volume-icon__input" type="checkbox" checked>
+               <svg viewBox="0 0 108 96"><path d="M7 28h28L59 8v80L35 68H7a4 4 0 01-4-4V32a4 4 0 014-4z"/><path d="M79 62c4-4.667 6-9.333 6-14s-2-9.333-6-14L49 3"/><path d="M95 69c6.667-7.333 10-14.667 10-22s-3.333-14.667-10-22L75.5 6 49 33"/></svg>
+           </label>
+
+
+
+
+
+
+
+         </div>
+         <div class="pause_btn_wrap">
+            
+               <div id="nav-icon3" class = ' pause_btn'>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+            
+         </div>
       </div>
    </div>
 
