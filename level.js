@@ -537,7 +537,8 @@ export class LevelClass {
 
 
     if (levelsMode) {
-      this.getHorizontalWorldBounds(-7);
+      if (this.isMobile) this.getHorizontalWorldBounds();
+      else this.getHorizontalWorldBounds(-7);
       //this.players[0].player.userData.lives = 0;
       let previousX = -2.5; // Начальная позиция по оси X
       let previousY = -5;
@@ -913,7 +914,9 @@ export class LevelClass {
       this.scene.add(this.objs.plafons.plafon)
       this.scene.add(this.objs.bulbs.bulb)
 
-      this.getHorizontalWorldBounds();
+      
+      if (this.isMobile) this.getHorizontalWorldBounds();
+      else this.getHorizontalWorldBounds(-7);
 
 
 
@@ -2332,7 +2335,7 @@ export class LevelClass {
 
         camera.position.x = 0;
 
-        camera.position.z = this.isMobile ? 25 : 32;
+        camera.position.z = this.isMobile ? 20 : 32;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
     }

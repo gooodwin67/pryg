@@ -478,6 +478,8 @@ document.querySelector('.pause_btn').addEventListener('click', () => {
       gameClass.gameStarting = false;
       audioClass.togglePauseAll(!gameClass.gameStarting);
 
+      // document.querySelector('.pause_btn').classList.toggle('open');
+
       levelClass.showScreen('popup_game_btn_close');
 
 
@@ -505,7 +507,7 @@ document.querySelector('.popup_game_btn_close').addEventListener('click', () => 
   }
 })
 
-document.querySelector('.sound_btn').addEventListener('click', () => {
+document.querySelector('.sound_btn_wrap').addEventListener('click', () => {
   const muted = audioClass.isMuted();
   audioClass.toggleMute(!muted)
 })

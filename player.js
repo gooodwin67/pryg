@@ -237,7 +237,7 @@ export class PlayerClass {
       this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
     }
 
-    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 3.7 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
+    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
       this.player.userData.lives = 0;
       this.reLiveField();
 
