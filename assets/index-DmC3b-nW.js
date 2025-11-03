@@ -248,7 +248,7 @@ import { B as Ds, a as hs, P as me, N as De, b as Os, c as Ws, C as Ys, M as Js,
                 color: 16711680,
                 transparent: !0,
                 opacity: 0
-            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.2, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !1, this.player.userData.canFlyNum = null, this.player.userData.canFlyJumps = 0, this.player.userData.canFlyJumpsMax = 3, this.player.userData.live = !0, this.player.userData.startPos, this.player.userData.deadPos, this.player.userData.playerAlive = !1, this.player.userData.score, this.player.userData.maxLives = 3, this.player.userData.lives = this.player.userData.maxLives, this.player.userData.bonusHeart = 0, this.player.userData.finish = !1, this.player.userData.splash = !1, this.playerModel, this.playerOut = new Cs(new as(this.playerWidth, this.playerHeight + .1, this.playerWidth), new rs({
+            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.2, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !0, this.player.userData.canFlyNum = null, this.player.userData.canFlyJumps = 0, this.player.userData.canFlyJumpsMax = 3, this.player.userData.live = !0, this.player.userData.startPos, this.player.userData.deadPos, this.player.userData.playerAlive = !1, this.player.userData.score, this.player.userData.maxLives = 3, this.player.userData.lives = this.player.userData.maxLives, this.player.userData.bonusHeart = 0, this.player.userData.finish = !1, this.player.userData.splash = !1, this.playerModel, this.playerOut = new Cs(new as(this.playerWidth, this.playerHeight + .1, this.playerWidth), new rs({
                 color: 16776960,
                 transparent: !0,
                 opacity: 0
@@ -1096,7 +1096,7 @@ import { B as Ds, a as hs, P as me, N as De, b as Os, c as Ws, C as Ys, M as Js,
         showPopupInGame(s = !1, t = !1) {
             this.hideScreen("popup_game_btn_close"), this.hideScreen("menu_in_game"), this.audioClass.oceanAudio.isPlaying && this.audioClass.oceanAudio.stop(), this.audioClass.rainAudio.isPlaying && this.audioClass.rainAudio.stop(), this.gameClass.pause ? (document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.hideScreen("popup_game_btn15"), this.hideScreen("popup_game_btn1"), this.levelsMode && this.showScreen("popup_game_btn4")) : (this.gameClass.showGamePopup = !0, this.levelsMode ? this.players.every((i)=>i.player.userData.finish) && this.dataClass.levelCoopMode == "coop" || this.players.some((i)=>i.player.userData.finish) && this.dataClass.levelCoopMode == "contest" ? (document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.audioClass.winAudio.isPlaying && this.audioClass.winAudio.stop(), this.audioClass.musicOn && this.audioClass.winAudio.play(), this.levelsMode < this.allLevels && this.showScreen("popup_game_btn15"), this.hideScreen("popup_game_btn4"), this.dataClass.levelCoopMode == "coop" && this.players.forEach((i, e, a)=>{
                 this.levelsMode == this.allLevels && (this.dataClass.table.player.bonusHeart[e] = 2), this.levelsMode + 1 > this.dataClass.table.player.levels[e] && (this.dataClass.table.player.levels[e] = this.levelsMode);
-            }), this.dataClass.saveLocalData(), this.dataClass.loadLocalData(), this.dataClass.loadLevels(this.players.length - 1)) : (this.hideScreen("popup_game_btn15"), this.showScreen("popup_game_btn4"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win")) : (!s || !this.canShowAds ? this.hideScreen("popup_game_btn1") : this.showScreen("popup_game_btn1"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win"), this.audioClass.looseAudio.isPlaying && this.audioClass.looseAudio.stop(), this.audioClass.musicOn && this.audioClass.looseAudio.play(), this.scoreClass.score + 1 > this.scoreClass.myRec && (this.dataClass.saveLocalData(), this.dataClass.loadLocalData()))), this.showScreen("popup_in_game"), this.gameClass.gameStarting = !1;
+            }), this.dataClass.saveLocalData(), this.dataClass.loadLocalData(), this.dataClass.loadLevels(this.players.length - 1)) : (this.hideScreen("popup_game_btn15"), this.showScreen("popup_game_btn4"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win")) : (console.log(s), !s || !this.canShowAds ? this.hideScreen("popup_game_btn1") : this.showScreen("popup_game_btn1"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win"), this.audioClass.looseAudio.isPlaying && this.audioClass.looseAudio.stop(), this.audioClass.musicOn && this.audioClass.looseAudio.play(), this.scoreClass.score + 1 > this.scoreClass.myRec && (this.dataClass.saveLocalData(), this.dataClass.loadLocalData()))), this.showScreen("popup_in_game"), this.gameClass.gameStarting = !1;
         }
         reloadLevel(s = -1) {
             if (this.paramsClass.gameDir == "hor" && !this.levelsMode) {
@@ -1170,9 +1170,11 @@ import { B as Ds, a as hs, P as me, N as De, b as Os, c as Ws, C as Ys, M as Js,
                 this.audioClass.hardStopAll(), this.paramsClass.dataLoaded = !1, Fs(this.scene), this.audioClass.stopMusic(0), setTimeout(()=>{
                     let s = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 777;
                     this.initMatch(this.players.length, this.gameNum, s, this.birdYes);
-                }, 100), this.players.forEach((s, t, i)=>{
-                    s.playerAliving(!0);
-                }), this.gameClass.showGamePopup = !1, this.hideScreen("popup_in_game");
+                }, 100), setTimeout(()=>{
+                    this.players.forEach((s, t, i)=>{
+                        s.playerAliving(!0);
+                    });
+                }, 100), this.gameClass.showGamePopup = !1, this.hideScreen("popup_in_game");
             }), this.rebindButton(".popup_game_btn3", ()=>{
                 this.audioClass.hardStopAll(), this.gameClass.pause = !1, this.gameClass.showGamePopup = !1, this.hideScreen("popup_in_game"), this.showScreen("main_screen"), this.paramsClass.dataLoaded = !1, Fs(this.scene), this.audioClass.stopMusic(0), this.dataClass.gameInit = !1;
             }), this.rebindButton(".popup_game_btn4", ()=>{
@@ -1792,7 +1794,6 @@ void main() {
             this.initMatch = s, this.loadLevels = t, this.gameClass = i, this.audioClass = e, this.dataClass = a, this.playersNum = 1, this.levelPlayersNum = 1, this.mainMenu(this.initMatch), this.loadRecsData();
         }
         loadRecsData() {
-            this.dataClass.loadLocalData();
             let s = this.dataClass.masTables, t = document.querySelectorAll(".rec_table_small"), i = "free_game_my_rec", e = "";
             t[0].innerHTML = "", t[1].innerHTML = "", s.forEach((a, o, n)=>{
                 s[o].forEach((l, r, d)=>{
@@ -2190,10 +2191,10 @@ void main() {
             localStorage.clear();
         }
         async saveLocalData() {
-            console.log(this.table.levelsStatusContest), localStorage.setItem("table", JSON.stringify(this.table));
+            localStorage.setItem("table", JSON.stringify(this.table));
         }
         async loadLocalData() {
-            localStorage.getItem("table") !== null ? JSON.parse(localStorage.getItem("table", this.table)).updateDate != this.table.updateDate ? (this.clearData(), localStorage.setItem("table", JSON.stringify(this.table))) : this.table = JSON.parse(localStorage.getItem("table", this.table)) : localStorage.setItem("table", JSON.stringify(this.table));
+            localStorage.getItem("table") !== null ? JSON.parse(localStorage.getItem("table", this.table)).updateDate != this.table.updateDate ? (this.clearData(), localStorage.setItem("table", JSON.stringify(this.table))) : (this.table = JSON.parse(localStorage.getItem("table", this.table)), console.log(this.table)) : localStorage.setItem("table", JSON.stringify(this.table));
             let s = this.table.hor[0].sort((n, l)=>l.rec - n.rec), t = this.table.hor[1].sort((n, l)=>l.rec - n.rec), i = this.table.hor[2].sort((n, l)=>l.rec - n.rec), e = this.table.vert[0].sort((n, l)=>l.rec - n.rec), a = this.table.vert[1].sort((n, l)=>l.rec - n.rec), o = this.table.vert[2].sort((n, l)=>l.rec - n.rec);
             this.masTables = [
                 [
@@ -2377,7 +2378,7 @@ void main() {
         T.position.y = 2, T.position.x = 0, H.toneMappingExposure = 1.05, js?.removedKeyListeners(), bs = null, $ = null, D = null, js = null, G = null, As = null;
     }
     function Pt() {
-        if (v.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && D.showScreen("menu_in_game"), I.gameInit && !D.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? _s.showScreen("hud") : !I.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && _s.hideScreen("hud"), v.gameStarting && (fe.update(Ts), ge.update(Ts)), G.dataLoaded && v.gameStarting) {
+        if (v.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && D.showScreen("menu_in_game"), I.gameInit && v.gameStarting && !D.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? _s.showScreen("hud") : !I.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && _s.hideScreen("hud"), v.gameStarting && (fe.update(Ts), ge.update(Ts)), G.dataLoaded && v.gameStarting) {
             Ss.dom.style.left = "48%", D.players.forEach((h, s, t)=>{
                 h.playerMove();
             }), bs.updateLighting(), D.levelAnimate(T), D.cameraMove(T), Ss.update();
@@ -2408,7 +2409,7 @@ void main() {
     });
     document.querySelector(".sound_btn_wrap").addEventListener("click", ()=>{
         const h = M.isMuted();
-        M.toggleMute(!h);
+        M.toggleMute(!h), document.querySelector(".volume-icon__input").classList.toggle("volume_off");
     });
     function jt() {
         const h = [
