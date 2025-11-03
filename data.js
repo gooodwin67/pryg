@@ -22,12 +22,12 @@ export class DataClass {
     this.allLevels = 10;
 
     this.table = {
-      updateDate: 11125,
-      levelsStatusContest: [1, 2, 0, 3, 0, 0, 0, 0, 0, 0],
+      updateDate: 11132,
+      levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       player: {
-        levels: [0, 9, 9],
+        levels: [0, 0, 0],
         bonusHat: [false, false, false],
-        bonusHeart: [3, 0, 9],
+        bonusHeart: [0, 0, 0],
       },
       hor: [
         [
@@ -182,6 +182,17 @@ export class DataClass {
 
 
   async saveLocalData() {
+    
+    // if (this.levelCoopMode == 'coop') {
+    //   if (players != null) {
+    //     for (let i = 0; i < players; i++) {
+    //       this.table.player.levels[i] = level;
+    //       this.table.player.bonusHeart[i] = bonusHat;
+
+    //     }   
+    //   }
+    // }
+
     localStorage.setItem('table', JSON.stringify(this.table));
   }
 
@@ -345,6 +356,8 @@ export class DataClass {
     const baseDelay = 40;
     const startDelay = 60;
     const maxDelay = 600;
+
+    
 
     for (let i = 0; i < this.allLevels; i++) {
       const levelNumber = i + 1;

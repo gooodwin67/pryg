@@ -294,7 +294,7 @@ export class PlayerClass {
 
 
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
-            else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
+            else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
 
             this.paramsClass.allDie = true;
           }
@@ -355,15 +355,7 @@ export class PlayerClass {
             if (this.levelClass.players.some(value => value.player.userData.finish)) {
               this.levelClass.showPopupInGame(false, true);
 
-              this.levelClass.players.forEach((value, index, array) => {
-                if (value.player.userData.finish) {
-                  this.dataClass.table.levelsStatusContest[this.levelClass.levelsMode - 1] = index + 1;
-                  console.log(this.dataClass.table.levelsStatusContest)
-                  this.dataClass.saveLocalData();
-                  this.dataClass.loadLevelsContest();
-                  this.dataClass.loadLocalData();
-                }
-              })
+              
             }
             else {
               this.levelClass.showPopupInGame(true);

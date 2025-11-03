@@ -2375,7 +2375,6 @@ export class LevelClass {
 
       this.gameClass.showGamePopup = true;
       if (!this.levelsMode) {
-        console.log(showNext)///////////////////////
         if (!showNext || !this.canShowAds) {
           this.hideScreen('popup_game_btn1')
         }
@@ -2405,19 +2404,36 @@ export class LevelClass {
           this.hideScreen('popup_game_btn4');
 
           if (this.dataClass.levelCoopMode == 'coop') {
+            let bonusHeart = false;
+            let newLevel = false;
             this.players.forEach((value, index, array) => {
               if (this.levelsMode == this.allLevels) {
                 this.dataClass.table.player.bonusHeart[index] = 2;
+                bonusHeart = true;
               }
 
               if (this.levelsMode + 1 > this.dataClass.table.player.levels[index]) {
                 this.dataClass.table.player.levels[index] = this.levelsMode;
+                newLevel = true
               }
 
             })
+            if (bonusHeart || newLevel) this.dataClass.saveLocalData();
+          }
+          else if (this.dataClass.levelCoopMode == 'contest') {
+            this.players.forEach((value, index, array) => {
+              if (value.player.userData.finish) {
+                if (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != index + 1) {
+                  console.log(123)
+                  this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
+                  this.dataClass.saveLocalData();
+                }
+                
+              }
+            })
           }
 
-          this.dataClass.saveLocalData();
+          
           this.dataClass.loadLocalData();
           this.dataClass.loadLevels(this.players.length - 1)
 

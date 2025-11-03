@@ -96,7 +96,7 @@ export class MenuClass {
 
     document.querySelector('.new_game_btn3').addEventListener('click', async () => {
       this.dataClass.levelCoopMode = 'contest';
-      this.levelPlayersNum = 2;
+      if (this.levelPlayersNum == 1) this.levelPlayersNum = 2;
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen_contest');
     })
@@ -170,10 +170,9 @@ export class MenuClass {
     document.querySelectorAll('.level_game_chels_contest').forEach((value, index, array) => {
       value.addEventListener('click', () => {
 
-
+        console.log(this.levelPlayersNum)
         if (this.levelPlayersNum != index + 2) {
-          console.log(this.levelPlayersNum)
-          console.log(index)
+          
           document.querySelectorAll('.level_game_chels_contest').forEach((item) => {
 
             item.classList.remove('level_game_chels_contest_active');
@@ -182,7 +181,8 @@ export class MenuClass {
 
           this.levelPlayersNum = index + 2;
 
-          this.dataClass.loadLevelsContest(this.levelPlayersNum - 2);
+          // this.dataClass.loadLevelsContest();
+          console.log(this.levelPlayersNum-2)
         }
       })
     })
