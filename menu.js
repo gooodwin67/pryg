@@ -22,8 +22,6 @@ export class MenuClass {
 
   loadRecsData() {
 
-    this.dataClass.loadLocalData()
-
     let masTables = this.dataClass.masTables;
     let tables = document.querySelectorAll('.rec_table_small');
 
@@ -171,9 +169,9 @@ export class MenuClass {
     })
     document.querySelectorAll('.level_game_chels_contest').forEach((value, index, array) => {
       value.addEventListener('click', () => {
-        
 
-        if (this.levelPlayersNum != index+2) {
+
+        if (this.levelPlayersNum != index + 2) {
           console.log(this.levelPlayersNum)
           console.log(index)
           document.querySelectorAll('.level_game_chels_contest').forEach((item) => {

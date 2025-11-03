@@ -171,16 +171,17 @@ export class DataClass {
 
 
 
-
-
-
   }
+
+
 
   async clearData() {
     localStorage.clear();
   }
+
+
+
   async saveLocalData() {
-    console.log(this.table.levelsStatusContest)
     localStorage.setItem('table', JSON.stringify(this.table));
   }
 
@@ -198,6 +199,7 @@ export class DataClass {
       }
       else {
         this.table = JSON.parse(localStorage.getItem('table', this.table));
+        console.log(this.table)
       }
     }
     else {

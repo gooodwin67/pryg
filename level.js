@@ -914,7 +914,7 @@ export class LevelClass {
       this.scene.add(this.objs.plafons.plafon)
       this.scene.add(this.objs.bulbs.bulb)
 
-      
+
       if (this.isMobile) this.getHorizontalWorldBounds();
       else this.getHorizontalWorldBounds(-7);
 
@@ -1692,7 +1692,7 @@ export class LevelClass {
 
   levelAnimate() {
 
-    
+
 
     // if (this.paramsClass.gameDir == 'hor') {
     //   if (this.players.length > 1) {
@@ -2375,6 +2375,7 @@ export class LevelClass {
 
       this.gameClass.showGamePopup = true;
       if (!this.levelsMode) {
+        console.log(showNext)///////////////////////
         if (!showNext || !this.canShowAds) {
           this.hideScreen('popup_game_btn1')
         }
@@ -2563,12 +2564,12 @@ export class LevelClass {
 
 
       this.audioClass.hardStopAll();
-      
+
       this.players.forEach((value, index, array) => {
         value.player.userData.live = false;
         value.player.userData.score = 0;
-        value.player.userData._lastMeterPos = null; 
-        value.player.userData._wasLive = false;   
+        value.player.userData._lastMeterPos = null;
+        value.player.userData._wasLive = false;
         value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
 
         value.player.userData.finish = false;
@@ -2591,7 +2592,7 @@ export class LevelClass {
         this.camera.position.x = 0;
         this.cameraSpeed = 0.01;
       }
-      
+
       this.canShowAds = true;
 
       if (this.birdYes) {
@@ -2644,10 +2645,12 @@ export class LevelClass {
 
         this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
       }, 100);
+      setTimeout(() => {
+        this.players.forEach((value, index, array) => {
+          value.playerAliving(true);
+        })
+      }, 100);
 
-      this.players.forEach((value, index, array) => {
-        value.playerAliving(true);
-      })
       this.gameClass.showGamePopup = false;
 
       this.hideScreen('popup_in_game');

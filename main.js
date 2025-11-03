@@ -207,14 +207,17 @@ async function BeforeStart() {
 
 
 
+
   audioClass = new AudioClass();
   await audioClass.loadAudio();
+
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
 
   toggleLoader(false);
 }
 await BeforeStart();
+
 
 
 
@@ -337,13 +340,13 @@ function animate() {
     levelClass.showScreen('menu_in_game');
   }
 
-  if (dataClass.gameInit && !levelClass.levelsMode && document.querySelector('.hud').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
+  if (dataClass.gameInit && gameClass.gameStarting && !levelClass.levelsMode && document.querySelector('.hud').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     menuClass.showScreen('hud');
-    
+
   }
   else if (!dataClass.gameInit && !document.querySelector('.hud').classList.contains('hidden_screen')) {
     menuClass.hideScreen('hud');
-    
+
   }
 
 
@@ -510,6 +513,7 @@ document.querySelector('.popup_game_btn_close').addEventListener('click', () => 
 document.querySelector('.sound_btn_wrap').addEventListener('click', () => {
   const muted = audioClass.isMuted();
   audioClass.toggleMute(!muted)
+  document.querySelector('.volume-icon__input').classList.toggle('volume_off')
 })
 
 
@@ -528,9 +532,9 @@ function initCustomScroll() {
   ];
 
   let activeEl = null;            // текущий видимый экран (контейнер со скроллом)
-  let progress  = null;           // его же .scroll-progress
-  let bar       = null;           // и .scroll-progress__bar
-  let dragging  = false;
+  let progress = null;           // его же .scroll-progress
+  let bar = null;           // и .scroll-progress__bar
+  let dragging = false;
   let startY = 0, startScroll = 0;
 
   const getActiveScreen = () => {
@@ -546,7 +550,7 @@ function initCustomScroll() {
     if (nextEl === activeEl) return;
 
     // отписываемся от старого
-    if (activeEl) activeEl.removeEventListener('scroll', update, {passive:true});
+    if (activeEl) activeEl.removeEventListener('scroll', update, { passive: true });
     if (bar) {
       bar.removeEventListener('mousedown', onDown);
       bar.removeEventListener('touchstart', onDown);
@@ -554,10 +558,10 @@ function initCustomScroll() {
 
     // берём новый экран и его бар
     activeEl = nextEl;
-    progress  = activeEl ? activeEl.querySelector('.scroll-progress') : null;
-    bar       = progress ? progress.querySelector('.scroll-progress__bar') : null;
+    progress = activeEl ? activeEl.querySelector('.scroll-progress') : null;
+    bar = progress ? progress.querySelector('.scroll-progress__bar') : null;
 
-    if (activeEl) activeEl.addEventListener('scroll', update, {passive:true});
+    if (activeEl) activeEl.addEventListener('scroll', update, { passive: true });
     if (bar) {
       bar.addEventListener('mousedown', onDown);
       bar.addEventListener('touchstart', onDown);
@@ -568,7 +572,7 @@ function initCustomScroll() {
   const update = () => {
     if (!activeEl || !progress || !bar) return;
 
-    const h  = activeEl.clientHeight;
+    const h = activeEl.clientHeight;
     const sh = activeEl.scrollHeight;
     const st = activeEl.scrollTop;
 
@@ -579,15 +583,15 @@ function initCustomScroll() {
     }
     progress.classList.add('visible');
 
-    const trackH  = progress.getBoundingClientRect().height;
+    const trackH = progress.getBoundingClientRect().height;
     const minThumb = 24;
-    const thumbH  = Math.max((h / sh) * trackH, minThumb);
+    const thumbH = Math.max((h / sh) * trackH, minThumb);
     const maxScroll = sh - h;
-    const maxTop    = trackH - thumbH;
-    const topPx     = maxScroll > 0 ? (st / maxScroll) * maxTop : 0;
+    const maxTop = trackH - thumbH;
+    const topPx = maxScroll > 0 ? (st / maxScroll) * maxTop : 0;
 
     bar.style.height = `${thumbH}px`;
-    bar.style.top    = `${topPx}px`;
+    bar.style.top = `${topPx}px`;
   };
 
   // drag для активного бара
@@ -602,11 +606,11 @@ function initCustomScroll() {
 
   const onMove = (e) => {
     if (!dragging || !activeEl || !bar || !progress) return;
-    const y  = e.touches ? e.touches[0].clientY : e.clientY;
+    const y = e.touches ? e.touches[0].clientY : e.clientY;
     const dy = y - startY;
 
     const trackH = progress.getBoundingClientRect().height;
-    const h  = activeEl.clientHeight;
+    const h = activeEl.clientHeight;
     const sh = activeEl.scrollHeight;
 
     const denom = Math.max(1, (trackH - bar.offsetHeight));

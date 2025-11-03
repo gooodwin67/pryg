@@ -28,7 +28,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = false;
+    this.player.userData.canFly = true;
     this.player.userData.canFlyNum = null;
     this.player.userData.canFlyJumps = 0;
     this.player.userData.canFlyJumpsMax = 3;
@@ -295,6 +295,7 @@ export class PlayerClass {
 
             if (this.levelClass.gameNum == 2 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(true);
             else if (this.levelClass.gameNum == 4 && this.player.userData.lives < 1) this.levelClass.showPopupInGame(false);
+
             this.paramsClass.allDie = true;
           }
           else {
@@ -444,7 +445,7 @@ export class PlayerClass {
             this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.deadPos.x + (0.1 + Math.random() * 0.2), this.player.userData.deadPos.y + getRandomNumber(1.1, 3.1), this.player.userData.deadPos.z));
           }
 
-          
+
 
           this.player.userData.deadPos = new THREE.Vector3(0, 0, 0);
 
