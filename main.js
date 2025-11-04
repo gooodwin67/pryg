@@ -263,10 +263,10 @@ async function initEntity() {
 }
 async function initLevel(levelsMode) {
 
-
+  await levelClass.loadPlayers();
   await levelClass.createLevel(levelsMode);
   await levelClass.loadEnvironments();
-  await levelClass.loadPlayers();
+  
 
   if (levelClass.objs.grassPlanes.data.length > 0) {
     levelClass.objs.grassPlanes.data.forEach((value, index) => {
@@ -303,10 +303,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
 
   setTimeout(() => {
     menuClass.toggleLoader(false);
-
-
-
-  }, 300)
+  }, 200)
 
 }
 
@@ -395,6 +392,7 @@ function animate() {
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
+    
     levelClass.cameraMove(camera);
 
 

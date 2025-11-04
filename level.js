@@ -65,6 +65,20 @@ export class LevelClass {
     this._dayColor = new THREE.Color(0xffffff);
     this._nightColor = new THREE.Color(0xffe9a0);
 
+    
+    this.mksWidth = 100;
+    this.mksHeight = 100;
+
+
+
+    this.geometryPlane = new THREE.PlaneGeometry( this.mksWidth, this.mksHeight );
+    this.materialPlane = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
+    this.mks = new THREE.Mesh( this.geometryPlane, this.materialPlane );
+    this.mks.position.z = -650
+    this.mks.position.y = 190
+    this.mks.layers.set(1);
+    
+
     /*HEART*/
     const x = 0, y = 0;
     const heartShape = new THREE.Shape();
@@ -489,6 +503,26 @@ export class LevelClass {
         console.error('An error happened.');
       }
     );
+
+    loader.load(
+      'textures/mks.png',
+      (texture) => {
+        const material = new THREE.MeshBasicMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0,
+        });
+        // texture.wrapS = THREE.RepeatWrapping;
+        // texture.wrapT = THREE.RepeatWrapping;
+        // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
+        this.mks.material = material;
+      },
+      // onProgress callback currently not supported
+      undefined,
+      function (err) {
+        console.error('An error happened.');
+      }
+    );
   }
 
   async loadBarriers() {
@@ -518,7 +552,7 @@ export class LevelClass {
     await this.loadBoostsModel();
     await this.loadBirdModel();
 
-    this.cameraMove(this.camera);
+    
 
 
 
@@ -536,8 +570,8 @@ export class LevelClass {
     })
 
 
-
-
+    this.getHorizontalWorldBounds();
+    this.cameraMove(this.camera);
 
 
     if (levelsMode) {
@@ -1297,6 +1331,8 @@ export class LevelClass {
           this.scene.add(this.objs.lamps.lamp)
           this.scene.add(this.objs.plafons.plafon)
           this.scene.add(this.objs.bulbs.bulb)
+
+          this.scene.add(this.mks)
 
 
 
@@ -2258,6 +2294,8 @@ export class LevelClass {
 
   cameraMove(camera, dt = this.dt.getDelta()) {
 
+    
+
 
     switch (this.gameNum) {
       case 1:
@@ -2342,6 +2380,14 @@ export class LevelClass {
 
         camera.position.z = this.isMobile ? 20 : 32;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+        
+        this.mks.material.opacity = this.worldClass.blackSky.material.opacity;
+
+        if (camera.position.y > 40) {
+          this.mks.position.x -= 0.01;
+          this.mks.position.y += 0.01;
+          this.mks.position.z -= 0.01;
+        }
         break;
     }
 
