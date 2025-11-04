@@ -5,9 +5,9 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
    <title>Прыг</title>
-  <script type="module" crossorigin src="./assets/index-DmC3b-nW.js"></script>
+  <script type="module" crossorigin src="./assets/index-D193hxf6.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-B76v5LAa.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-D4Re1zmE.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-BHO5H-iE.css">
 </head>
 
 <body>
@@ -78,14 +78,14 @@
                <h3>Выбор игры</h3>
             </div>
             <div class='free_game_screen_wrap_top_right'>
-               <span>Для каждого количества игроков своя таблица рекордов.</span><span>Учитывается пройденный путь каждого игрока в команде</span><span>Проходите 10 уровень в кооперативе, чтобы получить 4ю жизнь на 10 попыток</span>
+               <span>Для каждого количества игроков своя таблица рекордов</span><span>Учитывается пройденный путь каждого игрока в команде</span><span>Проходите 10 уровень в кооперативе, чтобы получить 4ю жизнь на 10 попыток в рекордах</span>
             </div>
          </div>
 
 
          <div class='free_game_screen_btns_wrap'>
             <div class='free_game_btn_wrap'>
-               <div class='free_game_btn free_game_btn1_2 green_btn'>Горизонтально</div>
+               <div class='free_game_btn free_game_btn1_2 green_btn'>Океан</div>
 
 
                <div class='rec_h_wrap'>
@@ -98,7 +98,7 @@
 
             </div>
             <div class='free_game_btn_wrap'>
-               <div class='free_game_btn free_game_btn1_4 yellow_btn'>Вертикально</div>
+               <div class='free_game_btn free_game_btn1_4 yellow_btn'>Космос</div>
                <div class='rec_h_wrap'>
                   <div class='rec_h'>Рекорды</div>
                   <!-- <div class='free_game_btns small_btn'>Полная таблица</div> -->
@@ -136,14 +136,23 @@
 
    <div class="levels_game_screen hidden_screen scrollable">
       <div class='levels_game_screen_wrap'>
+         <div class='levels_game_screen_wrap_top'>
+            <div class='levels_game_screen_wrap_top_left'>
+               <div>
+                  <h3>Сколько игроков</h3>
+                  <div class='level_game_chels_wrap'>
+                     <div class='level_game_chels level_game_chels_active green_btn'>1</div>
+                     <div class='level_game_chels blue_btn'>2</div>
+                     <div class='level_game_chels yellow_btn'>3</div>
+                  </div>
+               </div>
+               <h3>Выбор уровня</h3>
 
-         <h3>Кооператив</h3>
-         <div class='level_game_chels_wrap'>
-            <div class='level_game_chels level_game_chels_active green_btn'>1</div>
-            <div class='level_game_chels blue_btn'>2</div>
-            <div class='level_game_chels yellow_btn'>3</div>
+            </div>
+            <div class='levels_game_screen_wrap_top_right'>
+               <span>Проходите уровни разным количеством игроков</span><span>Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток</span><span>Для прохождения уровня все игроки должны дойти до финиша</span>
+            </div>
          </div>
-         <h3>Уровни</h3>
          <div class='levels_blocks'>
 
          </div>
@@ -157,12 +166,23 @@
    <div class="levels_game_screen_contest hidden_screen scrollable">
       <div class='levels_game_screen_wrap'>
 
-         <h3>Соревнование</h3>
-         <div class='level_game_chels_wrap'>
-            <div class='level_game_chels_contest blue_btn level_game_chels_contest_active'>2</div>
-            <div class='level_game_chels_contest yellow_btn'>3</div>
+         <div class='levels_game_screen_wrap_top_contest'>
+            <div class='levels_game_screen_wrap_top_left_contest'>
+               <div>
+
+                  <h3>Сколько игроков</h3>
+                  <div class='level_game_chels_wrap'>
+                     <div class='level_game_chels_contest blue_btn level_game_chels_contest_active'>2</div>
+                     <div class='level_game_chels_contest yellow_btn'>3</div>
+                  </div>
+               </div>
+               <h3>Выбор уровня</h3>
+               <div class='contest_game_btn'>Случайный уровень</div>
+            </div>
+            <div class='levels_game_screen_wrap_top_right_contest'>
+               <span>Соревнуйтесь друг с другом. Побеждает тот, кто первый доберется до финиша</span><span>Цвет уровня окрашивается в цвет победителя</span><span>Цель - окрасить все уровни в свои цвета</span>
+            </div>
          </div>
-         <h3>Уровни</h3>
          <div class='levels_blocks_contest'>
 
          </div>
@@ -226,9 +246,19 @@
       </div>
 
       <div class="menu_in_game hidden_screen">
+
+
+         <div class="level_hud_wrap">
+
+            <div id="lev_hud" class='lev_hud'>
+               <span>1</span>
+
+            </div>
+
+         </div>
+
+
          <div class="sound_btn_wrap">
-
-
 
             <div class="volume-icon sound_btn">
                <input class="volume-icon__input" type="checkbox" checked>
@@ -255,6 +285,7 @@
             </div>
 
          </div>
+
       </div>
    </div>
 
