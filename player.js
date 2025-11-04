@@ -355,7 +355,15 @@ export class PlayerClass {
             if (this.levelClass.players.some(value => value.player.userData.finish)) {
               this.levelClass.showPopupInGame(false, true);
 
-              
+              this.levelClass.players.forEach((value, index, array) => {
+                if (value.player.userData.finish) {
+                  this.dataClass.table.levelsStatusContest[this.levelClass.levelsMode - 1] = index + 1;
+
+                  this.dataClass.saveLocalData();
+                  this.dataClass.loadLocalData();
+                  this.dataClass.loadLevelsContest();
+                }
+              })
             }
             else {
               this.levelClass.showPopupInGame(true);

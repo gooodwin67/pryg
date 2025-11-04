@@ -90,13 +90,23 @@ export class MenuClass {
 
     document.querySelector('.new_game_btn2').addEventListener('click', async () => {
       this.dataClass.levelCoopMode = 'coop';
+      document.querySelectorAll('.levels_game_screen .level_game_chels').forEach((value, index, array) => {
+        if (value.classList.contains('level_game_chels_active')) {
+          this.levelPlayersNum = index + 1;
+        }
+      })
+
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen');
     })
 
     document.querySelector('.new_game_btn3').addEventListener('click', async () => {
       this.dataClass.levelCoopMode = 'contest';
-      if (this.levelPlayersNum == 1) this.levelPlayersNum = 2;
+      document.querySelectorAll('.levels_game_screen_contest .level_game_chels_contest').forEach((value, index, array) => {
+        if (value.classList.contains('level_game_chels_contest_active')) {
+          this.levelPlayersNum = index + 2;
+        }
+      })
       this.hideScreen('main_screen');
       this.showScreen('levels_game_screen_contest');
     })
@@ -148,6 +158,11 @@ export class MenuClass {
       this.hideScreen('levels_game_screen_contest');
       this.initMatch(this.levelPlayersNum, 1, levelIndex, true);
     });
+    document.querySelector('.contest_game_btn').addEventListener('click', (e) => {
+      const levelIndex = Math.floor(Math.random() * this.dataClass.allLevels);
+      this.hideScreen('levels_game_screen_contest');
+      this.initMatch(this.levelPlayersNum, 1, levelIndex, true);
+    })
 
 
 
@@ -172,7 +187,8 @@ export class MenuClass {
 
         console.log(this.levelPlayersNum)
         if (this.levelPlayersNum != index + 2) {
-          
+
+
           document.querySelectorAll('.level_game_chels_contest').forEach((item) => {
 
             item.classList.remove('level_game_chels_contest_active');
@@ -182,7 +198,7 @@ export class MenuClass {
           this.levelPlayersNum = index + 2;
 
           // this.dataClass.loadLevelsContest();
-          console.log(this.levelPlayersNum-2)
+          console.log(this.levelPlayersNum - 2)
         }
       })
     })

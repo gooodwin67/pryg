@@ -316,9 +316,9 @@ canvas {
 
 
 
-/* .hidden_screen {
+.hidden_screen {
     display: none !important;
-} */
+}
 
 /* .hidden_screen {
     opacity: 0;
@@ -380,6 +380,112 @@ canvas {
     position: relative;
 }
 
+
+
+
+.levels_game_screen_wrap_top {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.levels_game_screen_wrap_top_left {
+    flex: 1 1 0;
+    max-width: 260px;
+    width: auto;
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.levels_game_screen_wrap_top_left h3:last-child {
+    justify-self: flex-end;
+}
+
+.levels_game_screen_wrap_top_right {
+    flex: 1 1 0;
+    max-width: none;
+    width: auto;
+
+    width: 100%;
+    border: 1px dotted #1d9585;
+    border-radius: 9px;
+    max-height: 90%;
+    color: #666;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 13px;
+    margin-bottom: 10px;
+    background: rgb(250 255 212 / 50%);
+    border: 2px solid rgba(255, 255, 255, .95);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, .65);
+}
+
+.levels_game_screen_wrap_top_right span {
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+
+
+
+.levels_game_screen_wrap_top_contest {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.levels_game_screen_wrap_top_left_contest {
+    flex: 1 1 0;
+    max-width: 260px;
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.levels_game_screen_wrap_top_left_contest h3:last-child {
+    justify-self: flex-end;
+}
+
+.levels_game_screen_wrap_top_right_contest {
+    flex: 1 1 0;
+    max-width: none;
+    width: auto;
+
+    width: 100%;
+    border: 1px dotted #1d9585;
+    border-radius: 9px;
+    max-height: 90%;
+    color: #666;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 13px;
+    margin-bottom: 10px;
+    background: rgb(250 255 212 / 50%);
+    border: 2px solid rgba(255, 255, 255, .95);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, .65);
+}
+
+.levels_game_screen_wrap_top_right_contest span {
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
 .free_game_screen_wrap_top {
     display: flex;
     justify-content: space-between;
@@ -413,6 +519,12 @@ canvas {
     padding: 10px;
     box-sizing: border-box;
     font-size: 13px;
+    margin-bottom: 10px;
+    background: rgb(250 255 212 / 50%);
+    border: 2px solid rgba(255, 255, 255, .95);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, .65);
 }
 
 .free_game_screen_wrap_top_right span {
@@ -828,7 +940,21 @@ body .free_game_chels_active {
     color: #fff;
 }
 
+.contest_game_btn {
+    padding: 5px 36px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 0, 0, .07) !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .75)) !important;
+    color: #2b4b57;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+    transition: transform .15s ease, box-shadow .15s ease;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 0 rgba(0, 0, 0, .12), 0 6px 22px rgba(0, 0, 0, .12), inset 0 2px 0 rgba(255, 255, 255, .55);
+    font-size: 14px;
+    color: #777;
 
+}
 
 
 
@@ -856,7 +982,7 @@ body .free_game_chels_active {
 }
 
 .levels_game_screen_wrap {
-    max-width: 640px;
+    max-width: 550px;
     width: 100%;
     background: rgba(249, 218, 180, 0.95);
     padding: 30px;
@@ -1600,14 +1726,57 @@ body .level_game_chels_contest_active {
 }
 
 
+.level_hud_wrap {
 
 
+    border-radius: 6px;
+    margin: 0 5px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(1deg, rgba(254, 144, 0, 1) 1%, rgb(255, 178, 77) 100%);
+    border: 1px solid #d96a02;
+    box-shadow: 0 4px 0 #d96a02;
+    height: 41px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 4px;
+    width: 45px;
 
+}
 
+.lev_hud {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    line-height: 0.9;
+    color: #fff;
+}
+
+.lev_hud span {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 0;
+    font-weight: bold;
+    font-size: 25px;
+}
 
 
 
 @media (max-width: 1024px) {
+    .level_hud_wrap {
+        margin-top: 0;
+        height: 30px;
+        padding: 0;
+        width: 40px;
+    }
+
+    .lev_hud span {
+        font-size: 20px;
+    }
+
     .huds {
         top: 5px;
         right: 5px;
@@ -1797,8 +1966,8 @@ body .level_game_chels_contest_active {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0 7px;
-    padding: 8px 0;
+    margin: 0px 0 10px;
+    padding: 0px 0;
     padding-left: 0;
     border-radius: 999px;
     font-family: 'Nunito Sans', Tahoma;
@@ -1838,7 +2007,7 @@ body .level_game_chels_contest_active {
 .free_game_chels {
     width: auto;
     min-width: 42px;
-    height: 34px;
+    height: 55px;
     margin: 0;
     padding: 0 12px;
     border-radius: 8px;
@@ -2016,25 +2185,38 @@ body .level_game_chels_contest_active {
 
 /* Заголовки как «чипы» с линиями */
 .levels_game_screen_wrap h3 {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #009AA9;
+    font-family: 'Nunito Sans';
+    /* text-shadow: 2px 2px 0px rgba(255, 255, 255, 1); */
+    background-color: #009AA9;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.2px rgba(255, 255, 255, 1);
+    margin: 15px;
+    margin-bottom: 20px;
     position: relative;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0 18px;
-    padding: 8px 14px;
+    margin: 0px 0 10px;
+    padding: 0px 0;
+    padding-left: 0;
     border-radius: 999px;
     font-family: 'Nunito Sans', Tahoma;
-    font-size: 22px;
+    font-size: 20px;
     letter-spacing: .06em;
     text-transform: uppercase;
     background: linear-gradient(90deg, rgb(24 27 72 / 63%), rgb(0, 220, 168)) text;
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0px;
     text-shadow: none;
-    font-weight: 400;
+    font-weight: 800;
+    white-space: nowrap;
 }
 
-.levels_game_screen_wrap h3::before,
+/* .levels_game_screen_wrap h3::before,
 .levels_game_screen_wrap h3::after {
     content: "";
     display: inline-block;
@@ -2042,7 +2224,7 @@ body .level_game_chels_contest_active {
     width: 56px;
     border-radius: 2px;
     background: linear-gradient(90deg, rgba(0, 205, 231, .0), rgba(0, 205, 231, .55), rgba(0, 220, 168, .0));
-}
+} */
 
 
 
@@ -2061,7 +2243,7 @@ body .level_game_chels_contest_active {
 .level_game_chels {
     width: auto;
     min-width: 42px;
-    height: 34px;
+    height: 55px;
     margin: 0;
     padding: 0 12px;
     border-radius: 8px;
@@ -2086,7 +2268,7 @@ body .level_game_chels_contest_active {
 .level_game_chels_contest {
     width: auto;
     min-width: 42px;
-    height: 34px;
+    height: 55px;
     margin: 0;
     padding: 0 12px;
     border-radius: 8px;
@@ -2111,15 +2293,17 @@ body .level_game_chels_contest_active {
 /* Сетка тайлов */
 .levels_blocks {
     gap: 14px;
-    max-width: 520px;
-    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
     padding: 6px 4px 2px;
 }
 
 .levels_blocks_contest {
     gap: 14px;
-    max-width: 520px;
-    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
     padding: 6px 4px 2px;
 }
 
@@ -2247,12 +2431,12 @@ body .level_game_chels_contest_active {
 
     .levels_blocks {
         gap: 10px;
-        max-width: 90%;
+
     }
 
     .levels_blocks_contest {
         gap: 10px;
-        max-width: 90%;
+
     }
 
     .levels_block {
@@ -2266,25 +2450,25 @@ body .level_game_chels_contest_active {
 
 
     .levels_game_screen h3 {
-        font-size: 17px;
-        margin: 0px 0 4px;
+        font-size: 20px;
+        margin: 0px 0 8px;
     }
 
     .levels_game_screen_contest h3 {
-        font-size: 17px;
-        margin: 0px 0 4px;
+        font-size: 20px;
+        margin: 0px 0 8px;
     }
 
     .free_game_screen_wrap h3 {
-        font-size: 14px;
-        margin: 0px 0 4px;
+        font-size: 20px;
+        margin: 0px 0 8px;
     }
 
     .free_game_chels,
     .level_game_chels,
     .level_game_chels_contest {
-        min-width: 22px;
-        height: 29px;
+        min-width: 40px;
+        /* height: 35px; */
     }
 
     .free_game_btn {
@@ -2319,10 +2503,7 @@ body .level_game_chels_contest_active {
         padding: 5px 12px;
     }
 
-    .free_game_chels {
-        min-width: 35px;
-        height: 35px;
-    }
+    .free_game_chels {}
 
     .free_game_screen_wrap {
         margin-top: 10px;
@@ -2877,8 +3058,8 @@ body {
     font-weight: bold;
 }
 
+/* 
 
-/* Универсальный fade для всех "экранизированных" блоков */
 .fadeable {
     opacity: 1;
     visibility: visible;
@@ -2890,5 +3071,5 @@ body {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    /* чтобы не ловил клики пока тухнет */
-}
+    
+} */

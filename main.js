@@ -198,6 +198,8 @@ async function BeforeStart() {
   toggleLoader(true);
 
   dataClass = new DataClass();
+
+
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
@@ -237,7 +239,7 @@ async function initClases(chels) {
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass));
@@ -291,7 +293,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   await initEntity();
   await initLevel(levelsMode);
 
-  
+
 
 
   paramsClass.gameDir === 'hor' ? scoreClass.loadRecsToHud(0, levelClass.players.length - 1) : scoreClass.loadRecsToHud(1, levelClass.players.length - 1);
@@ -337,7 +339,8 @@ function resetMatch() {
 
 function animate() {
 
-  
+
+
 
 
   if (gameClass.gameStarting && document.querySelector('.menu_in_game').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
@@ -346,12 +349,29 @@ function animate() {
 
   if (dataClass.gameInit && gameClass.gameStarting && !levelClass.levelsMode && document.querySelector('.hud').classList.contains('hidden_screen') && paramsClass.dataLoaded) {
     menuClass.showScreen('hud');
+    menuClass.hideScreen('level_hud_wrap');
+
 
   }
   else if (!dataClass.gameInit && !document.querySelector('.hud').classList.contains('hidden_screen')) {
     menuClass.hideScreen('hud');
-
+    menuClass.showScreen('level_hud_wrap');
   }
+
+  if (dataClass.gameInit && gameClass.gameStarting && levelClass.levelsMode && !document.querySelector('.player_panel_rec').classList.contains('hidden_screen')) {
+    document.querySelectorAll('.player_panel_rec').forEach((value, index, array) => {
+      value.classList.add('hidden_screen')
+    })
+  }
+  else if (dataClass.gameInit && gameClass.gameStarting && !levelClass.levelsMode && document.querySelector('.player_panel_rec').classList.contains('hidden_screen')) {
+    document.querySelectorAll('.player_panel_rec').forEach((value, index, array) => {
+      value.classList.remove('hidden_screen')
+    })
+  }
+
+
+
+
 
 
 
@@ -644,76 +664,76 @@ function initCustomScroll() {
 initCustomScroll();
 
 
-// --- Плавное скрытие для всех .fadeable с .hidden_screen --- //
-(function installSmoothHidden() {
-  const TAG = '_screen';
+// // --- Плавное скрытие для всех .fadeable с .hidden_screen --- //
+// (function installSmoothHidden() {
+//   const TAG = '_screen';
 
-  const makeFadeable = (el) => {
-    if (!(el instanceof Element)) return;
-    if (!el.classList) return;
-    if (!el.className.includes(TAG)) return; // экраны вида main_screen, loader_screen...
-    if (!el.classList.contains('fadeable')) el.classList.add('fadeable');
+//   const makeFadeable = (el) => {
+//     if (!(el instanceof Element)) return;
+//     if (!el.classList) return;
+//     if (!el.className.includes(TAG)) return; // экраны вида main_screen, loader_screen...
+//     if (!el.classList.contains('fadeable')) el.classList.add('fadeable');
 
-    // запомним нормальный display
-    if (!el.dataset.displayOrig) {
-      const cs = getComputedStyle(el);
-      el.dataset.displayOrig = cs.display !== 'none' ? cs.display : 'block';
-    }
-    // если изначально скрыт — сразу уберём из потока
-    if (el.classList.contains('hidden_screen')) {
-      el.style.display = 'none';
-    }
-  };
+//     // запомним нормальный display
+//     if (!el.dataset.displayOrig) {
+//       const cs = getComputedStyle(el);
+//       el.dataset.displayOrig = cs.display !== 'none' ? cs.display : 'block';
+//     }
+//     // если изначально скрыт — сразу уберём из потока
+//     if (el.classList.contains('hidden_screen')) {
+//       el.style.display = 'none';
+//     }
+//   };
 
-  // 1) промаркировать уже существующие
-  document.querySelectorAll('[class*="_screen"]').forEach(makeFadeable);
+//   // 1) промаркировать уже существующие
+//   document.querySelectorAll('[class*="_screen"]').forEach(makeFadeable);
 
-  // 2) следить за добавлением новых узлов и изменением классов
-  const mo = new MutationObserver((muts) => {
-    for (const m of muts) {
-      // новые элементы
-      if (m.type === 'childList') {
-        m.addedNodes.forEach((n) => {
-          if (!(n instanceof Element)) return;
-          if (n.matches?.('[class*="_screen"]')) makeFadeable(n);
-          // и вложенные
-          n.querySelectorAll?.('[class*="_screen"]').forEach(makeFadeable);
-        });
-      }
-      // изменения классов
-      if (m.type === 'attributes' && m.attributeName === 'class') {
-        const el = m.target;
-        if (!(el instanceof Element)) continue;
-        if (!el.classList.contains('fadeable')) continue;
+//   // 2) следить за добавлением новых узлов и изменением классов
+//   const mo = new MutationObserver((muts) => {
+//     for (const m of muts) {
+//       // новые элементы
+//       if (m.type === 'childList') {
+//         m.addedNodes.forEach((n) => {
+//           if (!(n instanceof Element)) return;
+//           if (n.matches?.('[class*="_screen"]')) makeFadeable(n);
+//           // и вложенные
+//           n.querySelectorAll?.('[class*="_screen"]').forEach(makeFadeable);
+//         });
+//       }
+//       // изменения классов
+//       if (m.type === 'attributes' && m.attributeName === 'class') {
+//         const el = m.target;
+//         if (!(el instanceof Element)) continue;
+//         if (!el.classList.contains('fadeable')) continue;
 
-        // показываем: вернуть display ПЕРЕД началом fade-in
-        if (!el.classList.contains('hidden_screen')) {
-          const orig = el.dataset.displayOrig || 'block';
-          el.style.display = orig;
-          // форс-рефлоу — чтобы точно стартовал переход opacity
-          // eslint-disable-next-line no-unused-expressions
-          el.offsetWidth;
-        }
-      }
-    }
-  });
+//         // показываем: вернуть display ПЕРЕД началом fade-in
+//         if (!el.classList.contains('hidden_screen')) {
+//           const orig = el.dataset.displayOrig || 'block';
+//           el.style.display = orig;
+//           // форс-рефлоу — чтобы точно стартовал переход opacity
+//           // eslint-disable-next-line no-unused-expressions
+//           el.offsetWidth;
+//         }
+//       }
+//     }
+//   });
 
-  mo.observe(document.body, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['class'],
-  });
+//   mo.observe(document.body, {
+//     subtree: true,
+//     childList: true,
+//     attributes: true,
+//     attributeFilter: ['class'],
+//   });
 
-  // 3) когда opacity-переход закончился и элемент скрыт — убрать из потока
-  document.body.addEventListener('transitionend', (e) => {
-    const el = e.target;
-    if (!(el instanceof Element)) return;
-    if (!el.classList.contains('fadeable')) return;
-    if (e.propertyName !== 'opacity') return;
-    if (el.classList.contains('hidden_screen')) {
-      el.style.display = 'none';
-    }
-  }, true);
-})();
+//   // 3) когда opacity-переход закончился и элемент скрыт — убрать из потока
+//   document.body.addEventListener('transitionend', (e) => {
+//     const el = e.target;
+//     if (!(el instanceof Element)) return;
+//     if (!el.classList.contains('fadeable')) return;
+//     if (e.propertyName !== 'opacity') return;
+//     if (el.classList.contains('hidden_screen')) {
+//       el.style.display = 'none';
+//     }
+//   }, true);
+// })();
 

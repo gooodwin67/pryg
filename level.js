@@ -2,8 +2,9 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene } from './functions';
 
+
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -18,6 +19,7 @@ export class LevelClass {
     this.ring = ring;
     this.dataClass = dataClass;
     this.scoreClass = scoreClass;
+    this.menuClass = menuClass;
 
     this.cameraSpeed = 0.01;
 
@@ -507,6 +509,8 @@ export class LevelClass {
     this.levelsMode = levelsMode;
     this.maxHeight = 0;
     this.birdFlyingMark = 10;
+
+    document.querySelector('.lev_hud span').textContent = levelsMode;
 
 
     await this.loadTexture();
@@ -1707,11 +1711,12 @@ export class LevelClass {
     //   this.scoreClass.updateMetersFloat(this.camera.position.y - this.scoreClass.startY, this.players);
     // }
 
-
-    if (this.paramsClass.gameDir == 'hor') {
-      this.scoreClass.updateMetersFloat(null, this.players, 'hor');
-    } else {
-      this.scoreClass.updateMetersFloat(null, this.players, 'vert');
+    if (!this.levelsMode) {
+      if (this.paramsClass.gameDir == 'hor') {
+        this.scoreClass.updateMetersFloat(null, this.players, 'hor');
+      } else {
+        this.scoreClass.updateMetersFloat(null, this.players, 'vert');
+      }
     }
 
 
@@ -2368,6 +2373,38 @@ export class LevelClass {
     this.hideScreen('menu_in_game');
 
 
+
+    let newRec = 0;
+    if (this.scoreClass.score > this.scoreClass.myRec) {
+      this.scoreClass.myRec = this.scoreClass.score;
+      newRec++
+    }
+    if (this.scoreClass.score > this.scoreClass.worldRec) {
+      this.scoreClass.worldRec = this.scoreClass.score;
+      newRec++
+    }
+    if (newRec) {
+
+      if (this.paramsClass.gameDir === 'hor') {
+        this.dataClass.table['hor'][this.players.length - 1].find((value, index, array) => value.name === 'Мой рекорд').rec = this.scoreClass.score   ///////Может быть проблема при переводе!!!!!!!!!!!!
+      }
+      else if (this.paramsClass.gameDir === 'vert') {
+        this.dataClass.table['vert'][this.players.length - 1].find((value, index, array) => value.name === 'Мой рекорд').rec = this.scoreClass.score   ///////Может быть проблема при переводе!!!!!!!!!!!!
+      }
+      this.dataClass.saveLocalData();
+      this.dataClass.loadLocalData();
+
+      this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
+
+      this.menuClass.loadRecsData();
+    }
+
+
+
+
+
+
+
     if (this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.stop();
     if (this.audioClass.rainAudio.isPlaying) this.audioClass.rainAudio.stop();
 
@@ -2385,11 +2422,7 @@ export class LevelClass {
         if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
         if (this.audioClass.musicOn) this.audioClass.looseAudio.play();
 
-        if (this.scoreClass.score + 1 > this.scoreClass.myRec) {
 
-          this.dataClass.saveLocalData();
-          this.dataClass.loadLocalData();
-        }
 
       }
       else {
@@ -2428,12 +2461,12 @@ export class LevelClass {
                   this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
                   this.dataClass.saveLocalData();
                 }
-                
+
               }
             })
           }
 
-          
+
           this.dataClass.loadLocalData();
           this.dataClass.loadLevels(this.players.length - 1)
 

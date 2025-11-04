@@ -182,7 +182,7 @@ export class DataClass {
 
 
   async saveLocalData() {
-    
+
     // if (this.levelCoopMode == 'coop') {
     //   if (players != null) {
     //     for (let i = 0; i < players; i++) {
@@ -210,7 +210,6 @@ export class DataClass {
       }
       else {
         this.table = JSON.parse(localStorage.getItem('table', this.table));
-        console.log(this.table)
       }
     }
     else {
@@ -357,7 +356,7 @@ export class DataClass {
     const startDelay = 60;
     const maxDelay = 600;
 
-    
+
 
     for (let i = 0; i < this.allLevels; i++) {
       const levelNumber = i + 1;
