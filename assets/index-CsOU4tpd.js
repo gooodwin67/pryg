@@ -356,7 +356,7 @@ import { B as Ps, a as ds, P as me, N as xe, b as Us, c as Hs, C as Js, M as Ms,
                     z: 0
                 }, !0), this.player.userData.body.applyImpulse({
                     x: this.paramsClass.gameDir == "hor" ? this.player.userData.playerPowerJump / 3 : 0,
-                    y: this.player.userData.playerPowerJump * 1.4,
+                    y: this.player.userData.playerPowerJump / 1.4,
                     z: 0
                 }, !0), this.player.userData.playerPowerJump = 1, this.player.userData.jumping = !1);
             }
