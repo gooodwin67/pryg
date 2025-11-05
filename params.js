@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 export class ParamsClass {
   constructor() {
-    this.gameDir = 'vert';
+    this.gameDir = 'hor';
     this.allDie = false;
     this.dataLoaded = false;
   }

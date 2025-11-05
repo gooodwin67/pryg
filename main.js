@@ -188,7 +188,6 @@ document.body.addEventListener("touchstart", function () {
 
 
 
-
 // let controls = new OrbitControls(camera, renderer.domElement);
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
@@ -203,10 +202,6 @@ async function BeforeStart() {
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
-
-
-
-
 
 
 
@@ -263,10 +258,11 @@ async function initEntity() {
 }
 async function initLevel(levelsMode) {
 
-  await levelClass.loadPlayers();
+
   await levelClass.createLevel(levelsMode);
+  await levelClass.loadPlayers();
   await levelClass.loadEnvironments();
-  
+
 
   if (levelClass.objs.grassPlanes.data.length > 0) {
     levelClass.objs.grassPlanes.data.forEach((value, index) => {
@@ -294,7 +290,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   await initLevel(levelsMode);
 
 
-
+  // console.log(paramsClass.gameDir)
 
   paramsClass.gameDir === 'hor' ? scoreClass.loadRecsToHud(0, levelClass.players.length - 1) : scoreClass.loadRecsToHud(1, levelClass.players.length - 1);
   paramsClass.dataLoaded = true;
@@ -392,7 +388,7 @@ function animate() {
     })
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
-    
+
     levelClass.cameraMove(camera);
 
 

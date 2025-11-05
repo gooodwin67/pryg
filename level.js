@@ -65,19 +65,19 @@ export class LevelClass {
     this._dayColor = new THREE.Color(0xffffff);
     this._nightColor = new THREE.Color(0xffe9a0);
 
-    
+
     this.mksWidth = 100;
     this.mksHeight = 100;
 
 
 
-    this.geometryPlane = new THREE.PlaneGeometry( this.mksWidth, this.mksHeight );
-    this.materialPlane = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
-    this.mks = new THREE.Mesh( this.geometryPlane, this.materialPlane );
+    this.geometryPlane = new THREE.PlaneGeometry(this.mksWidth, this.mksHeight);
+    this.materialPlane = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+    this.mks = new THREE.Mesh(this.geometryPlane, this.materialPlane);
     this.mks.position.z = -650
-    this.mks.position.y = 190
+    this.mks.position.y = 180
     this.mks.layers.set(1);
-    
+
 
     /*HEART*/
     const x = 0, y = 0;
@@ -462,68 +462,68 @@ export class LevelClass {
   }
 
 
-  async loadTexture() {
-    const loader = new THREE.TextureLoader();
+  // async loadTexture() {
+  //   const loader = new THREE.TextureLoader();
 
-    loader.load(
-      'textures/plane.jpg',
-      (texture) => {
-        const material = new THREE.MeshStandardMaterial({
-          map: texture,
-          transparent: true,
-          opacity: 1
-        });
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
-        this.objs.planes.plane.material = material;
-      },
-      // onProgress callback currently not supported
-      undefined,
-      function (err) {
-        console.error('An error happened.');
-      }
-    );
+  //   loader.load(
+  //     'textures/plane.jpg',
+  //     (texture) => {
+  //       const material = new THREE.MeshStandardMaterial({
+  //         map: texture,
+  //         transparent: true,
+  //         opacity: 1
+  //       });
+  //       texture.wrapS = THREE.RepeatWrapping;
+  //       texture.wrapT = THREE.RepeatWrapping;
+  //       texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
+  //       this.objs.planes.plane.material = material;
+  //     },
+  //     // onProgress callback currently not supported
+  //     undefined,
+  //     function (err) {
+  //       console.error('An error happened.');
+  //     }
+  //   );
 
-    loader.load(
-      'textures/grass.jpg',
-      (texture) => {
-        const material = new THREE.MeshStandardMaterial({
-          map: texture,
+  //   loader.load(
+  //     'textures/grass.jpg',
+  //     (texture) => {
+  //       const material = new THREE.MeshStandardMaterial({
+  //         map: texture,
 
-        });
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-        this.objs.grassPlanes.planeGrass.material = material;
-      },
-      // onProgress callback currently not supported
-      undefined,
-      function (err) {
-        console.error('An error happened.');
-      }
-    );
+  //       });
+  //       texture.wrapS = THREE.RepeatWrapping;
+  //       texture.wrapT = THREE.RepeatWrapping;
+  //       texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
+  //       this.objs.grassPlanes.planeGrass.material = material;
+  //     },
+  //     // onProgress callback currently not supported
+  //     undefined,
+  //     function (err) {
+  //       console.error('An error happened.');
+  //     }
+  //   );
 
-    loader.load(
-      'textures/mks.png',
-      (texture) => {
-        const material = new THREE.MeshBasicMaterial({
-          map: texture,
-          transparent: true,
-          opacity: 0,
-        });
-        // texture.wrapS = THREE.RepeatWrapping;
-        // texture.wrapT = THREE.RepeatWrapping;
-        // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
-        this.mks.material = material;
-      },
-      // onProgress callback currently not supported
-      undefined,
-      function (err) {
-        console.error('An error happened.');
-      }
-    );
-  }
+  //   loader.load(
+  //     'textures/mks.png',
+  //     (texture) => {
+  //       const material = new THREE.MeshBasicMaterial({
+  //         map: texture,
+  //         transparent: true,
+  //         opacity: 0,
+  //       });
+  //       // texture.wrapS = THREE.RepeatWrapping;
+  //       // texture.wrapT = THREE.RepeatWrapping;
+  //       // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
+  //       this.mks.material = material;
+  //     },
+  //     // onProgress callback currently not supported
+  //     undefined,
+  //     function (err) {
+  //       console.error('An error happened.');
+  //     }
+  //   );
+  // }
 
   async loadBarriers() {
     let geometryBird = new THREE.BoxGeometry(0.5, 0.7, 1);
@@ -552,7 +552,7 @@ export class LevelClass {
     await this.loadBoostsModel();
     await this.loadBirdModel();
 
-    
+
 
 
 
@@ -2240,6 +2240,7 @@ export class LevelClass {
 
   async loadPlayers() {
 
+    console.log(this.paramsClass.gameDir)
 
     this.reloadLevel();
 
@@ -2257,6 +2258,8 @@ export class LevelClass {
 
 
       this.physicsClass.addPhysicsToObject(player.player);
+
+
       if (this.paramsClass.gameDir == 'vert') {
         player.player.position.y = -0;
         player.player.userData.collider.setFriction(500)
@@ -2294,7 +2297,7 @@ export class LevelClass {
 
   cameraMove(camera, dt = this.dt.getDelta()) {
 
-    
+
 
 
     switch (this.gameNum) {
@@ -2380,10 +2383,10 @@ export class LevelClass {
 
         camera.position.z = this.isMobile ? 20 : 32;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
-        
+
         this.mks.material.opacity = this.worldClass.blackSky.material.opacity;
 
-        if (camera.position.y > 40) {
+        if (camera.position.y > 20) {
           this.mks.position.x -= 0.01;
           this.mks.position.y += 0.01;
           this.mks.position.z -= 0.01;
@@ -2503,7 +2506,7 @@ export class LevelClass {
             this.players.forEach((value, index, array) => {
               if (value.player.userData.finish) {
                 if (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != index + 1) {
-                  console.log(123)
+
                   this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
                   this.dataClass.saveLocalData();
                 }
@@ -2548,6 +2551,7 @@ export class LevelClass {
       if (clelNum >= 0) {
         let player = this.players[clelNum];
         if (this.dataClass.table.player.bonusHeart[clelNum]) {
+
 
           player.player.userData.maxLives = 4;
           player.player.userData.lives = player.player.userData.maxLives;
@@ -2736,7 +2740,9 @@ export class LevelClass {
 
 
       setTimeout(() => {
-        let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 777;
+        let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 1;
+
+        if (level == this.allLevels) this.hideScreen('popup_game_btn15');
 
         this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
       }, 100);

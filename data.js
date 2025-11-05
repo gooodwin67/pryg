@@ -22,12 +22,12 @@ export class DataClass {
     this.allLevels = 10;
 
     this.table = {
-      updateDate: 11132,
+      updateDate: 11135,
       levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       player: {
-        levels: [0, 0, 0],
+        levels: [8, 0, 0],
         bonusHat: [false, false, false],
-        bonusHeart: [0, 0, 0],
+        bonusHeart: [1, 0, 0],
       },
       hor: [
         [
@@ -168,7 +168,7 @@ export class DataClass {
     }
 
     this.masTables = [];
-
+    console.log(this.table.player.bonusHeart)
 
 
   }
@@ -192,6 +192,7 @@ export class DataClass {
     //     }   
     //   }
     // }
+
 
     localStorage.setItem('table', JSON.stringify(this.table));
   }
