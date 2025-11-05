@@ -1,4 +1,4 @@
-import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss, d as fs, V as c, e as gs, Q as Ls, f as Ce, g as as, h as Ms, i as ps, G as Ys, E as X, j as is, D as be, S as Me, k as je, l as ee, I as es, m as ts, n as _e, o as Is, O as Xs, R as js, p as Hs, q as Se, r as Le, A as Es, s as R, t as ke, u as Ae, v as ze, w as Be, x as He, H as Ee, y as Te, z as Fe, L as Re, W as Ie, T as ge, F as Ne, J as Ge, K as te, U as ae, X as qe, Y as We, Z as ie, _ as oe, $ as Oe, a0 as Ue, a1 as Ve, a2 as Ye, a3 as Je, a4 as Ke, a5 as Xe, a6 as $e } from "./three-DNmHmMx0.js";
+import { B as Ms, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss, d as gs, V as c, e as fs, Q as Ls, f as Me, g as as, h as Cs, i as ps, G as Ys, E as X, j as is, D as be, S as Ce, k as je, l as ee, I as es, m as ts, n as _e, o as Is, O as Xs, R as js, p as Hs, q as Se, r as Le, A as Es, s as R, t as ke, u as Ae, v as ze, w as Be, x as He, H as Ee, y as Te, z as Fe, L as Re, W as Ie, T as fe, F as Ne, J as Ge, K as te, U as ae, X as qe, Y as We, Z as ie, _ as oe, $ as Oe, a0 as Ue, a1 as Ve, a2 as Ye, a3 as Je, a4 as Ke, a5 as Xe, a6 as $e } from "./three-DNmHmMx0.js";
 (async ()=>{
     (function() {
         const s = document.createElement("link").relList;
@@ -94,7 +94,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
     function he(h) {
         return h?.userData?.id ?? h?.uuid ?? h?.id;
     }
-    const at = new gs(new c(-.5, -.5, -.5), new c(.5, .5, .5)), de = new Ce, pe = new Ls;
+    const at = new fs(new c(-.5, -.5, -.5), new c(.5, .5, .5)), de = new Me, pe = new Ls;
     function ce(h) {
         if (h?.isObject3D) {
             if (h.updateMatrixWorld(!0), h.geometry?.isBufferGeometry) {
@@ -104,7 +104,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                     return t.applyMatrix4(h.matrixWorld), t;
                 }
             }
-            return new gs().setFromObject(h);
+            return new fs().setFromObject(h);
         }
         const s = h.position ?? h.pos ?? new c, a = tt(h.size ?? 1), i = h.quaternion?.isQuaternion ? h.quaternion : h.rotation?.isEuler ? pe.setFromEuler(h.rotation) : pe.set(0, 0, 0, 1);
         return de.compose(s, i, a), at.clone().applyMatrix4(de);
@@ -136,8 +136,8 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             const L = new Ks(D);
             return L.anisotropy = 1, L.needsUpdate = !0, L;
         }
-        const l = e || n(), r = new Float32Array(s * 3), d = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), g = new Float32Array(s), p = new Uint8Array(s), y = new Cs;
-        y.setAttribute("position", new hs(r, 3)), y.setAttribute("aSize", new hs(g, 1));
+        const l = e || n(), r = new Float32Array(s * 3), d = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), f = new Float32Array(s), p = new Uint8Array(s), y = new Ms;
+        y.setAttribute("position", new hs(r, 3)), y.setAttribute("aSize", new hs(f, 1));
         const v = new ye({
             map: l,
             size: t,
@@ -148,11 +148,11 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             sizeAttenuation: !0
         }), x = new Vs(y, v);
         x.userData.persistent = !0, x.frustumCulled = !1, h.add(x);
-        let f = 0;
+        let g = 0;
         function q() {
             for(let b = 0; b < s; b++){
-                const D = (f + b) % s;
-                if (!p[D]) return f = (D + 1) % s, D;
+                const D = (g + b) % s;
+                if (!p[D]) return g = (D + 1) % s, D;
             }
             return -1;
         }
@@ -162,15 +162,15 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
         }
         return {
             trigger (b, D = 1, B = {}) {
-                const { count: z = 42, spread: L = .35, up: W = 3, horiz: us = 2.2, ttl: C = [
+                const { count: z = 42, spread: L = .35, up: W = 3, horiz: us = 2.2, ttl: M = [
                     .35,
                     .8
                 ], sizeJitter: j = .5 } = B, Y = Math.max(1, Math.floor(z * D));
                 for(let ms = 0; ms < Y; ms++){
                     const _ = q();
                     if (_ === -1) break;
-                    const A = Math.sqrt(Math.random()) * L, k = Math.random() * Math.PI * 2, J = A * Math.cos(k), ns = A * Math.sin(k), Z = Math.sqrt(Math.random()), K = Math.cos(k) * us * Z * (.6 + .4 * Math.random()), Q = Math.sin(k) * us * Z * (.6 + .4 * Math.random()), ss = W * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), G = (1 - j / 2 + Math.random() * j) * 1;
-                    E(r, _, b.x + J, b.y, b.z + ns), E(d, _, K * D, ss * D, Q * D), m[_] = O, u[_] = 0, g[_] = G, p[_] = 1;
+                    const A = Math.sqrt(Math.random()) * L, k = Math.random() * Math.PI * 2, J = A * Math.cos(k), ns = A * Math.sin(k), Z = Math.sqrt(Math.random()), K = Math.cos(k) * us * Z * (.6 + .4 * Math.random()), Q = Math.sin(k) * us * Z * (.6 + .4 * Math.random()), ss = W * (.6 + .4 * Math.random()), O = M[0] + Math.random() * (M[1] - M[0]), G = (1 - j / 2 + Math.random() * j) * 1;
+                    E(r, _, b.x + J, b.y, b.z + ns), E(d, _, K * D, ss * D, Q * D), m[_] = O, u[_] = 0, f[_] = G, p[_] = 1;
                 }
                 y.attributes.position.needsUpdate = !0, y.attributes.aSize.needsUpdate = !0;
             },
@@ -178,22 +178,22 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                 if (b <= 0) return;
                 const D = a, B = Math.max(0, i);
                 let z = !1;
-                for(let C = 0; C < s; C++){
-                    if (!p[C]) continue;
-                    if (z = !0, u[C] += b, u[C] >= m[C]) {
-                        p[C] = 0;
-                        const k = C * 3;
+                for(let M = 0; M < s; M++){
+                    if (!p[M]) continue;
+                    if (z = !0, u[M] += b, u[M] >= m[M]) {
+                        p[M] = 0;
+                        const k = M * 3;
                         r[k] = 1e9, r[k + 1] = 1e9, r[k + 2] = 1e9;
                         continue;
                     }
-                    const j = C * 3;
+                    const j = M * 3;
                     d[j + 1] += D * b;
                     const Y = d[j], ms = d[j + 1], _ = d[j + 2], A = Math.max(0, 1 - B * b);
                     d[j] = Y * A, d[j + 1] = ms * A, d[j + 2] = _ * A, r[j] += d[j] * b, r[j + 1] += d[j + 1] * b, r[j + 2] += d[j + 2] * b;
                 }
                 z && (y.attributes.position.needsUpdate = !0);
                 let L = 0, W = 0;
-                for(let C = 0; C < s; C++)p[C] && (L++, W += 1 - u[C] / m[C]);
+                for(let M = 0; M < s; M++)p[M] && (L++, W += 1 - u[M] / m[M]);
                 const us = L ? .25 + .75 * (W / L) : 1;
                 v.size = t * us;
             },
@@ -207,24 +207,24 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
     }
     function ot({ scene: h, size: s = 1.5, ttl: a = .9 } = {}) {
         const i = new Ts(1, 1), e = (()=>{
-            const g = document.createElement("canvas");
-            g.width = g.height = 64;
-            const p = g.getContext("2d");
-            return p.clearRect(0, 0, 64, 64), p.strokeStyle = "rgba(255,255,255,0.9)", p.lineWidth = 3, p.beginPath(), p.arc(32, 32, 20, 0, Math.PI * 2), p.stroke(), new Ks(g);
+            const f = document.createElement("canvas");
+            f.width = f.height = 64;
+            const p = f.getContext("2d");
+            return p.clearRect(0, 0, 64, 64), p.strokeStyle = "rgba(255,255,255,0.9)", p.lineWidth = 3, p.beginPath(), p.arc(32, 32, 20, 0, Math.PI * 2), p.stroke(), new Ks(f);
         })(), t = new Ss({
             map: e,
             transparent: !0,
             depthWrite: !1
-        }), o = new fs(i, t);
+        }), o = new gs(i, t);
         o.visible = !1, o.userData.persistent = !0, h.add(o);
         let n = 0, l = !1;
         const r = new c;
-        function d(g) {
-            r.copy(g), n = 0, l = !0, o.visible = !0;
+        function d(f) {
+            r.copy(f), n = 0, l = !0, o.visible = !0;
         }
-        function m(g, p) {
+        function m(f, p) {
             if (!l) return;
-            if (n += g, n >= a) {
+            if (n += f, n >= a) {
                 l = !1, o.visible = !1;
                 return;
             }
@@ -242,13 +242,49 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             mesh: o
         };
     }
-    class nt {
+    function nt(h, s, a, i) {
+        const e = [];
+        h.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && e.push([
+                l,
+                l.frustumCulled,
+                l.visible
+            ]);
+        });
+        const t = h.position.clone(), o = new Set;
+        h.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && (Array.isArray(l.material) ? l.material : [
+                l.material
+            ]).forEach((d)=>{
+                d && [
+                    "map",
+                    "normalMap",
+                    "emissiveMap",
+                    "metalnessMap",
+                    "roughnessMap",
+                    "aoMap",
+                    "alphaMap",
+                    "specularMap",
+                    "displacementMap"
+                ].forEach((m)=>{
+                    d[m] && o.add(d[m]);
+                });
+            });
+        });
+        const n = a.getWorldDirection(new c).multiplyScalar(3);
+        h.position.copy(a.position).add(n), h.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && (l.frustumCulled = !1, l.visible = !0);
+        }), o.forEach((l)=>s.initTexture?.(l)), s.compile(i, a), h.position.copy(t), e.forEach(([l, r, d])=>{
+            l.frustumCulled = r, l.visible = d;
+        }), s.shadowMap && (s.shadowMap.needsUpdate = !0);
+    }
+    class lt {
         constructor(s, a, i, e, t, o, n){
-            this.dataClass = s, this.scene = a, this.audioClass = i, this.levelClass = e, this.paramsClass = t, this.camera = o, this.gameClass = n, this.playerHeight = .9, this.playerWidth = .5, this.player = new fs(new as(this.playerWidth, this.playerHeight, this.playerWidth), new Ms({
+            this.dataClass = s, this.scene = a, this.audioClass = i, this.levelClass = e, this.paramsClass = t, this.camera = o, this.gameClass = n, this.playerHeight = .9, this.playerWidth = .5, this.player = new gs(new as(this.playerWidth, this.playerHeight, this.playerWidth), new Cs({
                 color: 16711680,
                 transparent: !0,
                 opacity: 0
-            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.2, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !0, this.player.userData.canFlyNum = null, this.player.userData.canFlyJumps = 0, this.player.userData.canFlyJumpsMax = 3, this.player.userData.live = !0, this.player.userData.startPos, this.player.userData.deadPos, this.player.userData.playerAlive = !1, this.player.userData.score, this.player.userData.maxLives = 3, this.player.userData.lives = this.player.userData.maxLives, this.player.userData.bonusHeart = 0, this.player.userData.finish = !1, this.player.userData.splash = !1, this.playerModel, this.playerOut = new fs(new as(this.playerWidth, this.playerHeight + .1, this.playerWidth), new ps({
+            })), this.player.material.depthWrite = !1, this.player.rotation.y = Math.PI, this.player.position.y = 1.2, this.player.position.x = -.4, this.player.userData.name = "player", this.player.userData.readyJump = !1, this.player.userData.jumping = !1, this.player.userData.playerPowerJump = 1, this.player.userData.body = 0, this.player.userData.onGround = !1, this.player.userData.audio = [], this.player.userData.canFly = !0, this.player.userData.canFlyNum = null, this.player.userData.canFlyJumps = 0, this.player.userData.canFlyJumpsMax = 3, this.player.userData.live = !0, this.player.userData.startPos, this.player.userData.deadPos, this.player.userData.playerAlive = !1, this.player.userData.score, this.player.userData.maxLives = 3, this.player.userData.lives = this.player.userData.maxLives, this.player.userData.bonusHeart = 0, this.player.userData.finish = !1, this.player.userData.splash = !1, this.playerModel, this.playerOut = new gs(new as(this.playerWidth, this.playerHeight + .1, this.playerWidth), new ps({
                 color: 16776960,
                 transparent: !0,
                 opacity: 0
@@ -389,9 +425,9 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             this.player.userData.lives > 3 ? (a.classList.contains("opacity_my-screen") && a.classList.remove("opacity_my-screen"), a.textContent = this.player.userData.bonusHeart) : a.classList.contains("opacity_my-screen") || a.classList.add("opacity_my-screen");
         }
     }
-    class lt {
-        constructor(s, a, i, e, t, o, n, l, r, d, m, u, g, p, y, v){
-            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = r, this.gameClass = m, this.splash = u, this.ring = g, this.dataClass = d, this.scoreClass = p, this.menuClass = y, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
+    class rt {
+        constructor(s, a, i, e, t, o, n, l, r, d, m, u, f, p, y, v){
+            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = r, this.gameClass = m, this.splash = u, this.ring = f, this.dataClass = d, this.scoreClass = p, this.menuClass = y, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
                 min: 1,
                 max: 4
             }, this.fixedDistanceVert = {
@@ -400,9 +436,9 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             }, this.count = 120, this._dayColor = new is(16777215), this._nightColor = new is(16771488), this.mksWidth = 100, this.mksHeight = 100, this.geometryPlane = new Ts(this.mksWidth, this.mksHeight), this.materialPlane = new Ss({
                 color: 0,
                 side: be
-            }), this.mks = new fs(this.geometryPlane, this.materialPlane), this.mks.position.z = -650, this.mks.position.y = 150, this.mks.layers.set(1);
-            const x = new Me, f = .01;
-            x.moveTo(5 * f, 5 * f), x.bezierCurveTo(5 * f, 5 * f, 4 * f, 2 * f, 0 * f, 2 * f), x.bezierCurveTo(-6 * f, 2 * f, -6 * f, 7 * f, -6 * f, 7 * f), x.bezierCurveTo(-6 * f, 10 * f, -3 * f, 14 * f, 5 * f, 18 * f), x.bezierCurveTo(12 * f, 14 * f, 16 * f, 10 * f, 16 * f, 7 * f), x.bezierCurveTo(16 * f, 7 * f, 16 * f, 2 * f, 10 * f, 2 * f), x.bezierCurveTo(7 * f, 2 * f, 5 * f, 5 * f, 5 * f, 5 * f);
+            }), this.mks = new gs(this.geometryPlane, this.materialPlane), this.mks.position.z = -650, this.mks.position.y = 150, this.mks.layers.set(1);
+            const x = new Ce, g = .01;
+            x.moveTo(5 * g, 5 * g), x.bezierCurveTo(5 * g, 5 * g, 4 * g, 2 * g, 0 * g, 2 * g), x.bezierCurveTo(-6 * g, 2 * g, -6 * g, 7 * g, -6 * g, 7 * g), x.bezierCurveTo(-6 * g, 10 * g, -3 * g, 14 * g, 5 * g, 18 * g), x.bezierCurveTo(12 * g, 14 * g, 16 * g, 10 * g, 16 * g, 7 * g), x.bezierCurveTo(16 * g, 7 * g, 16 * g, 2 * g, 10 * g, 2 * g), x.bezierCurveTo(7 * g, 2 * g, 5 * g, 5 * g, 5 * g, 5 * g);
             const q = {
                 depth: .22,
                 bevelEnabled: !1,
@@ -427,7 +463,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                             }
                         })),
                     geometryPlane: new as(this.planeWidth, this.planeHeight, this.planeDepth),
-                    materialPlane: new Ms({
+                    materialPlane: new Cs({
                         color: 52224
                     }),
                     plane: null
@@ -476,7 +512,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                             }
                         })),
                     geometryPlaneGrass: new as(this.planeWidth, .5, this.planeDepth + .2),
-                    materialPlaneGrass: new Ms({
+                    materialPlaneGrass: new Cs({
                         color: 52224,
                         transparent: !0,
                         opacity: 1
@@ -500,7 +536,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                             }
                         })),
                     geometryPlaneSensor: new as(this.planeWidth, .4, 1.2),
-                    materialPlaneSensor: new Ms({
+                    materialPlaneSensor: new Cs({
                         color: 65280,
                         transparent: !0,
                         opacity: 0
@@ -522,7 +558,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                         })),
                     lampHeight: 1,
                     geometryLamp: new as(.3, 1, .3),
-                    materialLamp: new Ms({
+                    materialLamp: new Cs({
                         color: 16777215,
                         transparent: !1,
                         opacity: 1
@@ -670,10 +706,10 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                 transparent: !0,
                 opacity: 0
             });
-            this.angryBird = new fs(s, a), this.angryBird.userData.name = "bird", this.angryBird.userData.speed = S(8, 13) / 100, this.angryBird.userData.flying = !1, this.angryBird.position.y = -5, this.physicsClass.addPhysicsToObject(this.angryBird);
+            this.angryBird = new gs(s, a), this.angryBird.userData.name = "bird", this.angryBird.userData.speed = S(8, 13) / 100, this.angryBird.userData.flying = !1, this.angryBird.position.y = -5, this.physicsClass.addPhysicsToObject(this.angryBird);
         }
         async createLevel(s) {
-            if (this.levelsMode = s, this.maxHeight = 0, this.birdFlyingMark = 10, document.querySelector(".lev_hud span").textContent = s, await this.loadTexture(), await this.loadBarriers(), this.boostHatModel = this.assetsManager.boostHatModel, this.boostHatPropeller = this.assetsManager.boostHatPropeller, this.boostHatMesh = this.assetsManager.boostHatMesh, this.birdYes && (this.angryBirdModel = this.assetsManager.angryBirdModel, this.scene.add(this.angryBirdModel)), document.querySelectorAll(".player_panel")[0].classList.add("hidden_screen"), document.querySelectorAll(".player_panel")[1].classList.add("hidden_screen"), document.querySelectorAll(".player_panel")[2].classList.add("hidden_screen"), this.players.forEach((a, i, e)=>{
+            if (this.levelsMode = s, this.maxHeight = 0, this.birdFlyingMark = 10, document.querySelector(".lev_hud span").textContent = s, await this.loadTexture(), await this.loadBarriers(), this.boostHatModel = this.assetsManager.boostHatModel, this.boostHatPropeller = this.assetsManager.boostHatPropeller, this.boostHatMesh = this.assetsManager.boostHatMesh, this.birdYes && (this.angryBirdModel = this.assetsManager.angryBirdModel, this.scene.add(this.angryBirdModel), nt(this.angryBirdModel, this.renderer, this.camera, this.scene)), document.querySelectorAll(".player_panel")[0].classList.add("hidden_screen"), document.querySelectorAll(".player_panel")[1].classList.add("hidden_screen"), document.querySelectorAll(".player_panel")[2].classList.add("hidden_screen"), this.players.forEach((a, i, e)=>{
                 document.querySelectorAll(".player_panel")[i].classList.remove("hidden_screen");
             }), this.getHorizontalWorldBounds(), this.cameraMove(this.camera), s) {
                 this.isMobile ? this.getHorizontalWorldBounds() : this.getHorizontalWorldBounds(-7);
@@ -860,9 +896,9 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
         getHorizontalWorldBounds(s = 0) {
             const a = new c(-1, 0, .5), i = new c(1, 0, .5), e = new c(0, 1, .5), t = new c(0, -1, .5);
             if (a.unproject(this.camera), i.unproject(this.camera), e.unproject(this.camera), t.unproject(this.camera), this.camera.isPerspectiveCamera) {
-                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), r = e.clone().sub(o).normalize(), d = t.clone().sub(o).normalize(), m = (s - o.z) / n.z, u = (s - o.z) / d.z, g = o.clone().add(n.multiplyScalar(m)), p = o.clone().add(l.multiplyScalar(m)), y = o.clone().add(r.multiplyScalar(u)), v = o.clone().add(d.multiplyScalar(u));
+                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), r = e.clone().sub(o).normalize(), d = t.clone().sub(o).normalize(), m = (s - o.z) / n.z, u = (s - o.z) / d.z, f = o.clone().add(n.multiplyScalar(m)), p = o.clone().add(l.multiplyScalar(m)), y = o.clone().add(r.multiplyScalar(u)), v = o.clone().add(d.multiplyScalar(u));
                 this.bounds = {
-                    leftX: g.x,
+                    leftX: f.x,
                     rightX: p.x,
                     topY: y.y,
                     bottomY: v.y
@@ -975,7 +1011,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                         this._emissive[l] = R.lerp(this._emissive[l], m, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const u = .5 + this._emissive[l] * .8;
                         t.glow && t.glow.scale.setScalar(u);
-                        const g = 1.1, p = this._emissive[l], y = 1 + g * p, v = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[l];
+                        const f = 1.1, p = this._emissive[l], y = 1 + f * p, v = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[l];
                         x.userData._lastBulbFactor !== y && (x.size.set(v.x * y, v.y * y, v.z * y), this.apply(l, this.objs.bulbs.data, this.objs.bulbs.bulb), x.userData._lastBulbFactor = y, s = !0), !n && r.intensity <= .01 && this._emissive[l] <= .02 && (this.lights.push(r), t.pointLight = null, t.glow && (this.glowPool.push(t.glow), this.scene.remove(t.glow), t.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1007,7 +1043,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                         this._emissive[n] = R.lerp(this._emissive[n], d, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const m = .8 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
-                        const u = 1, g = this._emissive[n], p = 1 + u * g, y = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
+                        const u = 1, f = this._emissive[n], p = 1 + u * f, y = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== p && (v.size.set(y.x * p, y.y * p, y.z * p), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = p, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1246,7 +1282,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             if (s != null && s.userData.name.includes("player")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new gs().setFromObject(s);
+                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
                 const t = qs(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(.6).setRestitution(0).setFriction(.5).setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS), s.userData.body = a, s.userData.shape = i;
                 let o = a;
@@ -1260,7 +1296,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             } else if (s != null && s.userData.name.includes("tops")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new gs().setFromObject(s);
+                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
                 const t = qs(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(1).setRestitution(0).setFriction(.3), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, a);
@@ -1272,7 +1308,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             } else if (s != null && s.userData.name.includes("bird")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new gs().setFromObject(s);
+                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
                 const t = qs(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(1).setRestitution(1).setFriction(0), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, a);
@@ -1290,9 +1326,9 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             const a = h.geometry;
             return a.boundingBox || a.computeBoundingBox(), a.boundingBox.getSize(Gs), Gs.multiply(h.scale), Gs.clone();
         }
-        return new gs().setFromObject(h).getSize(new c);
+        return new fs().setFromObject(h).getSize(new c);
     }
-    class rt {
+    class ht {
         constructor(){
             this.backAudio, this.backAudio2, this.backAudio3, this.oceanAudio, this.rainAudio, this.thunderAudio, this.thunderAudio2, this.thunderAudio3, this.thundersAudio = [], this.inwaterAudio, this.takeAudio, this.looseAudio, this.winAudio, this.readyJumpAudio, this.jumpAudio, this.jumpAudio2, this.jumpAudio3, this.quacks = [], this.musics = [], this.musicNowPlaying = [], this.musicDay = !0, this.musicNight = !1, this.timeToChange = 2, this._attached = !1, this.listener = new ke, this.musicOn = !0;
         }
@@ -1513,7 +1549,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             ]), this.musicNight = !0, this.musicDay = !1, this.timeToChange = 2, this.musics.find((i)=>i.name === "back").music.setVolume(this.timeToChange)));
         }
     }
-    class ht {
+    class dt {
         constructor(s, a, i, e, t, o){
             this.levelClass = s, this.isMobile = a, this.renderer = i, this.camera = e, this.paramsClass = t, this.audioClass = o, this.mouse = new c, this.raycaster = new Be;
         }
@@ -1587,7 +1623,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             }, 500))) : (s.userData.readyJump = !1, s.userData.audio[0].stop())));
         }
     }
-    class dt {
+    class pt {
         constructor(s, a, i, e, t, o){
             this.scene = s, this.camera = a, this.renderer = i, this.paramsClass = e, this.isMobile = t, this.audioClass = o, this.ambientLight = new He(11184810, 1), this.hemiLight = new Ee(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Te(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new Xs, this.dirLight.target = this.targetObject, this.helper = new Fe(this.dirLight, 3), this.water, this.night = !1, this._prevCamX = this.camera.position.x, this.thunder = !1, this.thunderStart = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0, this.minThunderIntervalMs = 1e3, this.maxThunderIntervalMs = 3e3, this.currentThunderIndex = 0, this.rain = !1, this.rainStart = !1, this.isRainActive = !1, this.rainEndTimestampMs = 0, this.activeLightningLines = [], this.lightningMaterialBase = new Re({
                 color: 16777215,
@@ -1595,7 +1631,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                 opacity: 1,
                 blending: Es,
                 depthWrite: !1
-            }), this.clock = new Is, this.deltaSeconds, this.lightningFade = 0, this.rainDropCount = 1500, this.rainAreaHalfWidth = 10, this.rainAreaHalfDepth = 22, this.rainTopY = 7, this.rainBottomY = -2, this.rainGeometry = new Cs, this.rainPositions = new Float32Array(this.rainDropCount * 3), this.rainVelocities = new Float32Array(this.rainDropCount), this.rainWindPhase = new Float32Array(this.rainDropCount);
+            }), this.clock = new Is, this.deltaSeconds, this.lightningFade = 0, this.rainDropCount = 1500, this.rainAreaHalfWidth = 10, this.rainAreaHalfDepth = 22, this.rainTopY = 7, this.rainBottomY = -2, this.rainGeometry = new Ms, this.rainPositions = new Float32Array(this.rainDropCount * 3), this.rainVelocities = new Float32Array(this.rainDropCount), this.rainWindPhase = new Float32Array(this.rainDropCount);
         }
         async loadRain() {
             for(let a = 0; a < this.rainDropCount; a++){
@@ -1624,7 +1660,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
             this.waterGeometry = new Ts(900, 500), this.water = new Ie(this.waterGeometry, {
                 textureWidth: 500,
                 textureHeight: 500,
-                waterNormals: new ge().load("textures/waternormals.jpg", function(r) {
+                waterNormals: new fe().load("textures/waternormals.jpg", function(r) {
                     r.wrapS = r.wrapT = js;
                 }),
                 sunDirection: new c,
@@ -1638,7 +1674,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                 elevation: 5,
                 azimuth: 170,
                 top: !1
-            }, this.blackSky = new fs(new Ts(1e4, 1e4), new Ss({
+            }, this.blackSky = new gs(new Ts(1e4, 1e4), new Ss({
                 color: 526362,
                 side: be,
                 transparent: !0,
@@ -1650,7 +1686,7 @@ import { B as Cs, a as hs, P as ye, N as Pe, b as Vs, c as Ts, C as Ks, M as Ss,
                 const d = new is().setHSL(.5 + Math.random() * .1, .6 + Math.random() * .3, .85 + Math.random() * .15);
                 t[3 * r] = d.r, t[3 * r + 1] = d.g, t[3 * r + 2] = d.b;
             }
-            const o = new Cs;
+            const o = new Ms;
             o.setAttribute("position", new hs(i, 3)), o.setAttribute("size", new hs(e, 1)), o.setAttribute("color", new hs(t, 3));
             const n = `
   attribute float size;
@@ -1763,17 +1799,17 @@ void main() {
             this.thunder = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
         }
         createLightningBolt(s, a, i) {
-            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, r = o - i, d = Math.hypot(n, l, r) || 1, m = n / d, u = l / d, g = r / d, p = n / d, v = -(r / d), x = 0, f = p, q = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), E = new c(m, u, g), N = new c().crossVectors(E, q).normalize(), b = new c().crossVectors(E, N).normalize(), D = 2 + Math.random() * 2, B = 1.2, z = Math.random() * Math.PI * 2, L = 3 + Math.random() * 2.5, W = .8, us = Math.random() * Math.PI * 2, C = 28, j = 4, Y = [];
-            for(let _ = 0; _ <= C; _++){
-                const A = _ / C, k = 1 - A;
+            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, r = o - i, d = Math.hypot(n, l, r) || 1, m = n / d, u = l / d, f = r / d, p = n / d, v = -(r / d), x = 0, g = p, q = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), E = new c(m, u, f), N = new c().crossVectors(E, q).normalize(), b = new c().crossVectors(E, N).normalize(), D = 2 + Math.random() * 2, B = 1.2, z = Math.random() * Math.PI * 2, L = 3 + Math.random() * 2.5, W = .8, us = Math.random() * Math.PI * 2, M = 28, j = 4, Y = [];
+            for(let _ = 0; _ <= M; _++){
+                const A = _ / M, k = 1 - A;
                 let J = s + n * A, ns = a + l * A, Z = i + r * A;
                 const K = Math.sin(A * Math.PI * D + z) * B * (.3 + .7 * k), Q = Math.sin(A * Math.PI * L + us) * W * (.3 + .7 * k), ss = (Math.random() - .5) * 2 * j * k, O = (Math.random() - .5) * 1.6 * j * k, G = Math.random() < .12 ? (Math.random() - .5) * 3.5 * k : 0;
-                if (J += N.x * (K + ss + G) + b.x * (Q + O * .7), ns += N.y * (K + ss * .5) + b.y * (Q + O * .5), Z += N.z * (K + ss + G) + b.z * (Q + O * .7), Y.push(J, ns, Z), _ > 3 && _ < C - 3 && Math.random() < .22) {
+                if (J += N.x * (K + ss + G) + b.x * (Q + O * .7), ns += N.y * (K + ss * .5) + b.y * (Q + O * .5), Z += N.z * (K + ss + G) + b.z * (Q + O * .7), Y.push(J, ns, Z), _ > 3 && _ < M - 3 && Math.random() < .22) {
                     const ls = [], ws = 3 + Math.floor(Math.random() * 2), rs = .25 + Math.random() * .35;
                     let xs = J, Ds = ns, Ps = Z;
                     ls.push(xs, Ds, Ps);
                     for(let Bs = 1; Bs <= ws; Bs++)xs += (Math.random() - .5) * j * rs, Ds += -(.8 + Math.random() * .8) * rs, Ps += (Math.random() - .5) * j * rs, ls.push(xs, Ds, Ps);
-                    const zs = new Cs;
+                    const zs = new Ms;
                     zs.setAttribute("position", new te(ls, 3));
                     const ys = new ae(zs, this.lightningMaterialBase.clone());
                     ys.material.opacity = .6, ys.userData.life = .16 + Math.random() * .12, this.scene.add(ys), this.activeLightningLines.push(ys);
@@ -1783,10 +1819,10 @@ void main() {
             for(let _ = -1; _ <= ms; _++){
                 const A = _ === -1, k = A ? 0 : _ % 2 === 0 ? 1 : -1, J = .55 + Math.random() * .45, ns = .35, Z = Math.random() * Math.PI * 2, K = [], Q = Y.length / 3;
                 for(let G = 0; G < Q; G++){
-                    const ls = G / (Q - 1), ws = .35 + .85 * ls, rs = Math.sin(ls * Math.PI * 2 + Z) * ns * (.2 + .8 * ls), xs = v * k * J * ws + f * rs * .3, Ds = x * k * J * ws + rs * .05, Ps = f * k * J * ws - v * rs * .3, zs = G * 3 + 0, ys = G * 3 + 1, Bs = G * 3 + 2, Zs = Y[zs], Qs = Y[ys], se = Y[Bs];
+                    const ls = G / (Q - 1), ws = .35 + .85 * ls, rs = Math.sin(ls * Math.PI * 2 + Z) * ns * (.2 + .8 * ls), xs = v * k * J * ws + g * rs * .3, Ds = x * k * J * ws + rs * .05, Ps = g * k * J * ws - v * rs * .3, zs = G * 3 + 0, ys = G * 3 + 1, Bs = G * 3 + 2, Zs = Y[zs], Qs = Y[ys], se = Y[Bs];
                     A ? K.push(Zs + (Math.random() - .5) * .05, Qs + (Math.random() - .5) * .05, se + (Math.random() - .5) * .05) : K.push(Zs + xs + (Math.random() - .5) * .2, Qs + Ds + (Math.random() - .5) * .2, se + Ps + (Math.random() - .5) * .2);
                 }
-                const ss = new Cs;
+                const ss = new Ms;
                 ss.setAttribute("position", new te(K, 3));
                 const O = new ae(ss, this.lightningMaterialBase.clone());
                 O.material.opacity = A ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
@@ -1809,7 +1845,7 @@ void main() {
             return e.needsUpdate = !0, e.magFilter = ie, e.minFilter = ie, e.wrapS = oe, e.wrapT = oe, e.rotation = Math.PI / 2, e.center.set(.5, .5), e;
         }
     }
-    class pt {
+    class ct {
         constructor(s, a, i, e, t){
             this.initMatch = s, this.loadLevels = a, this.gameClass = i, this.audioClass = e, this.dataClass = t, this.playersNum = 1, this.levelPlayersNum = 1, this.mainMenu(this.initMatch), this.loadRecsData();
         }
@@ -1955,12 +1991,12 @@ void main() {
             document.querySelector(`.${s}`).classList.remove("hidden_screen");
         }
     }
-    class ct {
+    class ut {
         constructor(){
             this.gameDir = "hor", this.allDie = !1, this.dataLoaded = !1;
         }
     }
-    class ut {
+    class mt {
         constructor(s, a){
             this.camera = s, this.dataClass = a, this.score = 0, this.startX = this.camera.position.x, this.startY = this.camera.position.y, this.metersFloatEl = document.getElementById("meters-float"), this.myRecField = document.getElementById("myRecord"), this.worldRecField = document.getElementById("worldRecord"), this.playerPanels = Array.from(document.querySelectorAll(".player_panel_rec_num")).slice(0, 3), this.worldRec = 0, this.myRec = 0;
         }
@@ -1970,11 +2006,11 @@ void main() {
         updateMetersFloat(s, a, i = "hor") {
             const e = i === "vert" ? "y" : "x", t = 1e-4;
             for (const u of a){
-                const g = u?.player;
-                if (!g) continue;
-                const p = g.userData || (g.userData = {});
+                const f = u?.player;
+                if (!f) continue;
+                const p = f.userData || (f.userData = {});
                 p.score == null && (p.score = 0);
-                let y = g.position?.[e] ?? 0;
+                let y = f.position?.[e] ?? 0;
                 if (p._lastMeterPos == null && (p._lastMeterPos = y), i !== "vert" && p._wasLive === !1 && p.live && (p._lastMeterPos = y), p.live) {
                     const v = y - p._lastMeterPos, x = v > t ? v : 0;
                     x !== 0 && (p.score += x, p._lastMeterPos = y);
@@ -1984,25 +2020,25 @@ void main() {
             this.playerPanels || (this.playerPanels = Array.from(document.querySelectorAll(".player_panel_rec_num")).slice(0, 3));
             let o = 0;
             for(let u = 0; u < 3; u++){
-                const g = this.playerPanels[u], p = a[u]?.player, y = Math.max(0, Math.floor(p?.userData?.score || 0));
-                o += y, g && (g.textContent = String(y).padStart(3, "0"));
+                const f = this.playerPanels[u], p = a[u]?.player, y = Math.max(0, Math.floor(p?.userData?.score || 0));
+                o += y, f && (f.textContent = String(y).padStart(3, "0"));
             }
             const n = Math.max(0, Math.floor(o));
             if (n === Ws) return;
             const l = Ws, r = performance.now(), d = 50, m = (u)=>{
-                const g = Math.min(1, (u - r) / d), p = 1 - Math.pow(1 - g, 4), y = Math.round(l + (n - l) * p);
-                this.score = y, this.metersFloatEl && (this.metersFloatEl.textContent = String(y).padStart(3, "0")), g < 1 ? requestAnimationFrame(m) : Ws = n;
+                const f = Math.min(1, (u - r) / d), p = 1 - Math.pow(1 - f, 4), y = Math.round(l + (n - l) * p);
+                this.score = y, this.metersFloatEl && (this.metersFloatEl.textContent = String(y).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Ws = n;
             };
             requestAnimationFrame(m);
         }
     }
     let Ws = 0;
-    class mt {
+    class yt {
         constructor(){
             this.gameStarting = !1, this.pause = !1, this.visible = !0, this.showGamePopup = !1;
         }
     }
-    class yt {
+    class bt {
         constructor(){
             this.gameInit = !1, this.names = [
                 "Билли",
@@ -2264,20 +2300,20 @@ void main() {
                 }
             }, t = 40, o = 60, n = 600;
             for(let l = 0; l < this.levelsStatus[s].length; l++){
-                const r = this.levelsStatus[s][l], { modifierClass: d, labelText: m, ariaState: u } = e(r), g = document.createElement("div");
-                g.className = `levels_block ${d}`, g.setAttribute("data-level", String(l + 1)), g.setAttribute("role", "button"), g.setAttribute("tabindex", r === "locked" ? "-1" : "0"), g.setAttribute("aria-label", `Уровень ${l + 1}, ${u}`);
+                const r = this.levelsStatus[s][l], { modifierClass: d, labelText: m, ariaState: u } = e(r), f = document.createElement("div");
+                f.className = `levels_block ${d}`, f.setAttribute("data-level", String(l + 1)), f.setAttribute("role", "button"), f.setAttribute("tabindex", r === "locked" ? "-1" : "0"), f.setAttribute("aria-label", `Уровень ${l + 1}, ${u}`);
                 const p = Math.min(o + l * t, n);
-                g.style.setProperty("--show-delay", `${p}ms`);
+                f.style.setProperty("--show-delay", `${p}ms`);
                 const y = document.createElement("div");
                 y.className = "levels_block_number", y.textContent = String(l + 1);
                 const v = document.createElement("div");
                 v.className = "levels_block_status";
                 const x = document.createElement("span");
-                x.className = `status_chip ${r === "completed" ? "status_chip--completed" : r === "available" ? "status_chip--available" : "status_chip--locked"}`, x.textContent = m, v.append(x), g.append(y, v), g.addEventListener("click", ()=>{
-                    r !== "locked" && (document.querySelectorAll(".levels_block").forEach((f)=>f.classList.remove("active")), g.classList.add("active"), console.log(`Выбран уровень ${l + 1}`));
-                }), g.addEventListener("keydown", (f)=>{
-                    r !== "locked" && (f.key === "Enter" || f.key === " ") && (f.preventDefault(), g.click());
-                }), i.append(g);
+                x.className = `status_chip ${r === "completed" ? "status_chip--completed" : r === "available" ? "status_chip--available" : "status_chip--locked"}`, x.textContent = m, v.append(x), f.append(y, v), f.addEventListener("click", ()=>{
+                    r !== "locked" && (document.querySelectorAll(".levels_block").forEach((g)=>g.classList.remove("active")), f.classList.add("active"), console.log(`Выбран уровень ${l + 1}`));
+                }), f.addEventListener("keydown", (g)=>{
+                    r !== "locked" && (g.key === "Enter" || g.key === " ") && (g.preventDefault(), f.click());
+                }), i.append(f);
             }
             a.append(i), requestAnimationFrame(()=>{
                 a.classList.remove("levels_blocks--reenter"), a.querySelectorAll(".levels_block").forEach((l)=>{
@@ -2299,9 +2335,9 @@ void main() {
                 m.className = "levels_block_number", m.textContent = String(n);
                 const u = document.createElement("div");
                 u.className = "levels_block_status", l && (u.textContent = this.names[l - 1]), r.append(m, u), r.addEventListener("click", ()=>{
-                    document.querySelectorAll(".levels_block").forEach((g)=>g.classList.remove("active")), r.classList.add("active"), console.log(`Выбран уровень ${n} (значение: ${l})`);
-                }), r.addEventListener("keydown", (g)=>{
-                    (g.key === "Enter" || g.key === " ") && (g.preventDefault(), r.click());
+                    document.querySelectorAll(".levels_block").forEach((f)=>f.classList.remove("active")), r.classList.add("active"), console.log(`Выбран уровень ${n} (значение: ${l})`);
+                }), r.addEventListener("keydown", (f)=>{
+                    (f.key === "Enter" || f.key === " ") && (f.preventDefault(), r.click());
                 }), a.append(r);
             }
             s.append(a), requestAnimationFrame(()=>{
@@ -2318,7 +2354,7 @@ void main() {
             });
         }
     }
-    class bt {
+    class ft {
         constructor(){
             this.plane = {
                 texture: null,
@@ -2332,7 +2368,7 @@ void main() {
             }, this.angryBirdModel, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh;
         }
         async loadTexture() {
-            const s = new ge, [a, i, e] = await Promise.all([
+            const s = new fe, [a, i, e] = await Promise.all([
                 s.loadAsync("textures/plane.jpg"),
                 s.loadAsync("textures/grass.jpg"),
                 s.loadAsync("textures/mks.png")
@@ -2367,7 +2403,7 @@ void main() {
         }
     }
     console.clear();
-    let Js, gt = new Is, fe, os, vs, $, P, M, _s, I, ks, T, bs, w = new mt;
+    let Js, gt = new Is, ge, os, vs, $, P, C, _s, I, ks, T, bs, w = new yt;
     const cs = new Ue;
     cs.background = new is(13230580);
     const ve = it({
@@ -2376,7 +2412,7 @@ void main() {
         scene: cs
     }), F = new Ve(25, window.innerWidth / window.innerHeight, .1, 2e3);
     F.position.y = 2;
-    const ft = 16 / 9, vt = R.degToRad(25), wt = 2 * Math.atan(Math.tan(vt / 2) * ft), Os = et();
+    const vt = 16 / 9, wt = R.degToRad(25), xt = 2 * Math.atan(Math.tan(wt / 2) * vt), Os = et();
     function $s() {
         const h = (window.visualViewport?.height || window.innerHeight) * .01;
         document.documentElement.style.setProperty("--vh", `${h}px`);
@@ -2401,7 +2437,7 @@ void main() {
     H.toneMappingExposure = 1.05;
     function xe() {
         const h = document.body.offsetWidth, s = document.body.offsetHeight, a = h / s;
-        let i = 2.5 * Math.atan(Math.tan(wt / 2) / a);
+        let i = 2.5 * Math.atan(Math.tan(xt / 2) / a);
         const e = R.degToRad(12), t = R.degToRad(70);
         i = R.clamp(i, e, t), F.fov = R.radToDeg(i), F.aspect = a, F.updateProjectionMatrix(), H.setSize(h, s);
     }
@@ -2413,21 +2449,21 @@ void main() {
         });
     }, !1);
     let V = document.querySelector(".loader_line");
-    async function xt() {
-        me(!0), T = new yt, bs = new bt, await bs.loadModels(), await bs.loadBoostsModel(), V.setAttribute("style", "width:30%"), await bs.loadTexture(), V.setAttribute("style", "width:30%"), M = new rt, await M.loadAudio(), V.setAttribute("style", "width:60%"), await T.loadLocalData(), await T.loadLevels(0), await T.loadLevelsContest(), V.setAttribute("style", "width:100%"), os = new pt(De, T.loadLevels, w, M, T), me(!1), V.setAttribute("style", "width:0%");
+    async function Dt() {
+        me(!0), T = new bt, bs = new ft, await bs.loadModels(), await bs.loadBoostsModel(), V.setAttribute("style", "width:30%"), await bs.loadTexture(), V.setAttribute("style", "width:30%"), C = new ht, await C.loadAudio(), V.setAttribute("style", "width:60%"), await T.loadLocalData(), await T.loadLevels(0), await T.loadLevelsContest(), V.setAttribute("style", "width:100%"), os = new ct(De, T.loadLevels, w, C, T), me(!1), V.setAttribute("style", "width:0%");
     }
-    await xt();
-    async function Dt(h) {
+    await Dt();
+    async function Pt(h) {
         const s = await st(()=>import("./@dimforge-BObwuXYQ.js").then(async (m)=>{
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        Js = new s.World(new s.Vector3(0, -9.81, 0)), fe = new s.EventQueue(!0), $ = new ds(Js, s), ks = new ut(F, T), vs = new dt(cs, F, H, I, Os, M), P = new lt(cs, M, $, H, F, Os, I, vs, De, T, w, ve, we, ks, os, bs);
-        for(let a = 0; a < h; a++)P.players.push(new nt(T, cs, M, P, I, F, w, bs));
-        _s = new ht(P, Os, H, F, I, M), _s.addKeyListeners();
+        Js = new s.World(new s.Vector3(0, -9.81, 0)), ge = new s.EventQueue(!0), $ = new ds(Js, s), ks = new mt(F, T), vs = new pt(cs, F, H, I, Os, C), P = new rt(cs, C, $, H, F, Os, I, vs, De, T, w, ve, we, ks, os, bs);
+        for(let a = 0; a < h; a++)P.players.push(new lt(T, cs, C, P, I, F, w, bs));
+        _s = new dt(P, Os, H, F, I, C), _s.addKeyListeners();
     }
-    async function Pt() {
-        await vs.loadWorld(), M.musicOn && M.backAudio.play(), M.musicOn && M.oceanAudio.play();
+    async function Mt() {
+        await vs.loadWorld(), C.musicOn && C.backAudio.play(), C.musicOn && C.oceanAudio.play();
     }
     async function Ct(h) {
         await P.createLevel(h), await P.loadPlayers(), await P.loadEnvironments(), P.objs.grassPlanes.data.length > 0 && P.objs.grassPlanes.data.forEach((s, a)=>{
@@ -2446,14 +2482,14 @@ void main() {
         });
     }
     async function De(h, s, a = !1) {
-        Mt(), os.toggleLoader(!0), I = new ct, await Dt(h), V.setAttribute("style", "width:30%"), P.gameNum = s, await Pt(), V.setAttribute("style", "width:60%"), await Ct(a), V.setAttribute("style", "width:90%"), I.gameDir === "hor" ? ks.loadRecsToHud(0, P.players.length - 1) : ks.loadRecsToHud(1, P.players.length - 1), I.dataLoaded = !0, w.gameStarting = !0, T.gameInit = !0, V.setAttribute("style", "width:100%"), setTimeout(()=>{
+        jt(), os.toggleLoader(!0), I = new ut, await Pt(h), V.setAttribute("style", "width:30%"), P.gameNum = s, await Mt(), V.setAttribute("style", "width:60%"), await Ct(a), V.setAttribute("style", "width:90%"), I.gameDir === "hor" ? ks.loadRecsToHud(0, P.players.length - 1) : ks.loadRecsToHud(1, P.players.length - 1), I.dataLoaded = !0, w.gameStarting = !0, T.gameInit = !0, V.setAttribute("style", "width:100%"), setTimeout(()=>{
             os.toggleLoader(!1), V.setAttribute("style", "width:0%");
         }, 200);
     }
-    function Mt() {
+    function jt() {
         F.position.y = 2, F.position.x = 0, H.toneMappingExposure = 1.05, _s?.removedKeyListeners(), vs = null, $ = null, P = null, _s = null, I = null, ks = null;
     }
-    function jt() {
+    function _t() {
         if (w.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && I.dataLoaded && P.showScreen("menu_in_game"), T.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && I.dataLoaded ? (os.showScreen("hud"), os.hideScreen("level_hud_wrap")) : !T.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (os.hideScreen("hud"), os.showScreen("level_hud_wrap")), T.gameInit && w.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((h, s, a)=>{
             h.classList.add("hidden_screen");
         }) : T.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((h, s, a)=>{
@@ -2463,7 +2499,7 @@ void main() {
                 h.playerMove();
             }), vs.updateLighting(), P.levelAnimate(F), P.cameraMove(F), As.update();
             for(let h = 0, s = $.dynamicBodies.length; h < s; h++)$.dynamicBodies[h][0].position.copy($.dynamicBodies[h][1].translation()), $.dynamicBodies[h][0].quaternion.copy($.dynamicBodies[h][1].rotation());
-            $.updateInstancedTransforms(), Js.step(fe), w.gameStarting && H.render(cs, F);
+            $.updateInstancedTransforms(), Js.step(ge), w.gameStarting && H.render(cs, F);
         }
     }
     let Us = 0;
@@ -2471,7 +2507,7 @@ void main() {
     H.setAnimationLoop(()=>{
         if (I != null) {
             let h = gt.getDelta();
-            for(h > ue && (h = ue), Us += h; Us >= Rs;)jt(), Us -= Rs;
+            for(h > ue && (h = ue), Us += h; Us >= Rs;)_t(), Us -= Rs;
         }
     });
     function me(h) {
@@ -2479,19 +2515,19 @@ void main() {
         s && (h ? s.classList.remove("hidden_screen") : s.classList.add("hidden_screen"));
     }
     document.addEventListener("visibilitychange", function() {
-        document.visibilityState === "visible" ? (!w.pause && !w.showGamePopup && (w.gameStarting = !0, M.togglePauseAll(!w.gameStarting)), w.visible = !0) : (!w.pause && !w.showGamePopup ? (w.gameStarting = !1, M.togglePauseAll(!w.gameStarting)) : w.pause || M.togglePauseAll(!w.gameStarting), w.visible = !1);
+        document.visibilityState === "visible" ? (!w.pause && !w.showGamePopup && (w.gameStarting = !0, C.togglePauseAll(!w.gameStarting)), w.visible = !0) : (!w.pause && !w.showGamePopup ? (w.gameStarting = !1, C.togglePauseAll(!w.gameStarting)) : w.pause || C.togglePauseAll(!w.gameStarting), w.visible = !1);
     });
     document.querySelector(".pause_btn_wrap").addEventListener("click", ()=>{
-        !w.pause && w.gameStarting && (w.pause = !w.pause, w.pause && (P.showPopupInGame(), w.gameStarting = !1, M.togglePauseAll(!w.gameStarting), P.showScreen("popup_game_btn_close")));
+        !w.pause && w.gameStarting && (w.pause = !w.pause, w.pause && (P.showPopupInGame(), w.gameStarting = !1, C.togglePauseAll(!w.gameStarting), P.showScreen("popup_game_btn_close")));
     });
     document.querySelector(".popup_game_btn_close").addEventListener("click", ()=>{
-        (w.pause || w.gameStarting) && (w.pause = !w.pause, w.gameStarting = !0, M.togglePauseAll(!w.gameStarting), vs.rain && !M.rainAudio.isPlaying && M.rainAudio.play(), M.oceanAudio.isPlaying || M.oceanAudio.play(), P.hideScreen("popup_in_game"), P.hideScreen("popup_game_btn_close"));
+        (w.pause || w.gameStarting) && (w.pause = !w.pause, w.gameStarting = !0, C.togglePauseAll(!w.gameStarting), vs.rain && !C.rainAudio.isPlaying && C.rainAudio.play(), C.oceanAudio.isPlaying || C.oceanAudio.play(), P.hideScreen("popup_in_game"), P.hideScreen("popup_game_btn_close"));
     });
     document.querySelector(".sound_btn_wrap").addEventListener("click", ()=>{
-        const h = M.isMuted();
-        M.toggleMute(!h), document.querySelector(".volume-icon__input").classList.toggle("volume_off");
+        const h = C.isMuted();
+        C.toggleMute(!h), document.querySelector(".volume-icon__input").classList.toggle("volume_off");
     });
-    function _t() {
+    function St() {
         const h = [
             ".free_game_screen",
             ".levels_game_screen",
@@ -2526,7 +2562,7 @@ void main() {
             !s || !i || (e = !0, t = p.touches ? p.touches[0].clientY : p.clientY, o = s.scrollTop, document.body.style.userSelect = "none", p.preventDefault());
         }, m = (p)=>{
             if (!e || !s || !i || !a) return;
-            const v = (p.touches ? p.touches[0].clientY : p.clientY) - t, x = a.getBoundingClientRect().height, f = s.clientHeight, q = s.scrollHeight, E = Math.max(1, x - i.offsetHeight), N = (q - f) / E;
+            const v = (p.touches ? p.touches[0].clientY : p.clientY) - t, x = a.getBoundingClientRect().height, g = s.clientHeight, q = s.scrollHeight, E = Math.max(1, x - i.offsetHeight), N = (q - g) / E;
             s.scrollTop = o + v * N;
         }, u = ()=>{
             e = !1, document.body.style.userSelect = "";
@@ -2547,5 +2583,5 @@ void main() {
             ]
         }), l();
     }
-    _t();
+    St();
 })();
