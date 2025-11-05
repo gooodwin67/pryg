@@ -80,7 +80,6 @@ export class AudioClass {
 
   async loadAudio() {
 
-
     const audioLoader = new THREE.AudioLoader();
 
     await audioLoader.loadAsync('audio/back1.mp3').then((buffer) => {

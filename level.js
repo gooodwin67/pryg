@@ -4,7 +4,7 @@ import { getRandomNumber, disposeScene } from './functions';
 
 
 export class LevelClass {
-  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass) {
+  constructor(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass, assetsManager) {
     this.scene = scene;
     this.audioClass = audioClass;
     this.physicsClass = physicsClass;
@@ -20,6 +20,9 @@ export class LevelClass {
     this.dataClass = dataClass;
     this.scoreClass = scoreClass;
     this.menuClass = menuClass;
+    this.assetsManager = assetsManager;
+
+    this.playersLoaded = false;
 
     this.cameraSpeed = 0.01;
 
@@ -75,7 +78,7 @@ export class LevelClass {
     this.materialPlane = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
     this.mks = new THREE.Mesh(this.geometryPlane, this.materialPlane);
     this.mks.position.z = -650
-    this.mks.position.y = 180
+    this.mks.position.y = 150
     this.mks.layers.set(1);
 
 
@@ -462,68 +465,48 @@ export class LevelClass {
   }
 
 
-  // async loadTexture() {
-  //   const loader = new THREE.TextureLoader();
+  async loadTexture() {
 
-  //   loader.load(
-  //     'textures/plane.jpg',
-  //     (texture) => {
-  //       const material = new THREE.MeshStandardMaterial({
-  //         map: texture,
-  //         transparent: true,
-  //         opacity: 1
-  //       });
-  //       texture.wrapS = THREE.RepeatWrapping;
-  //       texture.wrapT = THREE.RepeatWrapping;
-  //       texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
-  //       this.objs.planes.plane.material = material;
-  //     },
-  //     // onProgress callback currently not supported
-  //     undefined,
-  //     function (err) {
-  //       console.error('An error happened.');
-  //     }
-  //   );
+    (() => {
+      let texture = this.assetsManager.plane.texture;
+      let material = this.assetsManager.plane.material;
 
-  //   loader.load(
-  //     'textures/grass.jpg',
-  //     (texture) => {
-  //       const material = new THREE.MeshStandardMaterial({
-  //         map: texture,
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
+      this.objs.planes.plane.material = material;
+      console.log(123)
+    })();
 
-  //       });
-  //       texture.wrapS = THREE.RepeatWrapping;
-  //       texture.wrapT = THREE.RepeatWrapping;
-  //       texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-  //       this.objs.grassPlanes.planeGrass.material = material;
-  //     },
-  //     // onProgress callback currently not supported
-  //     undefined,
-  //     function (err) {
-  //       console.error('An error happened.');
-  //     }
-  //   );
 
-  //   loader.load(
-  //     'textures/mks.png',
-  //     (texture) => {
-  //       const material = new THREE.MeshBasicMaterial({
-  //         map: texture,
-  //         transparent: true,
-  //         opacity: 0,
-  //       });
-  //       // texture.wrapS = THREE.RepeatWrapping;
-  //       // texture.wrapT = THREE.RepeatWrapping;
-  //       // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
-  //       this.mks.material = material;
-  //     },
-  //     // onProgress callback currently not supported
-  //     undefined,
-  //     function (err) {
-  //       console.error('An error happened.');
-  //     }
-  //   );
-  // }
+    (() => {
+      let texture = this.assetsManager.planeGrass.texture;
+      let material = this.assetsManager.planeGrass.material;
+
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
+      this.objs.grassPlanes.planeGrass.material = material;
+    })();
+
+
+    (() => {
+      let texture = this.assetsManager.mks.texture;
+      let material = this.assetsManager.mks.material;
+
+      // texture.wrapS = THREE.RepeatWrapping;
+      // texture.wrapT = THREE.RepeatWrapping;
+      // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
+      this.mks.material = material;
+    })();
+
+
+
+
+
+
+
+  }
 
   async loadBarriers() {
     let geometryBird = new THREE.BoxGeometry(0.5, 0.7, 1);
@@ -2288,6 +2271,7 @@ export class LevelClass {
       if (this.audioClass.quacks.length > i) player.player.userData.audio.push(this.audioClass.quacks[i].clone())
       else player.player.userData.audio.push(this.audioClass.quacks[0].clone())
     }
+    this.playersLoaded = true;
   }
 
 
@@ -2373,7 +2357,7 @@ export class LevelClass {
         break;
       case 4:
         // this.getHorizontalWorldBounds();
-        if (this.gameClass.gameStarting) {
+        if (this.gameClass.gameStarting && this.playersLoaded) {
           if (this.players[this.maxSpeed()].player.userData.body.linvel().y > -20) {
             camera.position.y = this.players[this.maxSpeed()].player.position.y + 3.5;
           }

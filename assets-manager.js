@@ -3,6 +3,11 @@ import * as THREE from "three";
 export class AssetsManager {
  constructor() {
 
+  this.plane = { texture: null, material: null }
+  this.planeGrass = { texture: null, material: null }
+  this.mks = { texture: null, material: null }
+
+
  }
 
  async loadTexture() {
@@ -16,10 +21,10 @@ export class AssetsManager {
      transparent: true,
      opacity: 1
     });
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(this.planeWidth / 4, this.planeHeight / 4);
-    this.objs.planes.plane.material = material;
+
+
+    this.plane.texture = texture;
+    this.plane.material = material;
    },
    // onProgress callback currently not supported
    undefined,
@@ -35,10 +40,10 @@ export class AssetsManager {
      map: texture,
 
     });
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(this.planeWidth / 1, this.planeHeight / 8);
-    this.objs.grassPlanes.planeGrass.material = material;
+
+
+    this.planeGrass.texture = texture;
+    this.planeGrass.material = material;
    },
    // onProgress callback currently not supported
    undefined,
@@ -55,9 +60,8 @@ export class AssetsManager {
      transparent: true,
      opacity: 0,
     });
-    // texture.wrapS = THREE.RepeatWrapping;
-    // texture.wrapT = THREE.RepeatWrapping;
-    // texture.repeat.set(this.mksWidth / 20, this.mksHeight / 20);
+
+    this.mks.texture = texture;
     this.mks.material = material;
    },
    // onProgress callback currently not supported

@@ -26,6 +26,7 @@ import { ParamsClass } from './params';
 import { ScoreClass } from './score';
 import { GameClass } from './game';
 import { DataClass } from './data';
+import { AssetsManager } from './assets-manager';
 
 import { contain } from 'three/src/extras/TextureUtils.js';
 
@@ -54,6 +55,7 @@ let paramsClass;
 let scoreClass;
 
 let dataClass;
+let assetsManager;
 
 
 
@@ -198,6 +200,12 @@ async function BeforeStart() {
 
   dataClass = new DataClass();
 
+  assetsManager = new AssetsManager();
+  await assetsManager.loadTexture();
+
+  audioClass = new AudioClass();
+  await audioClass.loadAudio();
+
 
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
@@ -205,8 +213,7 @@ async function BeforeStart() {
 
 
 
-  audioClass = new AudioClass();
-  await audioClass.loadAudio();
+
 
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
@@ -234,7 +241,7 @@ async function initClases(chels) {
 
   worldClass = new WorldClass(scene, camera, renderer, paramsClass, isMobile, audioClass);
 
-  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass);
+  levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass, assetsManager);
 
   for (let i = 0; i < chels; i++) {
     levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass));
