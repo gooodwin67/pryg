@@ -451,3 +451,52 @@ export function createRippleRing({ scene, size = 1.5, ttl = 0.9 } = {}) {
     function dispose() { scene.remove(mesh); geom.dispose(); mat.dispose(); tex.dispose(); }
     return { trigger, update, dispose, mesh };
 }
+
+export function prewarmSkinnedModel(model, renderer, camera, scene) {
+    // 1) Сохраняем состояние
+    const culled = [];
+    model.traverse(o => {
+      if (o.isMesh || o.isSkinnedMesh) {
+        culled.push([o, o.frustumCulled, o.visible]);
+      }
+    });
+    const oldPos = model.position.clone();
+  
+    // 2) Собираем материалы и текстуры (для ранней инициализации)
+    const mats = [];
+    const textures = new Set();
+    model.traverse(o => {
+      if (o.isMesh || o.isSkinnedMesh) {
+        const mm = Array.isArray(o.material) ? o.material : [o.material];
+        mm.forEach(m => {
+          if (!m) return;
+          mats.push(m);
+          ['map','normalMap','emissiveMap','metalnessMap','roughnessMap','aoMap','alphaMap','specularMap','displacementMap']
+            .forEach(k => { if (m[k]) textures.add(m[k]); });
+        });
+      }
+    });
+  
+    // 3) На 1 «логический» момент делаем птицу гарантированно видимой для compile()
+    const forward = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(3);
+    model.position.copy(camera.position).add(forward);
+    model.traverse(o => { if (o.isMesh || o.isSkinnedMesh) { o.frustumCulled = false; o.visible = true; } });
+  
+    // 4) Прединициализация текстур (если есть публичный метод)
+    textures.forEach(tex => renderer.initTexture?.(tex));
+  
+    // 5) Компиляция шейдеров БЕЗ рендера кадра и без теней
+    // (compile не перерисовывает сцену и не трогает shadowMap)
+    renderer.compile(scene, camera);
+  
+    // 6) Вернуть позицию и флаги
+    model.position.copy(oldPos);
+    culled.forEach(([o, wasCulled, wasVisible]) => { o.frustumCulled = wasCulled; o.visible = wasVisible; });
+  
+    // 7) На всякий случай попросим обновить тени на следующем нормальном кадре
+    if (renderer.shadowMap) {
+      // не обязательно, но помогает, если тени уже успели «застрять» от прошлых экспериментов
+      renderer.shadowMap.needsUpdate = true;
+    }
+  }
+  

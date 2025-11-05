@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { getRandomNumber, disposeScene } from './functions';
+import { getRandomNumber, disposeScene, prewarmSkinnedModel } from './functions';
 
 
 export class LevelClass {
@@ -540,6 +540,7 @@ export class LevelClass {
     if (this.birdYes) {
       this.angryBirdModel = this.assetsManager.angryBirdModel;
       this.scene.add(this.angryBirdModel);
+      prewarmSkinnedModel(this.angryBirdModel, this.renderer, this.camera, this.scene);
     }
 
 
