@@ -78,261 +78,321 @@ export class AudioClass {
     this._attached = true;
   }
 
+  // async loadAudio() {
+
+  //   const audioLoader = new THREE.AudioLoader();
+
+  //   await audioLoader.loadAsync('audio/back1.mp3').then((buffer) => {
+  //     this.backAudio = new THREE.PositionalAudio(this.listener);
+  //     this.backAudio.setBuffer(buffer);
+  //     this.backAudio.setLoop(true);
+  //     this.backAudio.setRefDistance(100);
+  //     this.backAudio.setVolume(2);
+  //     this.musics.push({
+  //       name: 'back1',
+  //       music: this.backAudio,
+  //     })
+
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/back2.mp3').then((buffer) => {
+  //     this.backAudio2 = new THREE.PositionalAudio(this.listener);
+  //     this.backAudio2.setBuffer(buffer);
+  //     this.backAudio2.setLoop(true);
+  //     this.backAudio2.setRefDistance(100);
+  //     this.backAudio2.setVolume(2);
+  //     this.musics.push({
+  //       name: 'back2',
+  //       music: this.backAudio2,
+  //     })
+
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/back3.mp3').then((buffer) => {
+  //     this.backAudio3 = new THREE.PositionalAudio(this.listener);
+  //     this.backAudio3.setBuffer(buffer);
+  //     this.backAudio3.setLoop(true);
+  //     this.backAudio3.setRefDistance(100);
+  //     this.backAudio3.setVolume(0.5);
+  //     this.musics.push({
+  //       name: 'back3',
+  //       music: this.backAudio3,
+  //     })
+
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/ocean.mp3').then((buffer) => {
+  //     this.oceanAudio = new THREE.PositionalAudio(this.listener);
+  //     this.oceanAudio.setBuffer(buffer);
+  //     this.oceanAudio.setLoop(true);
+  //     this.oceanAudio.setRefDistance(100);
+  //     this.oceanAudio.setVolume(0.4);
+  //     this.musics.push({
+  //       name: 'ocean',
+  //       music: this.oceanAudio,
+  //     })
+
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/inwater.mp3').then((buffer) => {
+  //     this.inwaterAudio = new THREE.PositionalAudio(this.listener);
+  //     this.inwaterAudio.setBuffer(buffer);
+  //     this.inwaterAudio.setLoop(false);
+  //     this.inwaterAudio.setRefDistance(200);
+  //     this.inwaterAudio.setVolume(1);
+  //     this.musics.push({
+  //       name: 'inwater',
+  //       music: this.inwaterAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/loose.mp3').then((buffer) => {
+  //     this.looseAudio = new THREE.PositionalAudio(this.listener);
+  //     this.looseAudio.setBuffer(buffer);
+  //     this.looseAudio.setLoop(false);
+  //     this.looseAudio.setRefDistance(200);
+  //     this.looseAudio.setVolume(1);
+  //     this.musics.push({
+  //       name: 'loose',
+  //       music: this.looseAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/win.mp3').then((buffer) => {
+  //     this.winAudio = new THREE.PositionalAudio(this.listener);
+  //     this.winAudio.setBuffer(buffer);
+  //     this.winAudio.setLoop(false);
+  //     this.winAudio.setRefDistance(200);
+  //     this.winAudio.setVolume(2);
+  //     this.musics.push({
+  //       name: 'win',
+  //       music: this.winAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/take.mp3').then((buffer) => {
+  //     this.takeAudio = new THREE.PositionalAudio(this.listener);
+  //     this.takeAudio.setBuffer(buffer);
+  //     this.takeAudio.setLoop(false);
+  //     this.takeAudio.setRefDistance(200);
+  //     this.takeAudio.setVolume(2);
+  //     this.musics.push({
+  //       name: 'take',
+  //       music: this.takeAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/ready-jump.mp3').then((buffer) => {
+  //     this.readyJumpAudio = new THREE.PositionalAudio(this.listener);
+  //     this.readyJumpAudio.setBuffer(buffer);
+  //     this.readyJumpAudio.setLoop(false);
+  //     this.readyJumpAudio.setRefDistance(1000);
+  //     this.readyJumpAudio.setVolume(200);
+  //     this.readyJumpAudio.setPlaybackRate(2);
+  //     this.musics.push({
+  //       name: 'readyJump',
+  //       music: this.readyJumpAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/quack1.mp3').then((buffer) => {
+  //     this.jumpAudio = new THREE.PositionalAudio(this.listener);
+  //     this.jumpAudio.setBuffer(buffer);
+  //     this.jumpAudio.setLoop(false);
+  //     this.jumpAudio.setRefDistance(2000);
+  //     this.jumpAudio.setVolume(2);
+  //     this.quacks.push(this.jumpAudio)
+  //     this.musics.push({
+  //       name: 'quack1',
+  //       music: this.jumpAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/quack2.mp3').then((buffer) => {
+  //     this.jumpAudio2 = new THREE.PositionalAudio(this.listener);
+  //     this.jumpAudio2.setBuffer(buffer);
+  //     this.jumpAudio2.setLoop(false);
+  //     this.jumpAudio2.setRefDistance(400);
+  //     this.jumpAudio2.setVolume(0.3);
+  //     this.quacks.push(this.jumpAudio2)
+  //     this.musics.push({
+  //       name: 'quack2',
+  //       music: this.jumpAudio2,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/quack3.mp3').then((buffer) => {
+  //     this.jumpAudio3 = new THREE.PositionalAudio(this.listener);
+  //     this.jumpAudio3.setBuffer(buffer);
+  //     this.jumpAudio3.setLoop(false);
+  //     this.jumpAudio3.setRefDistance(400);
+  //     this.jumpAudio3.setVolume(0.3);
+  //     this.quacks.push(this.jumpAudio3)
+  //     this.musics.push({
+  //       name: 'quack3',
+  //       music: this.jumpAudio3,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/rain.mp3').then((buffer) => {
+  //     this.rainAudio = new THREE.PositionalAudio(this.listener);
+  //     this.rainAudio.setBuffer(buffer);
+  //     this.rainAudio.setLoop(true);
+  //     this.rainAudio.setRefDistance(400);
+  //     this.rainAudio.setVolume(1.5);
+  //     this.musics.push({
+  //       name: 'rain',
+  //       music: this.rainAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/thunder.mp3').then((buffer) => {
+  //     this.thunderAudio = new THREE.PositionalAudio(this.listener);
+  //     this.thunderAudio.setBuffer(buffer);
+  //     this.thunderAudio.setLoop(false);
+  //     this.thunderAudio.setRefDistance(400);
+  //     this.thunderAudio.setVolume(1);
+  //     this.thundersAudio.push({
+  //       name: 'thunder1',
+  //       music: this.thunderAudio,
+  //     })
+  //     this.musics.push({
+  //       name: 'thunder1',
+  //       music: this.thunderAudio,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/thunder2.mp3').then((buffer) => {
+  //     this.thunderAudio2 = new THREE.PositionalAudio(this.listener);
+  //     this.thunderAudio2.setBuffer(buffer);
+  //     this.thunderAudio2.setLoop(false);
+  //     this.thunderAudio2.setRefDistance(400);
+  //     this.thunderAudio2.setVolume(1);
+  //     this.thundersAudio.push({
+  //       name: 'thunder2',
+  //       music: this.thunderAudio2,
+  //     })
+  //     this.musics.push({
+  //       name: 'thunder2',
+  //       music: this.thunderAudio2,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   await audioLoader.loadAsync('audio/thunder3.mp3').then((buffer) => {
+  //     this.thunderAudio3 = new THREE.PositionalAudio(this.listener);
+  //     this.thunderAudio3.setBuffer(buffer);
+  //     this.thunderAudio3.setLoop(false);
+  //     this.thunderAudio3.setRefDistance(400);
+  //     this.thunderAudio3.setVolume(1);
+  //     this.thundersAudio.push({
+  //       name: 'thunder3',
+  //       music: this.thunderAudio3,
+  //     })
+  //     this.musics.push({
+  //       name: 'thunder3',
+  //       music: this.thunderAudio3,
+  //     })
+  //   }).catch((error) => {
+  //     console.error('Ошибка при загрузке аудио:', error);
+  //   });
+
+  //   this.musics.push({
+  //     name: 'back',
+  //     music: this.backAudio,
+  //   })
+
+
+  // }
+
+
   async loadAudio() {
+    const loader = new THREE.AudioLoader();
 
-    const audioLoader = new THREE.AudioLoader();
+    const sounds = [
+      { key: 'backAudio', name: 'back1', path: 'audio/back1.mp3', loop: true, ref: 100, vol: 2 },
+      { key: 'backAudio2', name: 'back2', path: 'audio/back2.mp3', loop: true, ref: 100, vol: 2 },
+      { key: 'backAudio3', name: 'back3', path: 'audio/back3.mp3', loop: true, ref: 100, vol: 0.5 },
+      { key: 'oceanAudio', name: 'ocean', path: 'audio/ocean.mp3', loop: true, ref: 100, vol: 0.4 },
+      { key: 'inwaterAudio', name: 'inwater', path: 'audio/inwater.mp3', loop: false, ref: 200, vol: 1 },
+      { key: 'looseAudio', name: 'loose', path: 'audio/loose.mp3', loop: false, ref: 200, vol: 1 },
+      { key: 'winAudio', name: 'win', path: 'audio/win.mp3', loop: false, ref: 200, vol: 2 },
+      { key: 'takeAudio', name: 'take', path: 'audio/take.mp3', loop: false, ref: 200, vol: 2 },
+      { key: 'readyJumpAudio', name: 'readyJump', path: 'audio/ready-jump.mp3', loop: false, ref: 1000, vol: 200, rate: 2 },
+      { key: 'jumpAudio', name: 'quack1', path: 'audio/quack1.mp3', loop: false, ref: 2000, vol: 2, quack: true },
+      { key: 'jumpAudio2', name: 'quack2', path: 'audio/quack2.mp3', loop: false, ref: 400, vol: 0.3, quack: true },
+      { key: 'jumpAudio3', name: 'quack3', path: 'audio/quack3.mp3', loop: false, ref: 400, vol: 0.3, quack: true },
+      { key: 'rainAudio', name: 'rain', path: 'audio/rain.mp3', loop: true, ref: 400, vol: 1.5 },
+      { key: 'thunderAudio', name: 'thunder1', path: 'audio/thunder.mp3', loop: false, ref: 400, vol: 1, thunder: true },
+      { key: 'thunderAudio2', name: 'thunder2', path: 'audio/thunder2.mp3', loop: false, ref: 400, vol: 1, thunder: true },
+      { key: 'thunderAudio3', name: 'thunder3', path: 'audio/thunder3.mp3', loop: false, ref: 400, vol: 1, thunder: true },
+    ];
 
-    await audioLoader.loadAsync('audio/back1.mp3').then((buffer) => {
-      this.backAudio = new THREE.PositionalAudio(this.listener);
-      this.backAudio.setBuffer(buffer);
-      this.backAudio.setLoop(true);
-      this.backAudio.setRefDistance(100);
-      this.backAudio.setVolume(2);
-      this.musics.push({
-        name: 'back1',
-        music: this.backAudio,
-      })
+    // Загружаем все буферы параллельно
+    const buffers = await Promise.all(
+      sounds.map(s => loader.loadAsync(s.path).catch(err => {
+        console.error(`Ошибка при загрузке ${s.path}:`, err);
+        return null;
+      }))
+    );
 
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
+    // Присваиваем и создаём объекты
+    buffers.forEach((buffer, i) => {
+      const s = sounds[i];
+      if (!buffer) return;
+
+      const audio = new THREE.PositionalAudio(this.listener);
+      audio.setBuffer(buffer);
+      audio.setLoop(s.loop);
+      audio.setRefDistance(s.ref);
+      audio.setVolume(s.vol);
+      if (s.rate) audio.setPlaybackRate(s.rate);
+
+      // сохраняем в поле класса (например this.thunderAudio)
+      this[s.key] = audio;
+
+      // добавляем в общие массивы
+      this.musics.push({ name: s.name, music: audio });
+      if (s.quack) this.quacks.push(audio);
+      if (s.thunder) this.thundersAudio.push({ name: s.name, music: audio });
     });
 
-    await audioLoader.loadAsync('audio/back2.mp3').then((buffer) => {
-      this.backAudio2 = new THREE.PositionalAudio(this.listener);
-      this.backAudio2.setBuffer(buffer);
-      this.backAudio2.setLoop(true);
-      this.backAudio2.setRefDistance(100);
-      this.backAudio2.setVolume(2);
-      this.musics.push({
-        name: 'back2',
-        music: this.backAudio2,
-      })
-
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/back3.mp3').then((buffer) => {
-      this.backAudio3 = new THREE.PositionalAudio(this.listener);
-      this.backAudio3.setBuffer(buffer);
-      this.backAudio3.setLoop(true);
-      this.backAudio3.setRefDistance(100);
-      this.backAudio3.setVolume(0.5);
-      this.musics.push({
-        name: 'back3',
-        music: this.backAudio3,
-      })
-
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/ocean.mp3').then((buffer) => {
-      this.oceanAudio = new THREE.PositionalAudio(this.listener);
-      this.oceanAudio.setBuffer(buffer);
-      this.oceanAudio.setLoop(true);
-      this.oceanAudio.setRefDistance(100);
-      this.oceanAudio.setVolume(0.4);
-      this.musics.push({
-        name: 'ocean',
-        music: this.oceanAudio,
-      })
-
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/inwater.mp3').then((buffer) => {
-      this.inwaterAudio = new THREE.PositionalAudio(this.listener);
-      this.inwaterAudio.setBuffer(buffer);
-      this.inwaterAudio.setLoop(false);
-      this.inwaterAudio.setRefDistance(200);
-      this.inwaterAudio.setVolume(1);
-      this.musics.push({
-        name: 'inwater',
-        music: this.inwaterAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/loose.mp3').then((buffer) => {
-      this.looseAudio = new THREE.PositionalAudio(this.listener);
-      this.looseAudio.setBuffer(buffer);
-      this.looseAudio.setLoop(false);
-      this.looseAudio.setRefDistance(200);
-      this.looseAudio.setVolume(1);
-      this.musics.push({
-        name: 'loose',
-        music: this.looseAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/win.mp3').then((buffer) => {
-      this.winAudio = new THREE.PositionalAudio(this.listener);
-      this.winAudio.setBuffer(buffer);
-      this.winAudio.setLoop(false);
-      this.winAudio.setRefDistance(200);
-      this.winAudio.setVolume(2);
-      this.musics.push({
-        name: 'win',
-        music: this.winAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/take.mp3').then((buffer) => {
-      this.takeAudio = new THREE.PositionalAudio(this.listener);
-      this.takeAudio.setBuffer(buffer);
-      this.takeAudio.setLoop(false);
-      this.takeAudio.setRefDistance(200);
-      this.takeAudio.setVolume(2);
-      this.musics.push({
-        name: 'take',
-        music: this.takeAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/ready-jump.mp3').then((buffer) => {
-      this.readyJumpAudio = new THREE.PositionalAudio(this.listener);
-      this.readyJumpAudio.setBuffer(buffer);
-      this.readyJumpAudio.setLoop(false);
-      this.readyJumpAudio.setRefDistance(1000);
-      this.readyJumpAudio.setVolume(200);
-      this.readyJumpAudio.setPlaybackRate(2);
-      this.musics.push({
-        name: 'readyJump',
-        music: this.readyJumpAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/quack1.mp3').then((buffer) => {
-      this.jumpAudio = new THREE.PositionalAudio(this.listener);
-      this.jumpAudio.setBuffer(buffer);
-      this.jumpAudio.setLoop(false);
-      this.jumpAudio.setRefDistance(2000);
-      this.jumpAudio.setVolume(2);
-      this.quacks.push(this.jumpAudio)
-      this.musics.push({
-        name: 'quack1',
-        music: this.jumpAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/quack2.mp3').then((buffer) => {
-      this.jumpAudio2 = new THREE.PositionalAudio(this.listener);
-      this.jumpAudio2.setBuffer(buffer);
-      this.jumpAudio2.setLoop(false);
-      this.jumpAudio2.setRefDistance(400);
-      this.jumpAudio2.setVolume(0.3);
-      this.quacks.push(this.jumpAudio2)
-      this.musics.push({
-        name: 'quack2',
-        music: this.jumpAudio2,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/quack3.mp3').then((buffer) => {
-      this.jumpAudio3 = new THREE.PositionalAudio(this.listener);
-      this.jumpAudio3.setBuffer(buffer);
-      this.jumpAudio3.setLoop(false);
-      this.jumpAudio3.setRefDistance(400);
-      this.jumpAudio3.setVolume(0.3);
-      this.quacks.push(this.jumpAudio3)
-      this.musics.push({
-        name: 'quack3',
-        music: this.jumpAudio3,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/rain.mp3').then((buffer) => {
-      this.rainAudio = new THREE.PositionalAudio(this.listener);
-      this.rainAudio.setBuffer(buffer);
-      this.rainAudio.setLoop(true);
-      this.rainAudio.setRefDistance(400);
-      this.rainAudio.setVolume(1.5);
-      this.musics.push({
-        name: 'rain',
-        music: this.rainAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/thunder.mp3').then((buffer) => {
-      this.thunderAudio = new THREE.PositionalAudio(this.listener);
-      this.thunderAudio.setBuffer(buffer);
-      this.thunderAudio.setLoop(false);
-      this.thunderAudio.setRefDistance(400);
-      this.thunderAudio.setVolume(1);
-      this.thundersAudio.push({
-        name: 'thunder1',
-        music: this.thunderAudio,
-      })
-      this.musics.push({
-        name: 'thunder1',
-        music: this.thunderAudio,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/thunder2.mp3').then((buffer) => {
-      this.thunderAudio2 = new THREE.PositionalAudio(this.listener);
-      this.thunderAudio2.setBuffer(buffer);
-      this.thunderAudio2.setLoop(false);
-      this.thunderAudio2.setRefDistance(400);
-      this.thunderAudio2.setVolume(1);
-      this.thundersAudio.push({
-        name: 'thunder2',
-        music: this.thunderAudio2,
-      })
-      this.musics.push({
-        name: 'thunder2',
-        music: this.thunderAudio2,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    await audioLoader.loadAsync('audio/thunder3.mp3').then((buffer) => {
-      this.thunderAudio3 = new THREE.PositionalAudio(this.listener);
-      this.thunderAudio3.setBuffer(buffer);
-      this.thunderAudio3.setLoop(false);
-      this.thunderAudio3.setRefDistance(400);
-      this.thunderAudio3.setVolume(1);
-      this.thundersAudio.push({
-        name: 'thunder3',
-        music: this.thunderAudio3,
-      })
-      this.musics.push({
-        name: 'thunder3',
-        music: this.thunderAudio3,
-      })
-    }).catch((error) => {
-      console.error('Ошибка при загрузке аудио:', error);
-    });
-
-    this.musics.push({
-      name: 'back',
-      music: this.backAudio,
-    })
-
-
+    // добавляем псевдоним "back" для day/night переключения
+    if (this.backAudio) {
+      this.musics.push({ name: 'back', music: this.backAudio });
+    }
   }
+
+
   stopMusic(musics) {
     if (this.musicOn) {
       if (musics == 0) {

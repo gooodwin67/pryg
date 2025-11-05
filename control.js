@@ -115,11 +115,11 @@ export class ControlClass {
         break;
       case 'KeyZ':
       case 'ArrowDown':
-        this.downKeys(this.levelClass.players[1].player);
+        if (this.levelClass.players.length > 1) this.downKeys(this.levelClass.players[1].player);
         break;
       case 'KeyM':
       case 'ArrowLeft':
-        this.downKeys(this.levelClass.players[2].player);
+        if (this.levelClass.players.length > 2) this.downKeys(this.levelClass.players[2].player);
         break;
       case 'KeyD':
       case 'ArrowRight':
@@ -146,11 +146,11 @@ export class ControlClass {
         break;
       case 'KeyZ':
       case 'ArrowDown':
-        this.upKeys(this.levelClass.players[1].player);
+        if (this.levelClass.players.length > 1) this.upKeys(this.levelClass.players[1].player);
         break;
       case 'KeyM':
       case 'ArrowLeft':
-        this.upKeys(this.levelClass.players[2].player);
+        if (this.levelClass.players.length > 2) this.upKeys(this.levelClass.players[2].player);
         break;
       case 'KeyD':
       case 'ArrowRight':

@@ -193,6 +193,7 @@ document.body.addEventListener("touchstart", function () {
 // let controls = new OrbitControls(camera, renderer.domElement);
 /*//////////////////////////////////////////////////////////////////////////////////////////*/
 
+let loaderLine = document.querySelector('.loader_line');
 
 
 async function BeforeStart() {
@@ -201,24 +202,29 @@ async function BeforeStart() {
   dataClass = new DataClass();
 
   assetsManager = new AssetsManager();
+  await assetsManager.loadModels();
+  await assetsManager.loadBoostsModel();
+  loaderLine.setAttribute("style", "width:30%");
+
   await assetsManager.loadTexture();
+  loaderLine.setAttribute("style", "width:30%");
 
   audioClass = new AudioClass();
   await audioClass.loadAudio();
+  loaderLine.setAttribute("style", "width:60%");
 
 
   await dataClass.loadLocalData();
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
 
-
-
-
+  loaderLine.setAttribute("style", "width:100%");
 
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
 
   toggleLoader(false);
+  loaderLine.setAttribute("style", "width:0%");
 }
 await BeforeStart();
 
@@ -244,7 +250,7 @@ async function initClases(chels) {
   levelClass = new LevelClass(scene, audioClass, physicsClass, renderer, camera, isMobile, paramsClass, worldClass, initMatch, dataClass, gameClass, splash, ring, scoreClass, menuClass, assetsManager);
 
   for (let i = 0; i < chels; i++) {
-    levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass));
+    levelClass.players.push(new PlayerClass(dataClass, scene, audioClass, levelClass, paramsClass, camera, gameClass, assetsManager));
   }
   controlClass = new ControlClass(levelClass, isMobile, renderer, camera, paramsClass, audioClass);
   controlClass.addKeyListeners();
@@ -291,10 +297,13 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   paramsClass = new ParamsClass();
 
   await initClases(chels);
+  loaderLine.setAttribute("style", "width:30%");
 
   levelClass.gameNum = gameNum;
   await initEntity();
+  loaderLine.setAttribute("style", "width:60%");
   await initLevel(levelsMode);
+  loaderLine.setAttribute("style", "width:90%");
 
 
   // console.log(paramsClass.gameDir)
@@ -303,9 +312,11 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   paramsClass.dataLoaded = true;
   gameClass.gameStarting = true;
   dataClass.gameInit = true;
+  loaderLine.setAttribute("style", "width:100%");
 
   setTimeout(() => {
     menuClass.toggleLoader(false);
+    loaderLine.setAttribute("style", "width:0%");
   }, 200)
 
 }
@@ -494,7 +505,7 @@ document.addEventListener("visibilitychange", function () {
 });
 
 
-document.querySelector('.pause_btn').addEventListener('click', () => {
+document.querySelector('.pause_btn_wrap').addEventListener('click', () => {
 
   if (!gameClass.pause && gameClass.gameStarting) {
     gameClass.pause = !gameClass.pause;

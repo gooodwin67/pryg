@@ -344,7 +344,7 @@ export class DataClass {
     });
   }
 
-  loadLevelsContest() {
+  async loadLevelsContest() {
     const levelsContainer = document.querySelector('.levels_blocks_contest');
     if (!levelsContainer) return;
 

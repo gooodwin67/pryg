@@ -1405,6 +1405,7 @@ body .level_game_chels_contest_active {
     border: 1px solid #3d8903;
     box-shadow: 0 4px 0 #3d8903;
     height: 100%;
+    cursor: pointer;
 }
 
 #nav-icon3 {
@@ -1496,6 +1497,7 @@ body .level_game_chels_contest_active {
     background: linear-gradient(1deg, rgba(0, 154, 169, 1) 1%, rgba(122, 202, 214, 1) 100%);
     border: 1px solid #007d8c;
     box-shadow: 0 4px 0 #007d8c;
+    cursor: pointer;
 }
 
 .volume-icon {
@@ -2656,7 +2658,7 @@ body {
     --color-orange: #f57a00;
     --color-blue-1: #FEB885;
     --color-blue-2: #5ec869;
-    --duck-speed: 1s;
+    --duck-speed: 0.8s;
     --duck-speed-half: calc(var(--duck-speed) / 2);
 
     position: absolute;
@@ -2673,6 +2675,7 @@ body {
 .loader_screen .duck__wrapper {
     display: grid;
     place-content: center;
+    margin-top: -15px;
 }
 
 /* Сам «птенец» */
@@ -2832,14 +2835,24 @@ body {
 /* Плавучая «поверхность» под уткой */
 .loader_screen .surface {
     position: absolute;
-    bottom: -1.9rem;
+    bottom: -2.4rem;
     left: 55%;
     transform: translateX(-50%);
-    background-color: var(--color-blue-2);
+    background-color: white;
     width: 8rem;
-    height: 0.5rem;
+    height: 0.7rem;
     border-radius: 1rem;
     animation: surface-animation var(--duck-speed-half) linear infinite;
+}
+
+.loader_screen .surface>.loader_line {
+    width: 0%;
+    position: absolute;
+    height: 100%;
+    background: var(--color-blue-2);
+    ;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 1);
+    border-radius: 1rem;
 }
 
 
@@ -3008,7 +3021,7 @@ body {
 
 .loader_screen .surface span {
     font-size: 26px;
-    padding-top: 10px;
+    padding-top: 14px;
     position: absolute;
     color: #fff;
     font-weight: bold;
