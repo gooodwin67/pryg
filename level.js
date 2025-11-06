@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene, prewarmSkinnedModel } from './functions';
+import { t } from './i18n.js';
+
+const MY_REC_NAMES = new Set(["Мой рекорд", "My record"]);
+const isMy = (row) => row?.isMine === true || row?.name === t('hud.mineRecord', 'Мой рекорд') || MY_REC_NAMES.has(row?.name);
 
 
 export class LevelClass {
@@ -77,8 +81,10 @@ export class LevelClass {
     this.geometryPlane = new THREE.PlaneGeometry(this.mksWidth, this.mksHeight);
     this.materialPlane = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
     this.mks = new THREE.Mesh(this.geometryPlane, this.materialPlane);
-    this.mks.position.z = -650
-    this.mks.position.y = 150
+    this.mks.position.z = -550
+    if (this.isMobile) this.mks.position.y = 150
+    else this.mks.position.y = 140
+
     this.mks.layers.set(1);
 
 
@@ -222,7 +228,7 @@ export class LevelClass {
           rotation: new THREE.Euler(0, 0, 0),
           scale: new THREE.Vector3(1, 1, 1),
           size: new THREE.Vector3(0.4, 0.3, 0.1),
-          userData: { name: 'liveBlock', taked: false, startPos: new THREE.Vector3(0, 0, 0) },
+          userData: { name: 'liveBlock', taked: false, startPos: new THREE.Vector3(0, -10, 0) },
         })),
         geometryLivesBlock: new THREE.ExtrudeGeometry(heartShape, extrudeSettings),
         materialLivesBlock: new THREE.MeshStandardMaterial({ color: 0xff0000 }),
@@ -756,7 +762,7 @@ export class LevelClass {
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
             this.objs.topPlanes.data[i].position.x = 0;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
 
             this.objs.grassPlanes.data[i].position.x = 0;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
@@ -766,7 +772,7 @@ export class LevelClass {
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
             this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
 
             this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
@@ -776,14 +782,14 @@ export class LevelClass {
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
             this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
 
             this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
           }
 
           this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
-          this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+          this.objs.lamps.data[i].position.z = -this.planeDepth / 4;
           this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
 
           this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
@@ -877,7 +883,7 @@ export class LevelClass {
 
 
           this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
-          this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+          this.objs.lamps.data[i].position.z = -this.planeDepth / 4;
           this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
 
           this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
@@ -1013,13 +1019,13 @@ export class LevelClass {
             if (i == 0) {
               randomY = 1 - this.planeHeight / 1.5;
               this.objs.planes.data[i].position.x = 0;
-              this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+              this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6 - 1.5;
 
               this.objs.topPlanes.data[i].position.x = 0;
-              this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
+              this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2 - 1.5;
 
               this.objs.grassPlanes.data[i].position.x = 0;
-              this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+              this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 1.5;
 
             }
 
@@ -1088,7 +1094,7 @@ export class LevelClass {
 
 
             this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
-            this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+            this.objs.lamps.data[i].position.z = -this.planeDepth / 4;
             this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
 
             this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
@@ -1256,7 +1262,7 @@ export class LevelClass {
 
 
             this.objs.lamps.data[i].position.x = this.objs.grassPlanes.data[i].position.x;
-            this.objs.lamps.data[i].position.z = -this.planeDepth / 8;
+            this.objs.lamps.data[i].position.z = -this.planeDepth / 4;
             this.objs.lamps.data[i].position.y = this.objs.grassPlanes.data[i].position.y + this.objs.grassPlanes.data[i].size.y / 2 + this.objs.lamps.lampHeight - 0.2;
 
             this.objs.plafons.data[i].position.x = this.objs.lamps.data[i].position.x;
@@ -1720,7 +1726,11 @@ export class LevelClass {
       }
     })
 
-    this.angryBirdModel.position.copy(new THREE.Vector3(this.angryBird.position.x, this.angryBird.position.y - 0.2, this.angryBird.position.z + 0.9))
+    this.angryBirdModel.position.set(
+      this.angryBird.position.x,
+      this.angryBird.position.y - 0.2,
+      this.angryBird.position.z + 0.9
+    );
     this.angryBirdModel.userData.mixer.update(this.angryBirdModel.userData.clock.getDelta());
 
     if (this.birdYes) {
@@ -1875,15 +1885,19 @@ export class LevelClass {
           const light = plafon.pointLight;
 
           if (light) {
-            // плавно к нулю (можно и быстрее, чем ночью)
-            light.intensity = THREE.MathUtils.lerp(light.intensity, 0, fadeOutSpeed);
+            // подтягиваем к актуальной позиции лампы перед гашением
+            const p = this.objs.lamps.data[index].position;
+            light.position.set(p.x, p.y + 1, p.z + 2);
+            if (plafon.glow) plafon.glow.position.set(p.x, p.y + 1, p.z);
+
+            // теперь гасим
+            light.intensity = THREE.MathUtils.lerp(light.intensity, 0, 0.2);
             if (light.intensity <= 0.01) {
               light.intensity = 0;
               this.lights.push(light);
               plafon.pointLight = null;
               plafon.userData.light = false;
 
-              // убрать ореол
               if (plafon.glow) {
                 this.scene.remove(plafon.glow);
                 this.glowPool.push(plafon.glow);
@@ -2239,8 +2253,8 @@ export class LevelClass {
       case 1:
         if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 3;
         this.cameraSpeed += 0.000001;
-        camera.position.y = this.isMobile ? 3 : 3;
-        camera.position.z = this.isMobile ? 20 : 25;
+        camera.position.y = this.isMobile ? 2.5 : 3;
+        camera.position.z = this.isMobile ? 25 : 30;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
       case 2: {
@@ -2284,14 +2298,14 @@ export class LevelClass {
           this.cam.velX = s.newVel;
 
           // Остальные координаты
-          camera.position.y = this.isMobile ? 3 : 3; //3.5
-          camera.position.z = this.isMobile ? 20 : 25; //13
+          camera.position.y = this.isMobile ? 2.5 : 3; //3.5
+          camera.position.z = this.isMobile ? 25 : 30; //13
           camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
         else if (this.worldClass.thunder || !this.levelsMode) {
           if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 2;
           camera.position.y = this.isMobile ? 3 : 3;
-          camera.position.z = this.isMobile ? 20 : 25;
+          camera.position.z = this.isMobile ? 25 : 30;
           camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
 
@@ -2301,7 +2315,7 @@ export class LevelClass {
         // this.getHorizontalWorldBounds();
         if (this.gameClass.gameStarting) camera.position.y += this.cameraSpeed;
         camera.position.x = 0;
-        camera.position.z = this.isMobile ? 20 : 32;
+        camera.position.z = this.isMobile ? 25 : 35;
         this.cameraSpeed += 0.000001;
 
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
@@ -2316,15 +2330,15 @@ export class LevelClass {
 
         camera.position.x = 0;
 
-        camera.position.z = this.isMobile ? 20 : 32;
+        camera.position.z = this.isMobile ? 25 : 35;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
 
         this.mks.material.opacity = this.worldClass.blackSky.material.opacity;
 
         if (camera.position.y > 20) {
-          this.mks.position.x -= 0.01;
-          this.mks.position.y += 0.01;
-          this.mks.position.z -= 0.01;
+          this.mks.position.x -= 0.02;
+          this.mks.position.y += 0.02;
+          this.mks.position.z -= 0.02;
         }
         break;
     }
@@ -2370,10 +2384,18 @@ export class LevelClass {
     if (newRec) {
 
       if (this.paramsClass.gameDir === 'hor') {
-        this.dataClass.table['hor'][this.players.length - 1].find((value, index, array) => value.name === 'Мой рекорд').rec = this.scoreClass.score   ///////Может быть проблема при переводе!!!!!!!!!!!!
+        {
+          const list = this.dataClass.table['hor'][this.players.length - 1];
+          const row = list.find(isMy);
+          if (row) row.rec = this.scoreClass.score;
+        }
       }
       else if (this.paramsClass.gameDir === 'vert') {
-        this.dataClass.table['vert'][this.players.length - 1].find((value, index, array) => value.name === 'Мой рекорд').rec = this.scoreClass.score   ///////Может быть проблема при переводе!!!!!!!!!!!!
+        {
+          const list = this.dataClass.table['vert'][this.players.length - 1];
+          const row = list.find(isMy);
+          if (row) row.rec = this.scoreClass.score;
+        }
       }
       this.dataClass.saveLocalData();
       this.dataClass.loadLocalData();

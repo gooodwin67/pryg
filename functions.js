@@ -456,47 +456,93 @@ export function prewarmSkinnedModel(model, renderer, camera, scene) {
     // 1) Сохраняем состояние
     const culled = [];
     model.traverse(o => {
-      if (o.isMesh || o.isSkinnedMesh) {
-        culled.push([o, o.frustumCulled, o.visible]);
-      }
+        if (o.isMesh || o.isSkinnedMesh) {
+            culled.push([o, o.frustumCulled, o.visible]);
+        }
     });
     const oldPos = model.position.clone();
-  
+
     // 2) Собираем материалы и текстуры (для ранней инициализации)
     const mats = [];
     const textures = new Set();
     model.traverse(o => {
-      if (o.isMesh || o.isSkinnedMesh) {
-        const mm = Array.isArray(o.material) ? o.material : [o.material];
-        mm.forEach(m => {
-          if (!m) return;
-          mats.push(m);
-          ['map','normalMap','emissiveMap','metalnessMap','roughnessMap','aoMap','alphaMap','specularMap','displacementMap']
-            .forEach(k => { if (m[k]) textures.add(m[k]); });
-        });
-      }
+        if (o.isMesh || o.isSkinnedMesh) {
+            const mm = Array.isArray(o.material) ? o.material : [o.material];
+            mm.forEach(m => {
+                if (!m) return;
+                mats.push(m);
+                ['map', 'normalMap', 'emissiveMap', 'metalnessMap', 'roughnessMap', 'aoMap', 'alphaMap', 'specularMap', 'displacementMap']
+                    .forEach(k => { if (m[k]) textures.add(m[k]); });
+            });
+        }
     });
-  
+
     // 3) На 1 «логический» момент делаем птицу гарантированно видимой для compile()
     const forward = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(3);
     model.position.copy(camera.position).add(forward);
     model.traverse(o => { if (o.isMesh || o.isSkinnedMesh) { o.frustumCulled = false; o.visible = true; } });
-  
+
     // 4) Прединициализация текстур (если есть публичный метод)
     textures.forEach(tex => renderer.initTexture?.(tex));
-  
+
     // 5) Компиляция шейдеров БЕЗ рендера кадра и без теней
     // (compile не перерисовывает сцену и не трогает shadowMap)
     renderer.compile(scene, camera);
-  
+
     // 6) Вернуть позицию и флаги
     model.position.copy(oldPos);
     culled.forEach(([o, wasCulled, wasVisible]) => { o.frustumCulled = wasCulled; o.visible = wasVisible; });
-  
+
     // 7) На всякий случай попросим обновить тени на следующем нормальном кадре
     if (renderer.shadowMap) {
-      // не обязательно, но помогает, если тени уже успели «застрять» от прошлых экспериментов
-      renderer.shadowMap.needsUpdate = true;
+        // не обязательно, но помогает, если тени уже успели «застрять» от прошлых экспериментов
+        renderer.shadowMap.needsUpdate = true;
     }
-  }
-  
+}
+
+// Прогреть “клиппинг-варианты” материалов (как при рендере отражения воды)
+export function prewarmClippingVariantsForVisibleMaterials(renderer, scene, camera) {
+    const prevLocal = renderer.localClippingEnabled;
+    const prevPlanes = renderer.clippingPlanes ? renderer.clippingPlanes.slice() : [];
+
+    // Включаем локальный клиппинг и задаём глобальную “безвредную” плоскость,
+    // чтобы у материалов действительно включился #define USE_CLIPPING.
+    renderer.localClippingEnabled = true;
+    renderer.clippingPlanes = [new THREE.Plane(new THREE.Vector3(0, 1, 0), -1e9)]; // далеко ниже сцены
+
+    // Компилируем шейдеры для всех видимых сейчас объектов
+    renderer.compile(scene, camera);
+
+    // Откат
+    renderer.clippingPlanes = prevPlanes;
+    renderer.localClippingEnabled = prevLocal;
+}
+
+// Прогреть сам отражательный проход Water без влияния на экран и тени
+export function prewarmWaterReflection(water, renderer, scene, camera) {
+    if (!water) return;
+
+    const prevRT = renderer.getRenderTarget();
+    const hadShadow = !!renderer.shadowMap;
+    const prevShadowAuto = hadShadow ? renderer.shadowMap.autoUpdate : false;
+
+    if (hadShadow) renderer.shadowMap.autoUpdate = false;
+
+    // ВАЖНО: нам нужно, чтобы у воды сработал onBeforeRender → он рисует отражение в свой RT.
+    const wasVisible = water.visible;
+    water.visible = true;
+
+    // Рендерим один кадр в крошечный RT, чтобы ничего не “мигнуло” на экране.
+    const tmp = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false, stencilBuffer: false });
+    renderer.setRenderTarget(tmp);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(prevRT);
+    tmp.dispose();
+
+    // Откат состояний
+    water.visible = wasVisible;
+    if (hadShadow) {
+        renderer.shadowMap.autoUpdate = prevShadowAuto;
+        renderer.shadowMap.needsUpdate = true; // корректная пересборка на следующем кадре
+    }
+}

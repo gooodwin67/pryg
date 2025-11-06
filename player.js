@@ -28,7 +28,7 @@ export class PlayerClass {
     this.player.userData.body = 0;
     this.player.userData.onGround = false;
     this.player.userData.audio = [];
-    this.player.userData.canFly = true;
+    this.player.userData.canFly = false;
     this.player.userData.canFlyNum = null;
     this.player.userData.canFlyJumps = 0;
     this.player.userData.canFlyJumpsMax = 3;
@@ -502,7 +502,7 @@ export class PlayerClass {
 
 
       //Поворот тела
-      const rotationBodyX = this.player.userData.readyJump ? 0.60 : 0;
+      const rotationBodyX = this.player.userData.readyJump ? 0.71 : 0;
       this.player.userData.body.setRotation({
         w: this.player.userData.body.rotation().w,
         x: this.lerp(this.player.userData.body.rotation().x, rotationBodyX, 0.1),

@@ -170,8 +170,8 @@ export class ControlClass {
 
       }
       else if (player.userData.canFly) {
-        player.userData.readyJump = true;
         if (!player.userData.readyJump && this.audioClass.musicOn) player.userData.audio[0].play();
+        player.userData.readyJump = true;
       }
     }
   }

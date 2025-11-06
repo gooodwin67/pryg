@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { prewarmClippingVariantsForVisibleMaterials, prewarmWaterReflection } from "./functions";
 
 export class WorldClass {
   constructor(scene, camera, renderer, paramsClass, isMobile, audioClass) {
@@ -478,6 +479,9 @@ void main() {
     this.scene.add(this.targetObject);
     this.scene.add(this.water);
 
+    prewarmClippingVariantsForVisibleMaterials(this.renderer, this.scene, this.camera);
+    prewarmWaterReflection(this.water, this.renderer, this.scene, this.camera);
+
   }
 
 
@@ -593,7 +597,7 @@ void main() {
     this.isRainActive = true;
 
     const nowMs = performance.now();
-    this.rainEndTimestampMs = nowMs + 70000; // дождь длится 15 секунд (можешь менять)
+    this.rainEndTimestampMs = nowMs + 70000;
   }
 
 

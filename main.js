@@ -30,6 +30,8 @@ import { AssetsManager } from './assets-manager';
 
 import { contain } from 'three/src/extras/TextureUtils.js';
 
+import { initI18n } from './i18n.js';
+
 
 console.clear();
 
@@ -99,6 +101,7 @@ function setVhVar() {
 setVhVar();
 window.addEventListener('resize', setVhVar);
 window.addEventListener('orientationchange', setVhVar);
+window.visualViewport?.addEventListener('resize', setVhVar);
 
 ///////////////////////////////////////
 
@@ -132,11 +135,12 @@ function onWindowResize() {
   const aspect = w / h;
 
   // пересчитываем вертикальный FOV при фиксированном горизонтальном
-  let vFOV = 2.5 * Math.atan(Math.tan(FIXED_HFOV / 2) / aspect);
+  let vFOV = 2 * Math.atan(Math.tan(FIXED_HFOV / 2) / aspect);
+  // let vFOV = 2.5 * Math.atan(Math.tan(FIXED_HFOV / 2) / aspect);
 
   // необязательные «ограждения», чтобы на экстремальных экранах не уходить в микроскопические/гигантские значения
-  const vMin = THREE.MathUtils.degToRad(12);
-  const vMax = THREE.MathUtils.degToRad(70);
+  const vMin = THREE.MathUtils.degToRad(4);
+  const vMax = THREE.MathUtils.degToRad(90);
   vFOV = THREE.MathUtils.clamp(vFOV, vMin, vMax);
 
   camera.fov = THREE.MathUtils.radToDeg(vFOV);
@@ -146,35 +150,6 @@ function onWindowResize() {
   renderer.setSize(w, h);
 }
 
-
-// function onWindowResize() {
-//   const BASE_W = 1920;
-//   const BASE_H = 1080;
-
-//   const sw = window.innerWidth;
-//   const sh = window.innerHeight;
-
-//   // масштабирование с "cover" логикой (заполнение экрана без полос)
-//   const scale = Math.max(sw / BASE_W, sh / BASE_H);
-//   const displayW = Math.round(BASE_W * scale);
-//   const displayH = Math.round(BASE_H * scale);
-
-//   // внутренний размер рендера оставляем 1920x1080 — не трогаем
-//   renderer.setSize(BASE_W, BASE_H, false);
-
-//   // стили canvas — растянуть под cover
-//   const canvas = renderer.domElement;
-//   canvas.style.width = `${displayW}px`;
-//   canvas.style.height = `${displayH}px`;
-//   canvas.style.position = "absolute";
-//   canvas.style.left = `${(sw - displayW) / 2}px`;
-//   canvas.style.top = `${(sh - displayH) / 2}px`;
-
-//   // корректируем камеру
-//   const aspect = BASE_W / BASE_H;
-//   camera.aspect = aspect;
-//   camera.updateProjectionMatrix();
-// }
 
 window.addEventListener('resize', onWindowResize);
 onWindowResize();
@@ -188,6 +163,26 @@ document.body.addEventListener("touchstart", function () {
 
 }, false);
 
+// document.body.addEventListener("touchstart", async function () {
+//   try {
+//     // Проверяем, поддерживается ли fullscreen
+//     const el = document.documentElement;
+//     if (el.requestFullscreen) {
+//       await el.requestFullscreen();
+//     } else if (el.webkitRequestFullscreen) {
+//       await el.webkitRequestFullscreen(); // для Safari
+//     }
+
+
+//     // Поворот экрана на iOS не работает, просто подгоняем вьюпорт
+//     if (window.screen.orientation?.lock) {
+//       await window.screen.orientation.lock("landscape").catch(() => { });
+//     }
+//   } catch (e) {
+//     console.warn('Fullscreen not supported', e);
+//   }
+// }, { once: true });
+
 
 
 // let controls = new OrbitControls(camera, renderer.domElement);
@@ -200,6 +195,7 @@ async function BeforeStart() {
   toggleLoader(true);
 
   dataClass = new DataClass();
+  initI18n();
 
   assetsManager = new AssetsManager();
   await assetsManager.loadModels();
@@ -207,7 +203,9 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:30%");
 
   await assetsManager.loadTexture();
+  await preloadPopupBackgrounds();
   loaderLine.setAttribute("style", "width:30%");
+
 
   audioClass = new AudioClass();
   await audioClass.loadAudio();
@@ -227,6 +225,15 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:0%");
 }
 await BeforeStart();
+
+
+async function preloadPopupBackgrounds() {
+  ['/images/back-win.jpg', '/images/back-loose.jpg', '/images/back-dead.jpg', '/images/main.jpg'].forEach(src => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+  });
+};
 
 
 

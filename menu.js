@@ -1,4 +1,15 @@
 import * as THREE from "three";
+import { t } from './i18n.js'; //язык
+
+const MY_REC_NAMES = new Set(["Мой рекорд", "My record"]);
+
+function isMy(row) {
+  if (!row) return false;
+  if (row.isMine === true) return true;
+  const locMy = t('hud.mineRecord', 'Мой рекорд'); // можно завести такое поле в словаре
+  return row.name === locMy || MY_REC_NAMES.has(row.name);
+}
+
 
 export class MenuClass {
   constructor(initMatch, loadLevels, gameClass, audioClass, dataClass) {
@@ -38,20 +49,20 @@ export class MenuClass {
 
           tables[index].insertAdjacentHTML('beforeend', `
           <div class='rec_table_small_block ${this.playersNum == i + 1 ? "" : "hidden_screen"}'>
-            <div class='yellow_back one_place ${masTables[index][i][0].name == "Мой рекорд" ? my : notMy}'>
+            <div class='yellow_back one_place ${isMy(masTables[index][i][0]) ? my : notMy}'>
                 <span class='place_num'>1</span>
                 <span class='rec_table_small_name'>${masTables[index][i][0].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
-            <div class='green_back two_place ${masTables[index][i][1].name == "Мой рекорд" ? my : notMy}'>
+            <div class='green_back two_place ${isMy(masTables[index][i][1]) ? my : notMy}'>
                 <span class='place_num'>2</span>
                 <span class='rec_table_small_name'>${masTables[index][i][1].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
-            <div class='blue_back three_place ${masTables[index][i][2].name == "Мой рекорд" ? my : notMy}'>
+            <div class='blue_back three_place ${isMy(masTables[index][i][2]) ? my : notMy}'>
                 <span class='place_num'>3</span>
                 <span class='rec_table_small_name'>${masTables[index][i][2].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][2].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][2].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
           </div>
         `);
@@ -62,17 +73,17 @@ export class MenuClass {
             <div class='yellow_back one_place'>
                 <span class='place_num'>1</span>
                 <span class='rec_table_small_name'>${masTables[index][i][0].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='green_back two_place}'>
                 <span class='place_num'>2</span>
                 <span class='rec_table_small_name'>${masTables[index][i][1].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='blue_back three_place ${my}'>
                 <span class='place_num'>${masTables[index][i][3].pos}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][3].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][3].rec}</span><span>м</span></div>
+                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
           </div>
         `);

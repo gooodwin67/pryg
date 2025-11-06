@@ -59,6 +59,18 @@ export class AssetsManager {
 
    this.angryBirdModel.userData.clock = new THREE.Clock();
 
+   // Отключаем тени и прогреваем геометрию/материалы
+   this.angryBirdModel.traverse(o => {
+    if (o.isMesh || o.isSkinnedMesh) {
+     o.castShadow = false;
+     o.receiveShadow = false;
+     // на всякий случай: чтобы не считать на первом видимом кадре
+     if (o.geometry && !o.geometry.boundingSphere) {
+      o.geometry.computeBoundingSphere();
+     }
+    }
+   });
+
    const mat = this.angryBirdModel.children[0].children[0].material; // ваш MeshPhysicalMaterial
    mat.emissive.set(0xffffff);      // цвет «свечения»
    mat.emissiveIntensity = 0.1;     // яркость
