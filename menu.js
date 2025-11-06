@@ -83,7 +83,7 @@ export class MenuClass {
             <div class='blue_back three_place ${my}'>
                 <span class='place_num'>${masTables[index][i][3].pos}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][3].name}</span>
-                <div><span class='place_rec'>${masTables[index][i][0].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
+                <div><span class='place_rec'>${masTables[index][i][3].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
           </div>
         `);

@@ -11,8 +11,11 @@
 
 <body>
 
-   <!-- Глобальная кнопка языка; текст EN — как fallback -->
-   <button id="lang-toggle" data-i18n="ui.langToggle" class="green_btn" style="position:fixed;top:10px;left:300px;z-index:1001">EN</button>
+   
+
+   
+
+
 
    <div class="players_panels">
       <div class='player_panel player1_panel hidden_screen'>
@@ -45,6 +48,9 @@
    </div>
 
    <div class="main_screen">
+      <div id="lang-toggle" class="lang-toggle noselect" role="button" tabindex="0" aria-label="Switch language" aria-pressed="false">
+      <img id="flag" class="noselect" src="images/ru.svg" alt="Русский флаг">
+      </div>
       <h1 class="logo-duck" data-text="Утиная братва" data-i18n="title">УТИНАЯ БРАТВА</h1>
 
       <div class='main_screen_btns_wrap'>

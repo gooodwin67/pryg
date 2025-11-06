@@ -324,7 +324,7 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   setTimeout(() => {
     menuClass.toggleLoader(false);
     loaderLine.setAttribute("style", "width:0%");
-  }, 200)
+  }, 1000)
 
 }
 
@@ -755,4 +755,7 @@ initCustomScroll();
 //     }
 //   }, true);
 // })();
+
+
+
 

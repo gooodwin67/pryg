@@ -22,12 +22,12 @@ export class DataClass {
     this.allLevels = 10;
 
     this.table = {
-      updateDate: 11135,
+      updateDate: 11140,
       levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       player: {
-        levels: [8, 0, 0],
+        levels: [0, 0, 0],
         bonusHat: [false, false, false],
-        bonusHeart: [1, 0, 0],
+        bonusHeart: [0, 0, 0],
       },
       hor: [
         [
@@ -56,22 +56,22 @@ export class DataClass {
           {
             pos: 0,
             name: 'Мой рекорд',
-            rec: 6,
+            rec: 2,
           },
           {
             pos: 1,
-            name: '',
+            name: 'Серж',
             rec: 5,
           },
           {
             pos: 2,
-            name: '',
+            name: 'Коля',
             rec: 4,
           },
           {
             pos: 3,
-            name: '',
-            rec: 0,
+            name: 'Паша',
+            rec: 10,
           },
         ],
         [
@@ -228,6 +228,7 @@ export class DataClass {
       [horOne, horTwo, horThree],
       [vertOne, vertTwo, vertThree],
     ]
+    console.log(this.masTables[0][1])
 
 
     for (let i = 0; i < 3; i++) {

@@ -330,6 +330,9 @@ canvas {
     text-shadow:
         6px 6px 2px rgb(255, 255, 255),
         -4px -4px 2px rgb(255, 255, 255);
+        /* text-shadow:
+    0 4px 0 rgba(255,255,255,.9),
+    0 10px 22px rgba(0,0,0,.12); */
 
 }
 
@@ -2092,7 +2095,7 @@ body .level_game_chels_contest_active {
 }
 
 .rec_table_small_name {
-    font-weight: 800;
+    /* font-weight: 800; */
     color: #2c3a41;
 }
 
@@ -3053,3 +3056,68 @@ body {
     pointer-events: none;
     
 } */
+
+
+
+
+.lang-toggle {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: hsla(0, 0%, 100%, .25);
+    backdrop-filter: blur(0px);
+    border-radius: 20px;
+    padding: 4px;
+    cursor: pointer;
+    z-index: 100;
+  }
+  
+  .lang-toggle img {
+    position: absolute;
+    top: 4px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all .2s ease-in-out;
+  }
+  
+  .lang-toggle img.ru {
+    left: 4px;
+  }
+  
+  .lang-toggle img.us {
+    left: 34px; /* 30px + padding */
+    transform: rotate(360deg);
+  }
+  
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    user-select: none; /* Chrome/Edge/Opera/Firefox */
+    -webkit-user-drag: none;
+  }
+  
+
+  canvas {
+    left: 300px;
+  }
+  body>canvas {
+    left: 0;
+  }
+
+
+ #lang-toggle {
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:1001
+ }
+  
+ #lang-toggle{
+    top: max(20px, env(safe-area-inset-top));
+    left: max(20px, env(safe-area-inset-left));
+  }

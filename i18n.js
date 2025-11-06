@@ -92,21 +92,83 @@ export function applyTranslations(locale = 'ru', root = document) {
 
  // обновим текст на кнопке
  const btn = document.getElementById('lang-toggle');
- if (btn) btn.textContent = get(dict, 'ui.langToggle') || (locale === 'ru' ? 'EN' : 'RU');
+
+    if (btn) {
+        const flag = document.getElementById('flag');
+    if (get(dict, 'ui.langToggle') === 'ru' || (locale === 'ru')) {
+
+        flag.classList.remove('us');
+            flag.classList.add('ru');
+            flag.src="images/ru.svg"
+        
+        
+    }
+    else {
+        flag.classList.remove('ru');
+        flag.classList.add('us');
+        flag.src="images/us.svg"
+        
+        
+    }
+    }
 }
 
 export function initI18n() {
  const saved = localStorage.getItem('locale') || 'ru';
  applyTranslations(saved);
 
- const btn = document.getElementById('lang-toggle');
- if (btn) {
-  btn.addEventListener('click', () => {
-   const curr = localStorage.getItem('locale') || 'ru';
-   const next = curr === 'ru' ? 'en' : 'ru';
-   applyTranslations(next);
-  });
- }
+//  const btn = document.getElementById('lang-toggle');
+//  if (btn) {
+//   btn.addEventListener('click', () => {
+//    const curr = localStorage.getItem('locale') || 'ru';
+//    const next = curr === 'ru' ? 'en' : 'ru';
+//    applyTranslations(next);
+//   });
+//  }
+
+ const toggle = document.getElementById('lang-toggle');
+ const flag = document.getElementById('flag');
+
+ if (toggle) {
+    toggle.addEventListener('click', () => {
+        const curr = localStorage.getItem('locale') || 'ru';
+        const next = curr === 'ru' ? 'en' : 'ru';
+        applyTranslations(next);
+
+        // if(flag.classList.contains('ru')){
+        //     flag.classList.remove('ru');
+        //     flag.classList.add('us');
+        //     flag.src="https://flagicons.lipis.dev/flags/4x3/us.svg"
+        // }
+        // else {
+        //     flag.classList.remove('us');
+        //     flag.classList.add('ru');
+        //     flag.src="https://flagicons.lipis.dev/flags/4x3/ru.svg"
+        // }
+    })
+}
+
+
+
+
+// toggle.onclick=switchLang;
+
+// function switchLang(){
+//   //en to fr
+//   if(flag.classList.contains('ru')){
+//     flag.classList.remove('ru');
+//     flag.classList.add('us');
+//     flag.src="https://flagicons.lipis.dev/flags/4x3/us.svg"
+//   }
+//   //fr to en
+//   else{
+//     flag.classList.remove('us');
+//     flag.classList.add('ru');
+//     flag.src="https://flagicons.lipis.dev/flags/4x3/ru.svg"
+//   }
+// }
+
+
 }
 
 

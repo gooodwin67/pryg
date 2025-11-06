@@ -2291,7 +2291,7 @@ export class LevelClass {
             camera.position.x,
             this.cam.targetX,
             this.cam.velX,
-            0.25, // smoothTime: 0.25 сек до сходимости
+            0.35, // smoothTime: 0.25 сек до сходимости
             dt
           );
           /*if (camera.position.x - leadX < 1) */camera.position.x = s.newPos;
