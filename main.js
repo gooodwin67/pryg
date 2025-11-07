@@ -88,7 +88,7 @@ window.addEventListener('resize', setVhVar);
 window.addEventListener('orientationchange', setVhVar);
 window.visualViewport?.addEventListener('resize', setVhVar);
 
-///////////////////////////////////////
+/////////////////////////////////////
 
 let stats = new Stats();
 document.body.appendChild(stats.dom);
