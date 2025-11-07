@@ -2668,10 +2668,10 @@ void main() {
     await Ht();
     async function Tt() {
         [
-            "/images/back-win.jpg",
-            "/images/back-loose.jpg",
-            "/images/back-dead.jpg",
-            "/images/main.jpg"
+            "images/back-win.jpg",
+            "images/back-loose.jpg",
+            "images/back-dead.jpg",
+            "images/main.jpg"
         ].forEach((r)=>{
             const s = new Image;
             s.decoding = "async", s.src = r;
