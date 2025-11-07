@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-import { detectCollisionCubes, detectCollisionCubeAndArrayInst, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo, getRandomNumber } from "./functions";
+import { detectCollisionCubeAndArrayInst, makeCollisionMaskFromArrays, getObjectGroupInfo, getRandomNumber } from "./functions";
 
 
 export class PlayerClass {
@@ -202,6 +202,7 @@ export class PlayerClass {
 
 
     if (detectCollisionCubeAndArrayInst(this.player, this.levelClass.objs.topPlanes.data) || detectCollisionCubeAndArrayInst(this.player, this.levelClass.playerOuts)) {
+
       this.player.userData.onGround = true;
     }
     else {
@@ -237,7 +238,7 @@ export class PlayerClass {
       this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
     }
 
-    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
+    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - 10 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
       this.player.userData.lives = 0;
       this.reLiveField();
 
@@ -262,7 +263,7 @@ export class PlayerClass {
             this.audioClass.playMusic(['inwater']);
           }
         }
-        this.levelClass.splash.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.0, this.player.position.z), 2.0);
+        this.levelClass.splash.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 20.0, this.player.position.z), 2.0);
         this.levelClass.ring.trigger(new THREE.Vector3(this.player.position.x, this.player.position.y + 0.1, this.player.position.z));
       }
       this.player.userData.splash = true;

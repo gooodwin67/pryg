@@ -1,4 +1,3 @@
-import * as THREE from "three";
 
 export class DataClass {
   constructor() {
@@ -22,7 +21,7 @@ export class DataClass {
     this.allLevels = 10;
 
     this.table = {
-      updateDate: 11140,
+      updateDate: 11143,
       levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       player: {
         levels: [0, 0, 0],

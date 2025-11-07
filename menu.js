@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { t } from './i18n.js'; //язык
 
 const MY_REC_NAMES = new Set(["Мой рекорд", "My record"]);

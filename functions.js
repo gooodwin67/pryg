@@ -288,6 +288,7 @@ export function createSplashSystem({
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
 
+
     const material = new THREE.PointsMaterial({
         map: tex,
         size: pointSize,
@@ -301,6 +302,7 @@ export function createSplashSystem({
     const points = new THREE.Points(geometry, material);
     points.userData.persistent = true;
     points.frustumCulled = false;
+    points.position.set(0, -20, 0);
     scene.add(points);
 
     // --- Pool management ---

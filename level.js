@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getRandomNumber, disposeScene, prewarmSkinnedModel } from './functions';
 import { t } from './i18n.js';
 
@@ -759,20 +758,29 @@ export class LevelClass {
           if (i == 0) {
             randomY = 1 - this.planeHeight / 1.5;
             this.objs.planes.data[i].position.x = 0;
-            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
+            this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6 - 1.5;
 
             this.objs.topPlanes.data[i].position.x = 0;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2 - 1.5;
 
             this.objs.grassPlanes.data[i].position.x = 0;
-            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
+            this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 1.5;
+
+
+
+
+
+
+
+
+
           }
           else if (i == 1) {
             this.objs.planes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
             this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
             this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
@@ -782,7 +790,7 @@ export class LevelClass {
             this.objs.planes.data[i].position.y = randomY + this.planeHeight / 6;
 
             this.objs.topPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
-            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 - 0.2;
+            this.objs.topPlanes.data[i].position.y = randomY + this.planeHeight / 1.5 + 0.2;
 
             this.objs.grassPlanes.data[i].position.x = randomX + this.fixedDistanceHor.min / 4;
             this.objs.grassPlanes.data[i].position.y = randomY + this.planeHeight / 1.5;
@@ -2188,7 +2196,7 @@ export class LevelClass {
 
   async loadPlayers() {
 
-    console.log(this.paramsClass.gameDir)
+
 
     this.reloadLevel();
 
@@ -2447,7 +2455,7 @@ export class LevelClass {
             let newLevel = false;
             this.players.forEach((value, index, array) => {
               if (this.levelsMode == this.allLevels) {
-                this.dataClass.table.player.bonusHeart[index] = 2;
+                this.dataClass.table.player.bonusHeart[index] = 10;
                 bonusHeart = true;
               }
 

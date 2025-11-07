@@ -1,18 +1,7 @@
-// npx vite --host
-// npm install vite-plugin-top-level-await --save-dev
-
-// npm run build 
-// npm run deploy 
-
-////////////phys/////////
-
-
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { detectDevice, detectCollisionCubes, detectCollisionCubeAndArray, makeCollisionMaskFromArrays, getObjectGroupInfo, createSplashSystem, createRippleRing } from "./functions";
-
+import { detectDevice, makeCollisionMaskFromArrays, createSplashSystem, createRippleRing } from "./functions";
 
 import { PlayerClass } from "./player";
 import { LevelClass } from "./level";
@@ -28,8 +17,6 @@ import { GameClass } from './game';
 import { DataClass } from './data';
 import { AssetsManager } from './assets-manager';
 
-import { contain } from 'three/src/extras/TextureUtils.js';
-
 import { initI18n } from './i18n.js';
 
 
@@ -40,8 +27,6 @@ let world;
 
 
 
-let delta = 0;
-let interval = 1 / 60;
 let clock = new THREE.Clock();
 
 let eventQueue;
@@ -421,16 +406,6 @@ function animate() {
 
 
 
-
-
-    // eventQueue.drainCollisionEvents((handle1, handle2, started) => {
-
-    //   allWallBodyCollision.forEach((value, index) => {
-    //     if (handle2 == value.handle && started) {
-
-    //     }
-    //   })
-    // })
 
 
     stats.update();

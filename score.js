@@ -1,4 +1,3 @@
-import * as THREE from "three";
 
 export class ScoreClass {
   constructor(camera, dataClass) {

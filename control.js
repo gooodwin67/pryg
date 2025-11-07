@@ -162,7 +162,6 @@ export class ControlClass {
 
 
   downKeys(player) {
-
     if (player.userData.live) {
       if (player.userData.onGround) {
         if (!player.userData.readyJump && this.audioClass.musicOn) player.userData.audio[0].play();
