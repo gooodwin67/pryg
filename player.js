@@ -103,13 +103,6 @@ export class PlayerClass {
 
   playerMove() {
 
-    // console.log(new THREE.Vector3(
-    //   this.levelClass.players[0].player.userData.finish,
-    //   this.levelClass.players[1].player.userData.finish,
-    //   // this.levelClass.players[2].player.userData.finish,
-    // ))
-
-    // console.log(this.levelClass.players[1].player.position.y)
 
     if (this.levelClass.levelsMode && this.dataClass.levelCoopMode == 'coop') {
       if (this.levelClass.players.every(value => value.player.userData.finish)) {

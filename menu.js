@@ -195,7 +195,7 @@ export class MenuClass {
     document.querySelectorAll('.level_game_chels_contest').forEach((value, index, array) => {
       value.addEventListener('click', () => {
 
-        console.log(this.levelPlayersNum)
+
         if (this.levelPlayersNum != index + 2) {
 
 
@@ -208,7 +208,7 @@ export class MenuClass {
           this.levelPlayersNum = index + 2;
 
           // this.dataClass.loadLevelsContest();
-          console.log(this.levelPlayersNum - 2)
+
         }
       })
     })

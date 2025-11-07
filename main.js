@@ -298,7 +298,6 @@ async function initMatch(chels, gameNum, levelsMode = false) {
   loaderLine.setAttribute("style", "width:90%");
 
 
-  // console.log(paramsClass.gameDir)
 
   paramsClass.gameDir === 'hor' ? scoreClass.loadRecsToHud(0, levelClass.players.length - 1) : scoreClass.loadRecsToHud(1, levelClass.players.length - 1);
   paramsClass.dataLoaded = true;

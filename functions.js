@@ -64,11 +64,6 @@ export function detectCollisionCubeAndArray(object1, array) {
 
 
 
-    //if (intersect.userData.id == object1.uuid) {
-    // console.log(object1.uuid)
-    // console.log(intersect.userData.id)
-    //}
-
 
 
     return intersect;

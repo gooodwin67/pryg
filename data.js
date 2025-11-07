@@ -167,7 +167,7 @@ export class DataClass {
     }
 
     this.masTables = [];
-    console.log(this.table.player.bonusHeart)
+
 
 
   }
@@ -198,7 +198,7 @@ export class DataClass {
 
   async loadLocalData() {
 
-    // console.log(this.table.player.bonusHeart[0])
+
 
     // this.clearData();
 
@@ -227,7 +227,7 @@ export class DataClass {
       [horOne, horTwo, horThree],
       [vertOne, vertTwo, vertThree],
     ]
-    console.log(this.masTables[0][1])
+
 
 
     for (let i = 0; i < 3; i++) {
@@ -318,7 +318,7 @@ export class DataClass {
         if (levelStatus === 'locked') return;
         document.querySelectorAll('.levels_block').forEach((element) => element.classList.remove('active'));
         levelElement.classList.add('active');
-        console.log(`Выбран уровень ${levelIndex + 1}`);
+
         // startLevel(levelIndex + 1);
       });
 
@@ -399,7 +399,7 @@ export class DataClass {
           el.classList.remove('active')
         );
         levelElement.classList.add('active');
-        console.log(`Выбран уровень ${levelNumber} (значение: ${contestValue})`);
+
         // startLevel(levelNumber);
       });
 
