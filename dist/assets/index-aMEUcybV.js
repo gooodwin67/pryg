@@ -1,4 +1,4 @@
-import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls, d as vs, V as c, e as ke, W as Ae, f as fs, Q as ks, g as ze, h as as, i as js, j as cs, G as Xs, E as J, k as is, D as Me, S as Be, l as Ee, m as ie, I as es, n as ts, o as He, p as Gs, O as se, R as _s, q as Hs, r as Te, s as Fe, A as Ts, t as R, u as Re, v as Ie, w as Ne, x as Ge, y as qe, H as We, z as Ue, F as Oe, L as Ve, J as Ye, T as Pe, K as $e, U as Ke, X as oe, Y as ne, Z as Je, _ as Xe, $ as le, a0 as re, a1 as Ze, a2 as Qe, a3 as st, a4 as et, a5 as tt, a6 as at, a7 as it, a8 as ot } from "./three-DOpQIdiv.js";
+import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls, d as vs, V as c, e as ke, W as Ae, f as bs, Q as ks, g as ze, h as as, i as js, j as cs, G as Xs, E as J, k as is, D as Me, S as Be, l as Ee, m as ie, I as es, n as ts, o as He, p as Gs, O as se, R as _s, q as Hs, r as Te, s as Fe, A as Ts, t as R, u as Re, v as Ie, w as Ne, x as Ge, y as qe, H as We, z as Oe, F as Ue, L as Ve, J as Ye, T as Pe, K as $e, U as Ke, X as oe, Y as ne, Z as Je, _ as Xe, $ as le, a0 as re, a1 as Ze, a2 as Qe, a3 as st, a4 as et, a5 as tt, a6 as at, a7 as it, a8 as ot } from "./three-DOpQIdiv.js";
 (async ()=>{
     (function() {
         const s = document.createElement("link").relList;
@@ -94,7 +94,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
     function ce(r) {
         return r?.userData?.id ?? r?.uuid ?? r?.id;
     }
-    const pt = new fs(new c(-.5, -.5, -.5), new c(.5, .5, .5)), ue = new ze, me = new ks;
+    const pt = new bs(new c(-.5, -.5, -.5), new c(.5, .5, .5)), ue = new ze, me = new ks;
     function ye(r) {
         if (r?.isObject3D) {
             if (r.updateMatrixWorld(!0), r.geometry?.isBufferGeometry) {
@@ -104,12 +104,12 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                     return t.applyMatrix4(r.matrixWorld), t;
                 }
             }
-            return new fs().setFromObject(r);
+            return new bs().setFromObject(r);
         }
         const s = r.position ?? r.pos ?? new c, a = dt(r.size ?? 1), i = r.quaternion?.isQuaternion ? r.quaternion : r.rotation?.isEuler ? me.setFromEuler(r.rotation) : me.set(0, 0, 0, 1);
         return ue.compose(s, i, a), pt.clone().applyMatrix4(ue);
     }
-    function O(r, s) {
+    function U(r, s) {
         const a = ye(r), i = ce(r);
         for(let e = s.length - 1; e >= 0; e--){
             const t = s[e], o = ce(t);
@@ -136,8 +136,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             const L = new Qs(x);
             return L.anisotropy = 1, L.needsUpdate = !0, L;
         }
-        const l = e || n(), h = new Float32Array(s * 3), d = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), b = new Float32Array(s), p = new Uint8Array(s), g = new Ds;
-        g.setAttribute("position", new ds(h, 3)), g.setAttribute("aSize", new ds(b, 1));
+        const l = e || n(), h = new Float32Array(s * 3), d = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), f = new Float32Array(s), p = new Uint8Array(s), g = new Ds;
+        g.setAttribute("position", new ds(h, 3)), g.setAttribute("aSize", new ds(f, 1));
         const v = new xe({
             map: l,
             size: t,
@@ -147,12 +147,12 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             vertexColors: !1,
             sizeAttenuation: !0
         }), M = new Js(g, v);
-        M.userData.persistent = !0, M.frustumCulled = !1, r.add(M);
-        let f = 0;
+        M.userData.persistent = !0, M.frustumCulled = !1, M.position.set(0, -20, 0), r.add(M);
+        let b = 0;
         function q() {
             for(let y = 0; y < s; y++){
-                const x = (f + y) % s;
-                if (!p[x]) return f = (x + 1) % s, x;
+                const x = (b + y) % s;
+                if (!p[x]) return b = (x + 1) % s, x;
             }
             return -1;
         }
@@ -169,8 +169,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 for(let ys = 0; ys < Y; ys++){
                     const _ = q();
                     if (_ === -1) break;
-                    const A = Math.sqrt(Math.random()) * L, k = Math.random() * Math.PI * 2, $ = A * Math.cos(k), ls = A * Math.sin(k), Z = Math.sqrt(Math.random()), K = Math.cos(k) * ms * Z * (.6 + .4 * Math.random()), Q = Math.sin(k) * ms * Z * (.6 + .4 * Math.random()), ss = W * (.6 + .4 * Math.random()), U = C[0] + Math.random() * (C[1] - C[0]), G = (1 - j / 2 + Math.random() * j) * 1;
-                    H(h, _, y.x + $, y.y, y.z + ls), H(d, _, K * x, ss * x, Q * x), m[_] = U, u[_] = 0, b[_] = G, p[_] = 1;
+                    const A = Math.sqrt(Math.random()) * L, k = Math.random() * Math.PI * 2, $ = A * Math.cos(k), ls = A * Math.sin(k), Z = Math.sqrt(Math.random()), K = Math.cos(k) * ms * Z * (.6 + .4 * Math.random()), Q = Math.sin(k) * ms * Z * (.6 + .4 * Math.random()), ss = W * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), G = (1 - j / 2 + Math.random() * j) * 1;
+                    H(h, _, y.x + $, y.y, y.z + ls), H(d, _, K * x, ss * x, Q * x), m[_] = O, u[_] = 0, f[_] = G, p[_] = 1;
                 }
                 g.attributes.position.needsUpdate = !0, g.attributes.aSize.needsUpdate = !0;
             },
@@ -207,10 +207,10 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
     }
     function ut({ scene: r, size: s = 1.5, ttl: a = .9 } = {}) {
         const i = new Fs(1, 1), e = (()=>{
-            const b = document.createElement("canvas");
-            b.width = b.height = 64;
-            const p = b.getContext("2d");
-            return p.clearRect(0, 0, 64, 64), p.strokeStyle = "rgba(255,255,255,0.9)", p.lineWidth = 3, p.beginPath(), p.arc(32, 32, 20, 0, Math.PI * 2), p.stroke(), new Qs(b);
+            const f = document.createElement("canvas");
+            f.width = f.height = 64;
+            const p = f.getContext("2d");
+            return p.clearRect(0, 0, 64, 64), p.strokeStyle = "rgba(255,255,255,0.9)", p.lineWidth = 3, p.beginPath(), p.arc(32, 32, 20, 0, Math.PI * 2), p.stroke(), new Qs(f);
         })(), t = new Ls({
             map: e,
             transparent: !0,
@@ -219,12 +219,12 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
         o.visible = !1, o.userData.persistent = !0, r.add(o);
         let n = 0, l = !1;
         const h = new c;
-        function d(b) {
-            h.copy(b), n = 0, l = !0, o.visible = !0;
+        function d(f) {
+            h.copy(f), n = 0, l = !0, o.visible = !0;
         }
-        function m(b, p) {
+        function m(f, p) {
             if (!l) return;
-            if (n += b, n >= a) {
+            if (n += f, n >= a) {
                 l = !1, o.visible = !1;
                 return;
             }
@@ -296,7 +296,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
         });
         s.setRenderTarget(l), s.render(a, i), s.setRenderTarget(e), l.dispose(), r.visible = n, t && (s.shadowMap.autoUpdate = o, s.shadowMap.needsUpdate = !0);
     }
-    class bt {
+    class ft {
         constructor(s, a, i, e, t, o, n){
             this.dataClass = s, this.scene = a, this.audioClass = i, this.levelClass = e, this.paramsClass = t, this.camera = o, this.gameClass = n, this.playerHeight = .9, this.playerWidth = .5, this.player = new vs(new as(this.playerWidth, this.playerHeight, this.playerWidth), new js({
                 color: 16711680,
@@ -329,7 +329,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 s.player.userData.body.setTranslation(new c(0, -5, 0));
             }) : this.levelClass.levelsMode && this.dataClass.levelCoopMode == "contest" && this.levelClass.players.some((s)=>s.player.userData.finish) && this.levelClass.players.forEach((s)=>{
                 s.player.userData.body.setTranslation(new c(0, -5, 0));
-            }), (this.paramsClass.gameDir == "hor" && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround || this.paramsClass.gameDir == "vert" && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + .5 && this.player.userData.onGround && this.player.userData.body.linvel().y < 0) && (this.player.userData.finish || (this.player.userData.finish = !0)), O(this.player, this.levelClass.objs.sensorPlanes.data)) {
+            }), (this.paramsClass.gameDir == "hor" && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround || this.paramsClass.gameDir == "vert" && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + .5 && this.player.userData.onGround && this.player.userData.body.linvel().y < 0) && (this.player.userData.finish || (this.player.userData.finish = !0)), U(this.player, this.levelClass.objs.sensorPlanes.data)) {
                 const [s, a] = pe(this.player.userData.collider);
                 a[0] == 0 && this.player.userData.collider.setCollisionGroups(Rs([
                     1
@@ -345,21 +345,21 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                     1
                 ]));
             }
-            if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && O(this.player, this.levelClass.boostHatMeshes) && !this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(O(this.player, this.levelClass.boostHatMeshes))].userData.fly && this.levelClass.boostHatMeshes.indexOf(O(this.player, this.levelClass.boostHatMeshes)) != this.player.userData.canFlyNum && (this.player.userData.canFly || (this.player.userData.canFly = !0, this.player.userData.canFlyJumps = this.player.userData.canFlyJumpsMax, this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(O(this.player, this.levelClass.boostHatMeshes)), this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = !0, this.audioClass.takeAudio.isPlaying && this.audioClass.stopMusic([
+            if ((this.player.userData.body.linvel().x != 0 || this.player.userData.body.linvel().y != 0) && U(this.player, this.levelClass.boostHatMeshes) && !this.levelClass.boostHatModels[this.levelClass.boostHatMeshes.indexOf(U(this.player, this.levelClass.boostHatMeshes))].userData.fly && this.levelClass.boostHatMeshes.indexOf(U(this.player, this.levelClass.boostHatMeshes)) != this.player.userData.canFlyNum && (this.player.userData.canFly || (this.player.userData.canFly = !0, this.player.userData.canFlyJumps = this.player.userData.canFlyJumpsMax, this.player.userData.canFlyNum = this.levelClass.boostHatMeshes.indexOf(U(this.player, this.levelClass.boostHatMeshes)), this.levelClass.boostHatModels[this.player.userData.canFlyNum].userData.fly = !0, this.audioClass.takeAudio.isPlaying && this.audioClass.stopMusic([
                 "take"
             ]), this.audioClass.musicOn && this.audioClass.playMusic([
                 "take"
-            ]))), O(this.player, this.levelClass.objs.topPlanes.data) || O(this.player, this.levelClass.playerOuts) ? this.player.userData.onGround = !0 : this.player.userData.onGround = !1, O(this.player, this.levelClass.objs.livesBlocks.data) && !O(this.player, this.levelClass.objs.livesBlocks.data).userData.taked && this.player.userData.lives < this.player.userData.maxLives && (this.player.userData.lives++, this.audioClass.takeAudio.isPlaying && this.audioClass.stopMusic([
+            ]))), U(this.player, this.levelClass.objs.topPlanes.data) || U(this.player, this.levelClass.playerOuts) ? this.player.userData.onGround = !0 : this.player.userData.onGround = !1, U(this.player, this.levelClass.objs.livesBlocks.data) && !U(this.player, this.levelClass.objs.livesBlocks.data).userData.taked && this.player.userData.lives < this.player.userData.maxLives && (this.player.userData.lives++, this.audioClass.takeAudio.isPlaying && this.audioClass.stopMusic([
                 "take"
             ]), this.audioClass.musicOn && this.audioClass.playMusic([
                 "take"
-            ]), this.reLiveField(), O(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = !0), this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), this.paramsClass.gameDir == "hor" && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new c(this.player.userData.body.translation().x, -5, 0))), this.paramsClass.gameDir == "vert" && this.player.position.y < this.camera.position.y - Math.abs(this.levelClass.bounds.topY - this.levelClass.bounds.bottomY) / 2 * 1.7 && this.player.userData.live && this.levelClass.scoreClass.score > 8 && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new c(0, -5, 0))), !this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == "hor" && (this.levelClass.canHorDie = !0), this.player.position.y < -2 && this.gameClass.gameStarting && (this.player.userData.splash || (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live && (this.audioClass.stopMusic([
+            ]), this.reLiveField(), U(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = !0), this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), this.paramsClass.gameDir == "hor" && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new c(this.player.userData.body.translation().x, -5, 0))), this.paramsClass.gameDir == "vert" && this.player.position.y < this.camera.position.y - 10 && this.player.userData.live && this.levelClass.scoreClass.score > 8 && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new c(0, -5, 0))), !this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == "hor" && (this.levelClass.canHorDie = !0), this.player.position.y < -2 && this.gameClass.gameStarting && (this.player.userData.splash || (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live && (this.audioClass.stopMusic([
                 "inwater"
             ]), this.audioClass.musicOn && this.dataClass.levelCoopMode == "coop" ? this.audioClass.playMusic([
                 "inwater"
             ]) : this.audioClass.musicOn && this.dataClass.levelCoopMode == "contest" && !this.levelClass.players.some((s)=>s.player.userData.finish) && this.audioClass.playMusic([
                 "inwater"
-            ])), this.levelClass.splash.trigger(new c(this.player.position.x, this.player.position.y + 0, this.player.position.z), 2), this.levelClass.ring.trigger(new c(this.player.position.x, this.player.position.y + .1, this.player.position.z))), this.player.userData.splash = !0), this.player.position.y < -4 && this.gameClass.gameStarting) {
+            ])), this.levelClass.splash.trigger(new c(this.player.position.x, this.player.position.y + 20, this.player.position.z), 2), this.levelClass.ring.trigger(new c(this.player.position.x, this.player.position.y + .1, this.player.position.z))), this.player.userData.splash = !0), this.player.position.y < -4 && this.gameClass.gameStarting) {
                 if (this.player.userData.splash = !1, this.levelClass.players.length < 2 ? (this.player.userData.live && (this.audioClass.pauseMusic([
                     "back"
                 ]), !this.player.userData.finish && this.gameClass.pause, this.levelClass.levelsMode ? (this.player.userData.lives = 0, this.player.userData.finish ? this.levelClass.showPopupInGame(!1, !0) : this.levelClass.showPopupInGame(!0, !0), this.paramsClass.allDie = !0) : (this.levelClass.gameNum == 2 ? this.player.userData.lives-- : this.levelClass.gameNum == 4 && (this.player.userData.lives = 0), this.levelClass.gameNum == 2 && this.player.userData.lives < 1 ? this.levelClass.showPopupInGame(!0) : this.levelClass.gameNum == 4 && this.player.userData.lives < 1 && this.levelClass.showPopupInGame(!0), this.paramsClass.allDie = !0), this.player.userData.lives < 1), this.player.userData.canFlyJumps = 0, this.player.userData.live = !1) : (this.player.userData.live && (this.levelClass.gameNum == 2 || this.levelClass.gameNum == 1 ? this.player.userData.lives-- : (this.levelClass.gameNum == 4 || this.levelClass.gameNum == 3) && (this.player.userData.lives = 0), this.levelClass.levelsMode && (this.player.userData.lives = 0), this.player.userData.finish, this.player.userData.canFlyJumps = 0, this.player.userData.live = !1), this.levelClass.players.every((s)=>!s.player.userData.live) && this.levelClass.players.every((s)=>s.player.userData.lives < 1) && this.gameClass.gameStarting && (this.audioClass.pauseMusic([
@@ -497,7 +497,9 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 metersLabel: "м",
                 records: "Рекорды:",
                 mine: "Мой:",
-                world: "Мировой:"
+                world: "Мировой:",
+                secPlayer: "Я",
+                thirdPlayer: "Ь"
             },
             popup: {
                 continue: "Продолжить",
@@ -514,14 +516,14 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             ui: {
                 langToggle: "RU"
             },
-            title: "DUCK CREW",
+            title: "DUCK BROS",
             modes: {
                 champ: {
                     title: "Championship",
                     desc: "Set the best time (1,2,3 players)"
                 },
                 coop: {
-                    title: "Co-op",
+                    title: "Cooperative",
                     desc: "Beat levels together"
                 },
                 versus: {
@@ -534,7 +536,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 gameChoice: "Game selection",
                 tip1: "Each player count has its own leaderboard",
                 tip2: "We sum distance traveled by each teammate",
-                tip3: "Beat level 10 in co-op to get the 4th heart for 10 leaderboard attempts",
+                tip3: "Beat level 10 in co-op to get the 4th heart for 10 championship attempts",
                 ocean: "Ocean",
                 space: "Space"
             },
@@ -542,7 +544,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 playersTitle: "Players",
                 levelChoice: "Level selection",
                 tip1: "Beat levels with different team sizes",
-                tip2: "Each time you beat level 10 you get a 4th heart for a few attempts",
+                tip2: "Each time you beat level 10 you get a 4th heart for a few championship attempts",
                 tip3: "To finish a level, all players must reach the goal"
             },
             contest: {
@@ -563,7 +565,9 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 metersLabel: "m",
                 records: "Records:",
                 mine: "Mine:",
-                world: "World:"
+                world: "World:",
+                secPlayer: "Z",
+                thirdPlayer: "M"
             },
             popup: {
                 continue: "Continue",
@@ -580,7 +584,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
     function ge(r, s) {
         return s.split(".").reduce((a, i)=>a && a[i], r);
     }
-    function be(r = "ru", s = document) {
+    function fe(r = "ru", s = document) {
         const a = Is[r] || Is.ru;
         if (s.querySelectorAll("[data-i18n]").forEach((e)=>{
             const t = e.dataset.i18n, o = ge(a, t);
@@ -590,13 +594,13 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             ge(a, "ui.langToggle") === "ru" || r === "ru" ? (e.classList.remove("us"), e.classList.add("ru"), e.src = "images/ru.svg") : (e.classList.remove("ru"), e.classList.add("us"), e.src = "images/us.svg");
         }
     }
-    function ft() {
+    function bt() {
         const r = localStorage.getItem("locale") || "ru";
-        be(r);
+        fe(r);
         const s = document.getElementById("lang-toggle");
         document.getElementById("flag"), s && s.addEventListener("click", ()=>{
             const i = (localStorage.getItem("locale") || "ru") === "ru" ? "en" : "ru";
-            be(i);
+            fe(i);
         });
     }
     function os(r, s = "") {
@@ -606,10 +610,10 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
     const vt = new Set([
         "Мой рекорд",
         "My record"
-    ]), fe = (r)=>r?.isMine === !0 || r?.name === os("hud.mineRecord", "Мой рекорд") || vt.has(r?.name);
+    ]), be = (r)=>r?.isMine === !0 || r?.name === os("hud.mineRecord", "Мой рекорд") || vt.has(r?.name);
     class wt {
-        constructor(s, a, i, e, t, o, n, l, h, d, m, u, b, p, g, v){
-            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = m, this.splash = u, this.ring = b, this.dataClass = d, this.scoreClass = p, this.menuClass = g, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
+        constructor(s, a, i, e, t, o, n, l, h, d, m, u, f, p, g, v){
+            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = m, this.splash = u, this.ring = f, this.dataClass = d, this.scoreClass = p, this.menuClass = g, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
                 min: 1,
                 max: 4
             }, this.fixedDistanceVert = {
@@ -619,8 +623,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 color: 0,
                 side: Me
             }), this.mks = new vs(this.geometryPlane, this.materialPlane), this.mks.position.z = -550, this.isMobile ? this.mks.position.y = 150 : this.mks.position.y = 140, this.mks.layers.set(1);
-            const M = new Be, f = .01;
-            M.moveTo(5 * f, 5 * f), M.bezierCurveTo(5 * f, 5 * f, 4 * f, 2 * f, 0 * f, 2 * f), M.bezierCurveTo(-6 * f, 2 * f, -6 * f, 7 * f, -6 * f, 7 * f), M.bezierCurveTo(-6 * f, 10 * f, -3 * f, 14 * f, 5 * f, 18 * f), M.bezierCurveTo(12 * f, 14 * f, 16 * f, 10 * f, 16 * f, 7 * f), M.bezierCurveTo(16 * f, 7 * f, 16 * f, 2 * f, 10 * f, 2 * f), M.bezierCurveTo(7 * f, 2 * f, 5 * f, 5 * f, 5 * f, 5 * f);
+            const M = new Be, b = .01;
+            M.moveTo(5 * b, 5 * b), M.bezierCurveTo(5 * b, 5 * b, 4 * b, 2 * b, 0 * b, 2 * b), M.bezierCurveTo(-6 * b, 2 * b, -6 * b, 7 * b, -6 * b, 7 * b), M.bezierCurveTo(-6 * b, 10 * b, -3 * b, 14 * b, 5 * b, 18 * b), M.bezierCurveTo(12 * b, 14 * b, 16 * b, 10 * b, 16 * b, 7 * b), M.bezierCurveTo(16 * b, 7 * b, 16 * b, 2 * b, 10 * b, 2 * b), M.bezierCurveTo(7 * b, 2 * b, 5 * b, 5 * b, 5 * b, 5 * b);
             const q = {
                 depth: .22,
                 bevelEnabled: !1,
@@ -983,7 +987,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 if (this.paramsClass.gameDir == "hor") {
                     for(let t = 0; t < this.count; t++){
                         let o = S(this.planeWidth, this.planeWidth - 1), n = a + o / 2 + S(this.fixedDistanceHor.min, this.fixedDistanceHor.max), l = S(-1.2, 1.2) - this.planeHeight / 1.5;
-                        if (e && (o = e[t]), t == 0 ? (this.objs.planes.data[t].size.x = this.planeWidth, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.planes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth, this.objs.topPlanes.data[t].size.x = this.planeWidth + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2) : t == 1 ? (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : t == this.count - 1 ? (e ? this.objs.planes.data[t].size.x = e[e.length - 1] - .2 : this.objs.planes.data[t].size.x = 5, this.objs.planes.data[t].size.y = this.planeHeight, e ? this.objs.topPlanes.data[t].size.x = e[e.length - 1] : this.objs.topPlanes.data[t].size.x = 5 + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, e ? this.objs.grassPlanes.data[t].size.x = e[e.length - 1] : this.objs.grassPlanes.data[t].size.x = 5 + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), t == 0 ? (l = 1 - this.planeHeight / 1.5, this.objs.planes.data[t].position.x = 0, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = 0, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 - .2, this.objs.grassPlanes.data[t].position.x = 0, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5) : t == 1 ? (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 - .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5) : (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 - .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.lights.length < this.lightsCount) {
+                        if (e && (o = e[t]), t == 0 ? (this.objs.planes.data[t].size.x = this.planeWidth, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.planes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth, this.objs.topPlanes.data[t].size.x = this.planeWidth + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2) : t == 1 ? (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : t == this.count - 1 ? (e ? this.objs.planes.data[t].size.x = e[e.length - 1] - .2 : this.objs.planes.data[t].size.x = 5, this.objs.planes.data[t].size.y = this.planeHeight, e ? this.objs.topPlanes.data[t].size.x = e[e.length - 1] : this.objs.topPlanes.data[t].size.x = 5 + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, e ? this.objs.grassPlanes.data[t].size.x = e[e.length - 1] : this.objs.grassPlanes.data[t].size.x = 5 + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), t == 0 ? (l = 1 - this.planeHeight / 1.5, this.objs.planes.data[t].position.x = 0, this.objs.planes.data[t].position.y = l + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[t].position.x = 0, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[t].position.x = 0, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5 - 1.5) : t == 1 ? (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5) : (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.lights.length < this.lightsCount) {
                             const h = new Hs(16247464, 0, 4);
                             h.position.set(0, 0, 1.6), this.lights.push(h), this.scene.add(h);
                         }
@@ -1078,9 +1082,9 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
         getHorizontalWorldBounds(s = 0) {
             const a = new c(-1, 0, .5), i = new c(1, 0, .5), e = new c(0, 1, .5), t = new c(0, -1, .5);
             if (a.unproject(this.camera), i.unproject(this.camera), e.unproject(this.camera), t.unproject(this.camera), this.camera.isPerspectiveCamera) {
-                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), d = t.clone().sub(o).normalize(), m = (s - o.z) / n.z, u = (s - o.z) / d.z, b = o.clone().add(n.multiplyScalar(m)), p = o.clone().add(l.multiplyScalar(m)), g = o.clone().add(h.multiplyScalar(u)), v = o.clone().add(d.multiplyScalar(u));
+                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), d = t.clone().sub(o).normalize(), m = (s - o.z) / n.z, u = (s - o.z) / d.z, f = o.clone().add(n.multiplyScalar(m)), p = o.clone().add(l.multiplyScalar(m)), g = o.clone().add(h.multiplyScalar(u)), v = o.clone().add(d.multiplyScalar(u));
                 this.bounds = {
-                    leftX: b.x,
+                    leftX: f.x,
                     rightX: p.x,
                     topY: g.y,
                     bottomY: v.y
@@ -1193,7 +1197,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                         this._emissive[n] = R.lerp(this._emissive[n], d, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const m = .5 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
-                        const u = 1.1, b = this._emissive[n], p = 1 + u * b, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
+                        const u = 1.1, f = this._emissive[n], p = 1 + u * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== p && (v.size.set(g.x * p, g.y * p, g.z * p), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = p, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1229,7 +1233,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                         this._emissive[n] = R.lerp(this._emissive[n], d, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const m = .8 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
-                        const u = 1, b = this._emissive[n], p = 1 + u * b, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
+                        const u = 1, f = this._emissive[n], p = 1 + u * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== p && (v.size.set(g.x * p, g.y * p, g.z * p), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = p, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1251,7 +1255,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             return s ? this.players.indexOf(a[i], 0) : i;
         }
         async loadPlayers() {
-            console.log(this.paramsClass.gameDir), this.reloadLevel();
+            this.reloadLevel();
             for(let s = 0; s < this.players.length; s++){
                 let a = this.players[s];
                 this.levelsMode || a.reLiveField(), a.player.position.x = a.player.position.x - s * 1 + 1, this.physicsClass.addPhysicsToObject(a.player), this.paramsClass.gameDir == "vert" && (a.player.position.y = -0, a.player.userData.collider.setFriction(500)), await a.loadPlayerModel(), a.player.userData.startPos = a.player.position.clone(), this.scene.add(a.player), this.scene.add(a.playerOut), this.scene.add(a.playerModel), this.playerOuts.push(a.playerOut), s < this.players[0].playerColors.length ? a.head.children[0].material.color.set(this.players[0].playerColors[s]) : this.players[0].playerColors.splice(this.players[0].playerColors.length, 0, ...this.players[0].playerColors), a.player.userData.audio.push(this.audioClass.readyJumpAudio.clone()), this.audioClass.quacks.length > s ? a.player.userData.audio.push(this.audioClass.quacks[s].clone()) : a.player.userData.audio.push(this.audioClass.quacks[0].clone());
@@ -1301,10 +1305,10 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             let i = 0;
             if (this.scoreClass.score > this.scoreClass.myRec && (this.scoreClass.myRec = this.scoreClass.score, i++), this.scoreClass.score > this.scoreClass.worldRec && (this.scoreClass.worldRec = this.scoreClass.score, i++), i) {
                 if (this.paramsClass.gameDir === "hor") {
-                    const t = this.dataClass.table.hor[this.players.length - 1].find(fe);
+                    const t = this.dataClass.table.hor[this.players.length - 1].find(be);
                     t && (t.rec = this.scoreClass.score);
                 } else if (this.paramsClass.gameDir === "vert") {
-                    const t = this.dataClass.table.vert[this.players.length - 1].find(fe);
+                    const t = this.dataClass.table.vert[this.players.length - 1].find(be);
                     t && (t.rec = this.scoreClass.score);
                 }
                 this.dataClass.saveLocalData(), this.dataClass.loadLocalData(), this.paramsClass.gameDir === "hor" ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1), this.menuClass.loadRecsData();
@@ -1315,7 +1319,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
                 if (document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.audioClass.winAudio.isPlaying && this.audioClass.winAudio.stop(), this.audioClass.musicOn && this.audioClass.winAudio.play(), this.levelsMode < this.allLevels && this.showScreen("popup_game_btn15"), this.hideScreen("popup_game_btn4"), this.dataClass.levelCoopMode == "coop") {
                     let e = !1, t = !1;
                     this.players.forEach((o, n, l)=>{
-                        this.levelsMode == this.allLevels && (this.dataClass.table.player.bonusHeart[n] = 2, e = !0), this.levelsMode + 1 > this.dataClass.table.player.levels[n] && (this.dataClass.table.player.levels[n] = this.levelsMode, t = !0);
+                        this.levelsMode == this.allLevels && (this.dataClass.table.player.bonusHeart[n] = 10, e = !0), this.levelsMode + 1 > this.dataClass.table.player.levels[n] && (this.dataClass.table.player.levels[n] = this.levelsMode, t = !0);
                     }), (e || t) && this.dataClass.saveLocalData();
                 } else this.dataClass.levelCoopMode == "contest" && this.players.forEach((e, t, o)=>{
                     e.player.userData.finish && this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != t + 1 && (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = t + 1, this.dataClass.saveLocalData());
@@ -1478,8 +1482,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             if (s != null && s.userData.name.includes("player")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-                const t = Os(s);
+                s.rotation.set(0, 0, 0), new bs().setFromObject(s);
+                const t = Us(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(.6).setRestitution(0).setFriction(.5).setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS), s.userData.body = a, s.userData.shape = i;
                 let o = a;
                 i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
@@ -1492,8 +1496,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             } else if (s != null && s.userData.name.includes("tops")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-                const t = Os(s);
+                s.rotation.set(0, 0, 0), new bs().setFromObject(s);
+                const t = Us(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(1).setRestitution(0).setFriction(.3), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, a);
                 s.userData.body = a, s.userData.collide = o, this.allWallBodyCollision.push(o), s.userData.handle = a.handle, this.dynamicBodies.push([
@@ -1504,8 +1508,8 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             } else if (s != null && s.userData.name.includes("bird")) {
                 let a, i;
                 const e = s.rotation.clone();
-                s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-                const t = Os(s);
+                s.rotation.set(0, 0, 0), new bs().setFromObject(s);
+                const t = Us(s);
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(1).setRestitution(1).setFriction(0), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, a);
                 s.userData.body = a, s.userData.collide = o, this.allWallBodyCollision.push(o), s.userData.handle = a.handle, this.dynamicBodies.push([
@@ -1516,13 +1520,13 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
             }
         }
     }
-    const Us = new c;
-    function Os(r) {
+    const Os = new c;
+    function Us(r) {
         if (r.isMesh && r.geometry) {
             const a = r.geometry;
-            return a.boundingBox || a.computeBoundingBox(), a.boundingBox.getSize(Us), Us.multiply(r.scale), Us.clone();
+            return a.boundingBox || a.computeBoundingBox(), a.boundingBox.getSize(Os), Os.multiply(r.scale), Os.clone();
         }
-        return new fs().setFromObject(r).getSize(new c);
+        return new bs().setFromObject(r).getSize(new c);
     }
     class xt {
         constructor(){
@@ -1821,7 +1825,7 @@ import { B as Ds, a as ds, P as xe, N as Le, b as Js, c as Fs, C as Qs, M as Ls,
     }
     class Pt {
         constructor(s, a, i, e, t, o){
-            this.scene = s, this.camera = a, this.renderer = i, this.paramsClass = e, this.isMobile = t, this.audioClass = o, this.ambientLight = new qe(11184810, 1), this.hemiLight = new We(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Ue(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new se, this.dirLight.target = this.targetObject, this.helper = new Oe(this.dirLight, 3), this.water, this.night = !1, this._prevCamX = this.camera.position.x, this.thunder = !1, this.thunderStart = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0, this.minThunderIntervalMs = 1e3, this.maxThunderIntervalMs = 3e3, this.currentThunderIndex = 0, this.rain = !1, this.rainStart = !1, this.isRainActive = !1, this.rainEndTimestampMs = 0, this.activeLightningLines = [], this.lightningMaterialBase = new Ve({
+            this.scene = s, this.camera = a, this.renderer = i, this.paramsClass = e, this.isMobile = t, this.audioClass = o, this.ambientLight = new qe(11184810, 1), this.hemiLight = new We(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Oe(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new se, this.dirLight.target = this.targetObject, this.helper = new Ue(this.dirLight, 3), this.water, this.night = !1, this._prevCamX = this.camera.position.x, this.thunder = !1, this.thunderStart = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0, this.minThunderIntervalMs = 1e3, this.maxThunderIntervalMs = 3e3, this.currentThunderIndex = 0, this.rain = !1, this.rainStart = !1, this.isRainActive = !1, this.rainEndTimestampMs = 0, this.activeLightningLines = [], this.lightningMaterialBase = new Ve({
                 color: 16777215,
                 transparent: !0,
                 opacity: 1,
@@ -1995,12 +1999,12 @@ void main() {
             this.thunder = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
         }
         createLightningBolt(s, a, i) {
-            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, d = Math.hypot(n, l, h) || 1, m = n / d, u = l / d, b = h / d, p = n / d, v = -(h / d), M = 0, f = p, q = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), H = new c(m, u, b), N = new c().crossVectors(H, q).normalize(), y = new c().crossVectors(H, N).normalize(), x = 2 + Math.random() * 2, B = 1.2, z = Math.random() * Math.PI * 2, L = 3 + Math.random() * 2.5, W = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, Y = [];
+            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, d = Math.hypot(n, l, h) || 1, m = n / d, u = l / d, f = h / d, p = n / d, v = -(h / d), M = 0, b = p, q = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), H = new c(m, u, f), N = new c().crossVectors(H, q).normalize(), y = new c().crossVectors(H, N).normalize(), x = 2 + Math.random() * 2, B = 1.2, z = Math.random() * Math.PI * 2, L = 3 + Math.random() * 2.5, W = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, Y = [];
             for(let _ = 0; _ <= C; _++){
                 const A = _ / C, k = 1 - A;
                 let $ = s + n * A, ls = a + l * A, Z = i + h * A;
-                const K = Math.sin(A * Math.PI * x + z) * B * (.3 + .7 * k), Q = Math.sin(A * Math.PI * L + ms) * W * (.3 + .7 * k), ss = (Math.random() - .5) * 2 * j * k, U = (Math.random() - .5) * 1.6 * j * k, G = Math.random() < .12 ? (Math.random() - .5) * 3.5 * k : 0;
-                if ($ += N.x * (K + ss + G) + y.x * (Q + U * .7), ls += N.y * (K + ss * .5) + y.y * (Q + U * .5), Z += N.z * (K + ss + G) + y.z * (Q + U * .7), Y.push($, ls, Z), _ > 3 && _ < C - 3 && Math.random() < .22) {
+                const K = Math.sin(A * Math.PI * x + z) * B * (.3 + .7 * k), Q = Math.sin(A * Math.PI * L + ms) * W * (.3 + .7 * k), ss = (Math.random() - .5) * 2 * j * k, O = (Math.random() - .5) * 1.6 * j * k, G = Math.random() < .12 ? (Math.random() - .5) * 3.5 * k : 0;
+                if ($ += N.x * (K + ss + G) + y.x * (Q + O * .7), ls += N.y * (K + ss * .5) + y.y * (Q + O * .5), Z += N.z * (K + ss + G) + y.z * (Q + O * .7), Y.push($, ls, Z), _ > 3 && _ < C - 3 && Math.random() < .22) {
                     const rs = [], xs = 3 + Math.floor(Math.random() * 2), hs = .25 + Math.random() * .35;
                     let Ms = $, Ps = ls, Cs = Z;
                     rs.push(Ms, Ps, Cs);
@@ -2015,13 +2019,13 @@ void main() {
             for(let _ = -1; _ <= ys; _++){
                 const A = _ === -1, k = A ? 0 : _ % 2 === 0 ? 1 : -1, $ = .55 + Math.random() * .45, ls = .35, Z = Math.random() * Math.PI * 2, K = [], Q = Y.length / 3;
                 for(let G = 0; G < Q; G++){
-                    const rs = G / (Q - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Z) * ls * (.2 + .8 * rs), Ms = v * k * $ * xs + f * hs * .3, Ps = M * k * $ * xs + hs * .05, Cs = f * k * $ * xs - v * hs * .3, Bs = G * 3 + 0, gs = G * 3 + 1, Es = G * 3 + 2, ee = Y[Bs], te = Y[gs], ae = Y[Es];
+                    const rs = G / (Q - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Z) * ls * (.2 + .8 * rs), Ms = v * k * $ * xs + b * hs * .3, Ps = M * k * $ * xs + hs * .05, Cs = b * k * $ * xs - v * hs * .3, Bs = G * 3 + 0, gs = G * 3 + 1, Es = G * 3 + 2, ee = Y[Bs], te = Y[gs], ae = Y[Es];
                     A ? K.push(ee + (Math.random() - .5) * .05, te + (Math.random() - .5) * .05, ae + (Math.random() - .5) * .05) : K.push(ee + Ms + (Math.random() - .5) * .2, te + Ps + (Math.random() - .5) * .2, ae + Cs + (Math.random() - .5) * .2);
                 }
                 const ss = new Ds;
                 ss.setAttribute("position", new oe(K, 3));
-                const U = new ne(ss, this.lightningMaterialBase.clone());
-                U.material.opacity = A ? .95 : .32, U.userData.life = .22 + Math.random() * .18, this.scene.add(U), this.activeLightningLines.push(U);
+                const O = new ne(ss, this.lightningMaterialBase.clone());
+                O.material.opacity = A ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
             }
         }
         triggerLightningFlash() {
@@ -2139,9 +2143,9 @@ void main() {
                 });
             }), document.querySelectorAll(".level_game_chels_contest").forEach((i, e, t)=>{
                 i.addEventListener("click", ()=>{
-                    console.log(this.levelPlayersNum), this.levelPlayersNum != e + 2 && (document.querySelectorAll(".level_game_chels_contest").forEach((o)=>{
+                    this.levelPlayersNum != e + 2 && (document.querySelectorAll(".level_game_chels_contest").forEach((o)=>{
                         o.classList.remove("level_game_chels_contest_active");
-                    }), i.classList.add("level_game_chels_contest_active"), this.levelPlayersNum = e + 2, console.log(this.levelPlayersNum - 2));
+                    }), i.classList.add("level_game_chels_contest_active"), this.levelPlayersNum = e + 2);
                 });
             }), document.querySelector(".free_game_btn1_2").addEventListener("click", ()=>{
                 this.hideScreen("free_game_screen"), this.initMatch(this.playersNum, 2);
@@ -2212,11 +2216,11 @@ void main() {
         updateMetersFloat(s, a, i = "hor") {
             const e = i === "vert" ? "y" : "x", t = 1e-4;
             for (const u of a){
-                const b = u?.player;
-                if (!b) continue;
-                const p = b.userData || (b.userData = {});
+                const f = u?.player;
+                if (!f) continue;
+                const p = f.userData || (f.userData = {});
                 p.score == null && (p.score = 0);
-                let g = b.position?.[e] ?? 0;
+                let g = f.position?.[e] ?? 0;
                 if (p._lastMeterPos == null && (p._lastMeterPos = g), i !== "vert" && p._wasLive === !1 && p.live && (p._lastMeterPos = g), p.live) {
                     const v = g - p._lastMeterPos, M = v > t ? v : 0;
                     M !== 0 && (p.score += M, p._lastMeterPos = g);
@@ -2226,14 +2230,14 @@ void main() {
             this.playerPanels || (this.playerPanels = Array.from(document.querySelectorAll(".player_panel_rec_num")).slice(0, 3));
             let o = 0;
             for(let u = 0; u < 3; u++){
-                const b = this.playerPanels[u], p = a[u]?.player, g = Math.max(0, Math.floor(p?.userData?.score || 0));
-                o += g, b && (b.textContent = String(g).padStart(3, "0"));
+                const f = this.playerPanels[u], p = a[u]?.player, g = Math.max(0, Math.floor(p?.userData?.score || 0));
+                o += g, f && (f.textContent = String(g).padStart(3, "0"));
             }
             const n = Math.max(0, Math.floor(o));
             if (n === Ys) return;
             const l = Ys, h = performance.now(), d = 50, m = (u)=>{
-                const b = Math.min(1, (u - h) / d), p = 1 - Math.pow(1 - b, 4), g = Math.round(l + (n - l) * p);
-                this.score = g, this.metersFloatEl && (this.metersFloatEl.textContent = String(g).padStart(3, "0")), b < 1 ? requestAnimationFrame(m) : Ys = n;
+                const f = Math.min(1, (u - h) / d), p = 1 - Math.pow(1 - f, 4), g = Math.round(l + (n - l) * p);
+                this.score = g, this.metersFloatEl && (this.metersFloatEl.textContent = String(g).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Ys = n;
             };
             requestAnimationFrame(m);
         }
@@ -2288,7 +2292,7 @@ void main() {
                     0
                 ]
             ], this.levelCoopMode = "coop", this.allLevels = 10, this.table = {
-                updateDate: 11140,
+                updateDate: 11143,
                 levelsStatusContest: [
                     0,
                     0,
@@ -2454,7 +2458,7 @@ void main() {
                         }
                     ]
                 ]
-            }, this.masTables = [], console.log(this.table.player.bonusHeart);
+            }, this.masTables = [];
         }
         async clearData() {
             localStorage.clear();
@@ -2476,7 +2480,7 @@ void main() {
                     t,
                     o
                 ]
-            ], console.log(this.masTables[0][1]);
+            ];
             for(let n = 0; n < 3; n++)for(let l = 0; l < this.allLevels; l++)l < this.table.player.levels[n] ? this.levelsStatus[n][l] = "completed" : l == this.table.player.levels[n] ? this.levelsStatus[n][l] = "available" : this.levelsStatus[n][l] = "locked";
         }
         async loadLevels(s) {
@@ -2506,20 +2510,20 @@ void main() {
                 }
             }, t = 40, o = 60, n = 600;
             for(let l = 0; l < this.levelsStatus[s].length; l++){
-                const h = this.levelsStatus[s][l], { modifierClass: d, labelText: m, ariaState: u } = e(h), b = document.createElement("div");
-                b.className = `levels_block ${d}`, b.setAttribute("data-level", String(l + 1)), b.setAttribute("role", "button"), b.setAttribute("tabindex", h === "locked" ? "-1" : "0"), b.setAttribute("aria-label", `Уровень ${l + 1}, ${u}`);
+                const h = this.levelsStatus[s][l], { modifierClass: d, labelText: m, ariaState: u } = e(h), f = document.createElement("div");
+                f.className = `levels_block ${d}`, f.setAttribute("data-level", String(l + 1)), f.setAttribute("role", "button"), f.setAttribute("tabindex", h === "locked" ? "-1" : "0"), f.setAttribute("aria-label", `Уровень ${l + 1}, ${u}`);
                 const p = Math.min(o + l * t, n);
-                b.style.setProperty("--show-delay", `${p}ms`);
+                f.style.setProperty("--show-delay", `${p}ms`);
                 const g = document.createElement("div");
                 g.className = "levels_block_number", g.textContent = String(l + 1);
                 const v = document.createElement("div");
                 v.className = "levels_block_status";
                 const M = document.createElement("span");
-                M.className = `status_chip ${h === "completed" ? "status_chip--completed" : h === "available" ? "status_chip--available" : "status_chip--locked"}`, M.textContent = m, v.append(M), b.append(g, v), b.addEventListener("click", ()=>{
-                    h !== "locked" && (document.querySelectorAll(".levels_block").forEach((f)=>f.classList.remove("active")), b.classList.add("active"), console.log(`Выбран уровень ${l + 1}`));
-                }), b.addEventListener("keydown", (f)=>{
-                    h !== "locked" && (f.key === "Enter" || f.key === " ") && (f.preventDefault(), b.click());
-                }), i.append(b);
+                M.className = `status_chip ${h === "completed" ? "status_chip--completed" : h === "available" ? "status_chip--available" : "status_chip--locked"}`, M.textContent = m, v.append(M), f.append(g, v), f.addEventListener("click", ()=>{
+                    h !== "locked" && (document.querySelectorAll(".levels_block").forEach((b)=>b.classList.remove("active")), f.classList.add("active"));
+                }), f.addEventListener("keydown", (b)=>{
+                    h !== "locked" && (b.key === "Enter" || b.key === " ") && (b.preventDefault(), f.click());
+                }), i.append(f);
             }
             a.append(i), requestAnimationFrame(()=>{
                 a.classList.remove("levels_blocks--reenter"), a.querySelectorAll(".levels_block").forEach((l)=>{
@@ -2541,9 +2545,9 @@ void main() {
                 m.className = "levels_block_number", m.textContent = String(n);
                 const u = document.createElement("div");
                 u.className = "levels_block_status", l && (u.textContent = this.names[l - 1]), h.append(m, u), h.addEventListener("click", ()=>{
-                    document.querySelectorAll(".levels_block").forEach((b)=>b.classList.remove("active")), h.classList.add("active"), console.log(`Выбран уровень ${n} (значение: ${l})`);
-                }), h.addEventListener("keydown", (b)=>{
-                    (b.key === "Enter" || b.key === " ") && (b.preventDefault(), h.click());
+                    document.querySelectorAll(".levels_block").forEach((f)=>f.classList.remove("active")), h.classList.add("active");
+                }), h.addEventListener("keydown", (f)=>{
+                    (f.key === "Enter" || f.key === " ") && (f.preventDefault(), h.click());
                 }), a.append(h);
             }
             s.append(a), requestAnimationFrame(()=>{
@@ -2611,7 +2615,7 @@ void main() {
         }
     }
     console.clear();
-    let Zs, At = new Gs, Ce, ns, ws, X, P, D, Ss, I, As, T, bs, w = new St;
+    let Zs, At = new Gs, Ce, ns, ws, X, P, D, Ss, I, As, T, fs, w = new St;
     const us = new Qe;
     us.background = new is(13230580);
     const De = ct({
@@ -2659,7 +2663,7 @@ void main() {
     }, !1);
     let V = document.querySelector(".loader_line");
     async function Ht() {
-        we(!0), T = new Lt, ft(), bs = new kt, await bs.loadModels(), await bs.loadBoostsModel(), V.setAttribute("style", "width:30%"), await bs.loadTexture(), await Tt(), V.setAttribute("style", "width:30%"), D = new xt, await D.loadAudio(), V.setAttribute("style", "width:60%"), await T.loadLocalData(), await T.loadLevels(0), await T.loadLevelsContest(), V.setAttribute("style", "width:100%"), ns = new Dt(Se, T.loadLevels, w, D, T), we(!1), V.setAttribute("style", "width:0%");
+        we(!0), T = new Lt, bt(), fs = new kt, await fs.loadModels(), await fs.loadBoostsModel(), V.setAttribute("style", "width:30%"), await fs.loadTexture(), await Tt(), V.setAttribute("style", "width:30%"), D = new xt, await D.loadAudio(), V.setAttribute("style", "width:60%"), await T.loadLocalData(), await T.loadLevels(0), await T.loadLevelsContest(), V.setAttribute("style", "width:100%"), ns = new Dt(Se, T.loadLevels, w, D, T), we(!1), V.setAttribute("style", "width:0%");
     }
     await Ht();
     async function Tt() {
@@ -2678,8 +2682,8 @@ void main() {
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        Zs = new s.World(new s.Vector3(0, -9.81, 0)), Ce = new s.EventQueue(!0), X = new ps(Zs, s), As = new _t(F, T), ws = new Pt(us, F, E, I, $s, D), P = new wt(us, D, X, E, F, $s, I, ws, Se, T, w, De, je, As, ns, bs);
-        for(let a = 0; a < r; a++)P.players.push(new bt(T, us, D, P, I, F, w, bs));
+        Zs = new s.World(new s.Vector3(0, -9.81, 0)), Ce = new s.EventQueue(!0), X = new ps(Zs, s), As = new _t(F, T), ws = new Pt(us, F, E, I, $s, D), P = new wt(us, D, X, E, F, $s, I, ws, Se, T, w, De, je, As, ns, fs);
+        for(let a = 0; a < r; a++)P.players.push(new ft(T, us, D, P, I, F, w, fs));
         Ss = new Mt(P, $s, E, F, I, D), Ss.addKeyListeners();
     }
     async function Rt() {
@@ -2782,7 +2786,7 @@ void main() {
             !s || !i || (e = !0, t = p.touches ? p.touches[0].clientY : p.clientY, o = s.scrollTop, document.body.style.userSelect = "none", p.preventDefault());
         }, m = (p)=>{
             if (!e || !s || !i || !a) return;
-            const v = (p.touches ? p.touches[0].clientY : p.clientY) - t, M = a.getBoundingClientRect().height, f = s.clientHeight, q = s.scrollHeight, H = Math.max(1, M - i.offsetHeight), N = (q - f) / H;
+            const v = (p.touches ? p.touches[0].clientY : p.clientY) - t, M = a.getBoundingClientRect().height, b = s.clientHeight, q = s.scrollHeight, H = Math.max(1, M - i.offsetHeight), N = (q - b) / H;
             s.scrollTop = o + v * N;
         }, u = ()=>{
             e = !1, document.body.style.userSelect = "";
