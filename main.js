@@ -213,7 +213,7 @@ await BeforeStart();
 
 
 async function preloadPopupBackgrounds() {
-  ['/images/back-win.jpg', '/images/back-loose.jpg', '/images/back-dead.jpg', '/images/main.jpg'].forEach(src => {
+  ['images/back-win.jpg', 'images/back-loose.jpg', 'images/back-dead.jpg', 'images/main.jpg'].forEach(src => {
     const img = new Image();
     img.decoding = 'async';
     img.src = src;
