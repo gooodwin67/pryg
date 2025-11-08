@@ -3,11 +3,17 @@
 
 <head>
    <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
-   <title>Прыг</title>
-  <script type="module" crossorigin src="./assets/index-aMEUcybV.js"></script>
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"> -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+   <meta name="mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <title>Утиная братва</title>
+
+   <link rel="icon" type="image/x-icon" href="./assets/favicon-Bw0IQTl4.ico">
+   <link rel="shortcut icon" href="./assets/favicon-Bw0IQTl4.ico" type="image/x-icon">
+  <script type="module" crossorigin src="./assets/index-BD_cWG2p.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/three-DOpQIdiv.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-BUzeRV8g.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-Bp25NWe2.css">
 </head>
 
 <body>
@@ -26,7 +32,7 @@
             <span class='num_bonus_heart opacity_my-screen'>1</span>
          </div>
          <div class='player_panel_rec'><span data-i18n="hud.metersLabel">м</span> <span class='player_panel_rec_num'>0</span></div>
-         <div class='player_panel_out'><span class='mouse_icon_css'></span></div>
+         <div class='player_panel_out' draggable="false"><span class='mouse_icon_css'></span></div>
       </div>
       <div class='player_panel player2_panel hidden_screen'>
          <div class='player_panel_top' data-i18n="players.willy">Вилли</div>
@@ -50,20 +56,20 @@
 
    <div class="main_screen">
       <div id="lang-toggle" class="lang-toggle noselect" role="button" tabindex="0" aria-label="Switch language" aria-pressed="false">
-         <img id="flag" class="noselect" src="images/ru.svg" alt="Русский флаг">
+         <img id="flag" class="noselect" src="images/ru.svg" alt="Русский флаг" draggable="false">
       </div>
       <h1 class="logo-duck" data-text="Утиная братва" data-i18n="title">УТИНАЯ БРАТВА</h1>
 
       <div class='main_screen_btns_wrap'>
-         <div class='new_game_btn new_game_btn1 yellow_btn'>
+         <div class='new_game_btn new_game_btn1 yellow_btn' draggable="false">
             <span data-i18n="modes.champ.title">Чемпионат</span>
             <span data-i18n="modes.champ.desc">Установите лучшее время (1,2,3 игрока)</span>
          </div>
-         <div class='new_game_btn new_game_btn2 green_btn'>
-            <span data-i18n="modes.coop.title">Кооператив</span>
+         <div class='new_game_btn new_game_btn2 green_btn' draggable="false">
+            <span data-i18n="modes.coop.title">Прохождение</span>
             <span data-i18n="modes.coop.desc">Совместное прохождение уровней</span>
          </div>
-         <div class='new_game_btn new_game_btn3 blue_btn'>
+         <div class='new_game_btn new_game_btn3 blue_btn' draggable="false">
             <span data-i18n="modes.versus.title">Соревнование</span>
             <span data-i18n="modes.versus.desc">Определите лучшего в прохождении</span>
          </div>
@@ -111,7 +117,7 @@
             </div>
          </div>
 
-         <div class='arrow_back'></div>
+         <div class='arrow_back' draggable="false"></div>
 
       </div>
       <div class="scroll-progress"><span class="scroll-progress__bar"></span></div>
@@ -124,17 +130,18 @@
                <div>
                   <h3 data-i18n="levels.playersTitle">Сколько игроков</h3>
                   <div class='level_game_chels_wrap'>
-                     <div class='level_game_chels level_game_chels_active green_btn'>1</div>
-                     <div class='level_game_chels blue_btn'>2</div>
-                     <div class='level_game_chels yellow_btn'>3</div>
+                     <div class='level_game_chels level_game_chels_active green_btn' draggable="false">1</div>
+                     <div class='level_game_chels blue_btn' draggable="false">2</div>
+                     <div class='level_game_chels yellow_btn' draggable="false">3</div>
                   </div>
                </div>
                <h3 data-i18n="levels.levelChoice">Выбор уровня</h3>
             </div>
             <div class='levels_game_screen_wrap_top_right'>
                <span data-i18n="levels.tip1">Проходите уровни разным количеством игроков</span>
-               <span data-i18n="levels.tip2">Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток</span>
+               <span data-i18n="levels.tip2">Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток. 10й уровень всегда разный!</span>
                <span data-i18n="levels.tip3">Для прохождения уровня все игроки должны дойти до финиша</span>
+
             </div>
          </div>
          <div class='levels_blocks'></div>
@@ -153,12 +160,12 @@
                <div>
                   <h3 data-i18n="contest.playersTitle">Сколько игроков</h3>
                   <div class='level_game_chels_wrap'>
-                     <div class='level_game_chels_contest blue_btn level_game_chels_contest_active'>2</div>
-                     <div class='level_game_chels_contest yellow_btn'>3</div>
+                     <div class='level_game_chels_contest blue_btn level_game_chels_contest_active' draggable="false">2</div>
+                     <div class='level_game_chels_contest yellow_btn' draggable="false">3</div>
                   </div>
                </div>
                <h3 data-i18n="contest.levelChoice">Выбор уровня</h3>
-               <div class='contest_game_btn' data-i18n="contest.random">Случайный уровень</div>
+               <div class='contest_game_btn' data-i18n="contest.random" draggable="false">Случайный уровень</div>
             </div>
             <div class='levels_game_screen_wrap_top_right_contest'>
                <span data-i18n="contest.tip1">Соревнуйтесь друг с другом. Побеждает тот, кто первый доберется до финиша</span>
@@ -205,7 +212,7 @@
    <div class="popup_in_game hidden_screen">
       <div class='popup_in_game_wrap'>
          <div class='popup_screen_btns_wrap'>
-            <div class='popup_game_btn popup_game_btn1 green_btn hidden_screen' data-i18n="popup.continue">Продолжить</div>
+            <div class='popup_game_btn popup_game_btn1 green_btn hidden_screen'><span data-i18n="popup.continue">Продолжить +</span><span class='heart-icon'></span></div>
             <div class='popup_game_btn popup_game_btn15 green_btn hidden_screen' data-i18n="popup.next">Следующий уровень</div>
             <div class='popup_game_btn popup_game_btn2 yellow_btn' data-i18n="popup.restart">Начать заново</div>
             <div class='popup_game_btn popup_game_btn4 green_btn hidden_screen' data-i18n="popup.levelSelect">Выбор уровня</div>
@@ -236,7 +243,7 @@
             </div>
          </div>
 
-         <div class="sound_btn_wrap">
+         <div class="sound_btn_wrap" draggable="false">
             <div class="volume-icon sound_btn">
                <input class="volume-icon__input" type="checkbox" checked>
                <svg viewBox="0 0 108 96">
@@ -247,7 +254,7 @@
             </div>
          </div>
 
-         <div class="pause_btn_wrap">
+         <div class="pause_btn_wrap" draggable="false">
             <div id="nav-icon3" class=' pause_btn'>
                <span></span>
                <span></span>

@@ -1,9 +1,10 @@
+import { t } from './i18n.js';
 
 export class DataClass {
   constructor() {
     this.gameInit = false;
 
-    this.names = ["Билли", "Вилли", "Дилли"];
+    // this.names = ["Билли", "Вилли", "Дилли"];
 
 
 
@@ -21,7 +22,7 @@ export class DataClass {
     this.allLevels = 10;
 
     this.table = {
-      updateDate: 11143,
+      updateDate: 11147,
       levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       player: {
         levels: [0, 0, 0],
@@ -168,7 +169,15 @@ export class DataClass {
 
     this.masTables = [];
 
-
+    this.disableSelection = () => {
+      const elements = document.querySelectorAll('.levels_block, .status_chip, .levels_block_number');
+      elements.forEach(el => {
+        el.style.userSelect = 'none';
+        el.style.webkitUserSelect = 'none';
+        el.style.webkitTapHighlightColor = 'transparent';
+        el.draggable = false;
+      });
+    };
 
   }
 
@@ -262,16 +271,27 @@ export class DataClass {
     const documentFragment = document.createDocumentFragment();
 
     const getLevelConfig = (levelStatus) => {
-
       switch (levelStatus) {
         case 'completed':
-          return { modifierClass: 'levels_block--completed', labelText: 'Пройден', ariaState: 'уровень пройден' };
+          return {
+            modifierClass: 'levels_block--completed',
+            labelText: t('levels.status.completed', 'Пройден'),
+            ariaState: t('levels.status.completedAria', 'уровень пройден')
+          };
         case 'available':
-          return { modifierClass: 'levels_block--available', labelText: 'Доступен', ariaState: 'уровень доступен' };
+          return {
+            modifierClass: 'levels_block--available',
+            labelText: t('levels.status.available', 'Доступен'),
+            ariaState: t('levels.status.availableAria', 'уровень доступен')
+          };
         default:
-          return { modifierClass: 'levels_block--locked', labelText: 'Закрыт', ariaState: 'уровень закрыт' };
+          return {
+            modifierClass: 'levels_block--locked',
+            labelText: t('levels.status.locked', 'Закрыт'),
+            ariaState: t('levels.status.lockedAria', 'уровень закрыт')
+          };
       }
-    };
+    }
 
     const baseDelayMs = 40;     // базовая задержка между плитками
     const startDelayMs = 60;    // стартовая задержка для первой
@@ -282,22 +302,33 @@ export class DataClass {
       const levelStatus = this.levelsStatus[numChels][levelIndex];
       const { modifierClass, labelText, ariaState } = getLevelConfig(levelStatus);
 
+      // ★ ОПРЕДЕЛЯЕМ 10-й УРОВЕНЬ ★
+      const isSuperLevel = levelIndex === 9; // индекс 9 = 10-й уровень
+
       const levelElement = document.createElement('div');
-      levelElement.className = `levels_block ${modifierClass}`;
+      levelElement.className = `levels_block ${modifierClass}${isSuperLevel ? ' levels_block--super' : ''}`;
       levelElement.setAttribute('data-level', String(levelIndex + 1));
       levelElement.setAttribute('role', 'button');
       levelElement.setAttribute('tabindex', levelStatus === 'locked' ? '-1' : '0');
-      levelElement.setAttribute('aria-label', `Уровень ${levelIndex + 1}, ${ariaState}`);
+      levelElement.setAttribute('aria-label', `Уровень ${levelIndex + 1}, ${ariaState}${isSuperLevel ? ', бонусный уровень' : ''}`);
 
-      // Задаём индивидуальную задержку входа через CSS-переменную
       const computedDelay = Math.min(startDelayMs + levelIndex * baseDelayMs, maxDelayMs);
       levelElement.style.setProperty('--show-delay', `${computedDelay}ms`);
 
-      // Внутренняя разметка
+      // Номер уровня
       const numberElement = document.createElement('div');
       numberElement.className = 'levels_block_number';
       numberElement.textContent = String(levelIndex + 1);
 
+      // ★ ИКОНКА СЕРДЕЧКА ТОЛЬКО ДЛЯ 10-ГО УРОВНЯ ★
+      if (isSuperLevel) {
+        const rewardIcon = document.createElement('div');
+        rewardIcon.className = 'level_reward_icon';
+        rewardIcon.innerHTML = '+❤️'; // Текст не переводится, просто символ
+        levelElement.appendChild(rewardIcon);
+      }
+
+      // Статус (без изменений)
       const statusElement = document.createElement('div');
       statusElement.className = 'levels_block_status';
 
@@ -308,29 +339,29 @@ export class DataClass {
           ? 'status_chip--available'
           : 'status_chip--locked'
         }`;
+
+      statusChipElement.setAttribute('data-i18n', `levels.status.${levelStatus}`);
       statusChipElement.textContent = labelText;
 
-      statusElement.append(statusChipElement);
+      statusElement.appendChild(statusChipElement);
       levelElement.append(numberElement, statusElement);
 
-      // Клики/клавиатура
+      // Клики (ваш существующий код)
       levelElement.addEventListener('click', () => {
         if (levelStatus === 'locked') return;
-        document.querySelectorAll('.levels_block').forEach((element) => element.classList.remove('active'));
+        document.querySelectorAll('.levels_block').forEach(el => el.classList.remove('active'));
         levelElement.classList.add('active');
-
-        // startLevel(levelIndex + 1);
       });
 
-      levelElement.addEventListener('keydown', (keyboardEvent) => {
+      levelElement.addEventListener('keydown', (e) => {
         if (levelStatus === 'locked') return;
-        if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
-          keyboardEvent.preventDefault();
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
           levelElement.click();
         }
       });
 
-      documentFragment.append(levelElement);
+      documentFragment.appendChild(levelElement);
     }
 
     levelsContainer.append(documentFragment);
@@ -340,8 +371,19 @@ export class DataClass {
       levelsContainer.classList.remove('levels_blocks--reenter');
       levelsContainer.querySelectorAll('.levels_block').forEach((levelElement) => {
         levelElement.classList.add('levels_block--enter');
+        // если это супер-уровень — добавить флаг после завершения входной анимации
+        if (levelElement.classList.contains('levels_block--super')) {
+          levelElement.addEventListener('animationend', (e) => {
+            if (e.animationName === 'level-tile-in') {
+              levelElement.classList.add('levels_block--enter-done');
+            }
+          });
+        }
       });
     });
+
+    this.disableSelection()
+
   }
 
   async loadLevelsContest() {
@@ -387,9 +429,24 @@ export class DataClass {
       numberElement.textContent = String(levelNumber);
 
       // вместо статуса — число из массива
+
+
+
+
       const statusElement = document.createElement('div');
       statusElement.className = 'levels_block_status';
-      if (contestValue) statusElement.textContent = this.names[contestValue - 1];
+
+      if (contestValue) {
+        // ДОБАВЬТЕ data-i18n АТРИБУТ
+        statusElement.setAttribute('data-i18n', `contest.player${contestValue}`);
+        statusElement.textContent = t(`contest.player${contestValue}`);
+      } else {
+        statusElement.textContent = '';
+      }
+
+      // Получаем имена ДИНАМИЧЕСКИ при каждом рендере:
+      const playerName = contestValue ? t(`contest.player${contestValue}`) : '';
+      statusElement.textContent = playerName;
 
       levelElement.append(numberElement, statusElement);
 
@@ -421,6 +478,7 @@ export class DataClass {
         el.classList.add('levels_block--enter');
       });
     });
+    this.disableSelection()
   }
 
 

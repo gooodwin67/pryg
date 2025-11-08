@@ -28,7 +28,12 @@
     src: url('/fonts/blackberry.woff2') format('woff2');
 }
 
-
+:root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+}
 
 html {
     width: 100%;
@@ -86,13 +91,23 @@ body {
     max-height: 100%;
     z-index: -1;
 } */
-
+/* 
 canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: -1;
+    object-fit: cover;
+} */
+
+canvas {
+    position: fixed;
+    top: var(--safe-top);
+    left: var(--safe-left);
+    width: calc(100vw - var(--safe-left) - var(--safe-right));
+    height: calc(100vh - var(--safe-top) - var(--safe-bottom));
     z-index: -1;
     object-fit: cover;
 }
@@ -123,6 +138,22 @@ canvas {
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+/* Игровые панели игроков */
+.player1_panel {
+    bottom: max(10px, var(--safe-bottom));
+    right: max(10px, var(--safe-right));
+}
+
+.player2_panel {
+    bottom: max(10px, var(--safe-bottom));
+    left: max(10px, var(--safe-left));
+}
+
+.player3_panel {
+    top: max(10px, var(--safe-top));
+    left: max(10px, var(--safe-left));
 }
 
 .player_panel_out {
@@ -317,7 +348,36 @@ canvas {
 
 }
 
-.main_screen h1 {
+/* === КОНТЕЙНЕР ЭКРАНА === */
+.main_screen {
+    position: fixed;
+    inset: 0;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* ВЕРТИКАЛЬНЫЕ ОТСТУПЫ: 
+       - На обычных экранах: 20px сверху
+       - В Telegram/iOS: + высота панели браузера
+       - На маленьких экранах не меньше 12px */
+    padding:
+        max(1.25rem, env(safe-area-inset-top, 0px) + 0.625rem)
+        /* сверху */
+        1rem
+        /* по бокам */
+        0.625rem;
+    /* снизу */
+
+    box-sizing: border-box;
+    transform: none !important;
+    /* Сбрасываем старое центрирование */
+    left: 0 !important;
+    top: 0 !important;
+}
+
+
+/* .main_screen h1 {
     font-size: 180px;
     text-align: center;
     font-family: 'blackberry', Tahoma;
@@ -330,10 +390,75 @@ canvas {
     text-shadow:
         6px 6px 2px rgb(255, 255, 255),
         -4px -4px 2px rgb(255, 255, 255);
-    /* text-shadow:
-    0 4px 0 rgba(255,255,255,.9),
-    0 10px 22px rgba(0,0,0,.12); */
 
+} */
+/* === ЗАГОЛОВОК === */
+.main_screen h1 {
+    font-size: clamp(2.5rem, 10vw + 2vh, 11.25rem);
+    /* 40px → 180px */
+    text-align: center;
+    font-family: 'blackberry', Tahoma;
+    letter-spacing: -0.02em;
+    color: #f76951;
+    line-height: 0.85;
+    max-width: 95vw;
+
+    /* ОТСТУП СВЕРХУ для заголовка:
+       - Учитывает safe area
+       - На больших экранах добавляет ещё немного воздуха */
+    margin:
+        max(0.5rem, env(safe-area-inset-top, 0px) * 0.5) auto clamp(1rem, 4vh, 3rem);
+
+
+
+    word-wrap: break-word;
+    text-shadow:
+        0.04em 0.04em 0.02em rgba(255, 255, 255, 0.9),
+        -0.03em -0.03em 0.02em rgba(255, 255, 255, 0.9);
+}
+
+
+/* Мини-экраны (iPhone SE, Galaxy Fold) */
+@media (max-height: 600px) {
+    .main_screen {
+        justify-content: flex-start;
+        /* Прижимаем к верху */
+        padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+    }
+
+    .main_screen h1 {
+        font-size: clamp(1.8rem, 8vw + 1vh, 3.5rem);
+    }
+}
+
+/* Очень высокие (iPhone 15 Pro Max, планшеты) */
+@media (min-height: 900px) {
+    .main_screen h1 {
+        margin-top: max(1rem, env(safe-area-inset-top, 0px) * 0.7);
+    }
+}
+
+
+/* === ДЕСКТОПЫ: сдвигаем весь контент вверх от центра === */
+@media (min-width: 1025px) {
+    .main_screen::after {
+        content: "";
+        display: block;
+        width: 1px;
+        /* Минимальная ширина, чтобы существовал */
+        height: 16vh;
+        /* ✨ Чем БОЛЬШЕ, тем ВЫШЕ взлетит контент ✨ */
+        flex-shrink: 0;
+        /* Не сжимается */
+    }
+}
+
+/* === МОБИЛЬНЫЕ: отключаем сдвиг === */
+@media (max-width: 1024px) {
+    .main_screen::after {
+        display: none;
+        /* На мобильных не нужен */
+    }
 }
 
 
@@ -1334,7 +1459,7 @@ body .level_game_chels_contest_active {
 }
 
 .hud__label {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: .02em;
     color: #fff;
@@ -1344,7 +1469,7 @@ body .level_game_chels_contest_active {
 .hud__value {
     font-variant-numeric: tabular-nums;
     font-weight: 800;
-    font-size: 28px;
+    font-size: 38px;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
 }
@@ -1352,7 +1477,7 @@ body .level_game_chels_contest_active {
 /* блок с рекордами */
 .hud__records {
     color: #fff;
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .hud__record {
@@ -1384,6 +1509,13 @@ body .level_game_chels_contest_active {
     position: fixed;
     top: 20px;
     right: 20px;
+    z-index: 10;
+}
+
+.huds {
+    position: fixed;
+    top: max(20px, calc(var(--safe-top) + 10px));
+    right: max(20px, calc(var(--safe-right) + 10px));
     z-index: 10;
 }
 
@@ -1838,6 +1970,14 @@ body .level_game_chels_contest_active {
 
     .hud__value {
         font-size: 20px;
+    }
+
+    .hud__records {
+        font-size: 12px;
+    }
+
+    .hud__label {
+        font-size: 13px;
     }
 
     .hud--outline {
@@ -3109,23 +3249,337 @@ body {
 }
 
 
-canvas {
+/* canvas {
     left: 300px;
-}
+} */
 
-body>canvas {
+/* body>canvas {
     left: 0;
-}
+} */
 
 
 #lang-toggle {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     left: 20px;
     z-index: 1001
 }
 
 #lang-toggle {
-    top: max(20px, env(safe-area-inset-top));
+    bottom: max(20px, env(safe-area-inset-top));
     left: max(20px, env(safe-area-inset-left));
+}
+
+
+
+.popup_game_btn1 span:first-child {
+    padding-left: 35px;
+    position: relative;
+}
+
+.popup_game_btn1 span:first-child::before {
+    content: '';
+    position: absolute;
+    width: 31px;
+    height: 22px;
+    top: 45%;
+    left: 0;
+    transform: translateY(-50%);
+    background: url('/images/ad-icon.png') no-repeat;
+}
+
+
+/* Добавьте класс .heart-icon ко второму span в HTML */
+.popup_game_btn1 span:last-child {
+    --heart-size: 1em;
+    /* масштабируется от font-size родителя */
+    --heart-color: #ff4d94;
+
+    display: inline-block;
+    width: var(--heart-size);
+    height: var(--heart-size);
+    background: var(--heart-color);
+    position: relative;
+    /* transform: rotate(-55deg); */
+    transform-origin: center;
+    vertical-align: middle;
+    margin-left: 0.5em;
+    animation: heartBeat1 1s ease-in-out infinite;
+}
+
+/* Круги формируют "выпуклости" сердечка */
+.popup_game_btn1 span:last-child::before,
+.popup_game_btn1 span:last-child::after {
+    content: "";
+    position: absolute;
+    width: var(--heart-size);
+    height: var(--heart-size);
+    background: var(--heart-color);
+    border-radius: 50%;
+}
+
+/* Верхний левый круг */
+.popup_game_btn1 span:last-child::before {
+    top: calc(var(--heart-size) * -0.5);
+    left: 0;
+}
+
+/* Верхний правый круг */
+.popup_game_btn1 span:last-child::after {
+    top: 0;
+    left: calc(var(--heart-size) * 0.5);
+}
+
+/* Пульсация */
+@keyframes heartBeat1 {
+
+    0%,
+    100% {
+        transform: rotate(-43deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(-43deg) scale(1.15);
+    }
+}
+
+
+
+
+
+
+
+
+/* 1) УСИЛИВАЕМ свечения и делаем их масштабом ТОЛЬКО на псевдоэлементе */
+.levels_block--super {
+    position: relative;
+    border: 2px solid #FFD700;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+    overflow: visible;
+    z-index: 0;
+    /* создаём стек */
+}
+
+/* золотая цифра */
+.levels_block--super .levels_block_number {
+    color: #FFD700;
+    font-weight: 800;
+    font-size: 26px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* 2) Глоу переносим на ::before, усиливаем и анимируем ТОЛЬКО его */
+.levels_block--super::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    /* шире карточки */
+    border-radius: inherit;
+    pointer-events: none;
+    /* ярче и шире свечение */
+    box-shadow:
+        0 0 22px rgba(255, 215, 0, 1),
+        0 0 44px rgba(255, 215, 0, 1),
+        0 0 72px rgba(255, 215, 0, 1);
+    transform: scale(1);
+    /* ВАЖНО: анимируем масштаб псевдоэлемента, не блока */
+    transform-origin: 50% 50%;
+    animation: superGlow 1.6s ease-in-out infinite;
+    will-change: opacity, transform, filter;
+}
+
+@keyframes superGlow {
+
+    0%,
+    100% {
+        opacity: .55;
+        filter: blur(0.4px);
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        filter: blur(1.2px);
+        transform: scale(1.07);
+    }
+}
+
+/* 3) Сердце поднимаем выше ВСЕГО контента блока, чтобы точно было видно */
+.level_reward_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    animation: heartBeat 1.0s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px #ff4d94);
+    pointer-events: none;
+    z-index: 3;
+    /* ← добавили слой, чтобы не «терялось» */
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.45);
+    }
+}
+
+/* 4) На случай «закрытого» 10 уровня — замочек всегда поверх */
+.levels_block--locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    font-size: 14px;
+    opacity: .9;
+    z-index: 4;
+    /* выше сердца и любых подсветок */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* === ПЕРЕОПРЕДЕЛЕНИЕ hidden_screen С МАКСИМАЛЬНОЙ СПЕЦИФИЧНОСТЬЮ === */
+.hidden_screen,
+.main_screen.hidden_screen,
+.free_game_screen.hidden_screen,
+.levels_game_screen.hidden_screen,
+.levels_game_screen_contest.hidden_screen,
+.popup_in_game.hidden_screen,
+.hud.hidden_screen,
+.menu_in_game.hidden_screen,
+.player_panel.hidden_screen {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+
+
+
+
+
+
+/* === ЯНДЕКС ИГРЫ: Полное отключение выделения и системных меню === */
+
+/* Базовое отключение для всего документа */
+* {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+    touch-action: manipulation !important;
+}
+
+/* Отдельно для кликабельных элементов */
+.new_game_btn,
+.free_game_btn,
+.free_game_chels,
+.level_game_chels,
+.level_game_chels_contest,
+.levels_block,
+.contest_game_btn,
+.popup_game_btn,
+.arrow_back,
+.lang-toggle,
+.sound_btn_wrap,
+.pause_btn_wrap,
+.player_panel_out {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Для canvas дополнительная защита */
+canvas {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none !important;
+    user-select: none !important;
+}
+
+/* Убираем контекстное меню для изображений */
+img {
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+    pointer-events: none;
+}
+
+.lang-toggle img {
+    pointer-events: auto;
+    /* Разрешаем клик по флагу */
+}
+
+/* Отключаем текстовое выделение внутри панелей */
+.player_panel,
+.hud,
+.menu_in_game {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Для iOS: отключаем магнитное увеличение */
+@media screen and (max-device-width: 1024px) {
+    body {
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+        text-size-adjust: none;
+    }
+}
+
+/* Отключаем выделение текста в плашках статуса */
+.status_chip {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Запрещаем выделение номеров уровней */
+.levels_block_number {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Дополнительная защита для мобильных */
+@media (hover: none) {
+    * {
+        cursor: default !important;
+    }
 }

@@ -5,7 +5,7 @@ const messages = {
         title: "УТИНАЯ БРАТВА",
         modes: {
             champ: { title: "Чемпионат", desc: "Установите лучшее время (1,2,3 игрока)" },
-            coop: { title: "Кооператив", desc: "Совместное прохождение уровней" },
+            coop: { title: "Прохождение", desc: "Совместное прохождение уровней" },
             versus: { title: "Соревнование", desc: "Определите лучшего в прохождении" }
         },
         free: {
@@ -21,8 +21,16 @@ const messages = {
             playersTitle: "Сколько игроков",
             levelChoice: "Выбор уровня",
             tip1: "Проходите уровни разным количеством игроков",
-            tip2: "Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток",
+            tip2: "Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток. 10 уровень всегда разный!",
             tip3: "Для прохождения уровня все игроки должны дойти до финиша",
+            status: {
+                completed: "Пройден",
+                available: "Доступен",
+                locked: "Закрыт",
+                completedAria: "уровень пройден",
+                availableAria: "уровень доступен",
+                lockedAria: "уровень закрыт"
+            },
         },
         contest: {
             playersTitle: "Сколько игроков",
@@ -31,18 +39,23 @@ const messages = {
             tip1: "Соревнуйтесь друг с другом. Побеждает тот, кто первый доберется до финиша",
             tip2: "Цвет уровня окрашивается в цвет победителя",
             tip3: "Цель - окрасить все уровни в свои цвета",
+            player1: "Билли",
+            player2: "Вилли",
+            player3: "Дилли",
         },
+
         players: { billy: "Билли", willy: "Вилли", dilly: "Дилли", lives: "Жизни:" },
         hud: { metersLabel: "м", records: "Рекорды:", mine: "Мой:", world: "Мировой:", secPlayer: "Я", thirdPlayer: "Ь" },
-        popup: { continue: "Продолжить", next: "Следующий уровень", restart: "Начать заново", levelSelect: "Выбор уровня", exit: "Выйти в меню" },
+        popup: { continue: "Продолжить +", next: "Следующий уровень", restart: "Начать заново", levelSelect: "Выбор уровня", exit: "Выйти в меню" },
         loader: { loading: "Загрузка..." },
+
     },
     en: {
         ui: { langToggle: "RU" },
         title: "DUCK BROS",
         modes: {
             champ: { title: "Championship", desc: "Set the best time (1,2,3 players)" },
-            coop: { title: "Cooperative", desc: "Beat levels together" },
+            coop: { title: "Beat levels", desc: "Beat levels together" },
             versus: { title: "Versus", desc: "Find out who’s fastest" }
         },
         free: {
@@ -50,7 +63,7 @@ const messages = {
             gameChoice: "Game selection",
             tip1: "Each player count has its own leaderboard",
             tip2: "We sum distance traveled by each teammate",
-            tip3: "Beat level 10 in co-op to get the 4th heart for 10 championship attempts",
+            tip3: "Beat level 10 in co-op to get the 4th heart for 10 championship attempts. 10 level always random!",
             ocean: "Ocean",
             space: "Space",
         },
@@ -60,6 +73,14 @@ const messages = {
             tip1: "Beat levels with different team sizes",
             tip2: "Each time you beat level 10 you get a 4th heart for a few championship attempts",
             tip3: "To finish a level, all players must reach the goal",
+            status: {
+                completed: "Completed",
+                available: "Available",
+                locked: "Locked",
+                completedAria: "level completed",
+                availableAria: "level available",
+                lockedAria: "level locked"
+            },
         },
         contest: {
             playersTitle: "Players",
@@ -68,10 +89,13 @@ const messages = {
             tip1: "Race each other: first to finish wins",
             tip2: "The level gets dyed in the winner’s color",
             tip3: "Goal: dye all levels in your color",
+            player1: "Billy",
+            player2: "Willy",
+            player3: "Dilly",
         },
         players: { billy: "Billy", willy: "Willy", dilly: "Dilly", lives: "Lives:" },
         hud: { metersLabel: "m", records: "Records:", mine: "Mine:", world: "World:", secPlayer: "Z", thirdPlayer: "M" },
-        popup: { continue: "Continue", next: "Next level", restart: "Restart", levelSelect: "Level select", exit: "Main menu" },
+        popup: { continue: "Continue +", next: "Next level", restart: "Restart", levelSelect: "Level select", exit: "Main menu" },
         loader: { loading: "Loading..." },
     }
 };
