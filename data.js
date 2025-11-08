@@ -169,7 +169,15 @@ export class DataClass {
 
     this.masTables = [];
 
-
+    this.disableSelection = () => {
+      const elements = document.querySelectorAll('.levels_block, .status_chip, .levels_block_number');
+      elements.forEach(el => {
+        el.style.userSelect = 'none';
+        el.style.webkitUserSelect = 'none';
+        el.style.webkitTapHighlightColor = 'transparent';
+        el.draggable = false;
+      });
+    };
 
   }
 
@@ -374,6 +382,8 @@ export class DataClass {
       });
     });
 
+    this.disableSelection()
+
   }
 
   async loadLevelsContest() {
@@ -468,6 +478,7 @@ export class DataClass {
         el.classList.add('levels_block--enter');
       });
     });
+    this.disableSelection()
   }
 
 

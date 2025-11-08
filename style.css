@@ -3484,3 +3484,102 @@ body {
     position: absolute !important;
     left: -9999px !important;
 }
+
+
+
+
+
+
+
+/* === ЯНДЕКС ИГРЫ: Полное отключение выделения и системных меню === */
+
+/* Базовое отключение для всего документа */
+* {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+    touch-action: manipulation !important;
+}
+
+/* Отдельно для кликабельных элементов */
+.new_game_btn,
+.free_game_btn,
+.free_game_chels,
+.level_game_chels,
+.level_game_chels_contest,
+.levels_block,
+.contest_game_btn,
+.popup_game_btn,
+.arrow_back,
+.lang-toggle,
+.sound_btn_wrap,
+.pause_btn_wrap,
+.player_panel_out {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Для canvas дополнительная защита */
+canvas {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none !important;
+    user-select: none !important;
+}
+
+/* Убираем контекстное меню для изображений */
+img {
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+    pointer-events: none;
+}
+
+.lang-toggle img {
+    pointer-events: auto;
+    /* Разрешаем клик по флагу */
+}
+
+/* Отключаем текстовое выделение внутри панелей */
+.player_panel,
+.hud,
+.menu_in_game {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Для iOS: отключаем магнитное увеличение */
+@media screen and (max-device-width: 1024px) {
+    body {
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+        text-size-adjust: none;
+    }
+}
+
+/* Отключаем выделение текста в плашках статуса */
+.status_chip {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Запрещаем выделение номеров уровней */
+.levels_block_number {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Дополнительная защита для мобильных */
+@media (hover: none) {
+    * {
+        cursor: default !important;
+    }
+}

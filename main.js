@@ -20,6 +20,64 @@ import { AssetsManager } from './assets-manager';
 import { initI18n } from './i18n.js';
 
 
+
+// === ЯНДЕКС ИГРЫ: Глобальное отключение системных действий ===
+
+// Отключаем контекстное меню (правый клик / долгий тап)
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  return false;
+}, { capture: true });
+
+// Отключаем выделение текста
+document.addEventListener('selectstart', (e) => {
+  e.preventDefault();
+  return false;
+}, { capture: true });
+
+// Отключаем drag & drop
+document.addEventListener('dragstart', (e) => {
+  e.preventDefault();
+  return false;
+}, { capture: true });
+
+// Запрещаем магнитное увеличение на iOS
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// Дополнительная защита от системных меню (долгий тап)
+let longPressTimer;
+document.addEventListener('touchstart', (e) => {
+  longPressTimer = setTimeout(() => {
+    e.preventDefault();
+  }, 500);
+}, { passive: false });
+
+document.addEventListener('touchend', () => {
+  clearTimeout(longPressTimer);
+});
+
+document.addEventListener('touchmove', () => {
+  clearTimeout(longPressTimer);
+});
+
+// Отключаем двойной тап (зум)
+document.addEventListener('dblclick', (e) => {
+  e.preventDefault();
+  return false;
+}, { capture: true });
+
+// Специально для Яндекс.Игр: отключаем вызов браузерных меню
+if (navigator.userAgent.includes('YaBrowser') || navigator.userAgent.includes('Yandex')) {
+  document.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+  }, { passive: false });
+}
+
+
 console.clear();
 
 let world;
@@ -141,12 +199,12 @@ onWindowResize();
 
 
 
-document.body.addEventListener("touchstart", function () {
+document.body.addEventListener("touchstart", function (e) {
+  e.preventDefault(); // Отключаем системные реакции
   document.body.requestFullscreen().then(() => {
-    screen.orientation.lock("landscape");
-  })
-
-}, false);
+    screen.orientation.lock("landscape").catch(() => { });
+  }).catch(() => { });
+}, { passive: false, once: true });
 
 // document.body.addEventListener("touchstart", async function () {
 //   try {
