@@ -1334,7 +1334,7 @@ body .level_game_chels_contest_active {
 }
 
 .hud__label {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: .02em;
     color: #fff;
@@ -1344,7 +1344,7 @@ body .level_game_chels_contest_active {
 .hud__value {
     font-variant-numeric: tabular-nums;
     font-weight: 800;
-    font-size: 28px;
+    font-size: 38px;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
 }
@@ -1352,7 +1352,7 @@ body .level_game_chels_contest_active {
 /* блок с рекордами */
 .hud__records {
     color: #fff;
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .hud__record {
@@ -1838,6 +1838,14 @@ body .level_game_chels_contest_active {
 
     .hud__value {
         font-size: 20px;
+    }
+
+    .hud__records {
+        font-size: 12px;
+    }
+
+    .hud__label {
+        font-size: 13px;
     }
 
     .hud--outline {
@@ -3128,4 +3136,154 @@ body>canvas {
 #lang-toggle {
     top: max(20px, env(safe-area-inset-top));
     left: max(20px, env(safe-area-inset-left));
+}
+
+
+
+.popup_game_btn1 span:first-child {
+    padding-left: 35px;
+    position: relative;
+}
+
+.popup_game_btn1 span:first-child::before {
+    content: '';
+    position: absolute;
+    width: 31px;
+    height: 22px;
+    top: 45%;
+    left: 0;
+    transform: translateY(-50%);
+    background: url('/images/ad-icon.png') no-repeat;
+}
+
+
+
+.popup_game_btn1 span:last-child {
+    width: 10px;
+    height: 10px;
+    background: red;
+    position: relative;
+    transform: rotate(-45deg) translate(4px, 5px);
+    margin-right: 8px;
+    transition: 0.5s;
+    /* animation: heart-pop 0.65s ease-out; */
+}
+
+.popup_game_btn1 span:last-child::before,
+.popup_game_btn1 span:last-child::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+}
+
+.popup_game_btn1 span:last-child::before {
+    top: -7.5px;
+    left: 0;
+}
+
+.popup_game_btn1 span:last-child::after {
+    left: 6.5px;
+    top: 0;
+}
+
+
+
+
+
+
+
+
+/* 1) УСИЛИВАЕМ свечения и делаем их масштабом ТОЛЬКО на псевдоэлементе */
+.levels_block--super {
+    position: relative;
+    border: 2px solid #FFD700;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.35);
+    overflow: visible;
+    z-index: 0;
+    /* создаём стек */
+}
+
+/* золотая цифра */
+.levels_block--super .levels_block_number {
+    color: #FFD700;
+    font-weight: 800;
+    font-size: 26px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* 2) Глоу переносим на ::before, усиливаем и анимируем ТОЛЬКО его */
+.levels_block--super::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    /* шире карточки */
+    border-radius: inherit;
+    pointer-events: none;
+    /* ярче и шире свечение */
+    box-shadow:
+        0 0 22px rgba(255, 215, 0, 1),
+        0 0 44px rgba(255, 215, 0, 1),
+        0 0 72px rgba(255, 215, 0, 1);
+    transform: scale(1);
+    /* ВАЖНО: анимируем масштаб псевдоэлемента, не блока */
+    transform-origin: 50% 50%;
+    animation: superGlow 1.6s ease-in-out infinite;
+    will-change: opacity, transform, filter;
+}
+
+@keyframes superGlow {
+
+    0%,
+    100% {
+        opacity: .55;
+        filter: blur(0.4px);
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        filter: blur(1.2px);
+        transform: scale(1.07);
+    }
+}
+
+/* 3) Сердце поднимаем выше ВСЕГО контента блока, чтобы точно было видно */
+.level_reward_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    animation: heartBeat 1.0s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px #ff4d94);
+    pointer-events: none;
+    z-index: 3;
+    /* ← добавили слой, чтобы не «терялось» */
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.45);
+    }
+}
+
+/* 4) На случай «закрытого» 10 уровня — замочек всегда поверх */
+.levels_block--locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    font-size: 14px;
+    opacity: .9;
+    z-index: 4;
+    /* выше сердца и любых подсветок */
 }

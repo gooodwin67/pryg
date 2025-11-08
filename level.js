@@ -81,7 +81,7 @@ export class LevelClass {
     this.materialPlane = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
     this.mks = new THREE.Mesh(this.geometryPlane, this.materialPlane);
     this.mks.position.z = -550
-    if (this.isMobile) this.mks.position.y = 150
+    if (this.isMobile) this.mks.position.y = 100
     else this.mks.position.y = 140
 
     this.mks.layers.set(1);
