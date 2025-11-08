@@ -91,9 +91,9 @@ window.visualViewport?.addEventListener('resize', setVhVar);
 /////////////////////////////////////
 
 let stats = new Stats();
-document.body.appendChild(stats.dom);
-stats.dom.style.top = "0px";
-stats.dom.style.left = "548%";
+// document.body.appendChild(stats.dom);
+// stats.dom.style.top = "0px";
+// stats.dom.style.left = "548%";
 
 const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
@@ -387,7 +387,7 @@ function animate() {
 
 
 
-    stats.dom.style.left = "48%";
+    // stats.dom.style.left = "48%";
 
 
 
@@ -407,7 +407,7 @@ function animate() {
 
 
 
-    stats.update();
+    // stats.update();
     for (let i = 0, n = physicsClass.dynamicBodies.length; i < n; i++) {
       physicsClass.dynamicBodies[i][0].position.copy(physicsClass.dynamicBodies[i][1].translation())
       physicsClass.dynamicBodies[i][0].quaternion.copy(physicsClass.dynamicBodies[i][1].rotation())

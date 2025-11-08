@@ -2345,8 +2345,6 @@ export class LevelClass {
 
         if (camera.position.y > 20) {
           this.mks.position.x -= 0.02;
-          this.mks.position.y += 0.02;
-          this.mks.position.z -= 0.02;
         }
         break;
     }
