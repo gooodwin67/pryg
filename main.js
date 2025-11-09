@@ -261,7 +261,6 @@ async function BeforeStart() {
 
 
   await dataClass.loadLocalData();
-  await dataClass.loadNetworkDataAndMerge();
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
 
@@ -273,7 +272,6 @@ async function BeforeStart() {
   toggleLoader(false);
   loaderLine.setAttribute("style", "width:0%");
 
-  await dataClass.loadLeaderboardsAtStart(ysdk)
   
   ysdk.features.LoadingAPI.ready();
   ysdk.features.GameplayAPI.stop();
@@ -811,39 +809,3 @@ initCustomScroll();
 // })();
 
 
-
-//сохранения при уходе игрока из игры
-function setupExitSaves(dataClass) {
-  let lastSaveTs = 0;
-
-  // 1) Когда вкладка уходит в фон — делаем мягкий сейв
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-      const now = Date.now();
-      if (now - lastSaveTs > 1500) {
-        lastSaveTs = now;
-        try {
-          dataClass.saveLocalData();
-          dataClass.saveNetworkData({ flush: false }).catch(() => {});
-        } catch (_) {}
-      }
-    }
-  }, { capture: true });
-
-  // 2) При закрытии: не ждём промисов долго (часто их просто прерывают)
-  function saveOnPageHide() {
-    try {
-      dataClass.saveLocalData();
-      // Важно: не await, просто инициируем отправку.
-      // Если повезёт — успеет улететь, если нет — у нас уже были периодические/hidden сейвы.
-      dataClass.saveNetworkData({ flush: true }).catch(() => {});
-    } catch (_) {}
-  }
-
-  window.addEventListener('pagehide', saveOnPageHide, { capture: true });
-  window.addEventListener('beforeunload', () => {
-    try { dataClass.saveLocalData(); } catch (_) {}
-  }, { capture: true });
-}
-
-setupExitSaves(dataClass);

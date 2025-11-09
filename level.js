@@ -2411,7 +2411,7 @@ export class LevelClass {
         }
       }
       this.dataClass.saveLocalData();
-      await this.dataClass.saveNetworkData();
+      
       this.dataClass.loadLocalData();
 
       this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
@@ -2473,7 +2473,7 @@ export class LevelClass {
             })
             if (bonusHeart || newLevel) {
               this.dataClass.saveLocalData();
-              await this.dataClass.saveNetworkData();
+              
             }
           }
           else if (this.dataClass.levelCoopMode == 'contest') {
@@ -2483,7 +2483,7 @@ export class LevelClass {
 
                   this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
                   this.dataClass.saveLocalData();
-                  await this.dataClass.saveNetworkData()
+                  
                 }
 
               }
