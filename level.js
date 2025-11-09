@@ -2372,9 +2372,12 @@ export class LevelClass {
     return { newPos, newVel };
   }
 
-  showPopupInGame(showNext = false, levels = false) {
+  async showPopupInGame(showNext = false, levels = false) {
     this.hideScreen('popup_game_btn_close');
     this.hideScreen('menu_in_game');
+
+
+    
 
 
 
@@ -2394,6 +2397,8 @@ export class LevelClass {
           const list = this.dataClass.table['hor'][this.players.length - 1];
           const row = list.find(isMy);
           if (row) row.rec = this.scoreClass.score;
+
+          await this.dataClass.saveResult(ysdk, `ocean${this.players.length}`, this.scoreClass.score);
         }
       }
       else if (this.paramsClass.gameDir === 'vert') {
@@ -2401,9 +2406,12 @@ export class LevelClass {
           const list = this.dataClass.table['vert'][this.players.length - 1];
           const row = list.find(isMy);
           if (row) row.rec = this.scoreClass.score;
+
+          await this.dataClass.saveResult(ysdk, `space${this.players.length}`, this.scoreClass.score);
         }
       }
       this.dataClass.saveLocalData();
+      await this.dataClass.saveNetworkData();
       this.dataClass.loadLocalData();
 
       this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
@@ -2463,15 +2471,19 @@ export class LevelClass {
               }
 
             })
-            if (bonusHeart || newLevel) this.dataClass.saveLocalData();
+            if (bonusHeart || newLevel) {
+              this.dataClass.saveLocalData();
+              await this.dataClass.saveNetworkData();
+            }
           }
           else if (this.dataClass.levelCoopMode == 'contest') {
-            this.players.forEach((value, index, array) => {
+            this.players.forEach(async (value, index, array) => {
               if (value.player.userData.finish) {
                 if (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != index + 1) {
 
                   this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
                   this.dataClass.saveLocalData();
+                  await this.dataClass.saveNetworkData()
                 }
 
               }
@@ -2586,7 +2598,27 @@ export class LevelClass {
 
   menuInGame = () => {
 
-    this.rebindButton('.popup_game_btn1', () => {
+
+
+    async function showFullscreenAdvSafe() {
+      return new Promise((resolve) => {
+        ysdk.adv.showFullscreenAdv({
+          callbacks: {
+            onOpen: () => console.log('Ad opened'),
+            onClose: (wasShown) => {
+              console.log('Ad closed', wasShown);
+              resolve(wasShown); // продолжаем выполнение
+            },
+            onError: (err) => {
+              console.warn('Ad error', err);
+              resolve(false); // всё равно продолжаем
+            },
+          },
+        });
+      });
+    }
+
+    this.rebindButton('.popup_game_btn1', async () => {
 
       if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
       this.boostHatModels.forEach((value, index, array) => {
@@ -2616,16 +2648,17 @@ export class LevelClass {
       this.hideScreen('popup_in_game');
     })
 
-    this.rebindButton('.popup_game_btn2', () => {
+    this.rebindButton('.popup_game_btn2', async() => {
 
-
-
-
-      let masPos = [0, -1, 1]
 
 
 
       this.audioClass.hardStopAll();
+      await showFullscreenAdvSafe();
+
+      
+
+      let masPos = [0, -1, 1]
 
       this.players.forEach((value, index, array) => {
         value.player.userData.live = false;
@@ -2693,9 +2726,10 @@ export class LevelClass {
 
 
     })
-    this.rebindButton('.popup_game_btn15', () => {
+    this.rebindButton('.popup_game_btn15', async () => {
 
       this.audioClass.hardStopAll();
+      await showFullscreenAdvSafe();
       this.paramsClass.dataLoaded = false;
       disposeScene(this.scene);
       this.audioClass.stopMusic(0);
@@ -2751,8 +2785,9 @@ export class LevelClass {
       // this.audioClass.playMusic(['back']);
 
     })
-    this.rebindButton('.popup_game_btn3', () => {
+    this.rebindButton('.popup_game_btn3', async () => {
       this.audioClass.hardStopAll();
+      await showFullscreenAdvSafe();
       this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
       this.hideScreen('popup_in_game');
@@ -2767,8 +2802,9 @@ export class LevelClass {
 
     })
 
-    this.rebindButton('.popup_game_btn4', () => {
+    this.rebindButton('.popup_game_btn4', async() => {
       this.audioClass.hardStopAll();
+      await showFullscreenAdvSafe();
       this.gameClass.pause = false;
       this.gameClass.showGamePopup = false;
 

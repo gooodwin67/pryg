@@ -1,454 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"> -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Утиная братва</title>
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link href="style.css" rel="stylesheet" />
+<head>
+   <meta charset="utf-8">
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"> -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+   <meta name="mobile-web-app-capable" content="yes">
+   <title>Утиная братва</title>
 
-    <!-- <script>
-      function initSDK() {
-        if (typeof YaGames !== 'undefined') {
-          YaGames.init().then(ysdk => {
-            console.log('Yandex SDK initialized');
-            window.ysdk = ysdk;
-    
-            import('./main.js');
-          });
-        } else {
-          console.error('YaGames is not defined!');
-        }
-      }
+   <base href="./" />
+   <link rel="icon" type="image/x-icon" href="favicon.ico">
+   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+   <link href="style.css" rel="stylesheet" />
+
+   <script type="module">
+      window.__loadMain = () => import('./main.js');
     </script>
-    <script src="https://sdk.games.s3.yandex.net/sdk.js" onload="initSDK()"></script>
-    -->
 
-    <script>
-      // Заглушка для локальной разработки
-      if (typeof YaGames === "undefined") {
-        console.warn(
-          "⚠️ YaGames SDK не найден — используется локальная заглушка"
-        );
-        window.YaGames = {
-          init() {
-            return Promise.resolve({
-              player: { getName: () => "LocalPlayer", getID: () => "local" },
-              adv: { showFullscreenAdv: () => Promise.resolve() },
-              feedback: { canReview: () => Promise.resolve(false) },
-              getPlayer() {
-                return Promise.resolve({
-                  getName: () => "LocalPlayer",
-                  getID: () => "local",
-                });
-              },
-            });
-          },
-        };
-      }
+ <!-- Yandex Games SDK -->
+ <script>
+   function initSDK() {
+     if (typeof YaGames !== 'undefined') {
+       YaGames.init().then(function (ysdk) {
+         console.log('Yandex SDK initialized');
+         window.ysdk = ysdk;
+         window.__loadMain();
+       });
+     } else {
+       console.error('YaGames is not defined!');
+       // при желании можно всё равно стартануть игру:
+       window.__loadMain();
+     }
+   }
+ </script>
+ <script src="/sdk.js" onload="initSDK()"></script>
+   
+   
+</head>
 
-      function startGame() {
-        import("./main.js");
-      }
+<body>
 
-      YaGames.init().then((ysdk) => {
-        console.log("✅ Yandex SDK готов:", ysdk);
-        window.ysdk = ysdk;
 
-        if (document.readyState === "loading") {
-          window.addEventListener("DOMContentLoaded", startGame, {
-            once: true,
-          });
-        } else {
-          startGame();
-        }
-      });
-    </script>
-    <script src="https://sdk.games.s3.yandex.net/sdk.js"></script>
-  </head>
 
-  <body>
-    <div class="players_panels">
-      <div class="player_panel player1_panel hidden_screen">
-        <div class="player_panel_top" data-i18n="players.billy">Билли</div>
-        <div class="player_panel_bottom">
-          <span data-i18n="players.lives">Жизни:</span>
-          <div class="player_panel_bottom_lives">
-            <span></span> <span></span> <span></span> <span></span>
-          </div>
-          <span class="num_bonus_heart opacity_my-screen">1</span>
-        </div>
-        <div class="player_panel_rec">
-          <span data-i18n="hud.metersLabel">м</span>
-          <span class="player_panel_rec_num">0</span>
-        </div>
-        <div class="player_panel_out" draggable="false">
-          <span class="mouse_icon_css"></span>
-        </div>
+
+
+
+
+   <div class="players_panels">
+      <div class='player_panel player1_panel hidden_screen'>
+         <div class='player_panel_top' data-i18n="players.billy">Билли</div>
+         <div class='player_panel_bottom'><span data-i18n="players.lives">Жизни:</span>
+            <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
+         </div>
+         <div class='player_panel_rec'><span data-i18n="hud.metersLabel">м</span> <span class='player_panel_rec_num'>0</span></div>
+         <div class='player_panel_out' draggable="false"><span class='mouse_icon_css'></span></div>
       </div>
-      <div class="player_panel player2_panel hidden_screen">
-        <div class="player_panel_top" data-i18n="players.willy">Вилли</div>
-        <div class="player_panel_bottom">
-          <span data-i18n="players.lives">Жизни:</span>
-          <div class="player_panel_bottom_lives">
-            <span></span> <span></span> <span></span> <span></span>
-          </div>
-          <span class="num_bonus_heart opacity_my-screen">1</span>
-        </div>
-        <div class="player_panel_rec">
-          <span data-i18n="hud.metersLabel">м</span>
-          <span class="player_panel_rec_num">0</span>
-        </div>
-        <div class="player_panel_out">
-          <span data-i18n="hud.secPlayer">Я</span>
-        </div>
+      <div class='player_panel player2_panel hidden_screen'>
+         <div class='player_panel_top' data-i18n="players.willy">Вилли</div>
+         <div class='player_panel_bottom'><span data-i18n="players.lives">Жизни:</span>
+            <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
+         </div>
+         <div class='player_panel_rec'><span data-i18n="hud.metersLabel">м</span> <span class='player_panel_rec_num'>0</span></div>
+         <div class='player_panel_out'><span data-i18n="hud.secPlayer">Я</span></div>
       </div>
-      <div class="player_panel player3_panel hidden_screen">
-        <div class="player_panel_top" data-i18n="players.dilly">Дилли</div>
-        <div class="player_panel_bottom">
-          <span data-i18n="players.lives">Жизни:</span>
-          <div class="player_panel_bottom_lives">
-            <span></span> <span></span> <span></span> <span></span>
-          </div>
-          <span class="num_bonus_heart opacity_my-screen">1</span>
-        </div>
-        <div class="player_panel_rec">
-          <span data-i18n="hud.metersLabel">м</span>
-          <span class="player_panel_rec_num">0</span>
-        </div>
-        <div class="player_panel_out">
-          <span data-i18n="hud.thirdPlayer">Ь</span>
-        </div>
+      <div class='player_panel player3_panel hidden_screen'>
+         <div class='player_panel_top' data-i18n="players.dilly">Дилли</div>
+         <div class='player_panel_bottom'><span data-i18n="players.lives">Жизни:</span>
+            <div class='player_panel_bottom_lives'> <span></span> <span></span> <span></span> <span></span></div>
+            <span class='num_bonus_heart opacity_my-screen'>1</span>
+         </div>
+         <div class='player_panel_rec'><span data-i18n="hud.metersLabel">м</span> <span class='player_panel_rec_num'>0</span></div>
+         <div class='player_panel_out'><span data-i18n="hud.thirdPlayer">Ь</span></div>
       </div>
-    </div>
+   </div>
 
-    <div class="main_screen">
-      <div
-        id="lang-toggle"
-        class="lang-toggle noselect"
-        role="button"
-        tabindex="0"
-        aria-label="Switch language"
-        aria-pressed="false"
-      >
-        <img
-          id="flag"
-          class="noselect"
-          src="images/ru.svg"
-          alt="Русский флаг"
-          draggable="false"
-        />
+   <div class="main_screen">
+      <div id="lang-toggle" class="lang-toggle noselect" role="button" tabindex="0" aria-label="Switch language" aria-pressed="false">
+         <img id="flag" class="noselect" src="images/ru.svg" alt="Русский флаг" draggable="false">
       </div>
-      <h1 class="logo-duck" data-text="Утиная братва" data-i18n="title">
-        УТИНАЯ БРАТВА
-      </h1>
+      <h1 class="logo-duck" data-text="Утиная братва" data-i18n="title">УТИНАЯ БРАТВА</h1>
 
-      <div class="main_screen_btns_wrap">
-        <div class="new_game_btn new_game_btn1 yellow_btn" draggable="false">
-          <span data-i18n="modes.champ.title">Чемпионат</span>
-          <span data-i18n="modes.champ.desc"
-            >Установите лучшее время (1,2,3 игрока)</span
-          >
-        </div>
-        <div class="new_game_btn new_game_btn2 green_btn" draggable="false">
-          <span data-i18n="modes.coop.title">Прохождение</span>
-          <span data-i18n="modes.coop.desc"
-            >Совместное прохождение уровней</span
-          >
-        </div>
-        <div class="new_game_btn new_game_btn3 blue_btn" draggable="false">
-          <span data-i18n="modes.versus.title">Соревнование</span>
-          <span data-i18n="modes.versus.desc"
-            >Определите лучшего в прохождении</span
-          >
-        </div>
+      <div class='main_screen_btns_wrap'>
+         <div class='new_game_btn new_game_btn1 yellow_btn' draggable="false">
+            <span data-i18n="modes.champ.title">Чемпионат</span>
+            <span data-i18n="modes.champ.desc">Установите лучшее время (1,2,3 игрока)</span>
+         </div>
+         <div class='new_game_btn new_game_btn2 green_btn' draggable="false">
+            <span data-i18n="modes.coop.title">Прохождение</span>
+            <span data-i18n="modes.coop.desc">Совместное прохождение уровней</span>
+         </div>
+         <div class='new_game_btn new_game_btn3 blue_btn' draggable="false">
+            <span data-i18n="modes.versus.title">Соревнование</span>
+            <span data-i18n="modes.versus.desc">Определите лучшего в прохождении</span>
+         </div>
       </div>
-      <div class="scroll-progress">
-        <span class="scroll-progress__bar"></span>
-      </div>
-    </div>
+      <div class="scroll-progress"><span class="scroll-progress__bar"></span></div>
+   </div>
 
-    <div class="free_game_screen hidden_screen scrollable">
-      <div class="free_game_screen_wrap">
-        <div class="free_game_screen_wrap_top">
-          <div class="free_game_screen_wrap_top_left">
-            <div>
-              <h3 data-i18n="free.playersTitle">Сколько игроков</h3>
-              <div class="free_game_chels_wrap">
-                <div class="free_game_chels free_game_chels_active green_btn">
-                  1
-                </div>
-                <div class="free_game_chels blue_btn">2</div>
-                <div class="free_game_chels yellow_btn">3</div>
-              </div>
+   <div class="free_game_screen hidden_screen scrollable">
+      <div class='free_game_screen_wrap'>
+
+         <div class="free_game_screen_wrap_top">
+            <div class='free_game_screen_wrap_top_left'>
+               <div>
+                  <h3 data-i18n="free.playersTitle">Сколько игроков</h3>
+                  <div class='free_game_chels_wrap'>
+                     <div class='free_game_chels free_game_chels_active green_btn'>1</div>
+                     <div class='free_game_chels blue_btn'>2</div>
+                     <div class='free_game_chels yellow_btn'>3</div>
+                  </div>
+               </div>
+               <h3 data-i18n="free.gameChoice">Выбор игры</h3>
             </div>
-            <h3 data-i18n="free.gameChoice">Выбор игры</h3>
-          </div>
-          <div class="free_game_screen_wrap_top_right">
-            <span data-i18n="free.tip1"
-              >Для каждого количества игроков своя таблица рекордов</span
-            >
-            <span data-i18n="free.tip2"
-              >Учитывается пройденный путь каждого игрока в команде</span
-            >
-            <span data-i18n="free.tip3"
-              >Проходите 10 уровень в кооперативе, чтобы получить 4ю жизнь на 10
-              попыток в рекордах</span
-            >
-          </div>
-        </div>
+            <div class='free_game_screen_wrap_top_right'>
+               <span data-i18n="free.tip1">Для каждого количества игроков своя таблица рекордов</span>
+               <span data-i18n="free.tip2">Учитывается пройденный путь каждого игрока в команде</span>
+               <span data-i18n="free.tip3">Проходите 10 уровень в кооперативе, чтобы получить 4ю жизнь на 10 попыток в рекордах</span>
+            </div>
+         </div>
 
-        <div class="free_game_screen_btns_wrap">
-          <div class="free_game_btn_wrap">
-            <div
-              class="free_game_btn free_game_btn1_2 green_btn"
-              data-i18n="free.ocean"
-            >
-              Океан
-            </div>
+         <div class='free_game_screen_btns_wrap'>
+            <div class='free_game_btn_wrap'>
+               <div class='free_game_btn free_game_btn1_2 green_btn' data-i18n="free.ocean">Океан</div>
 
-            <div class="rec_h_wrap">
-              <div class="rec_h" data-i18n="hud.records">Рекорды</div>
+               <div class='rec_h_wrap'>
+                  <div class='rec_h' data-i18n="hud.records">Рекорды</div>
+               </div>
+               <div class='rec_table_small rec_table_small_hor'></div>
             </div>
-            <div class="rec_table_small rec_table_small_hor"></div>
-          </div>
-          <div class="free_game_btn_wrap">
-            <div
-              class="free_game_btn free_game_btn1_4 yellow_btn"
-              data-i18n="free.space"
-            >
-              Космос
+            <div class='free_game_btn_wrap'>
+               <div class='free_game_btn free_game_btn1_4 yellow_btn' data-i18n="free.space">Космос</div>
+               <div class='rec_h_wrap'>
+                  <div class='rec_h' data-i18n="hud.records">Рекорды</div>
+               </div>
+               <div class='rec_table_small rec_table_small_vert'></div>
             </div>
-            <div class="rec_h_wrap">
-              <div class="rec_h" data-i18n="hud.records">Рекорды</div>
-            </div>
-            <div class="rec_table_small rec_table_small_vert"></div>
-          </div>
-        </div>
+         </div>
 
-        <div class="arrow_back" draggable="false"></div>
+         <div class='arrow_back' draggable="false"></div>
+
       </div>
-      <div class="scroll-progress">
-        <span class="scroll-progress__bar"></span>
-      </div>
-    </div>
+      <div class="scroll-progress"><span class="scroll-progress__bar"></span></div>
+   </div>
 
-    <div class="levels_game_screen hidden_screen scrollable">
-      <div class="levels_game_screen_wrap">
-        <div class="levels_game_screen_wrap_top">
-          <div class="levels_game_screen_wrap_top_left">
-            <div>
-              <h3 data-i18n="levels.playersTitle">Сколько игроков</h3>
-              <div class="level_game_chels_wrap">
-                <div
-                  class="level_game_chels level_game_chels_active green_btn"
-                  draggable="false"
-                >
-                  1
-                </div>
-                <div class="level_game_chels blue_btn" draggable="false">2</div>
-                <div class="level_game_chels yellow_btn" draggable="false">
-                  3
-                </div>
-              </div>
+   <div class="levels_game_screen hidden_screen scrollable">
+      <div class='levels_game_screen_wrap'>
+         <div class='levels_game_screen_wrap_top'>
+            <div class='levels_game_screen_wrap_top_left'>
+               <div>
+                  <h3 data-i18n="levels.playersTitle">Сколько игроков</h3>
+                  <div class='level_game_chels_wrap'>
+                     <div class='level_game_chels level_game_chels_active green_btn' draggable="false">1</div>
+                     <div class='level_game_chels blue_btn' draggable="false">2</div>
+                     <div class='level_game_chels yellow_btn' draggable="false">3</div>
+                  </div>
+               </div>
+               <h3 data-i18n="levels.levelChoice">Выбор уровня</h3>
             </div>
-            <h3 data-i18n="levels.levelChoice">Выбор уровня</h3>
-          </div>
-          <div class="levels_game_screen_wrap_top_right">
-            <span data-i18n="levels.tip1"
-              >Проходите уровни разным количеством игроков</span
-            >
-            <span data-i18n="levels.tip2"
-              >Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в
-              рекордах на несколько попыток. 10й уровень всегда разный!</span
-            >
-            <span data-i18n="levels.tip3"
-              >Для прохождения уровня все игроки должны дойти до финиша</span
-            >
-          </div>
-        </div>
-        <div class="levels_blocks"></div>
-        <div class="arrow_back"></div>
+            <div class='levels_game_screen_wrap_top_right'>
+               <span data-i18n="levels.tip1">Проходите уровни разным количеством игроков</span>
+               <span data-i18n="levels.tip2">Каждый раз, проходя 10й уровень, игрок получает 4 сердечко в рекордах на несколько попыток. 10й уровень всегда разный!</span>
+               <span data-i18n="levels.tip3">Для прохождения уровня все игроки должны дойти до финиша</span>
+
+            </div>
+         </div>
+         <div class='levels_blocks'></div>
+         <div class='arrow_back'></div>
       </div>
 
-      <div class="scroll-progress">
-        <span class="scroll-progress__bar"></span>
-      </div>
-    </div>
+      <div class="scroll-progress"><span class="scroll-progress__bar"></span></div>
 
-    <div class="levels_game_screen_contest hidden_screen scrollable">
-      <div class="levels_game_screen_wrap">
-        <div class="levels_game_screen_wrap_top_contest">
-          <div class="levels_game_screen_wrap_top_left_contest">
-            <div>
-              <h3 data-i18n="contest.playersTitle">Сколько игроков</h3>
-              <div class="level_game_chels_wrap">
-                <div
-                  class="level_game_chels_contest blue_btn level_game_chels_contest_active"
-                  draggable="false"
-                >
-                  2
-                </div>
-                <div
-                  class="level_game_chels_contest yellow_btn"
-                  draggable="false"
-                >
-                  3
-                </div>
-              </div>
-            </div>
-            <h3 data-i18n="contest.levelChoice">Выбор уровня</h3>
-            <div
-              class="contest_game_btn"
-              data-i18n="contest.random"
-              draggable="false"
-            >
-              Случайный уровень
-            </div>
-          </div>
-          <div class="levels_game_screen_wrap_top_right_contest">
-            <span data-i18n="contest.tip1"
-              >Соревнуйтесь друг с другом. Побеждает тот, кто первый доберется
-              до финиша</span
-            >
-            <span data-i18n="contest.tip2"
-              >Цвет уровня окрашивается в цвет победителя</span
-            >
-            <span data-i18n="contest.tip3"
-              >Цель - окрасить все уровни в свои цвета</span
-            >
-          </div>
-        </div>
-        <div class="levels_blocks_contest"></div>
-        <div class="arrow_back"></div>
-      </div>
-      <div class="scroll-progress">
-        <span class="scroll-progress__bar"></span>
-      </div>
-    </div>
+   </div>
 
-    <div class="loader_screen">
+   <div class="levels_game_screen_contest hidden_screen scrollable">
+      <div class='levels_game_screen_wrap'>
+
+         <div class='levels_game_screen_wrap_top_contest'>
+            <div class='levels_game_screen_wrap_top_left_contest'>
+               <div>
+                  <h3 data-i18n="contest.playersTitle">Сколько игроков</h3>
+                  <div class='level_game_chels_wrap'>
+                     <div class='level_game_chels_contest blue_btn level_game_chels_contest_active' draggable="false">2</div>
+                     <div class='level_game_chels_contest yellow_btn' draggable="false">3</div>
+                  </div>
+               </div>
+               <h3 data-i18n="contest.levelChoice">Выбор уровня</h3>
+               <div class='contest_game_btn' data-i18n="contest.random" draggable="false">Случайный уровень</div>
+            </div>
+            <div class='levels_game_screen_wrap_top_right_contest'>
+               <span data-i18n="contest.tip1">Соревнуйтесь друг с другом. Побеждает тот, кто первый доберется до финиша</span>
+               <span data-i18n="contest.tip2">Цвет уровня окрашивается в цвет победителя</span>
+               <span data-i18n="contest.tip3">Цель - окрасить все уровни в свои цвета</span>
+            </div>
+         </div>
+         <div class='levels_blocks_contest'></div>
+         <div class='arrow_back'></div>
+      </div>
+      <div class="scroll-progress"><span class="scroll-progress__bar"></span></div>
+   </div>
+
+
+   <div class="loader_screen">
       <div class="cloud cloud--1"></div>
       <div class="cloud cloud--2"></div>
       <div class="cloud cloud--3"></div>
       <div class="cloud cloud--4"></div>
 
       <div class="duck__wrapper">
-        <div class="duck">
-          <div class="duck duck__inner">
-            <div class="duck__mouth"></div>
-            <div class="duck__head">
-              <div class="duck__eye"></div>
-              <div class="duck__eye--shadow"></div>
-              <div class="duck__white"></div>
+         <div class="duck">
+            <div class="duck duck__inner">
+               <div class="duck__mouth"></div>
+               <div class="duck__head">
+                  <div class="duck__eye"></div>
+                  <div class="duck__eye--shadow"></div>
+                  <div class="duck__white"></div>
+               </div>
+               <div class="duck__body"></div>
+               <div class="duck__wing"></div>
             </div>
-            <div class="duck__body"></div>
-            <div class="duck__wing"></div>
-          </div>
-          <div class="duck__foot duck__foot--1"></div>
-          <div class="duck__foot duck__foot--2"></div>
-          <div class="surface">
-            <div class="loader_line"></div>
-            <span data-i18n="loader.loading">Загрузка...</span>
-          </div>
-        </div>
+            <div class="duck__foot duck__foot--1"></div>
+            <div class="duck__foot duck__foot--2"></div>
+            <div class="surface">
+               <div class='loader_line'></div>
+               <span data-i18n="loader.loading">Загрузка...</span>
+            </div>
+         </div>
       </div>
-    </div>
+   </div>
 
-    <div class="popup_in_game hidden_screen">
-      <div class="popup_in_game_wrap">
-        <div class="popup_screen_btns_wrap">
-          <div class="popup_game_btn popup_game_btn1 green_btn hidden_screen">
-            <span data-i18n="popup.continue">Продолжить +</span
-            ><span class="heart-icon"></span>
-          </div>
-          <div
-            class="popup_game_btn popup_game_btn15 green_btn hidden_screen"
-            data-i18n="popup.next"
-          >
-            Следующий уровень
-          </div>
-          <div
-            class="popup_game_btn popup_game_btn2 yellow_btn"
-            data-i18n="popup.restart"
-          >
-            Начать заново
-          </div>
-          <div
-            class="popup_game_btn popup_game_btn4 green_btn hidden_screen"
-            data-i18n="popup.levelSelect"
-          >
-            Выбор уровня
-          </div>
-          <div
-            class="popup_game_btn popup_game_btn3 blue_btn"
-            data-i18n="popup.exit"
-          >
-            Выйти в меню
-          </div>
-          <div class="popup_game_btn_close hidden_screen">
-            <span>|</span><span>|</span>
-          </div>
-        </div>
+
+   <div class="popup_in_game hidden_screen">
+      <div class='popup_in_game_wrap'>
+         <div class='popup_screen_btns_wrap'>
+            <div class='popup_game_btn popup_game_btn1 green_btn hidden_screen'><span data-i18n="popup.continue">Продолжить +</span><span class='heart-icon'></span></div>
+            <div class='popup_game_btn popup_game_btn15 green_btn hidden_screen' data-i18n="popup.next">Следующий уровень</div>
+            <div class='popup_game_btn popup_game_btn2 yellow_btn' data-i18n="popup.restart">Начать заново</div>
+            <div class='popup_game_btn popup_game_btn4 green_btn hidden_screen' data-i18n="popup.levelSelect">Выбор уровня</div>
+            <div class='popup_game_btn popup_game_btn3 blue_btn' data-i18n="popup.exit">Выйти в меню</div>
+            <div class='popup_game_btn_close hidden_screen'><span>|</span><span>|</span></div>
+         </div>
       </div>
-    </div>
+   </div>
 
-    <div class="huds">
+   <div class='huds'>
       <div class="hud hud--outline hud--stacked hidden_screen">
-        <div class="hud__top">
-          <span class="hud__label" data-i18n="hud.metersLabel">м</span>
-          <span class="hud__value" id="meters-float">000</span>
-        </div>
-        <div class="hud__records">
-          <div class="hud_recs_label" data-i18n="hud.records">Рекорды:</div>
-          <div class="records_block"></div>
-          <span class="hud__record hud__record--me" data-i18n="hud.mine"
-            >Мой:</span
-          >
-          <strong id="myRecord">0</strong><br />
-          <span class="hud__record hud__record--world" data-i18n="hud.world"
-            >Мировой:</span
-          >
-          <strong id="worldRecord">0</strong>
-        </div>
+         <div class="hud__top">
+            <span class="hud__label" data-i18n="hud.metersLabel">м</span>
+            <span class="hud__value" id="meters-float">000</span>
+         </div>
+         <div class="hud__records">
+            <div class='hud_recs_label' data-i18n="hud.records">Рекорды:</div>
+            <div class='records_block'></div>
+            <span class="hud__record hud__record--me" data-i18n="hud.mine">Мой:</span> <strong id="myRecord">0</strong><br>
+            <span class="hud__record hud__record--world" data-i18n="hud.world">Мировой:</span> <strong id="worldRecord">0</strong>
+         </div>
       </div>
 
       <div class="menu_in_game hidden_screen">
-        <div class="level_hud_wrap">
-          <div id="lev_hud" class="lev_hud">
-            <span>1</span>
-          </div>
-        </div>
+         <div class="level_hud_wrap">
+            <div id="lev_hud" class='lev_hud'>
+               <span>1</span>
+            </div>
+         </div>
 
-        <div class="sound_btn_wrap" draggable="false">
-          <div class="volume-icon sound_btn">
-            <input class="volume-icon__input" type="checkbox" checked />
-            <svg viewBox="0 0 108 96">
-              <path d="M7 28h28L59 8v80L35 68H7a4 4 0 01-4-4V32a4 4 0 014-4z" />
-              <path d="M79 62c4-4.667 6-9.333 6-14s-2-9.333-6-14L49 3" />
-              <path
-                d="M95 69c6.667-7.333 10-14.667 10-22s-3.333-14.667-10-22L75.5 6 49 33"
-              />
-            </svg>
-          </div>
-        </div>
+         <div class="sound_btn_wrap" draggable="false">
+            <div class="volume-icon sound_btn">
+               <input class="volume-icon__input" type="checkbox" checked>
+               <svg viewBox="0 0 108 96">
+                  <path d="M7 28h28L59 8v80L35 68H7a4 4 0 01-4-4V32a4 4 0 014-4z" />
+                  <path d="M79 62c4-4.667 6-9.333 6-14s-2-9.333-6-14L49 3" />
+                  <path d="M95 69c6.667-7.333 10-14.667 10-22s-3.333-14.667-10-22L75.5 6 49 33" />
+               </svg>
+            </div>
+         </div>
 
-        <div class="pause_btn_wrap" draggable="false">
-          <div id="nav-icon3" class="pause_btn">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
+         <div class="pause_btn_wrap" draggable="false">
+            <div id="nav-icon3" class=' pause_btn'>
+               <span></span>
+               <span></span>
+               <span></span>
+            </div>
+         </div>
+
       </div>
-    </div>
-  </body>
+   </div>
+
+
+</body>
+
 </html>
