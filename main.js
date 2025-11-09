@@ -78,7 +78,7 @@ if (navigator.userAgent.includes('YaBrowser') || navigator.userAgent.includes('Y
 }
 
 
-console.clear();
+// console.clear();
 
 let world;
 
@@ -236,6 +236,8 @@ let loaderLine = document.querySelector('.loader_line');
 
 async function BeforeStart() {
   toggleLoader(true);
+
+  console.log(ysdk)
 
   dataClass = new DataClass();
   initI18n();
