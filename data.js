@@ -188,11 +188,14 @@ export class DataClass {
 
 
 
+
   async clearData() {
     localStorage.clear();
   }
 
-
+  getMineLabel() {
+    return t('leaderboard.mine', this.getMineLabel());
+  }
 
   saveLocalData() {
     // try {
@@ -470,16 +473,16 @@ export class DataClass {
       const firstThree = [row[1], row[2], row[3]].map((x, idx) => (
         x ? { pos: x.pos, name: x.name, rec: x.rec } : { pos: idx + 1, name: '', rec: 0 }
       ));
-      const hasMyInFirst3 = firstThree.some(x => x && x.name === 'Мой рекорд');
+      const hasMyInFirst3 = firstThree.some(x => x && x.name === this.getMineLabel());
 
       if (hasMyInFirst3) {
         // кейс: я в топ-3 — меню будет рендерить 0,1,2 индексы
         return firstThree; // длина 3
       } else {
         // кейс: я НЕ в топ-3 — меню возьмёт 0,1 и специальный элемент [3]
-        const me = row[3] && row[3].name === 'Мой рекорд'
-          ? { pos: row[3].pos, name: 'Мой рекорд', rec: row[3].rec }
-          : { pos: 0, name: 'Мой рекорд', rec: row[0]?.rec || 0 }; // запасной вариант
+        const me = row[3] && row[3].name === this.getMineLabel()
+          ? { pos: row[3].pos, name: this.getMineLabel(), rec: row[3].rec }
+          : { pos: 0, name: this.getMineLabel(), rec: row[0]?.rec || 0 }; // запасной вариант
         return [ firstThree[0], firstThree[1], firstThree[2], me ]; // ОБЯЗАТЕЛЬНО с индексом [3]
       }
     };
@@ -562,14 +565,14 @@ createDefaultTable() {
     },
     levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     hor: [
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
     ],
     vert: [
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
-      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: this.getMineLabel(), rec: 0 }, {}, {}, {} ],
     ],
   };
 }
@@ -602,7 +605,7 @@ leaderboardPlacement = {
 
 ensureRowsForLeaderboards() {
   const makeRow = () => ([
-    { pos: 0, name: 'Мой рекорд', rec: 0 },
+    { pos: 0, name: this.getMineLabel(), rec: 0 },
     { pos: 1, name: '', rec: 0 },
     { pos: 2, name: '', rec: 0 },
     { pos: 3, name: '', rec: 0 },
@@ -658,7 +661,7 @@ async loadLeaderboardsTop3(ysdkInstance) {
           // Я в топ-3: заменяем имя на "Мой рекорд"
           displayRows = top3Raw.slice(0, 3).map(item => ({
             pos: item.uid === myUid ? item.pos : item.pos, // оставляем реальный ранг
-            name: item.uid === myUid ? 'Мой рекорд' : item.name,
+            name: item.uid === myUid ? this.getMineLabel() : item.name,
             rec: item.rec,
           }));
         } else {
@@ -668,7 +671,7 @@ async loadLeaderboardsTop3(ysdkInstance) {
             name: item.name,
             rec: item.rec,
           }));
-          const meRow = { pos: myRank || 0, name: 'Мой рекорд', rec: myScore };
+          const meRow = { pos: myRank || 0, name: this.getMineLabel(), rec: myScore };
           displayRows = [...top2, meRow];
         }
 
@@ -703,11 +706,11 @@ async loadLeaderboardsTop3(ysdkInstance) {
         const src = displayRows[i] || { pos: i + 1, name: '', rec: 0 };
         targetRow[i + 1] = { pos: src.pos, name: src.name, rec: src.rec };
       }
-      const iAmShownInTop3 = displayRows.some(r => r.name === 'Мой рекорд');
+      const iAmShownInTop3 = displayRows.some(r => r.name === this.getMineLabel());
       if (!iAmShownInTop3 && myEntry && myUid) {
         const myRank = myEntry.rank || 0;
         const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
-        targetRow[3] = { pos: myRank, name: 'Мой рекорд', rec: myScore };
+        targetRow[3] = { pos: myRank, name: this.getMineLabel(), rec: myScore };
       }
 
     } catch (error) {

@@ -2413,6 +2413,7 @@ export class LevelClass {
         }
       }
       await this.dataClass.saveTableToCloud();
+      await this.dataClass.loadTableFromCloud();
 
       // this.dataClass.loadLocalData();
 
