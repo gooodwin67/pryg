@@ -1,5 +1,5 @@
-import { _ as ke, __tla as __tla_0 } from "./index-C6jvBsSw.js";
-import { B as Cs, a as ds, P as Me, N as Ae, b as Js, c as Ts, C as se, M as Ls, d as vs, V as c, e as ze, W as Be, f as fs, Q as ks, g as Ee, h as is, i as js, j as cs, G as Zs, E as J, k as os, D as De, S as He, l as Te, m as le, I as ts, n as as, o as Fe, p as Gs, O as ee, R as _s, q as Es, r as Re, s as Ie, A as Hs, t as G, u as Ge, v as Ne, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Pe, K as Xe, U as Je, X as ne, Y as re, Z as Ze, _ as Qe, $ as he, a0 as de, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as lt, a8 as nt } from "./three-DOpQIdiv.js";
+import { _ as ke, __tla as __tla_0 } from "./index-okTvubwB.js";
+import { B as Cs, a as ds, P as Me, N as Ae, b as Js, c as Ts, C as se, M as Ls, d as vs, V as c, e as ze, W as Be, f as fs, Q as ks, g as Ee, h as is, i as js, j as cs, G as Zs, E as J, k as os, D as De, S as He, l as Te, m as ne, I as ts, n as as, o as Fe, p as Gs, O as ee, R as _s, q as Es, r as Re, s as Ie, A as Hs, t as G, u as Ge, v as Ne, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Pe, K as Xe, U as Je, X as le, Y as re, Z as Ze, _ as Qe, $ as he, a0 as de, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
         try {
@@ -25,7 +25,7 @@ Promise.all([
         const s = r.collisionGroups(), a = s >>> 16 & 65535, i = s & 65535;
         function e(t) {
             const o = [];
-            for(let l = 0; l < 16; l++)t & 1 << l && o.push(l);
+            for(let n = 0; n < 16; n++)t & 1 << n && o.push(n);
             return o;
         }
         return [
@@ -73,7 +73,7 @@ Promise.all([
     }
     function pt({ scene: r, maxParticles: s = 800, gravity: a = -7.8, drag: i = 2, texture: e = null, pointSize: t = .66, blending: o = Ae } = {}) {
         if (!r) throw new Error("createSplashSystem: scene is required");
-        function l() {
+        function n() {
             const w = document.createElement("canvas");
             w.width = w.height = 64;
             const H = w.getContext("2d"), B = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
@@ -81,10 +81,10 @@ Promise.all([
             const k = new se(w);
             return k.anisotropy = 1, k.needsUpdate = !0, k;
         }
-        const n = e || l(), h = new Float32Array(s * 3), p = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), f = new Float32Array(s), d = new Uint8Array(s), b = new Cs;
+        const l = e || n(), h = new Float32Array(s * 3), p = new Float32Array(s * 3), m = new Float32Array(s), u = new Float32Array(s), f = new Float32Array(s), d = new Uint8Array(s), b = new Cs;
         b.setAttribute("position", new ds(h, 3)), b.setAttribute("aSize", new ds(f, 1));
         const x = new Me({
-            map: n,
+            map: l,
             size: t,
             transparent: !0,
             depthWrite: !1,
@@ -114,8 +114,8 @@ Promise.all([
                 for(let ys = 0; ys < $; ys++){
                     const S = _();
                     if (S === -1) break;
-                    const z = Math.sqrt(Math.random()) * k, A = Math.random() * Math.PI * 2, K = z * Math.cos(A), ns = z * Math.sin(A), Q = Math.sqrt(Math.random()), X = Math.cos(A) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(A) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = P[0] + Math.random() * (P[1] - P[0]), W = (1 - j / 2 + Math.random() * j) * 1;
-                    F(h, S, y.x + K, y.y, y.z + ns), F(p, S, X * w, es * w, ss * w), m[S] = O, u[S] = 0, f[S] = W, d[S] = 1;
+                    const z = Math.sqrt(Math.random()) * k, A = Math.random() * Math.PI * 2, K = z * Math.cos(A), ls = z * Math.sin(A), Q = Math.sqrt(Math.random()), X = Math.cos(A) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(A) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = P[0] + Math.random() * (P[1] - P[0]), W = (1 - j / 2 + Math.random() * j) * 1;
+                    F(h, S, y.x + K, y.y, y.z + ls), F(p, S, X * w, es * w, ss * w), m[S] = O, u[S] = 0, f[S] = W, d[S] = 1;
                 }
                 b.attributes.position.needsUpdate = !0, b.attributes.aSize.needsUpdate = !0;
             },
@@ -146,7 +146,7 @@ Promise.all([
                 return M;
             },
             dispose () {
-                r.remove(M), b.dispose(), x.dispose(), e || n.dispose();
+                r.remove(M), b.dispose(), x.dispose(), e || l.dispose();
             }
         };
     }
@@ -162,19 +162,19 @@ Promise.all([
             depthWrite: !1
         }), o = new vs(i, t);
         o.visible = !1, o.userData.persistent = !0, r.add(o);
-        let l = 0, n = !1;
+        let n = 0, l = !1;
         const h = new c;
         function p(f) {
-            h.copy(f), l = 0, n = !0, o.visible = !0;
+            h.copy(f), n = 0, l = !0, o.visible = !0;
         }
         function m(f, d) {
-            if (!n) return;
-            if (l += f, l >= a) {
-                n = !1, o.visible = !1;
+            if (!l) return;
+            if (n += f, n >= a) {
+                l = !1, o.visible = !1;
                 return;
             }
             o.position.set(h.x, h.y + .01, h.z), o.rotation.set(-Math.PI / 2, 0, 0);
-            const b = l / a, x = s * (1 + 1.6 * b);
+            const b = n / a, x = s * (1 + 1.6 * b);
             o.scale.setScalar(x), t.opacity = 1 - b;
         }
         function u() {
@@ -189,17 +189,17 @@ Promise.all([
     }
     function ut(r, s, a, i) {
         const e = [];
-        r.traverse((n)=>{
-            (n.isMesh || n.isSkinnedMesh) && e.push([
-                n,
-                n.frustumCulled,
-                n.visible
+        r.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && e.push([
+                l,
+                l.frustumCulled,
+                l.visible
             ]);
         });
         const t = r.position.clone(), o = new Set;
-        r.traverse((n)=>{
-            (n.isMesh || n.isSkinnedMesh) && (Array.isArray(n.material) ? n.material : [
-                n.material
+        r.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && (Array.isArray(l.material) ? l.material : [
+                l.material
             ]).forEach((p)=>{
                 p && [
                     "map",
@@ -216,11 +216,11 @@ Promise.all([
                 });
             });
         });
-        const l = a.getWorldDirection(new c).multiplyScalar(3);
-        r.position.copy(a.position).add(l), r.traverse((n)=>{
-            (n.isMesh || n.isSkinnedMesh) && (n.frustumCulled = !1, n.visible = !0);
-        }), o.forEach((n)=>s.initTexture?.(n)), s.compile(i, a), r.position.copy(t), e.forEach(([n, h, p])=>{
-            n.frustumCulled = h, n.visible = p;
+        const n = a.getWorldDirection(new c).multiplyScalar(3);
+        r.position.copy(a.position).add(n), r.traverse((l)=>{
+            (l.isMesh || l.isSkinnedMesh) && (l.frustumCulled = !1, l.visible = !0);
+        }), o.forEach((l)=>s.initTexture?.(l)), s.compile(i, a), r.position.copy(t), e.forEach(([l, h, p])=>{
+            l.frustumCulled = h, l.visible = p;
         }), s.shadowMap && (s.shadowMap.needsUpdate = !0);
     }
     function mt(r, s, a) {
@@ -233,17 +233,17 @@ Promise.all([
         if (!r) return;
         const e = s.getRenderTarget(), t = !!s.shadowMap, o = t ? s.shadowMap.autoUpdate : !1;
         t && (s.shadowMap.autoUpdate = !1);
-        const l = r.visible;
+        const n = r.visible;
         r.visible = !0;
-        const n = new Be(1, 1, {
+        const l = new Be(1, 1, {
             depthBuffer: !1,
             stencilBuffer: !1
         });
-        s.setRenderTarget(n), s.render(a, i), s.setRenderTarget(e), n.dispose(), r.visible = l, t && (s.shadowMap.autoUpdate = o, s.shadowMap.needsUpdate = !0);
+        s.setRenderTarget(l), s.render(a, i), s.setRenderTarget(e), l.dispose(), r.visible = n, t && (s.shadowMap.autoUpdate = o, s.shadowMap.needsUpdate = !0);
     }
     class gt {
-        constructor(s, a, i, e, t, o, l){
-            this.dataClass = s, this.scene = a, this.audioClass = i, this.levelClass = e, this.paramsClass = t, this.camera = o, this.gameClass = l, this.playerHeight = .9, this.playerWidth = .5, this.player = new vs(new is(this.playerWidth, this.playerHeight, this.playerWidth), new js({
+        constructor(s, a, i, e, t, o, n){
+            this.dataClass = s, this.scene = a, this.audioClass = i, this.levelClass = e, this.paramsClass = t, this.camera = o, this.gameClass = n, this.playerHeight = .9, this.playerWidth = .5, this.player = new vs(new is(this.playerWidth, this.playerHeight, this.playerWidth), new js({
                 color: 16711680,
                 transparent: !0,
                 opacity: 0
@@ -339,8 +339,8 @@ Promise.all([
                 }
                 this.reLiveField();
             } else {
-                const s = this.player.userData.readyJump ? Math.PI / 2 : 0, a = this.player.userData.readyJump ? -Math.PI / 2 : 0, i = this.player.userData.body.linvel().y < -1 ? Math.PI / 1.5 : 0, e = this.player.userData.body.linvel().y < -1 ? -Math.PI / 1.5 : 0, t = this.player.userData.readyJump ? Math.PI / 8 : 0, o = this.player.userData.body.linvel().y < -.4 ? Math.PI / 7 : 0, l = this.player.userData.body.linvel().y > .4 ? Math.PI / -5.9 : 0, n = this.player.userData.readyJump ? .75 : 1.18, h = this.player.userData.readyJump ? .55 : .15;
-                this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, s, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, a, .1), this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, i, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, e, .1), this.head.rotation.x = this.lerp(this.head.rotation.x, t, .1), this.head.position.y = this.lerp(this.head.position.y, n, .1), this.head.position.z = this.lerp(this.head.position.z, h, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, o, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, l, .1);
+                const s = this.player.userData.readyJump ? Math.PI / 2 : 0, a = this.player.userData.readyJump ? -Math.PI / 2 : 0, i = this.player.userData.body.linvel().y < -1 ? Math.PI / 1.5 : 0, e = this.player.userData.body.linvel().y < -1 ? -Math.PI / 1.5 : 0, t = this.player.userData.readyJump ? Math.PI / 8 : 0, o = this.player.userData.body.linvel().y < -.4 ? Math.PI / 7 : 0, n = this.player.userData.body.linvel().y > .4 ? Math.PI / -5.9 : 0, l = this.player.userData.readyJump ? .75 : 1.18, h = this.player.userData.readyJump ? .55 : .15;
+                this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, s, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, a, .1), this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, i, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, e, .1), this.head.rotation.x = this.lerp(this.head.rotation.x, t, .1), this.head.position.y = this.lerp(this.head.position.y, l, .1), this.head.position.z = this.lerp(this.head.position.z, h, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, o, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, n, .1);
                 const p = this.player.userData.onGround ? Math.PI : Math.PI / 1.2;
                 this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, p, .4);
                 const m = this.player.userData.readyJump ? .71 : 0;
@@ -364,8 +364,8 @@ Promise.all([
                 s.userData.originalScale || (s.userData.originalScale = s.scale.clone()), s.parent !== this.scene && this.scene.attach(s), this.playerModel.updateMatrixWorld(!0), a.updateWorldMatrix(!0, !1);
                 const i = new c().setFromMatrixPosition(this.player.userData.head.matrixWorld), e = new ks;
                 this.player.userData.head.getWorldQuaternion(e);
-                const t = new ks().setFromEuler(new J(0, Math.PI / 2, 0)), o = e.clone().multiply(t), n = new c(.01, .14, .05).clone().applyQuaternion(o);
-                s.quaternion.copy(o), s.position.copy(i).add(n), s.children[0].children[1].rotation.y += .4, s.userData.lastPos = s.position.clone(), s.userData.lastQuat = s.quaternion.clone();
+                const t = new ks().setFromEuler(new J(0, Math.PI / 2, 0)), o = e.clone().multiply(t), l = new c(.01, .14, .05).clone().applyQuaternion(o);
+                s.quaternion.copy(o), s.position.copy(i).add(l), s.children[0].children[1].rotation.y += .4, s.userData.lastPos = s.position.clone(), s.userData.lastQuat = s.quaternion.clone();
             } else {
                 const s = this.player.userData.canFlyNum;
                 if (s !== null && this.levelClass.boostHatModels[s]) {
@@ -579,8 +579,8 @@ Promise.all([
         "My record"
     ]), ve = (r)=>r?.isMine === !0 || r?.name === E("hud.mineRecord", "Мой рекорд") || ft.has(r?.name);
     class vt {
-        constructor(s, a, i, e, t, o, l, n, h, p, m, u, f, d, b, x){
-            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = l, this.worldClass = n, this.initMatch = h, this.gameClass = m, this.splash = u, this.ring = f, this.dataClass = p, this.scoreClass = d, this.menuClass = b, this.assetsManager = x, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
+        constructor(s, a, i, e, t, o, n, l, h, p, m, u, f, d, b, x){
+            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = m, this.splash = u, this.ring = f, this.dataClass = p, this.scoreClass = d, this.menuClass = b, this.assetsManager = x, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
                 min: 1,
                 max: 4
             }, this.fixedDistanceVert = {
@@ -732,7 +732,7 @@ Promise.all([
                                 pointLight: null
                             }
                         })),
-                    geometryPlafon: new le(.32, 24, 16),
+                    geometryPlafon: new ne(.32, 24, 16),
                     materialPlafon: new cs({
                         transparent: !0,
                         color: 16777215,
@@ -757,7 +757,7 @@ Promise.all([
                                 pointLight: null
                             }
                         })),
-                    geometryBulb: new le(.3),
+                    geometryBulb: new ne(.3),
                     materialBulb: new cs({
                         emissive: new os(16770979),
                         emissiveIntensity: 6,
@@ -831,14 +831,14 @@ Promise.all([
         apply(s, a, i) {
             let e = i.userData.invBaseSize;
             if (!e) {
-                const n = i.geometry;
-                n.computeBoundingBox();
+                const l = i.geometry;
+                l.computeBoundingBox();
                 const h = new c;
-                n.boundingBox.getSize(h), e = i.userData.invBaseSize = new c(1 / (h.x || 1), 1 / (h.y || 1), 1 / (h.z || 1));
+                l.boundingBox.getSize(h), e = i.userData.invBaseSize = new c(1 / (h.x || 1), 1 / (h.y || 1), 1 / (h.z || 1));
             }
             this._dummy ||= new ee;
-            const t = this._dummy, o = a[s] || {}, l = this.toVec3(o.size);
-            t.position.copy(o.position || new c), o.rotation ? t.rotation.copy(o.rotation) : t.rotation.set(0, 0, 0), t.scale.set(l.x * e.x, l.y * e.y, l.z * e.z), t.updateMatrix(), i.setMatrixAt(s, t.matrix);
+            const t = this._dummy, o = a[s] || {}, n = this.toVec3(o.size);
+            t.position.copy(o.position || new c), o.rotation ? t.rotation.copy(o.rotation) : t.rotation.set(0, 0, 0), t.scale.set(n.x * e.x, n.y * e.y, n.z * e.z), t.updateMatrix(), i.setMatrixAt(s, t.matrix);
         }
         async loadTexture() {
             (()=>{
@@ -953,12 +953,12 @@ Promise.all([
                 }
                 if (this.paramsClass.gameDir == "hor") {
                     for(let t = 0; t < this.count; t++){
-                        let o = L(this.planeWidth, this.planeWidth - 1), l = a + o / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), n = L(-1.2, 1.2) - this.planeHeight / 1.5;
-                        if (e && (o = e[t]), t == 0 ? (this.objs.planes.data[t].size.x = this.planeWidth, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.planes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth, this.objs.topPlanes.data[t].size.x = this.planeWidth + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2) : t == 1 ? (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : t == this.count - 1 ? (e ? this.objs.planes.data[t].size.x = e[e.length - 1] - .2 : this.objs.planes.data[t].size.x = 5, this.objs.planes.data[t].size.y = this.planeHeight, e ? this.objs.topPlanes.data[t].size.x = e[e.length - 1] : this.objs.topPlanes.data[t].size.x = 5 + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, e ? this.objs.grassPlanes.data[t].size.x = e[e.length - 1] : this.objs.grassPlanes.data[t].size.x = 5 + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), t == 0 ? (n = 1 - this.planeHeight / 1.5, this.objs.planes.data[t].position.x = 0, this.objs.planes.data[t].position.y = n + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[t].position.x = 0, this.objs.topPlanes.data[t].position.y = n + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[t].position.x = 0, this.objs.grassPlanes.data[t].position.y = n + this.planeHeight / 1.5 - 1.5) : t == 1 ? (this.objs.planes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = n + this.planeHeight / 1.5) : (this.objs.planes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = l + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = n + this.planeHeight / 1.5), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.lights.length < this.lightsCount) {
+                        let o = L(this.planeWidth, this.planeWidth - 1), n = a + o / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), l = L(-1.2, 1.2) - this.planeHeight / 1.5;
+                        if (e && (o = e[t]), t == 0 ? (this.objs.planes.data[t].size.x = this.planeWidth, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.planes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth, this.objs.topPlanes.data[t].size.x = this.planeWidth + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2) : t == 1 ? (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : t == this.count - 1 ? (e ? this.objs.planes.data[t].size.x = e[e.length - 1] - .2 : this.objs.planes.data[t].size.x = 5, this.objs.planes.data[t].size.y = this.planeHeight, e ? this.objs.topPlanes.data[t].size.x = e[e.length - 1] : this.objs.topPlanes.data[t].size.x = 5 + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, e ? this.objs.grassPlanes.data[t].size.x = e[e.length - 1] : this.objs.grassPlanes.data[t].size.x = 5 + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), t == 0 ? (l = 1 - this.planeHeight / 1.5, this.objs.planes.data[t].position.x = 0, this.objs.planes.data[t].position.y = l + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[t].position.x = 0, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[t].position.x = 0, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5 - 1.5) : t == 1 ? (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5) : (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.lights.length < this.lightsCount) {
                             const h = new Es(16247464, 0, 4);
                             h.position.set(0, 0, 1.6), this.lights.push(h), this.scene.add(h);
                         }
-                        this.apply(t, this.objs.planes.data, this.objs.planes.plane), this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), a = l + o / 2;
+                        this.apply(t, this.objs.planes.data, this.objs.planes.plane), this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), a = n + o / 2;
                     }
                     for(let t = 0; t < this.count; t++)t > 1 && t < this.count - 1 && Math.random() < this.randomAnimateHor && !this.objs.grassPlanes.data[t - 1].userData.moveHor && (this.objs.grassPlanes.data[t].userData.moveHor = {
                         x1: this.objs.grassPlanes.data[t - 1].position.x,
@@ -976,12 +976,12 @@ Promise.all([
                     for(let t = 0; t < this.count; t++){
                         let o = L(this.bounds.rightX / this.minPlaneWidthTic, this.bounds.rightX / 5);
                         e && (o = e[t]), this.minPlaneWidthTic += .1, Math.random() < .5 ? this.objs.grassPlanes.data[t].userData.direction = 1 : this.objs.grassPlanes.data[t].userData.direction = -1;
-                        let l = i + L(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
-                        if (this.objs.topPlanes.data[t].position.y = l - 1.3, this.objs.grassPlanes.data[t].position.y = l, this.objs.sensorPlanes.data[t].position.y = l - .3, this.objs.topPlanes.data[t].size.y = .3, this.objs.grassPlanes.data[t].size.y = .7, this.objs.sensorPlanes.data[t].size.y = .9, t > 0 ? (this.objs.topPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.sensorPlanes.data[t].size.x = o + .7) : (this.objs.topPlanes.data[t].size.x = 10, this.objs.grassPlanes.data[t].size.x = 10, this.objs.sensorPlanes.data[t].size.x = 10), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.grassPlanes.data[t].userData.speed = L(6, 10) / 100, this.lights.length < this.lightsCount) {
-                            const n = new Es(16247464, 0, 4);
-                            n.position.set(0, 0, 1.6), this.lights.push(n), this.scene.add(n);
+                        let n = i + L(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
+                        if (this.objs.topPlanes.data[t].position.y = n - 1.3, this.objs.grassPlanes.data[t].position.y = n, this.objs.sensorPlanes.data[t].position.y = n - .3, this.objs.topPlanes.data[t].size.y = .3, this.objs.grassPlanes.data[t].size.y = .7, this.objs.sensorPlanes.data[t].size.y = .9, t > 0 ? (this.objs.topPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.sensorPlanes.data[t].size.x = o + .7) : (this.objs.topPlanes.data[t].size.x = 10, this.objs.grassPlanes.data[t].size.x = 10, this.objs.sensorPlanes.data[t].size.x = 10), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.grassPlanes.data[t].userData.speed = L(6, 10) / 100, this.lights.length < this.lightsCount) {
+                            const l = new Es(16247464, 0, 4);
+                            l.position.set(0, 0, 1.6), this.lights.push(l), this.scene.add(l);
                         }
-                        this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), i = l;
+                        this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), i = n;
                     }
                 }
                 this.paramsClass.gameDir == "hor" && (this.objs.planes.plane.instanceMatrix.needsUpdate = !0), this.paramsClass.gameDir == "vert" && (this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = !0), this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = !0, this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = !0, this.objs.lamps.lamp.instanceMatrix.needsUpdate = !0, this.objs.plafons.plafon.instanceMatrix.needsUpdate = !0, this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0, this.paramsClass.gameDir == "hor" && this.scene.add(this.objs.planes.plane), this.paramsClass.gameDir == "vert" && this.scene.add(this.objs.sensorPlanes.planeSensor), this.scene.add(this.objs.topPlanes.planeTop), this.scene.add(this.objs.grassPlanes.planeGrass), this.scene.add(this.objs.lamps.lamp), this.scene.add(this.objs.plafons.plafon), this.scene.add(this.objs.bulbs.bulb), this.isMobile ? this.getHorizontalWorldBounds() : this.getHorizontalWorldBounds(-7);
@@ -991,10 +991,10 @@ Promise.all([
                     this.paramsClass.gameDir = "hor";
                     let a = -2.5;
                     for(let e = 0; e < this.count; e++){
-                        let t = L(this.planeWidth / this.minPlaneWidthTic, this.planeWidth - 1), o = a + t / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), l = L(-1.2, 1.2) - this.planeHeight / 1.5;
-                        if (e > 20 && (this.fixedDistanceHor.max = 6), this.minPlaneWidthTic += .1, e > this.count - 20 ? (this.objs.planes.data[e].size.x = .1, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = .2 + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = .2 + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : e > 0 ? (this.objs.planes.data[e].size.x = t, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = t + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = t + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[e].size.x = this.planeWidth, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = this.planeWidth + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), e == 0 ? (l = 1 - this.planeHeight / 1.5, this.objs.planes.data[e].position.x = 0, this.objs.planes.data[e].position.y = l + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[e].position.x = 0, this.objs.topPlanes.data[e].position.y = l + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[e].position.x = 0, this.objs.grassPlanes.data[e].position.y = l + this.planeHeight / 1.5 - 1.5) : e == 1 ? (o = 6, this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = l + this.planeHeight / 1.5) : e > 1 && (this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = l + this.planeHeight / 1.5), this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.lights.length < this.lightsCount) {
-                            const n = new Es(16247464, 0, 4);
-                            n.position.set(0, 0, 1.6), this.lights.push(n), this.scene.add(n);
+                        let t = L(this.planeWidth / this.minPlaneWidthTic, this.planeWidth - 1), o = a + t / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), n = L(-1.2, 1.2) - this.planeHeight / 1.5;
+                        if (e > 20 && (this.fixedDistanceHor.max = 6), this.minPlaneWidthTic += .1, e > this.count - 20 ? (this.objs.planes.data[e].size.x = .1, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = .2 + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = .2 + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : e > 0 ? (this.objs.planes.data[e].size.x = t, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = t + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = t + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[e].size.x = this.planeWidth, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = this.planeWidth + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), e == 0 ? (n = 1 - this.planeHeight / 1.5, this.objs.planes.data[e].position.x = 0, this.objs.planes.data[e].position.y = n + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[e].position.x = 0, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[e].position.x = 0, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5 - 1.5) : e == 1 ? (o = 6, this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5) : e > 1 && (this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5), this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.lights.length < this.lightsCount) {
+                            const l = new Es(16247464, 0, 4);
+                            l.position.set(0, 0, 1.6), this.lights.push(l), this.scene.add(l);
                         }
                         this.apply(e, this.objs.planes.data, this.objs.planes.plane), this.apply(e, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(e, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(e, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(e, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), a = o + t / 2;
                     }
@@ -1027,15 +1027,15 @@ Promise.all([
                         this.minPlaneWidthTic += .1, Math.random() < .5 ? this.objs.grassPlanes.data[e].userData.direction = 1 : this.objs.grassPlanes.data[e].userData.direction = -1;
                         let o = i + L(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
                         if (this.objs.topPlanes.data[e].position.y = o - 1.3, this.objs.grassPlanes.data[e].position.y = o, this.objs.sensorPlanes.data[e].position.y = o - .3, this.objs.topPlanes.data[e].size.y = .3, this.objs.grassPlanes.data[e].size.y = .7, this.objs.sensorPlanes.data[e].size.y = .9, e > this.count - 20 && (this.objs.topPlanes.data[e].size.x = t / 8 + .1, this.objs.grassPlanes.data[e].size.x = t / 8 + .1, this.objs.sensorPlanes.data[e].size.x = t / 8 + .4), e > 0 ? (this.objs.topPlanes.data[e].size.x = t + .3, this.objs.grassPlanes.data[e].size.x = t + .3, this.objs.sensorPlanes.data[e].size.x = t + .7) : (this.objs.topPlanes.data[e].size.x = 10, this.objs.grassPlanes.data[e].size.x = 10, this.objs.sensorPlanes.data[e].size.x = 10), e > this.count - 10 ? this.objs.grassPlanes.data[e].userData.speed = L(10, 14) / 100 : this.objs.grassPlanes.data[e].userData.speed = L(6, 10) / 100, this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, (e + 1) % 7 === 0) {
-                            let l = this.boostHatModel.clone();
-                            l.position.x = L(this.bounds.leftX + 1, this.bounds.rightX - 1), l.position.y = this.objs.topPlanes.data[e].position.y + .5, this.boostHatModels.push(l), this.boostHatMeshes.push(l.children[0].children[0].children[0]), this.boostHatCoords.push([
-                                l.position.x,
-                                l.position.y
-                            ]), this.scene.add(l);
+                            let n = this.boostHatModel.clone();
+                            n.position.x = L(this.bounds.leftX + 1, this.bounds.rightX - 1), n.position.y = this.objs.topPlanes.data[e].position.y + .5, this.boostHatModels.push(n), this.boostHatMeshes.push(n.children[0].children[0].children[0]), this.boostHatCoords.push([
+                                n.position.x,
+                                n.position.y
+                            ]), this.scene.add(n);
                         }
                         if (this.lights.length < this.lightsCount) {
-                            const l = new Es(16247464, 0, 4);
-                            l.position.set(0, 0, 1.6), this.lights.push(l), this.scene.add(l);
+                            const n = new Es(16247464, 0, 4);
+                            n.position.set(0, 0, 1.6), this.lights.push(n), this.scene.add(n);
                         }
                         this.apply(e, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(e, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(e, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(e, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(e, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), i = o;
                     }
@@ -1049,7 +1049,7 @@ Promise.all([
         getHorizontalWorldBounds(s = 0) {
             const a = new c(-1, 0, .5), i = new c(1, 0, .5), e = new c(0, 1, .5), t = new c(0, -1, .5);
             if (a.unproject(this.camera), i.unproject(this.camera), e.unproject(this.camera), t.unproject(this.camera), this.camera.isPerspectiveCamera) {
-                const o = this.camera.position, l = a.clone().sub(o).normalize(), n = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), p = t.clone().sub(o).normalize(), m = (s - o.z) / l.z, u = (s - o.z) / p.z, f = o.clone().add(l.multiplyScalar(m)), d = o.clone().add(n.multiplyScalar(m)), b = o.clone().add(h.multiplyScalar(u)), x = o.clone().add(p.multiplyScalar(u));
+                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), p = t.clone().sub(o).normalize(), m = (s - o.z) / n.z, u = (s - o.z) / p.z, f = o.clone().add(n.multiplyScalar(m)), d = o.clone().add(l.multiplyScalar(m)), b = o.clone().add(h.multiplyScalar(u)), x = o.clone().add(p.multiplyScalar(u));
                 this.bounds = {
                     leftX: f.x,
                     rightX: d.x,
@@ -1065,26 +1065,26 @@ Promise.all([
                     const i = this.objs.grassPlanes.data[a], e = i.userData.body, t = i.userData.moveHor, o = i.userData.moveVert;
                     if (e && (t || o)) {
                         if (t) {
-                            const l = e.translation(), n = t.x1 + t.w1 + i.size.x * .5, h = t.x2 - t.w2 - i.size.x * .5, p = i.userData.speed ?? .05;
-                            l.x >= h && (i.userData.direction = -1), l.x <= n && (i.userData.direction = 1);
-                            const m = i.userData.direction * p, u = l.x + m;
+                            const n = e.translation(), l = t.x1 + t.w1 + i.size.x * .5, h = t.x2 - t.w2 - i.size.x * .5, p = i.userData.speed ?? .05;
+                            n.x >= h && (i.userData.direction = -1), n.x <= l && (i.userData.direction = 1);
+                            const m = i.userData.direction * p, u = n.x + m;
                             e.setNextKinematicTranslation({
                                 x: u,
-                                y: l.y,
-                                z: l.z
+                                y: n.y,
+                                z: n.z
                             }), i.position.x = u, this.objs.lamps.data[a].position.x = u, this.objs.plafons.data[a].position.x = u, this.objs.bulbs.data[a].position.x = u, this.objs.topPlanes.data[a].position.x = u;
                         } else if (o) {
-                            const l = e.translation(), n = 2, h = .5, p = i.userData.speed ?? .03;
-                            l.y >= n && (i.userData.direction = -1), l.y <= h && (i.userData.direction = 1);
-                            const m = i.userData.direction * p, u = l.y + m;
+                            const n = e.translation(), l = 2, h = .5, p = i.userData.speed ?? .03;
+                            n.y >= l && (i.userData.direction = -1), n.y <= h && (i.userData.direction = 1);
+                            const m = i.userData.direction * p, u = n.y + m;
                             e.setNextKinematicTranslation({
-                                x: l.x,
+                                x: n.x,
                                 y: u,
-                                z: l.z
+                                z: n.z
                             }), i.position.y = u, this.objs.lamps.data[a].position.y = u + this.objs.lamps.lampHeight, this.objs.plafons.data[a].position.y = u + this.objs.lamps.lampHeight + 1, this.objs.bulbs.data[a].position.y = u + this.objs.lamps.lampHeight + 1, this.objs.topPlanes.data[a].position.y = u + .2;
                         }
                     }
-                    for(let l = 0; l < this.objs.livesBlocks.data.length; l++)this.objs.livesBlocks.data[l].userData.taked ? this.objs.livesBlocks.data[l].position.y < 10 ? (this.objs.livesBlocks.data[l].position.y += .001, this.objs.livesBlocks.data[l].rotation.y += .004) : this.objs.livesBlocks.data[l].userData.taked = !1 : this.objs.livesBlocks.data[l].rotation.y += 4e-4, this.apply(l, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+                    for(let n = 0; n < this.objs.livesBlocks.data.length; n++)this.objs.livesBlocks.data[n].userData.taked ? this.objs.livesBlocks.data[n].position.y < 10 ? (this.objs.livesBlocks.data[n].position.y += .001, this.objs.livesBlocks.data[n].rotation.y += .004) : this.objs.livesBlocks.data[n].userData.taked = !1 : this.objs.livesBlocks.data[n].rotation.y += 4e-4, this.apply(n, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
                     this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = !0, this.apply(a, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(a, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(a, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(a, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(a, this.objs.bulbs.data, this.objs.bulbs.bulb), s = !0;
                 }
                 s && (this.objs.grassPlanes.planeGrass.instanceMatrix.needsUpdate = !0, this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = !0, this.objs.lamps.lamp.instanceMatrix.needsUpdate = !0, this.objs.plafons.plafon.instanceMatrix.needsUpdate = !0, this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1095,12 +1095,12 @@ Promise.all([
                     this.objs.sensorPlanes.data[s], this.objs.lamps.data[s], this.objs.plafons.data[s], this.objs.bulbs.data[s];
                     const e = a.userData.body, t = a.userData.speed, o = e.translation();
                     o.x > this.bounds.rightX - a.size.x / 2 ? a.userData.direction = -1 : o.x < this.bounds.leftX + a.size.x / 2 && (a.userData.direction = 1);
-                    const l = a.userData.direction * t, n = o.x + l;
+                    const n = a.userData.direction * t, l = o.x + n;
                     s > 0 && e.setNextKinematicTranslation({
-                        x: n,
+                        x: l,
                         y: o.y,
                         z: o.z
-                    }), this.objs.sensorPlanes.data[s].position.x = n, this.objs.lamps.data[s].position.x = n, this.objs.plafons.data[s].position.x = n, this.objs.bulbs.data[s].position.x = n, this.objs.topPlanes.data[s].position.x = n, this.objs.topPlanes.data[s].position.y = o.y + .4, this.apply(s, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(s, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(s, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(s, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(s, this.objs.bulbs.data, this.objs.bulbs.bulb), i.position.set(n, o.y + .6, o.z);
+                    }), this.objs.sensorPlanes.data[s].position.x = l, this.objs.lamps.data[s].position.x = l, this.objs.plafons.data[s].position.x = l, this.objs.bulbs.data[s].position.x = l, this.objs.topPlanes.data[s].position.x = l, this.objs.topPlanes.data[s].position.y = o.y + .4, this.apply(s, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(s, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(s, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(s, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(s, this.objs.bulbs.data, this.objs.bulbs.bulb), i.position.set(l, o.y + .6, o.z);
                 }
                 this.objs.sensorPlanes.planeSensor.instanceMatrix.needsUpdate = !0, this.objs.topPlanes.planeTop.instanceMatrix.needsUpdate = !0, this.objs.lamps.lamp.instanceMatrix.needsUpdate = !0, this.objs.plafons.plafon.instanceMatrix.needsUpdate = !0, this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0;
             }
@@ -1150,22 +1150,22 @@ Promise.all([
                 const a = this.camera.position.x - this.bounds.rightX / 1.3, i = this.camera.position.x + this.bounds.rightX * .8;
                 this.objs.plafons.data.forEach((e, t)=>{
                     e.pointLight;
-                    const o = e.position.x >= a && e.position.x <= i, l = t;
+                    const o = e.position.x >= a && e.position.x <= i, n = t;
                     if (o && !e.pointLight && this.lights.length > 0) {
-                        const n = this.lights.shift();
-                        e.pointLight = n, e.glow = this.glowPool.pop() || this.makeGlowSprite(), this.scene.add(e.glow);
+                        const l = this.lights.shift();
+                        e.pointLight = l, e.glow = this.glowPool.pop() || this.makeGlowSprite(), this.scene.add(e.glow);
                     }
                     if (e.pointLight) {
-                        const n = e.pointLight;
-                        n.position.set(this.objs.lamps.data[l].position.x, this.objs.lamps.data[l].position.y + 1, this.objs.lamps.data[l].position.z + 2), e.glow.position.set(this.objs.lamps.data[l].position.x, this.objs.lamps.data[l].position.y + 1, this.objs.lamps.data[l].position.z + 0);
+                        const l = e.pointLight;
+                        l.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 2), e.glow.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 0);
                         const h = o ? this.lightIntensity : 0;
-                        n.intensity = G.lerp(n.intensity, h, .15);
+                        l.intensity = G.lerp(l.intensity, h, .15);
                         const p = o ? 1 : 0;
-                        this._emissive[l] = G.lerp(this._emissive[l], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
-                        const m = .5 + this._emissive[l] * .8;
+                        this._emissive[n] = G.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
+                        const m = .5 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
-                        const u = 1.1, f = this._emissive[l], d = 1 + u * f, b = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[l];
-                        x.userData._lastBulbFactor !== d && (x.size.set(b.x * d, b.y * d, b.z * d), this.apply(l, this.objs.bulbs.data, this.objs.bulbs.bulb), x.userData._lastBulbFactor = d, s = !0), !o && n.intensity <= .01 && this._emissive[l] <= .02 && (this.lights.push(n), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
+                        const u = 1.1, f = this._emissive[n], d = 1 + u * f, b = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[n];
+                        x.userData._lastBulbFactor !== d && (x.size.set(b.x * d, b.y * d, b.z * d), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), x.userData._lastBulbFactor = d, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
             } else {
@@ -1177,8 +1177,8 @@ Promise.all([
                         t.position.set(m.x, m.y + 1, m.z + 2), i.glow && i.glow.position.set(m.x, m.y + 1, m.z), t.intensity = G.lerp(t.intensity, 0, .2), t.intensity <= .01 && (t.intensity = 0, this.lights.push(t), i.pointLight = null, i.userData.light = !1, i.glow && (this.scene.remove(i.glow), this.glowPool.push(i.glow), i.glow = null));
                     }
                     this.objs.plafons.plafon.setColorAt(e, this._dayColor), a = !0, this._emissive && this._emissive.length > e && (this._emissive[e] = 0);
-                    const o = 1.1, l = this._emissive[e], n = 1 + o * l, h = this.objs.bulbs.baseSize, p = this.objs.bulbs.data[e];
-                    p.userData._lastBulbFactor !== n && (p.size.set(h.x * n, h.y * n, h.z * n), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), p.userData._lastBulbFactor = n, s = !0);
+                    const o = 1.1, n = this._emissive[e], l = 1 + o * n, h = this.objs.bulbs.baseSize, p = this.objs.bulbs.data[e];
+                    p.userData._lastBulbFactor !== l && (p.size.set(h.x * l, h.y * l, h.z * l), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), p.userData._lastBulbFactor = l, s = !0);
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0), a && (this.objs.plafons.plafon.instanceColor.needsUpdate = !0, this.objs.bulbs?.geometryBulb?.attributes?.aEmissive && (this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0));
             }
             else if (this.paramsClass.gameDir == "vert") if (this.lightIntensity, this.worldClass.night) {
@@ -1186,22 +1186,22 @@ Promise.all([
                 const a = this.camera.position.y - this.bounds.topY / 1, i = this.camera.position.y + this.bounds.topY * .8;
                 this.objs.plafons.data.forEach((e, t)=>{
                     e.pointLight;
-                    const o = e.position.y >= a && e.position.y <= i, l = t;
+                    const o = e.position.y >= a && e.position.y <= i, n = t;
                     if (o && !e.pointLight && this.lights.length > 0) {
-                        const n = this.lights.shift();
-                        e.pointLight = n, e.glow = this.glowPool.pop() || this.makeGlowSprite(), this.scene.add(e.glow);
+                        const l = this.lights.shift();
+                        e.pointLight = l, e.glow = this.glowPool.pop() || this.makeGlowSprite(), this.scene.add(e.glow);
                     }
                     if (e.pointLight) {
-                        const n = e.pointLight;
-                        n.position.set(this.objs.lamps.data[l].position.x, this.objs.lamps.data[l].position.y + 1, this.objs.lamps.data[l].position.z + 2), e.glow.position.copy(e.position);
+                        const l = e.pointLight;
+                        l.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 2), e.glow.position.copy(e.position);
                         const h = o ? this.lightIntensity : 0;
-                        n.intensity = G.lerp(n.intensity, h, .15);
+                        l.intensity = G.lerp(l.intensity, h, .15);
                         const p = o ? 1 : 0;
-                        this._emissive[l] = G.lerp(this._emissive[l], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
-                        const m = .8 + this._emissive[l] * .8;
+                        this._emissive[n] = G.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
+                        const m = .8 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
-                        const u = 1, f = this._emissive[l], d = 1 + u * f, b = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[l];
-                        x.userData._lastBulbFactor !== d && (x.size.set(b.x * d, b.y * d, b.z * d), this.apply(l, this.objs.bulbs.data, this.objs.bulbs.bulb), x.userData._lastBulbFactor = d, s = !0), !o && n.intensity <= .01 && this._emissive[l] <= .02 && (this.lights.push(n), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
+                        const u = 1, f = this._emissive[n], d = 1 + u * f, b = this.objs.bulbs.baseSize, x = this.objs.bulbs.data[n];
+                        x.userData._lastBulbFactor !== d && (x.size.set(b.x * d, b.y * d, b.z * d), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), x.userData._lastBulbFactor = d, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
             } else {
@@ -1215,7 +1215,7 @@ Promise.all([
         resetLevel() {}
         maxSpeed(s = !1) {
             let a;
-            if (s ? a = this.players.filter((t, o, l)=>t.player.userData.live) : a = this.players, a.length === 0) return -1;
+            if (s ? a = this.players.filter((t, o, n)=>t.player.userData.live) : a = this.players, a.length === 0) return -1;
             let i = 0, e;
             this.paramsClass.gameDir == "vert" ? e = a[0].player.position.y : e = a[0].player.position.x;
             for(let t = 1; t < a.length; t++)a[t].player && a[t].player.userData.live && a[t].player.position && (this.paramsClass.gameDir == "vert" ? a[t].player.position.y > e && (e = a[t].player.position.y, i = t) : a[t].player.position.x > e && (e = a[t].player.position.x, i = t));
@@ -1239,7 +1239,7 @@ Promise.all([
                         const i = Math.max(0, this.maxSpeed(!0));
                         if (i >= 0 && !this.worldClass.thunder || this.levelsMode) {
                             let e = 0;
-                            this.players.filter((l)=>l.player.userData.live).length != 1 ? e = this.players[i].player.position.x : this.paramsClass.gameDir == "hor" && (e = this.players[i].player.position.x + this.bounds.rightX / 2);
+                            this.players.filter((n)=>n.player.userData.live).length != 1 ? e = this.players[i].player.position.x : this.paramsClass.gameDir == "hor" && (e = this.players[i].player.position.x + this.bounds.rightX / 2);
                             const t = this.cam.maxBackJump;
                             e < this.cam.targetX - t ? this.cam.targetX = this.cam.targetX - t : this.cam.targetX = e;
                             const o = this.spring(s.position.x, this.cam.targetX, this.cam.velX, .35, a);
@@ -1259,11 +1259,11 @@ Promise.all([
             return s + (a - s) * (1 - Math.exp(-i * e));
         }
         spring(s, a, i, e, t) {
-            const o = 2 / e, l = o * t, n = 1 / (1 + l + .48 * l * l + .235 * l * l * l);
+            const o = 2 / e, n = o * t, l = 1 / (1 + n + .48 * n * n + .235 * n * n * n);
             let h = s - a;
-            const p = (i + o * h) * t, m = (i - o * p) * n;
+            const p = (i + o * h) * t, m = (i - o * p) * l;
             return {
-                newPos: a + (h + p) * n,
+                newPos: a + (h + p) * l,
                 newVel: m
             };
         }
@@ -1273,10 +1273,10 @@ Promise.all([
             if (this.scoreClass.score > this.scoreClass.myRec && (this.scoreClass.myRec = this.scoreClass.score, i++), this.scoreClass.score > this.scoreClass.worldRec && (this.scoreClass.worldRec = this.scoreClass.score, i++), i) {
                 if (this.paramsClass.gameDir === "hor") {
                     const t = this.dataClass.table.hor[this.players.length - 1].find(ve);
-                    t && (t.rec = this.scoreClass.score), await this.dataClass.saveResult(ysdk, `ocean${this.players.length}`, this.scoreClass.score);
+                    t && (t.rec = this.scoreClass.score);
                 } else if (this.paramsClass.gameDir === "vert") {
                     const t = this.dataClass.table.vert[this.players.length - 1].find(ve);
-                    t && (t.rec = this.scoreClass.score), await this.dataClass.saveResult(ysdk, `space${this.players.length}`, this.scoreClass.score);
+                    t && (t.rec = this.scoreClass.score);
                 }
                 this.dataClass.saveLocalData(), this.dataClass.loadLocalData(), this.paramsClass.gameDir === "hor" ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1), this.menuClass.loadRecsData();
             }
@@ -1285,8 +1285,8 @@ Promise.all([
             else if (this.players.every((e)=>e.player.userData.finish) && this.dataClass.levelCoopMode == "coop" || this.players.some((e)=>e.player.userData.finish) && this.dataClass.levelCoopMode == "contest") {
                 if (document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.audioClass.winAudio.isPlaying && this.audioClass.winAudio.stop(), this.audioClass.musicOn && this.audioClass.winAudio.play(), this.levelsMode < this.allLevels && this.showScreen("popup_game_btn15"), this.hideScreen("popup_game_btn4"), this.dataClass.levelCoopMode == "coop") {
                     let e = !1, t = !1;
-                    this.players.forEach((o, l, n)=>{
-                        this.levelsMode == this.allLevels && (this.dataClass.table.player.bonusHeart[l] = 10, e = !0), this.levelsMode + 1 > this.dataClass.table.player.levels[l] && (this.dataClass.table.player.levels[l] = this.levelsMode, t = !0);
+                    this.players.forEach((o, n, l)=>{
+                        this.levelsMode == this.allLevels && (this.dataClass.table.player.bonusHeart[n] = 10, e = !0), this.levelsMode + 1 > this.dataClass.table.player.levels[n] && (this.dataClass.table.player.levels[n] = this.levelsMode, t = !0);
                     }), (e || t) && this.dataClass.saveLocalData();
                 } else this.dataClass.levelCoopMode == "contest" && this.players.forEach(async (e, t, o)=>{
                     e.player.userData.finish && this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != t + 1 && (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = t + 1, this.dataClass.saveLocalData());
@@ -1357,8 +1357,8 @@ Promise.all([
                 ];
                 this.players.forEach((i, e, t)=>{
                     if (i.player.userData.live = !1, i.player.userData.score = 0, i.player.userData._lastMeterPos = null, i.player.userData._wasLive = !1, i.player.userData.body.setTranslation(new c(0, -5, 0)), i.player.userData.finish = !1, i.playerAliving(!0), this.levelsMode) {
-                        let o = this.players[e], l = Math.floor(Math.random() * a.length);
-                        o.player.userData.startPos.x = a[l], a.splice(l, 1);
+                        let o = this.players[e], n = Math.floor(Math.random() * a.length);
+                        o.player.userData.startPos.x = a[n], a.splice(n, 1);
                     } else i.player.position.x = i.player.position.x - e * 1 + 1;
                 }), (this.gameNum == 1 || this.gameNum == 3) && (this.camera.position.y = 0, this.camera.position.x = 0, this.cameraSpeed = .01), this.canShowAds = !0, this.birdYes && setTimeout(()=>{
                     this.birdFlyingMark = 10, this.angryBird.userData.body.setTranslation({
@@ -1422,17 +1422,17 @@ Promise.all([
                 x: 0,
                 y: 0,
                 z: 0
-            }), o = i.quaternion?.isQuaternion ? i.quaternion : new ks, l = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(t.x, t.y, t.z).setRotation({
+            }), o = i.quaternion?.isQuaternion ? i.quaternion : new ks, n = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(t.x, t.y, t.z).setRotation({
                 x: o.x,
                 y: o.y,
                 z: o.z,
                 w: o.w
-            })), n = this.RAPIER.ColliderDesc.cuboid(e.x / 2, e.y / 2, e.z / 2).setFriction(.6).setRestitution(.1);
-            this.world.createCollider(n, l), this.instancedBodies.push({
+            })), l = this.RAPIER.ColliderDesc.cuboid(e.x / 2, e.y / 2, e.z / 2).setFriction(.6).setRestitution(.1);
+            this.world.createCollider(l, n), this.instancedBodies.push({
                 mesh: s,
                 index: a,
                 size: e,
-                body: l
+                body: n
             });
         }
         addInstancedStatic(s, a, i, e) {
@@ -1440,17 +1440,17 @@ Promise.all([
                 x: 0,
                 y: 0,
                 z: 0
-            }), l = e.quaternion?.isQuaternion ? e.quaternion : new ks, n = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(o.x, o.y, o.z).setRotation({
-                x: l.x,
-                y: l.y,
-                z: l.z,
-                w: l.w
+            }), n = e.quaternion?.isQuaternion ? e.quaternion : new ks, l = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(o.x, o.y, o.z).setRotation({
+                x: n.x,
+                y: n.y,
+                z: n.z,
+                w: n.w
             })), h = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setFriction(1.6).setRestitution(0);
-            s[i].userData.body = n, s[i].userData.shape = h, s[i].userData.collide = this.world.createCollider(h, n), this.instancedBodies.push({
+            s[i].userData.body = l, s[i].userData.shape = h, s[i].userData.collide = this.world.createCollider(h, l), this.instancedBodies.push({
                 mesh: a,
                 index: i,
                 size: t,
-                body: n
+                body: l
             });
         }
         updateInstancedTransforms() {
@@ -1470,8 +1470,8 @@ Promise.all([
                 s.rotation.copy(e), s.userData.size = t, s.userData.orgRotation = e, a = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(t.x / 2, t.y / 2, t.z / 2).setMass(.6).setRestitution(0).setFriction(.5).setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS), s.userData.body = a, s.userData.shape = i;
                 let o = a;
                 i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
-                let l = this.world.createCollider(i, a);
-                s.userData.collider = l, s.userData.handle = o.handle, this.playersHandles.push(o.handle), this.dynamicBodies.push([
+                let n = this.world.createCollider(i, a);
+                s.userData.collider = n, s.userData.handle = o.handle, this.playersHandles.push(o.handle), this.dynamicBodies.push([
                     s,
                     a,
                     s.id
@@ -1682,13 +1682,13 @@ Promise.all([
             (await Promise.all(a.map((e)=>s.loadAsync(e.path).catch((t)=>(console.error(`Ошибка при загрузке ${e.path}:`, t), null))))).forEach((e, t)=>{
                 const o = a[t];
                 if (!e) return;
-                const l = new qe(this.listener);
-                l.setBuffer(e), l.setLoop(o.loop), l.setRefDistance(o.ref), l.setVolume(o.vol), o.rate && l.setPlaybackRate(o.rate), this[o.key] = l, this.musics.push({
+                const n = new qe(this.listener);
+                n.setBuffer(e), n.setLoop(o.loop), n.setRefDistance(o.ref), n.setVolume(o.vol), o.rate && n.setPlaybackRate(o.rate), this[o.key] = n, this.musics.push({
                     name: o.name,
-                    music: l
-                }), o.quack && this.quacks.push(l), o.thunder && this.thundersAudio.push({
+                    music: n
+                }), o.quack && this.quacks.push(n), o.thunder && this.thundersAudio.push({
                     name: o.name,
-                    music: l
+                    music: n
                 });
             }), this.backAudio && this.musics.push({
                 name: "back",
@@ -1871,7 +1871,7 @@ Promise.all([
             }
             const o = new Cs;
             o.setAttribute("position", new ds(i, 3)), o.setAttribute("size", new ds(e, 1)), o.setAttribute("color", new ds(t, 3));
-            const l = `
+            const n = `
   attribute float size;
   varying vec3 vColor;
   varying float vRandom;
@@ -1883,7 +1883,7 @@ Promise.all([
     gl_PointSize = size * (300.0 / -mvPosition.z); // масштабирование по перспективе
     gl_Position = projectionMatrix * mvPosition;
   }
-`, n = `
+`, l = `
   uniform float opacity;
 varying vec3 vColor;
 varying float vRandom;
@@ -1909,8 +1909,8 @@ void main() {
                         value: 0
                     }
                 },
-                vertexShader: l,
-                fragmentShader: n,
+                vertexShader: n,
+                fragmentShader: l,
                 transparent: !0,
                 vertexColors: !0,
                 depthWrite: !1,
@@ -1946,9 +1946,9 @@ void main() {
             }
             if (this.lightningFade > 0 && (this.lightningFade -= this.deltaSeconds * 1.7, this.lightningFade = Math.max(0, this.lightningFade), this.renderer.toneMappingExposure = .03 + this.lightningFade * .97), this.rain) {
                 const i = this.rainGeometry.getAttribute("position"), e = Math.sin(performance.now() * .0012) * .8, t = this.camera.position.x, o = this.camera.position.z;
-                for(let l = 0; l < this.rainDropCount; l++){
-                    const n = l * 3, h = Math.sin(this.rainWindPhase[l] + performance.now() * .002) * .35 + e * .4;
-                    this.rainPositions[n + 0] += h * this.deltaSeconds * 8, this.rainPositions[n + 1] -= this.rainVelocities[l] * (1 + Math.abs(e) * .3) * this.deltaSeconds, t + this.rainPositions[n + 0], o + this.rainPositions[n + 2], this.rainPositions[n + 1] < this.rainBottomY && (this.rainPositions[n + 1] = this.rainTopY, this.rainPositions[n + 0] = (Math.random() - .5) * this.rainAreaHalfWidth * 2, this.rainPositions[n + 2] = (Math.random() - .5) * this.rainAreaHalfDepth * 2 - 35, this.rainWindPhase[l] = Math.random() * Math.PI * 2), this.rainPositions[n + 0] > this.rainAreaHalfWidth && (this.rainPositions[n + 0] -= this.rainAreaHalfWidth * 2), this.rainPositions[n + 0] < -this.rainAreaHalfWidth && (this.rainPositions[n + 0] += this.rainAreaHalfWidth * 2), this.rainPositions[n + 2] > this.rainAreaHalfDepth && (this.rainPositions[n + 2] -= this.rainAreaHalfDepth * 2 - 35), this.rainPositions[n + 2] < -this.rainAreaHalfDepth && (this.rainPositions[n + 2] += this.rainAreaHalfDepth * 2 - 35);
+                for(let n = 0; n < this.rainDropCount; n++){
+                    const l = n * 3, h = Math.sin(this.rainWindPhase[n] + performance.now() * .002) * .35 + e * .4;
+                    this.rainPositions[l + 0] += h * this.deltaSeconds * 8, this.rainPositions[l + 1] -= this.rainVelocities[n] * (1 + Math.abs(e) * .3) * this.deltaSeconds, t + this.rainPositions[l + 0], o + this.rainPositions[l + 2], this.rainPositions[l + 1] < this.rainBottomY && (this.rainPositions[l + 1] = this.rainTopY, this.rainPositions[l + 0] = (Math.random() - .5) * this.rainAreaHalfWidth * 2, this.rainPositions[l + 2] = (Math.random() - .5) * this.rainAreaHalfDepth * 2 - 35, this.rainWindPhase[n] = Math.random() * Math.PI * 2), this.rainPositions[l + 0] > this.rainAreaHalfWidth && (this.rainPositions[l + 0] -= this.rainAreaHalfWidth * 2), this.rainPositions[l + 0] < -this.rainAreaHalfWidth && (this.rainPositions[l + 0] += this.rainAreaHalfWidth * 2), this.rainPositions[l + 2] > this.rainAreaHalfDepth && (this.rainPositions[l + 2] -= this.rainAreaHalfDepth * 2 - 35), this.rainPositions[l + 2] < -this.rainAreaHalfDepth && (this.rainPositions[l + 2] += this.rainAreaHalfDepth * 2 - 35);
                 }
                 this.rainPoints.position.set(t, 0, o), i.needsUpdate = !0;
             }
@@ -1982,31 +1982,31 @@ void main() {
             this.thunder = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
         }
         createLightningBolt(s, a, i) {
-            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, l = e - s, n = t - a, h = o - i, p = Math.hypot(l, n, h) || 1, m = l / p, u = n / p, f = h / p, d = l / p, x = -(h / p), M = 0, g = d, _ = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), F = new c(m, u, f), q = new c().crossVectors(F, _).normalize(), y = new c().crossVectors(F, q).normalize(), w = 2 + Math.random() * 2, H = 1.2, B = Math.random() * Math.PI * 2, k = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, P = 28, j = 4, $ = [];
+            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, p = Math.hypot(n, l, h) || 1, m = n / p, u = l / p, f = h / p, d = n / p, x = -(h / p), M = 0, g = d, _ = Math.abs(u) > .9 ? new c(1, 0, 0) : new c(0, 1, 0), F = new c(m, u, f), q = new c().crossVectors(F, _).normalize(), y = new c().crossVectors(F, q).normalize(), w = 2 + Math.random() * 2, H = 1.2, B = Math.random() * Math.PI * 2, k = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, P = 28, j = 4, $ = [];
             for(let S = 0; S <= P; S++){
                 const z = S / P, A = 1 - z;
-                let K = s + l * z, ns = a + n * z, Q = i + h * z;
+                let K = s + n * z, ls = a + l * z, Q = i + h * z;
                 const X = Math.sin(z * Math.PI * w + B) * H * (.3 + .7 * A), ss = Math.sin(z * Math.PI * k + ms) * U * (.3 + .7 * A), es = (Math.random() - .5) * 2 * j * A, O = (Math.random() - .5) * 1.6 * j * A, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * A : 0;
-                if (K += q.x * (X + es + W) + y.x * (ss + O * .7), ns += q.y * (X + es * .5) + y.y * (ss + O * .5), Q += q.z * (X + es + W) + y.z * (ss + O * .7), $.push(K, ns, Q), S > 3 && S < P - 3 && Math.random() < .22) {
+                if (K += q.x * (X + es + W) + y.x * (ss + O * .7), ls += q.y * (X + es * .5) + y.y * (ss + O * .5), Q += q.z * (X + es + W) + y.z * (ss + O * .7), $.push(K, ls, Q), S > 3 && S < P - 3 && Math.random() < .22) {
                     const rs = [], xs = 3 + Math.floor(Math.random() * 2), hs = .25 + Math.random() * .35;
-                    let Ms = K, Ds = ns, Ps = Q;
+                    let Ms = K, Ds = ls, Ps = Q;
                     rs.push(Ms, Ds, Ps);
                     for(let Bs = 1; Bs <= xs; Bs++)Ms += (Math.random() - .5) * j * hs, Ds += -(.8 + Math.random() * .8) * hs, Ps += (Math.random() - .5) * j * hs, rs.push(Ms, Ds, Ps);
                     const zs = new Cs;
-                    zs.setAttribute("position", new ne(rs, 3));
+                    zs.setAttribute("position", new le(rs, 3));
                     const gs = new re(zs, this.lightningMaterialBase.clone());
                     gs.material.opacity = .6, gs.userData.life = .16 + Math.random() * .12, this.scene.add(gs), this.activeLightningLines.push(gs);
                 }
             }
             const ys = 2;
             for(let S = -1; S <= ys; S++){
-                const z = S === -1, A = z ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ns = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
+                const z = S === -1, A = z ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
                 for(let W = 0; W < ss; W++){
-                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ns * (.2 + .8 * rs), Ms = x * A * K * xs + g * hs * .3, Ds = M * A * K * xs + hs * .05, Ps = g * A * K * xs - x * hs * .3, zs = W * 3 + 0, gs = W * 3 + 1, Bs = W * 3 + 2, ae = $[zs], ie = $[gs], oe = $[Bs];
+                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = x * A * K * xs + g * hs * .3, Ds = M * A * K * xs + hs * .05, Ps = g * A * K * xs - x * hs * .3, zs = W * 3 + 0, gs = W * 3 + 1, Bs = W * 3 + 2, ae = $[zs], ie = $[gs], oe = $[Bs];
                     z ? X.push(ae + (Math.random() - .5) * .05, ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05) : X.push(ae + Ms + (Math.random() - .5) * .2, ie + Ds + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2);
                 }
                 const es = new Cs;
-                es.setAttribute("position", new ne(X, 3));
+                es.setAttribute("position", new le(X, 3));
                 const O = new re(es, this.lightningMaterialBase.clone());
                 O.material.opacity = z ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
             }
@@ -2019,9 +2019,9 @@ void main() {
             const i = new Uint8Array(320);
             for(let t = 0; t < 40; t++){
                 const o = Math.pow(Math.sin(t / 39 * Math.PI), 1.5);
-                for(let l = 0; l < 2; l++){
-                    const n = (t * 2 + l) * 4;
-                    i[n + 0] = 255, i[n + 1] = 255, i[n + 2] = 255, i[n + 3] = Math.round(o * 255);
+                for(let n = 0; n < 2; n++){
+                    const l = (t * 2 + n) * 4;
+                    i[l + 0] = 255, i[l + 1] = 255, i[l + 2] = 255, i[l + 3] = Math.round(o * 255);
                 }
             }
             const e = new Ze(i, 2, 40, Qe);
@@ -2044,8 +2044,8 @@ void main() {
         }
         loadRecsData() {
             let s = this.dataClass.masTables, a = document.querySelectorAll(".rec_table_small"), i = "free_game_my_rec", e = "";
-            a[0].innerHTML = "", a[1].innerHTML = "", s.forEach((t, o, l)=>{
-                s[o].forEach((n, h, p)=>{
+            a[0].innerHTML = "", a[1].innerHTML = "", s.forEach((t, o, n)=>{
+                s[o].forEach((l, h, p)=>{
                     s[o][h].findIndex((m)=>m.name === "Мой рекорд") < 3 ? a[o].insertAdjacentHTML("beforeend", `
           <div class='rec_table_small_block ${this.playersNum == h + 1 ? "" : "hidden_screen"}'>
             <div class='yellow_back one_place ${Os(s[o][h][0]) ? i : e}'>
@@ -2139,14 +2139,14 @@ void main() {
                     document.querySelectorAll(".free_game_chels").forEach((p)=>{
                         p.classList.remove("free_game_chels_active");
                     }), i.classList.add("free_game_chels_active");
-                    const t = e + 1, o = document.querySelectorAll(".rec_table_small"), l = [];
+                    const t = e + 1, o = document.querySelectorAll(".rec_table_small"), n = [];
                     o.forEach((p)=>{
                         const m = p.querySelector(".rec_table_small_block:not(.hidden_screen)");
-                        m && (l.push(m), m.getBoundingClientRect(), m.classList.add("anim-out"));
+                        m && (n.push(m), m.getBoundingClientRect(), m.classList.add("anim-out"));
                     });
-                    let n = 0;
+                    let l = 0;
                     const h = ()=>{
-                        if (n++, n < l.length) return;
+                        if (l++, l < n.length) return;
                         this.playersNum = t, this.loadRecsData();
                         const p = [];
                         document.querySelectorAll(".rec_table_small").forEach((m)=>{
@@ -2164,7 +2164,7 @@ void main() {
                                 }));
                         });
                     };
-                    l.length === 0 ? (this.playersNum = t, this.loadRecsData()) : l.forEach((p)=>{
+                    n.length === 0 ? (this.playersNum = t, this.loadRecsData()) : n.forEach((p)=>{
                         p.addEventListener("transitionend", ()=>{
                             p.classList.remove("anim-out"), p.removeEventListener("transitionend", h), h();
                         }, {
@@ -2216,11 +2216,11 @@ void main() {
                 const f = this.playerPanels[u], d = a[u]?.player, b = Math.max(0, Math.floor(d?.userData?.score || 0));
                 o += b, f && (f.textContent = String(b).padStart(3, "0"));
             }
-            const l = Math.max(0, Math.floor(o));
-            if (l === Vs) return;
-            const n = Vs, h = performance.now(), p = 50, m = (u)=>{
-                const f = Math.min(1, (u - h) / p), d = 1 - Math.pow(1 - f, 4), b = Math.round(n + (l - n) * d);
-                this.score = b, this.metersFloatEl && (this.metersFloatEl.textContent = String(b).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Vs = l;
+            const n = Math.max(0, Math.floor(o));
+            if (n === Vs) return;
+            const l = Vs, h = performance.now(), p = 50, m = (u)=>{
+                const f = Math.min(1, (u - h) / p), d = 1 - Math.pow(1 - f, 4), b = Math.round(l + (n - l) * d);
+                this.score = b, this.metersFloatEl && (this.metersFloatEl.textContent = String(b).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Vs = n;
             };
             requestAnimationFrame(m);
         }
@@ -2457,8 +2457,8 @@ void main() {
             const a = document.querySelector(".levels_blocks");
             if (!a) return;
             a.classList.add("levels_blocks--reenter"), a.innerHTML = "";
-            const i = document.createDocumentFragment(), e = (n)=>{
-                switch(n){
+            const i = document.createDocumentFragment(), e = (l)=>{
+                switch(l){
                     case "completed":
                         return {
                             modifierClass: "levels_block--completed",
@@ -2478,14 +2478,14 @@ void main() {
                             ariaState: E("levels.status.lockedAria", "уровень закрыт")
                         };
                 }
-            }, t = 40, o = 60, l = 600;
-            for(let n = 0; n < this.levelsStatus[s].length; n++){
-                const h = this.levelsStatus[s][n], { modifierClass: p, labelText: m, ariaState: u } = e(h), f = n === 9, d = document.createElement("div");
-                d.className = `levels_block ${p}${f ? " levels_block--super" : ""}`, d.setAttribute("data-level", String(n + 1)), d.setAttribute("role", "button"), d.setAttribute("tabindex", h === "locked" ? "-1" : "0"), d.setAttribute("aria-label", `Уровень ${n + 1}, ${u}${f ? ", бонусный уровень" : ""}`);
-                const b = Math.min(o + n * t, l);
+            }, t = 40, o = 60, n = 600;
+            for(let l = 0; l < this.levelsStatus[s].length; l++){
+                const h = this.levelsStatus[s][l], { modifierClass: p, labelText: m, ariaState: u } = e(h), f = l === 9, d = document.createElement("div");
+                d.className = `levels_block ${p}${f ? " levels_block--super" : ""}`, d.setAttribute("data-level", String(l + 1)), d.setAttribute("role", "button"), d.setAttribute("tabindex", h === "locked" ? "-1" : "0"), d.setAttribute("aria-label", `Уровень ${l + 1}, ${u}${f ? ", бонусный уровень" : ""}`);
+                const b = Math.min(o + l * t, n);
                 d.style.setProperty("--show-delay", `${b}ms`);
                 const x = document.createElement("div");
-                if (x.className = "levels_block_number", x.textContent = String(n + 1), f) {
+                if (x.className = "levels_block_number", x.textContent = String(l + 1), f) {
                     const _ = document.createElement("div");
                     _.className = "level_reward_icon", _.innerHTML = "+❤️", d.appendChild(_);
                 }
@@ -2499,9 +2499,9 @@ void main() {
                 }), i.appendChild(d);
             }
             a.append(i), requestAnimationFrame(()=>{
-                a.classList.remove("levels_blocks--reenter"), a.querySelectorAll(".levels_block").forEach((n)=>{
-                    n.classList.add("levels_block--enter"), n.classList.contains("levels_block--super") && n.addEventListener("animationend", (h)=>{
-                        h.animationName === "level-tile-in" && n.classList.add("levels_block--enter-done");
+                a.classList.remove("levels_blocks--reenter"), a.querySelectorAll(".levels_block").forEach((l)=>{
+                    l.classList.add("levels_block--enter"), l.classList.contains("levels_block--super") && l.addEventListener("animationend", (h)=>{
+                        h.animationName === "level-tile-in" && l.classList.add("levels_block--enter-done");
                     });
                 });
             }), this.disableSelection();
@@ -2512,15 +2512,15 @@ void main() {
             s.classList.add("levels_blocks--reenter"), s.innerHTML = "";
             const a = document.createDocumentFragment(), i = 40, e = 60, t = 600;
             for(let o = 0; o < this.allLevels; o++){
-                const l = o + 1, n = this.table.levelsStatusContest?.[o] ?? 0, h = document.createElement("div");
-                h.className = "levels_block levels_block--contest", h.setAttribute("data-level", l), h.setAttribute("role", "button"), h.setAttribute("tabindex", "0"), h.setAttribute("aria-label", `Уровень ${l}, значение ${n}`);
+                const n = o + 1, l = this.table.levelsStatusContest?.[o] ?? 0, h = document.createElement("div");
+                h.className = "levels_block levels_block--contest", h.setAttribute("data-level", n), h.setAttribute("role", "button"), h.setAttribute("tabindex", "0"), h.setAttribute("aria-label", `Уровень ${n}, значение ${l}`);
                 const p = Math.min(e + o * i, t);
-                h.style.setProperty("--show-delay", `${p}ms`), n && h.classList.add(`level_player${n}`);
+                h.style.setProperty("--show-delay", `${p}ms`), l && h.classList.add(`level_player${l}`);
                 const m = document.createElement("div");
-                m.className = "levels_block_number", m.textContent = String(l);
+                m.className = "levels_block_number", m.textContent = String(n);
                 const u = document.createElement("div");
-                u.className = "levels_block_status", n ? (u.setAttribute("data-i18n", `contest.player${n}`), u.textContent = E(`contest.player${n}`)) : u.textContent = "";
-                const f = n ? E(`contest.player${n}`) : "";
+                u.className = "levels_block_status", l ? (u.setAttribute("data-i18n", `contest.player${l}`), u.textContent = E(`contest.player${l}`)) : u.textContent = "";
+                const f = l ? E(`contest.player${l}`) : "";
                 u.textContent = f, h.append(m, u), h.addEventListener("click", ()=>{
                     document.querySelectorAll(".levels_block").forEach((d)=>d.classList.remove("active")), h.classList.add("active");
                 }), h.addEventListener("keydown", (d)=>{
@@ -2541,7 +2541,7 @@ void main() {
             });
         }
         processDataAfterLoad() {
-            let s = this.table.hor[0].sort((l, n)=>n.rec - l.rec), a = this.table.hor[1].sort((l, n)=>n.rec - l.rec), i = this.table.hor[2].sort((l, n)=>n.rec - l.rec), e = this.table.vert[0].sort((l, n)=>n.rec - l.rec), t = this.table.vert[1].sort((l, n)=>n.rec - l.rec), o = this.table.vert[2].sort((l, n)=>n.rec - l.rec);
+            let s = this.table.hor[0].sort((n, l)=>l.rec - n.rec), a = this.table.hor[1].sort((n, l)=>l.rec - n.rec), i = this.table.hor[2].sort((n, l)=>l.rec - n.rec), e = this.table.vert[0].sort((n, l)=>l.rec - n.rec), t = this.table.vert[1].sort((n, l)=>l.rec - n.rec), o = this.table.vert[2].sort((n, l)=>l.rec - n.rec);
             this.masTables = [
                 [
                     s,
@@ -2554,7 +2554,7 @@ void main() {
                     o
                 ]
             ];
-            for(let l = 0; l < 3; l++)for(let n = 0; n < this.allLevels; n++)n < this.table.player.levels[l] ? this.levelsStatus[l][n] = "completed" : n == this.table.player.levels[l] ? this.levelsStatus[l][n] = "available" : this.levelsStatus[l][n] = "locked";
+            for(let n = 0; n < 3; n++)for(let l = 0; l < this.allLevels; l++)l < this.table.player.levels[n] ? this.levelsStatus[n][l] = "completed" : l == this.table.player.levels[n] ? this.levelsStatus[n][l] = "available" : this.levelsStatus[n][l] = "locked";
         }
     }
     class Lt {
@@ -2591,8 +2591,8 @@ void main() {
         async loadModels() {
             await new Zs().loadAsync("models/bird/bird.glb").then((i)=>{
                 const e = i.scene, t = i.animations;
-                e.scale.x = 2, e.scale.y = 2, e.scale.z = 2, e.position.y = 0, e.rotation.y = -Math.PI / 3, this.angryBirdModel = e, this.angryBirdModel.userData.mixer = new st(this.angryBirdModel), this.angryBirdModel.userData.action = this.angryBirdModel.userData.mixer.clipAction(t[0]), this.angryBirdModel.userData.action.play(), this.angryBirdModel.userData.clock = new Gs, this.angryBirdModel.traverse((l)=>{
-                    (l.isMesh || l.isSkinnedMesh) && (l.castShadow = !1, l.receiveShadow = !1, l.geometry && !l.geometry.boundingSphere && l.geometry.computeBoundingSphere());
+                e.scale.x = 2, e.scale.y = 2, e.scale.z = 2, e.position.y = 0, e.rotation.y = -Math.PI / 3, this.angryBirdModel = e, this.angryBirdModel.userData.mixer = new st(this.angryBirdModel), this.angryBirdModel.userData.action = this.angryBirdModel.userData.mixer.clipAction(t[0]), this.angryBirdModel.userData.action.play(), this.angryBirdModel.userData.clock = new Gs, this.angryBirdModel.traverse((n)=>{
+                    (n.isMesh || n.isSkinnedMesh) && (n.castShadow = !1, n.receiveShadow = !1, n.geometry && !n.geometry.boundingSphere && n.geometry.computeBoundingSphere());
                 });
                 const o = this.angryBirdModel.children[0].children[0].material;
                 o.emissive.set(16777215), o.emissiveIntensity = .1;
@@ -2643,7 +2643,7 @@ void main() {
     }, {
         passive: !1
     });
-    let Qs, kt = new Gs, Ce, ls, ws, Z, D, C, Ss, N, As, R, bs, Ys = !1, $s = !1, v = new _t;
+    let Qs, kt = new Gs, Ce, ns, ws, Z, D, C, Ss, N, As, R, bs, Ys = !1, $s = !1, v = new _t;
     const us = new et;
     us.background = new os(13230580);
     const je = pt({
@@ -2670,8 +2670,8 @@ void main() {
     document.body.appendChild(T.domElement);
     T.shadowMap.enabled = !0;
     T.shadowMap.type = ot;
-    T.outputColorSpace = lt;
-    T.toneMapping = nt;
+    T.outputColorSpace = nt;
+    T.toneMapping = lt;
     T.toneMappingExposure = 1.05;
     function Se() {
         const r = document.body.offsetWidth, s = document.body.offsetHeight, a = r / s;
@@ -2691,7 +2691,7 @@ void main() {
     });
     let Y = document.querySelector(".loader_line");
     async function Et() {
-        xe(!0), R = new St, bt(), bs = new Lt, await bs.loadModels(), await bs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await bs.loadTexture(), await Ht(), Y.setAttribute("style", "width:30%"), C = new wt, await C.loadAudio(), Y.setAttribute("style", "width:60%"), await R.loadLocalData(), await R.loadLevels(0), await R.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ls = new Pt(Le, R.loadLevels, v, C, R), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
+        xe(!0), R = new St, bt(), bs = new Lt, await bs.loadModels(), await bs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await bs.loadTexture(), await Ht(), Y.setAttribute("style", "width:30%"), C = new wt, await C.loadAudio(), Y.setAttribute("style", "width:60%"), await R.loadLocalData(), await R.loadLevels(0), await R.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Pt(Le, R.loadLevels, v, C, R), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
     }
     await Et();
     async function Ht() {
@@ -2710,7 +2710,7 @@ void main() {
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        Qs = new s.World(new s.Vector3(0, -9.81, 0)), Ce = new s.EventQueue(!0), Z = new ps(Qs, s), As = new jt(I, R), ws = new Mt(us, I, T, N, Ks, C), D = new vt(us, C, Z, T, I, Ks, N, ws, Le, R, v, je, _e, As, ls, bs);
+        Qs = new s.World(new s.Vector3(0, -9.81, 0)), Ce = new s.EventQueue(!0), Z = new ps(Qs, s), As = new jt(I, R), ws = new Mt(us, I, T, N, Ks, C), D = new vt(us, C, Z, T, I, Ks, N, ws, Le, R, v, je, _e, As, ns, bs);
         for(let a = 0; a < r; a++)D.players.push(new gt(R, us, C, D, N, I, v, bs));
         Ss = new xt(D, Ks, T, I, N, C), Ss.addKeyListeners();
     }
@@ -2734,15 +2734,15 @@ void main() {
         });
     }
     async function Le(r, s, a = !1) {
-        It(), ls.toggleLoader(!0), N = new Ct, await Tt(r), Y.setAttribute("style", "width:30%"), D.gameNum = s, await Ft(), Y.setAttribute("style", "width:60%"), await Rt(a), Y.setAttribute("style", "width:90%"), N.gameDir === "hor" ? As.loadRecsToHud(0, D.players.length - 1) : As.loadRecsToHud(1, D.players.length - 1), N.dataLoaded = !0, v.gameStarting = !0, R.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
-            ls.toggleLoader(!1), Y.setAttribute("style", "width:0%");
+        It(), ns.toggleLoader(!0), N = new Ct, await Tt(r), Y.setAttribute("style", "width:30%"), D.gameNum = s, await Ft(), Y.setAttribute("style", "width:60%"), await Rt(a), Y.setAttribute("style", "width:90%"), N.gameDir === "hor" ? As.loadRecsToHud(0, D.players.length - 1) : As.loadRecsToHud(1, D.players.length - 1), N.dataLoaded = !0, v.gameStarting = !0, R.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
+            ns.toggleLoader(!1), Y.setAttribute("style", "width:0%");
         }, 1e3);
     }
     function It() {
         I.position.y = 2, I.position.x = 0, T.toneMappingExposure = 1.05, Ss?.removedKeyListeners(), ws = null, Z = null, D = null, Ss = null, N = null, As = null;
     }
     function Gt() {
-        if (v.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && N.dataLoaded && D.showScreen("menu_in_game"), R.gameInit && v.gameStarting && !D.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && N.dataLoaded ? (ls.showScreen("hud"), ls.hideScreen("level_hud_wrap")) : !R.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ls.hideScreen("hud"), ls.showScreen("level_hud_wrap")), R.gameInit && v.gameStarting && D.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
+        if (v.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && N.dataLoaded && D.showScreen("menu_in_game"), R.gameInit && v.gameStarting && !D.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && N.dataLoaded ? (ns.showScreen("hud"), ns.hideScreen("level_hud_wrap")) : !R.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ns.hideScreen("hud"), ns.showScreen("level_hud_wrap")), R.gameInit && v.gameStarting && D.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
             r.classList.add("hidden_screen");
         }) : R.gameInit && v.gameStarting && !D.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
             r.classList.remove("hidden_screen");
@@ -2787,14 +2787,14 @@ void main() {
             ".main_screen"
         ];
         let s = null, a = null, i = null, e = !1, t = 0, o = 0;
-        const l = ()=>{
+        const n = ()=>{
             for (const d of r){
                 const b = document.querySelector(d);
                 if (b && !b.classList.contains("hidden_screen")) return b;
             }
             return null;
-        }, n = ()=>{
-            const d = l();
+        }, l = ()=>{
+            const d = n();
             d !== s && (s && s.removeEventListener("scroll", h, {
                 passive: !0
             }), i && (i.removeEventListener("mousedown", p), i.removeEventListener("touchstart", p)), s = d, a = s ? s.querySelector(".scroll-progress") : null, i = a ? a.querySelector(".scroll-progress__bar") : null, s && s.addEventListener("scroll", h, {
@@ -2820,20 +2820,20 @@ void main() {
             e = !1, document.body.style.userSelect = "";
         };
         window.addEventListener("resize", ()=>{
-            n(), h();
+            l(), h();
         }), window.addEventListener("mousemove", m, {
             passive: !1
         }), window.addEventListener("touchmove", m, {
             passive: !1
         }), window.addEventListener("mouseup", u), window.addEventListener("touchend", u), new MutationObserver(()=>{
-            n();
+            l();
         }).observe(document.body, {
             attributes: !0,
             subtree: !0,
             attributeFilter: [
                 "class"
             ]
-        }), n();
+        }), l();
     }
     Nt();
 });

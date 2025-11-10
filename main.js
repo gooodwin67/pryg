@@ -18,7 +18,7 @@ import { DataClass } from './data';
 import { AssetsManager } from './assets-manager';
 
 import { initI18n } from './i18n.js';
-
+//476592
 
 
 // === ЯНДЕКС ИГРЫ: Глобальное отключение системных действий ===
@@ -240,7 +240,7 @@ let loaderLine = document.querySelector('.loader_line');
 async function BeforeStart() {
   toggleLoader(true);
 
-  
+
 
   dataClass = new DataClass();
   initI18n();
@@ -272,7 +272,7 @@ async function BeforeStart() {
   toggleLoader(false);
   loaderLine.setAttribute("style", "width:0%");
 
-  
+
   ysdk.features.LoadingAPI.ready();
   ysdk.features.GameplayAPI.stop();
 }
@@ -446,7 +446,7 @@ function animate() {
   if (gameClass.gameStarting) {
     splash.update(dt);
     ring.update(dt);
-  
+
     if (!gameStartingToggle) {
       ysdk.features.GameplayAPI.start();
       gameStartingToggle = true;
