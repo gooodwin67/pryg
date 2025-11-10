@@ -1,4 +1,4 @@
-import { _ as ke, __tla as __tla_0 } from "./index-DlrPtYqU.js";
+import { _ as ke, __tla as __tla_0 } from "./index-CUXjiWWV.js";
 import { B as Ds, a as ds, P as Me, N as Ae, b as Js, c as Hs, C as se, M as Ls, d as vs, V as u, e as ze, W as Be, f as fs, Q as ks, g as Ee, h as is, i as js, j as cs, G as Zs, E as J, k as os, D as Pe, S as Te, l as He, m as ne, I as ts, n as as, o as Fe, p as Ns, O as ee, R as _s, q as Es, r as Re, s as Ie, A as Ts, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as le, Y as re, Z as Ze, _ as Qe, $ as he, a0 as de, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
@@ -3044,7 +3044,7 @@ void main() {
     });
     let Y = document.querySelector(".loader_line");
     async function Et() {
-        xe(!0), T = new St, gt(T.refreshMineLabels), gs = new Lt, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await T.loadTableFromCloud(), await T.loadLeaderboardsTop3(ysdk), await T.loadLevels(0), await T.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Ct(Le, T.loadLevels, w, D, T), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
+        xe(!0), T = new St, gt(()=>T.refreshMineLabels()), gs = new Lt, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await T.loadTableFromCloud(), await T.loadLeaderboardsTop3(ysdk), await T.loadLevels(0), await T.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Ct(Le, T.loadLevels, w, D, T), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
     }
     await Et();
     async function Tt() {
