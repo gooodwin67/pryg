@@ -464,18 +464,31 @@ export class DataClass {
   }
 
   processDataAfterLoad() {
-    let horOne = this.table['hor'][0].sort((a, b) => b.rec - a.rec);
-    let horTwo = this.table['hor'][1].sort((a, b) => b.rec - a.rec);
-    let horThree = this.table['hor'][2].sort((a, b) => b.rec - a.rec);
+    // строим masTables из table.hor/vert ровно так, как их ожидает menu.js
+    const buildRowsForMenu = (row) => {
+      // row[1..3] — это то, что мы только что проставили из лидерборда
+      const firstThree = [row[1], row[2], row[3]].map((x, idx) => (
+        x ? { pos: x.pos, name: x.name, rec: x.rec } : { pos: idx + 1, name: '', rec: 0 }
+      ));
+      const hasMyInFirst3 = firstThree.some(x => x && x.name === 'Мой рекорд');
 
-    let vertOne = this.table['vert'][0].sort((a, b) => b.rec - a.rec);
-    let vertTwo = this.table['vert'][1].sort((a, b) => b.rec - a.rec);
-    let vertThree = this.table['vert'][2].sort((a, b) => b.rec - a.rec);
+      if (hasMyInFirst3) {
+        // кейс: я в топ-3 — меню будет рендерить 0,1,2 индексы
+        return firstThree; // длина 3
+      } else {
+        // кейс: я НЕ в топ-3 — меню возьмёт 0,1 и специальный элемент [3]
+        const me = row[3] && row[3].name === 'Мой рекорд'
+          ? { pos: row[3].pos, name: 'Мой рекорд', rec: row[3].rec }
+          : { pos: 0, name: 'Мой рекорд', rec: row[0]?.rec || 0 }; // запасной вариант
+        return [ firstThree[0], firstThree[1], firstThree[2], me ]; // ОБЯЗАТЕЛЬНО с индексом [3]
+      }
+    };
 
     this.masTables = [
-      [horOne, horTwo, horThree],
-      [vertOne, vertTwo, vertThree],
-    ]
+      [ buildRowsForMenu(this.table.hor[0]), buildRowsForMenu(this.table.hor[1]), buildRowsForMenu(this.table.hor[2]) ],
+      [ buildRowsForMenu(this.table.vert[0]), buildRowsForMenu(this.table.vert[1]), buildRowsForMenu(this.table.vert[2]) ],
+    ];
+    
 
 
     for (let i = 0; i < 3; i++) {
@@ -495,7 +508,208 @@ export class DataClass {
 
 
 
-}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+async initYandexPlayer() {
+  if (!this.yandexPlayer.player) {
+    this.yandexPlayer.player = await ysdk.getPlayer();
+
+
+    // ysdk.leaderboards.getEntries('ocean1').then(res => console.log(res));
+    // ysdk.leaderboards.getEntries('ocean2').then(res => console.log(res));
+    
+
+
+
+  }
+}
+
+// --- 2. ПРОСТО: загрузить table из облака, без локала/слияний ---
+async loadTableFromCloud() {
+  await this.initYandexPlayer();
+  try {
+    const cloud = await this.yandexPlayer.player.getData(['table']);
+    if (cloud && cloud.table && typeof cloud.table === 'object') {
+      this.table = cloud.table;
+    }
+  } catch (error) {
+    console.warn('Cloud load failed:', error);
+  }
+  // всегда прогоняем ваш пайп
+  this.processDataAfterLoad();
+}
+
+// --- 3. ПРОСТО: сохранить table в облако ---
+async saveTableToCloud({ flush = false } = {}) {
+  await this.initYandexPlayer();
+  try {
+    await this.yandexPlayer.player.setData({ table: this.table }, flush);
+  } catch (error) {
+    console.warn('Cloud save failed:', error);
+  }
+}
+
+
+// --- 4. Загрузить ТОЛЬКО ТОП-3 из набора лидербордов в table.hor/vert ---
+// pos:0 (Мой рекорд) НЕ трогаем.
+leaderboardsPartIds = ['ocean1', 'ocean2', 'ocean3', 'space1', 'space2', 'space3'];
+leaderboardPlacement = {
+  ocean1: { group: 'hor', row: 0 },
+  ocean2: { group: 'hor', row: 1 },
+  ocean3: { group: 'hor', row: 2 },
+  space1: { group: 'vert', row: 0 },
+  space2: { group: 'vert', row: 1 },
+  space3: { group: 'vert', row: 2 },
+};
+
+
+
+
+ensureRowsForLeaderboards() {
+  const makeRow = () => ([
+    { pos: 0, name: 'Мой рекорд', rec: 0 },
+    { pos: 1, name: '', rec: 0 },
+    { pos: 2, name: '', rec: 0 },
+    { pos: 3, name: '', rec: 0 },
+  ]);
+  if (!this.table.hor) this.table.hor = [makeRow(), makeRow(), makeRow()];
+  if (!this.table.vert) this.table.vert = [makeRow(), makeRow(), makeRow()];
+  for (let index = 0; index < 3; index++) {
+    if (!Array.isArray(this.table.hor[index]) || this.table.hor[index].length !== 4) this.table.hor[index] = makeRow();
+    if (!Array.isArray(this.table.vert[index]) || this.table.vert[index].length !== 4) this.table.vert[index] = makeRow();
+  }
+}
+
+async loadLeaderboardsTop3(ysdkInstance) {
+  await this.initYandexPlayer();
+  this.ensureRowsForLeaderboards();
+
+  // получаем UID игрока (нужен для сравнения)
+  const myUid = this.yandexPlayer?.player?.getUniqueID
+    ? this.yandexPlayer.player.getUniqueID()
+    : null;
+
+  const loadOne = async (leaderboardId) => {
+    try {
+      // тянем топ-3 и мою запись отдельно (чтобы знать точный ранг)
+      const [topRes, myEntry] = await Promise.all([
+        ysdkInstance.leaderboards.getEntries(leaderboardId, {
+          quantityTop: 3,
+          includeUser: true,
+          quantityAround: 0,
+        }),
+        ysdkInstance.leaderboards.getPlayerEntry(leaderboardId).catch(() => null),
+      ]);
+
+      // нормализуем топ-3
+      const top3Raw = (topRes.entries || []).map(e => ({
+        uid: e.player?.uniqueID || null,
+        name: e.player?.publicName || 'Anon',
+        rec: typeof e.score === 'number' ? e.score : 0,
+        pos: e.rank || 0, // реальный ранг из ЯИ
+      }));
+      top3Raw.sort((a, b) => b.rec - a.rec);
+
+      // заготовка итоговых 3 строки
+      let displayRows = [];
+
+      if (myEntry && myUid) {
+        const myRank = myEntry.rank || 0;
+        const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
+
+        const iAmInTop3 = top3Raw.some(x => x.uid === myUid);
+
+        if (iAmInTop3) {
+          // Я в топ-3: заменяем имя на "Мой рекорд"
+          displayRows = top3Raw.slice(0, 3).map(item => ({
+            pos: item.uid === myUid ? item.pos : item.pos, // оставляем реальный ранг
+            name: item.uid === myUid ? 'Мой рекорд' : item.name,
+            rec: item.rec,
+          }));
+        } else {
+          // Я не в топ-3: берём топ-2 (без меня на всякий случай) + я третьей строкой с моим реальным рангом
+          const top2 = top3Raw.filter(x => x.uid !== myUid).slice(0, 2).map(item => ({
+            pos: item.pos,
+            name: item.name,
+            rec: item.rec,
+          }));
+          const meRow = { pos: myRank || 0, name: 'Мой рекорд', rec: myScore };
+          displayRows = [...top2, meRow];
+        }
+
+        // обновим pos:0 (мой рекорд) числом
+        const placementForPos0 = this.leaderboardPlacement[leaderboardId];
+        if (placementForPos0) {
+          const targetRow0 = placementForPos0.group === 'hor'
+            ? this.table.hor[placementForPos0.row]
+            : this.table.vert[placementForPos0.row];
+          if (targetRow0 && targetRow0[0]) targetRow0[0].rec = myScore;
+        }
+
+      } else {
+        // не авторизован или записи нет: просто топ-3 как есть
+        displayRows = top3Raw.slice(0, 3).map(item => ({
+          pos: item.pos,
+          name: item.name,
+          rec: item.rec,
+        }));
+      }
+
+      // положим три строки в pos:1..3 (pos:0 не трогаем)
+      const placement = this.leaderboardPlacement[leaderboardId];
+      if (!placement) return;
+
+      const targetRow = placement.group === 'hor'
+        ? this.table.hor[placement.row]
+        : this.table.vert[placement.row];
+
+      // пишем pos:1..3 для отображения
+      for (let i = 0; i < 3; i++) {
+        const src = displayRows[i] || { pos: i + 1, name: '', rec: 0 };
+        targetRow[i + 1] = { pos: src.pos, name: src.name, rec: src.rec };
+      }
+      const iAmShownInTop3 = displayRows.some(r => r.name === 'Мой рекорд');
+      if (!iAmShownInTop3 && myEntry && myUid) {
+        const myRank = myEntry.rank || 0;
+        const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
+        targetRow[3] = { pos: myRank, name: 'Мой рекорд', rec: myScore };
+      }
+
+    } catch (error) {
+      console.warn(`Leaderboard ${leaderboardId} smart top-3 failed:`, error);
+      const placement = this.leaderboardPlacement[leaderboardId];
+      if (!placement) return;
+      const targetRow = placement.group === 'hor'
+        ? this.table.hor[placement.row]
+        : this.table.vert[placement.row];
+      for (let i = 1; i <= 3; i++) targetRow[i] = { pos: i, name: '', rec: 0 };
+    }
+  };
+
+  await Promise.all(this.leaderboardsPartIds.map(loadOne));
+
+  // обновляем ваши производные структуры
+  this.processDataAfterLoad();
+}
+
+
+
+
+
+// --- 5. Отправить МОЙ результат в конкретный лидерборд ---
+async submitMyScore(ysdkInstance, leaderboardId, scoreValue) {
+  const numericScore = Number(scoreValue) || 0;
+  try {
+    const allowed = await ysdkInstance.isAvailableMethod('leaderboards.setScore');
+    
+    if (!allowed) return;
+    await ysdkInstance.leaderboards.setScore(leaderboardId, numericScore);
+  } catch (error) {
+    console.warn('Submit score failed:', error);
+  }
+}
+
+
+}

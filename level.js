@@ -2399,6 +2399,7 @@ export class LevelClass {
           if (row) row.rec = this.scoreClass.score;
 
           // await this.dataClass.saveResult(ysdk, `ocean${this.players.length}`, this.scoreClass.score);
+          await this.dataClass.submitMyScore(ysdk, `ocean${this.players.length}`, this.scoreClass.score);
         }
       }
       else if (this.paramsClass.gameDir === 'vert') {
@@ -2408,11 +2409,12 @@ export class LevelClass {
           if (row) row.rec = this.scoreClass.score;
 
           // await this.dataClass.saveResult(ysdk, `space${this.players.length}`, this.scoreClass.score);
+          await this.dataClass.submitMyScore(ysdk, `space${this.players.length}`, this.scoreClass.score);
         }
       }
-      this.dataClass.saveLocalData();
+      await this.dataClass.saveTableToCloud();
 
-      this.dataClass.loadLocalData();
+      // this.dataClass.loadLocalData();
 
       this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
 
@@ -2472,7 +2474,7 @@ export class LevelClass {
 
             })
             if (bonusHeart || newLevel) {
-              this.dataClass.saveLocalData();
+              await this.dataClass.saveTableToCloud();
 
             }
           }
@@ -2482,7 +2484,7 @@ export class LevelClass {
                 if (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != index + 1) {
 
                   this.dataClass.table.levelsStatusContest[this.levelsMode - 1] = index + 1;
-                  this.dataClass.saveLocalData();
+                  await this.dataClass.saveTableToCloud();
 
                 }
 
@@ -2491,7 +2493,7 @@ export class LevelClass {
           }
 
 
-          this.dataClass.loadLocalData();
+          // this.dataClass.loadLocalData();
           this.dataClass.loadLevels(this.players.length - 1)
 
         }
@@ -2520,7 +2522,7 @@ export class LevelClass {
 
   }
 
-  reloadLevel(clelNum = -1) {
+  async reloadLevel(clelNum = -1) {
 
     if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
       if (clelNum >= 0) {
@@ -2581,8 +2583,8 @@ export class LevelClass {
         }
       }
 
-      this.dataClass.saveLocalData();
-      this.dataClass.loadLocalData();
+      await this.dataClass.saveTableToCloud();
+      // this.dataClass.loadLocalData();
     }
   }
 

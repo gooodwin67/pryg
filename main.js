@@ -260,7 +260,8 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:60%");
 
 
-  await dataClass.loadLocalData();
+  await dataClass.loadTableFromCloud();         // тянем table из облака
+  await dataClass.loadLeaderboardsTop3(ysdk);   // подтягиваем топ-3 в hor/vert
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
 
