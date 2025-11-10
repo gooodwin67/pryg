@@ -243,7 +243,7 @@ async function BeforeStart() {
 
 
   dataClass = new DataClass();
-  initI18n();
+  initI18n(dataClass.refreshMineLabels);
 
   assetsManager = new AssetsManager();
   await assetsManager.loadModels();

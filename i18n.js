@@ -137,9 +137,11 @@ export function applyTranslations(locale = 'ru', root = document) {
 
         }
     }
+
+
 }
 
-export function initI18n() {
+export function initI18n(refreshMineLabels) {
     const saved = localStorage.getItem('locale') || 'ru';
     applyTranslations(saved);
 
@@ -160,6 +162,7 @@ export function initI18n() {
             const curr = localStorage.getItem('locale') || 'ru';
             const next = curr === 'ru' ? 'en' : 'ru';
             applyTranslations(next);
+            refreshMineLabels();
 
             // if(flag.classList.contains('ru')){
             //     flag.classList.remove('ru');
@@ -172,6 +175,7 @@ export function initI18n() {
             //     flag.src="https://flagicons.lipis.dev/flags/4x3/ru.svg"
             // }
         })
+
     }
 
 

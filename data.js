@@ -194,7 +194,30 @@ export class DataClass {
   }
 
   getMineLabel() {
-    return t('leaderboard.mine', this.getMineLabel());
+    return t('leaderboard.mine', 'Мой рекорд');
+  }
+
+
+  refreshMineLabels() {
+    const mine = this.getMineLabel();
+  
+    const fixRow = (row) => {
+      if (!row) return;
+      // pos:0 — всегда мой рекорд
+      if (row[0]) row[0].name = mine;
+      // если в pos:1..3 где-то «я» — переименуем
+      for (let i = 1; i <= 3; i++) {
+        if (row[i] && row[i].isMe === true) row[i].name = mine;
+      }
+    };
+  
+    ['hor', 'vert'].forEach(group => {
+      if (!this.table[group]) return;
+      for (let r = 0; r < 3; r++) fixRow(this.table[group][r]);
+    });
+  
+    // masTables строим так, чтобы подтягивался актуальный перевод
+    this.processDataAfterLoad();
   }
 
   saveLocalData() {
