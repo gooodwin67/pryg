@@ -1,4 +1,4 @@
-import { _ as Le, __tla as __tla_0 } from "./index-CxjamUWy.js";
+import { _ as Le, __tla as __tla_0 } from "./index-BtQKY7rp.js";
 import { B as Ds, a as ds, P as Pe, N as Ae, b as Js, c as Hs, C as se, M as ks, d as vs, V as u, e as ze, W as Be, f as fs, Q as Ls, g as Ee, h as is, i as js, j as cs, G as Zs, E as J, k as os, D as Me, S as Te, l as He, m as ne, I as ts, n as as, o as Fe, p as Gs, O as ee, R as _s, q as Es, r as Re, s as Ie, A as Ts, t as G, u as Ge, v as Ne, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as le, Y as re, Z as Ze, _ as Qe, $ as he, a0 as de, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
@@ -2597,11 +2597,109 @@ void main() {
                 const s = await this.yandexPlayer.player.getData([
                     "table"
                 ]);
-                s && s.table && typeof s.table == "object" && (this.table = s.table);
+                s && s.table && typeof s.table == "object" ? this.table = s.table : (console.log("Первый вход: создаём новую table"), this.table = this.createDefaultTable(), await this.saveTableToCloud());
             } catch (s) {
-                console.warn("Cloud load failed:", s);
+                console.warn("Cloud load failed:", s), this.table = this.createDefaultTable();
             }
             this.processDataAfterLoad();
+        }
+        createDefaultTable() {
+            return {
+                updateDate: Date.now(),
+                player: {
+                    levels: [
+                        0,
+                        0,
+                        0
+                    ],
+                    bonusHat: [
+                        !1,
+                        !1,
+                        !1
+                    ],
+                    bonusHeart: [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                levelsStatusContest: [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                hor: [
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ]
+                ],
+                vert: [
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            pos: 0,
+                            name: "Мой рекорд",
+                            rec: 0
+                        },
+                        {},
+                        {},
+                        {}
+                    ]
+                ]
+            };
         }
         async saveTableToCloud({ flush: s = !1 } = {}) {
             await this.initYandexPlayer();

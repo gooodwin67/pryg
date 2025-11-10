@@ -529,16 +529,49 @@ async initYandexPlayer() {
 // --- 2. ПРОСТО: загрузить table из облака, без локала/слияний ---
 async loadTableFromCloud() {
   await this.initYandexPlayer();
+
   try {
     const cloud = await this.yandexPlayer.player.getData(['table']);
     if (cloud && cloud.table && typeof cloud.table === 'object') {
+      // есть данные — используем их
       this.table = cloud.table;
+    } else {
+      // игрок впервые — создаём новую таблицу по умолчанию
+      console.log('Первый вход: создаём новую table');
+      this.table = this.createDefaultTable();
+      await this.saveTableToCloud(); // сразу записываем базовую структуру в облако
     }
   } catch (error) {
     console.warn('Cloud load failed:', error);
+    // если ошибка сети или SDK, создаём дефолт
+    this.table = this.createDefaultTable();
   }
-  // всегда прогоняем ваш пайп
+
   this.processDataAfterLoad();
+}
+
+
+// дефолтная структура для нового игрока
+createDefaultTable() {
+  return {
+    updateDate: Date.now(),
+    player: {
+      levels: [0, 0, 0],
+      bonusHat: [false, false, false],
+      bonusHeart: [0, 0, 0],
+    },
+    levelsStatusContest: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    hor: [
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+    ],
+    vert: [
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+      [ { pos: 0, name: 'Мой рекорд', rec: 0 }, {}, {}, {} ],
+    ],
+  };
 }
 
 // --- 3. ПРОСТО: сохранить table в облако ---
