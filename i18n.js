@@ -170,6 +170,7 @@ export function initI18n(refreshMineLabels, lang) {
             applyTranslations(next);
             refreshMineLabels();
 
+
             // if(flag.classList.contains('ru')){
             //     flag.classList.remove('ru');
             //     flag.classList.add('us');

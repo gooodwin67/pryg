@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,63 +13,26 @@
    <link rel="shortcut icon" href="./assets/favicon-Bw0IQTl4.ico" type="image/x-icon">
 
 
- <!-- Yandex Games SDK -->
- <script>
-   function initSDK() {
-     if (typeof YaGames !== 'undefined') {
-       YaGames.init().then(function (ysdk) {
-         console.log('Yandex SDK initialized');
-         window.ysdk = ysdk;
-         window.__loadMain();
-       });
-     } else {
-       console.error('YaGames is not defined!');
-       // при желании можно всё равно стартануть игру:
-       window.__loadMain();
-     }
-   }
- </script>
- <script src="/sdk.js" onload="initSDK()"></script>
-   
-   
-  <script type="module" crossorigin src="./assets/index-CmT3Z085.js"></script>
-=======
-<!DOCTYPE html>
-<html lang="en">
+   <!-- Yandex Games SDK -->
+   <script>
+      function initSDK() {
+         if (typeof YaGames !== 'undefined') {
+            YaGames.init().then(function (ysdk) {
+               console.log('Yandex SDK initialized');
+               window.ysdk = ysdk;
+               window.__loadMain();
+            });
+         } else {
+            console.error('YaGames is not defined!');
+            // при желании можно всё равно стартануть игру:
+            window.__loadMain();
+         }
+      }
+   </script>
+   <script src="/sdk.js" onload="initSDK()"></script>
 
-<head>
-   <meta charset="utf-8">
-   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"> -->
-   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-   <meta name="mobile-web-app-capable" content="yes">
-   <title>Утиная братва</title>
 
-   <base href="./" />
-   <link rel="icon" type="image/x-icon" href="./assets/favicon-Bw0IQTl4.ico">
-   <link rel="shortcut icon" href="./assets/favicon-Bw0IQTl4.ico" type="image/x-icon">
-
-
- <!-- Yandex Games SDK -->
- <script>
-   function initSDK() {
-     if (typeof YaGames !== 'undefined') {
-       YaGames.init().then(function (ysdk) {
-         console.log('Yandex SDK initialized');
-         window.ysdk = ysdk;
-         window.__loadMain();
-       });
-     } else {
-       console.error('YaGames is not defined!');
-       // при желании можно всё равно стартануть игру:
-       window.__loadMain();
-     }
-   }
- </script>
- <script src="/sdk.js" onload="initSDK()"></script>
-   
-   
-  <script type="module" crossorigin src="./assets/index-CUXjiWWV.js"></script>
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2
+  <script type="module" crossorigin src="./assets/index-Q938mIh-.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-Bp25NWe2.css">
 </head>
 

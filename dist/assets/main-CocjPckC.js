@@ -1,10 +1,5 @@
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-import { _ as ke, __tla as __tla_0 } from "./index-CmT3Z085.js";
+import { _ as ke, __tla as __tla_0 } from "./index-Q938mIh-.js";
 import { B as Ds, a as ds, P as Me, N as Ae, b as Zs, c as Hs, C as ee, M as Ls, d as vs, V as u, e as ze, W as Be, f as fs, Q as ks, g as Ee, h as is, i as js, j as ps, G as Qs, E as J, k as os, D as Pe, S as Te, l as He, m as le, I as ts, n as as, o as Fe, p as Ns, O as te, R as _s, q as Es, r as Re, s as Ie, A as Ts, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as re, Y as he, Z as Ze, _ as Qe, $ as de, a0 as ce, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
-=======
-import { _ as ke, __tla as __tla_0 } from "./index-CUXjiWWV.js";
-import { B as Ds, a as ds, P as Me, N as Ae, b as Js, c as Hs, C as se, M as Ls, d as vs, V as u, e as ze, W as Be, f as fs, Q as ks, g as Ee, h as is, i as js, j as cs, G as Zs, E as J, k as os, D as Pe, S as Te, l as He, m as ne, I as ts, n as as, o as Fe, p as Ns, O as ee, R as _s, q as Es, r as Re, s as Ie, A as Ts, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as le, Y as re, Z as Ze, _ as Qe, $ as he, a0 as de, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
 Promise.all([
     (()=>{
         try {
@@ -26,11 +21,7 @@ Promise.all([
         const t = pe(r), i = pe(s);
         return "0x" + ((t & 65535) << 16 | i & 65535).toString(16).padStart(8, "0");
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     function ue(r) {
-=======
-    function ce(r) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         const s = r.collisionGroups(), t = s >>> 16 & 65535, i = s & 65535;
         function e(a) {
             const o = [];
@@ -48,13 +39,8 @@ Promise.all([
     function me(r) {
         return r?.userData?.id ?? r?.uuid ?? r?.id;
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     const dt = new fs(new u(-.5, -.5, -.5), new u(.5, .5, .5)), ye = new Ee, be = new ks;
     function ge(r) {
-=======
-    const dt = new fs(new u(-.5, -.5, -.5), new u(.5, .5, .5)), me = new Ee, ye = new ks;
-    function be(r) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         if (r?.isObject3D) {
             if (r.updateMatrixWorld(!0), r.geometry?.isBufferGeometry) {
                 const e = r.geometry;
@@ -65,7 +51,6 @@ Promise.all([
             }
             return new fs().setFromObject(r);
         }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
         const s = r.position ?? r.pos ?? new u, t = ht(r.size ?? 1), i = r.quaternion?.isQuaternion ? r.quaternion : r.rotation?.isEuler ? be.setFromEuler(r.rotation) : be.set(0, 0, 0, 1);
         return ye.compose(s, i, t), dt.clone().applyMatrix4(ye);
     }
@@ -75,17 +60,6 @@ Promise.all([
             const a = s[e], o = me(a);
             if (i !== void 0 && o !== void 0 && i === o) continue;
             if (ge(a).intersectsBox(t)) return a;
-=======
-        const s = r.position ?? r.pos ?? new u, t = ht(r.size ?? 1), i = r.quaternion?.isQuaternion ? r.quaternion : r.rotation?.isEuler ? ye.setFromEuler(r.rotation) : ye.set(0, 0, 0, 1);
-        return me.compose(s, i, t), dt.clone().applyMatrix4(me);
-    }
-    function V(r, s) {
-        const t = be(r), i = ue(r);
-        for(let e = s.length - 1; e >= 0; e--){
-            const a = s[e], o = ue(a);
-            if (i !== void 0 && o !== void 0 && i === o) continue;
-            if (be(a).intersectsBox(t)) return a;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         return null;
     }
@@ -97,30 +71,17 @@ Promise.all([
         for (const t of r.children)t.userData?.persistent || s.push(t);
         s.forEach((t)=>r.remove(t));
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     function ct({ scene: r, maxParticles: s = 800, gravity: t = -7.8, drag: i = 2, texture: e = null, pointSize: a = .66, blending: o = Ae } = {}) {
-=======
-    function pt({ scene: r, maxParticles: s = 800, gravity: t = -7.8, drag: i = 2, texture: e = null, pointSize: a = .66, blending: o = Ae } = {}) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         if (!r) throw new Error("createSplashSystem: scene is required");
         function n() {
             const x = document.createElement("canvas");
             x.width = x.height = 64;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-            const H = x.getContext("2d"), T = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
-            T.addColorStop(0, "rgba(255,255,255,1)"), T.addColorStop(1, "rgba(255,255,255,0)"), H.fillStyle = T, H.fillRect(0, 0, 64, 64);
+            const H = x.getContext("2d"), E = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
+            E.addColorStop(0, "rgba(255,255,255,1)"), E.addColorStop(1, "rgba(255,255,255,0)"), H.fillStyle = E, H.fillRect(0, 0, 64, 64);
             const k = new ee(x);
             return k.anisotropy = 1, k.needsUpdate = !0, k;
         }
         const l = e || n(), h = new Float32Array(s * 3), p = new Float32Array(s * 3), m = new Float32Array(s), d = new Float32Array(s), f = new Float32Array(s), c = new Uint8Array(s), g = new Ds;
-=======
-            const H = x.getContext("2d"), E = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
-            E.addColorStop(0, "rgba(255,255,255,1)"), E.addColorStop(1, "rgba(255,255,255,0)"), H.fillStyle = E, H.fillRect(0, 0, 64, 64);
-            const k = new se(x);
-            return k.anisotropy = 1, k.needsUpdate = !0, k;
-        }
-        const l = e || n(), h = new Float32Array(s * 3), c = new Float32Array(s * 3), m = new Float32Array(s), d = new Float32Array(s), f = new Float32Array(s), p = new Uint8Array(s), g = new Ds;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         g.setAttribute("position", new ds(h, 3)), g.setAttribute("aSize", new ds(f, 1));
         const v = new Me({
             map: l,
@@ -130,33 +91,13 @@ Promise.all([
             blending: o,
             vertexColors: !1,
             sizeAttenuation: !0
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
         }), M = new Zs(g, v);
-=======
-        }), M = new Js(g, v);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         M.userData.persistent = !0, M.frustumCulled = !1, M.position.set(0, -20, 0), r.add(M);
         let y = 0;
         function _() {
             for(let b = 0; b < s; b++){
                 const x = (y + b) % s;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 if (!c[x]) return y = (x + 1) % s, x;
-            }
-            return -1;
-        }
-        function R(b, x, H, T, k) {
-            const U = x * 3;
-            b[U] = H, b[U + 1] = T, b[U + 2] = k;
-        }
-        return {
-            trigger (b, x = 1, H = {}) {
-                const { count: T = 42, spread: k = .35, up: U = 3, horiz: ms = 2.2, ttl: C = [
-                    .35,
-                    .8
-                ], sizeJitter: j = .5 } = H, $ = Math.max(1, Math.floor(T * x));
-=======
-                if (!p[x]) return y = (x + 1) % s, x;
             }
             return -1;
         }
@@ -170,57 +111,34 @@ Promise.all([
                     .35,
                     .8
                 ], sizeJitter: j = .5 } = H, $ = Math.max(1, Math.floor(E * x));
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 for(let ys = 0; ys < $; ys++){
                     const S = _();
                     if (S === -1) break;
                     const B = Math.sqrt(Math.random()) * k, A = Math.random() * Math.PI * 2, K = B * Math.cos(A), ls = B * Math.sin(A), Q = Math.sqrt(Math.random()), X = Math.cos(A) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(A) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), W = (1 - j / 2 + Math.random() * j) * 1;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     R(h, S, b.x + K, b.y, b.z + ls), R(p, S, X * x, es * x, ss * x), m[S] = O, d[S] = 0, f[S] = W, c[S] = 1;
-=======
-                    R(h, S, b.x + K, b.y, b.z + ls), R(c, S, X * x, es * x, ss * x), m[S] = O, d[S] = 0, f[S] = W, p[S] = 1;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 }
                 g.attributes.position.needsUpdate = !0, g.attributes.aSize.needsUpdate = !0;
             },
             update (b) {
                 if (b <= 0) return;
                 const x = t, H = Math.max(0, i);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-                let T = !1;
-                for(let C = 0; C < s; C++){
-                    if (!c[C]) continue;
-                    if (T = !0, d[C] += b, d[C] >= m[C]) {
-                        c[C] = 0;
-=======
                 let E = !1;
                 for(let C = 0; C < s; C++){
-                    if (!p[C]) continue;
+                    if (!c[C]) continue;
                     if (E = !0, d[C] += b, d[C] >= m[C]) {
-                        p[C] = 0;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+                        c[C] = 0;
                         const A = C * 3;
                         h[A] = 1e9, h[A + 1] = 1e9, h[A + 2] = 1e9;
                         continue;
                     }
                     const j = C * 3;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     p[j + 1] += x * b;
                     const $ = p[j], ys = p[j + 1], S = p[j + 2], B = Math.max(0, 1 - H * b);
                     p[j] = $ * B, p[j + 1] = ys * B, p[j + 2] = S * B, h[j] += p[j] * b, h[j + 1] += p[j + 1] * b, h[j + 2] += p[j + 2] * b;
                 }
-                T && (g.attributes.position.needsUpdate = !0);
-                let k = 0, U = 0;
-                for(let C = 0; C < s; C++)c[C] && (k++, U += 1 - d[C] / m[C]);
-=======
-                    c[j + 1] += x * b;
-                    const $ = c[j], ys = c[j + 1], S = c[j + 2], B = Math.max(0, 1 - H * b);
-                    c[j] = $ * B, c[j + 1] = ys * B, c[j + 2] = S * B, h[j] += c[j] * b, h[j + 1] += c[j + 1] * b, h[j + 2] += c[j + 2] * b;
-                }
                 E && (g.attributes.position.needsUpdate = !0);
                 let k = 0, U = 0;
-                for(let C = 0; C < s; C++)p[C] && (k++, U += 1 - d[C] / m[C]);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+                for(let C = 0; C < s; C++)c[C] && (k++, U += 1 - d[C] / m[C]);
                 const ms = k ? .25 + .75 * (U / k) : 1;
                 v.size = a * ms;
             },
@@ -232,21 +150,12 @@ Promise.all([
             }
         };
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     function pt({ scene: r, size: s = 1.5, ttl: t = .9 } = {}) {
         const i = new Hs(1, 1), e = (()=>{
             const f = document.createElement("canvas");
             f.width = f.height = 64;
             const c = f.getContext("2d");
             return c.clearRect(0, 0, 64, 64), c.strokeStyle = "rgba(255,255,255,0.9)", c.lineWidth = 3, c.beginPath(), c.arc(32, 32, 20, 0, Math.PI * 2), c.stroke(), new ee(f);
-=======
-    function ct({ scene: r, size: s = 1.5, ttl: t = .9 } = {}) {
-        const i = new Hs(1, 1), e = (()=>{
-            const f = document.createElement("canvas");
-            f.width = f.height = 64;
-            const p = f.getContext("2d");
-            return p.clearRect(0, 0, 64, 64), p.strokeStyle = "rgba(255,255,255,0.9)", p.lineWidth = 3, p.beginPath(), p.arc(32, 32, 20, 0, Math.PI * 2), p.stroke(), new se(f);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         })(), a = new Ls({
             map: e,
             transparent: !0,
@@ -255,17 +164,10 @@ Promise.all([
         o.visible = !1, o.userData.persistent = !0, r.add(o);
         let n = 0, l = !1;
         const h = new u;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
         function p(f) {
             h.copy(f), n = 0, l = !0, o.visible = !0;
         }
         function m(f, c) {
-=======
-        function c(f) {
-            h.copy(f), n = 0, l = !0, o.visible = !0;
-        }
-        function m(f, p) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             if (!l) return;
             if (n += f, n >= t) {
                 l = !1, o.visible = !1;
@@ -279,7 +181,7 @@ Promise.all([
             r.remove(o), i.dispose(), a.dispose(), e.dispose();
         }
         return {
-            trigger: c,
+            trigger: p,
             update: m,
             dispose: d,
             mesh: o
@@ -298,8 +200,8 @@ Promise.all([
         r.traverse((l)=>{
             (l.isMesh || l.isSkinnedMesh) && (Array.isArray(l.material) ? l.material : [
                 l.material
-            ]).forEach((c)=>{
-                c && [
+            ]).forEach((p)=>{
+                p && [
                     "map",
                     "normalMap",
                     "emissiveMap",
@@ -310,20 +212,15 @@ Promise.all([
                     "specularMap",
                     "displacementMap"
                 ].forEach((m)=>{
-                    c[m] && o.add(c[m]);
+                    p[m] && o.add(p[m]);
                 });
             });
         });
         const n = t.getWorldDirection(new u).multiplyScalar(3);
         r.position.copy(t.position).add(n), r.traverse((l)=>{
             (l.isMesh || l.isSkinnedMesh) && (l.frustumCulled = !1, l.visible = !0);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
         }), o.forEach((l)=>s.initTexture?.(l)), s.compile(i, t), r.position.copy(a), e.forEach(([l, h, p])=>{
             l.frustumCulled = h, l.visible = p;
-=======
-        }), o.forEach((l)=>s.initTexture?.(l)), s.compile(i, t), r.position.copy(a), e.forEach(([l, h, c])=>{
-            l.frustumCulled = h, l.visible = c;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }), s.shadowMap && (s.shadowMap.needsUpdate = !0);
     }
     function mt(r, s, t) {
@@ -378,22 +275,14 @@ Promise.all([
             }) : this.levelClass.levelsMode && this.dataClass.levelCoopMode == "contest" && this.levelClass.players.some((s)=>s.player.userData.finish) && this.levelClass.players.forEach((s)=>{
                 s.player.userData.body.setTranslation(new u(0, -5, 0));
             }), (this.paramsClass.gameDir == "hor" && this.player.position.x > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.x - this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].size.x / 2 && this.player.userData.onGround || this.paramsClass.gameDir == "vert" && this.player.position.y > this.levelClass.objs.grassPlanes.data[this.levelClass.count - 1].position.y + .5 && this.player.userData.onGround && this.player.userData.body.linvel().y < 0) && (this.player.userData.finish || (this.player.userData.finish = !0)), V(this.player, this.levelClass.objs.sensorPlanes.data)) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const [s, t] = ue(this.player.userData.collider);
-=======
-                const [s, t] = ce(this.player.userData.collider);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 t[0] == 0 && this.player.userData.collider.setCollisionGroups(Fs([
                     1
                 ], [
                     1
                 ]));
             } else {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const [s, t] = ue(this.player.userData.collider);
-=======
-                const [s, t] = ce(this.player.userData.collider);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 t[0] != 0 && this.player.userData.collider.setCollisionGroups(Fs([
                     1
                 ], [
@@ -452,13 +341,8 @@ Promise.all([
             } else {
                 const s = this.player.userData.readyJump ? Math.PI / 2 : 0, t = this.player.userData.readyJump ? -Math.PI / 2 : 0, i = this.player.userData.body.linvel().y < -1 ? Math.PI / 1.5 : 0, e = this.player.userData.body.linvel().y < -1 ? -Math.PI / 1.5 : 0, a = this.player.userData.readyJump ? Math.PI / 8 : 0, o = this.player.userData.body.linvel().y < -.4 ? Math.PI / 7 : 0, n = this.player.userData.body.linvel().y > .4 ? Math.PI / -5.9 : 0, l = this.player.userData.readyJump ? .75 : 1.18, h = this.player.userData.readyJump ? .55 : .15;
                 this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, s, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, t, .1), this.rightHand.rotation.z = this.lerp(this.rightHand.rotation.z, i, .1), this.leftHand.rotation.z = this.lerp(this.leftHand.rotation.z, e, .1), this.head.rotation.x = this.lerp(this.head.rotation.x, a, .1), this.head.position.y = this.lerp(this.head.position.y, l, .1), this.head.position.z = this.lerp(this.head.position.z, h, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, o, .1), this.head.rotation.z = this.lerp(this.head.rotation.z, n, .1);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const p = this.player.userData.onGround ? Math.PI : Math.PI / 1.2;
                 this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, p, .4);
-=======
-                const c = this.player.userData.onGround ? Math.PI : Math.PI / 1.2;
-                this.playerModel.rotation.y = this.lerp(this.playerModel.rotation.y, c, .4);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 const m = this.player.userData.readyJump ? .71 : 0;
                 this.player.userData.body.setRotation({
                     w: this.player.userData.body.rotation().w,
@@ -670,7 +554,6 @@ Promise.all([
             }
         }
     };
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     function fe(r, s) {
         return s.split(".").reduce((t, i)=>t && t[i], r);
     }
@@ -684,39 +567,16 @@ Promise.all([
             fe(t, "ui.langToggle") === "ru" || r === "ru" ? (e.classList.remove("us"), e.classList.add("ru"), e.src = "images/ru.svg") : (e.classList.remove("ru"), e.classList.add("us"), e.src = "images/us.svg");
         }
     }
-    async function gt(r, s, t) {
+    function gt(r, s) {
         if (s != null) Ws(s);
         else {
-            const e = localStorage.getItem("locale") || "ru";
-            Ws(e);
+            const i = localStorage.getItem("locale") || "ru";
+            Ws(i);
         }
-        await t.loadTableFromCloud(), await t.processDataAfterLoad(), await t.refreshMineLabels();
-        const i = document.getElementById("lang-toggle");
-        document.getElementById("flag"), i && i.addEventListener("click", ()=>{
-            const a = (localStorage.getItem("locale") || "ru") === "ru" ? "en" : "ru";
-            Ws(a), r();
-=======
-    function ge(r, s) {
-        return s.split(".").reduce((t, i)=>t && t[i], r);
-    }
-    function fe(r = "ru", s = document) {
-        const t = Rs[r] || Rs.ru;
-        if (s.querySelectorAll("[data-i18n]").forEach((e)=>{
-            const a = e.dataset.i18n, o = ge(t, a);
-            o != null && (e.textContent = o);
-        }), document.documentElement.lang = r, localStorage.setItem("locale", r), document.getElementById("lang-toggle")) {
-            const e = document.getElementById("flag");
-            ge(t, "ui.langToggle") === "ru" || r === "ru" ? (e.classList.remove("us"), e.classList.add("ru"), e.src = "images/ru.svg") : (e.classList.remove("ru"), e.classList.add("us"), e.src = "images/us.svg");
-        }
-    }
-    function gt(r) {
-        const s = localStorage.getItem("locale") || "ru";
-        fe(s);
         const t = document.getElementById("lang-toggle");
         document.getElementById("flag"), t && t.addEventListener("click", ()=>{
             const e = (localStorage.getItem("locale") || "ru") === "ru" ? "en" : "ru";
-            fe(e), r();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+            Ws(e), r();
         });
     }
     function z(r, s = "") {
@@ -728,13 +588,8 @@ Promise.all([
         "My record"
     ]), ve = (r)=>r?.isMine === !0 || r?.name === z("hud.mineRecord", "Мой рекорд") || ft.has(r?.name);
     class vt {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
         constructor(s, t, i, e, a, o, n, l, h, p, m, d, f, c, g, v){
             this.scene = s, this.audioClass = t, this.physicsClass = i, this.renderer = e, this.camera = a, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = m, this.splash = d, this.ring = f, this.dataClass = p, this.scoreClass = c, this.menuClass = g, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
-=======
-        constructor(s, t, i, e, a, o, n, l, h, c, m, d, f, p, g, v){
-            this.scene = s, this.audioClass = t, this.physicsClass = i, this.renderer = e, this.camera = a, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = m, this.splash = d, this.ring = f, this.dataClass = c, this.scoreClass = p, this.menuClass = g, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 min: 1,
                 max: 4
             }, this.fixedDistanceVert = {
@@ -934,11 +789,7 @@ Promise.all([
                             }
                         })),
                     geometryLivesBlock: new He(M, _),
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     materialLivesBlock: new ps({
-=======
-                    materialLivesBlock: new cs({
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                         color: 16711680
                     }),
                     livesBlock: null
@@ -971,15 +822,9 @@ Promise.all([
             function q(b = 64) {
                 const x = document.createElement("canvas");
                 x.width = x.height = b;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-                const H = x.getContext("2d"), T = H.createRadialGradient(b / 2, b / 2, 0, b / 2, b / 2, b / 2);
-                T.addColorStop(0, "rgba(255, 235, 175, 1)"), T.addColorStop(1, "rgba(255, 235, 175, 0)"), H.fillStyle = T, H.fillRect(0, 0, b, b);
-                const k = new ee(x);
-=======
                 const H = x.getContext("2d"), E = H.createRadialGradient(b / 2, b / 2, 0, b / 2, b / 2, b / 2);
                 E.addColorStop(0, "rgba(255, 235, 175, 1)"), E.addColorStop(1, "rgba(255, 235, 175, 0)"), H.fillStyle = E, H.fillRect(0, 0, b, b);
-                const k = new se(x);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+                const k = new ee(x);
                 return k.anisotropy = 1, k.generateMipmaps = !1, k.needsUpdate = !0, k;
             }
             this._glowTex = q(), this._emissive = R, this.glowPool = [], this.lightsCount = 5, this.lights = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.playerOuts = [], this.players = [], this.backModel, this.backModels = [], this.leftEdge = new u(-1, 0, 0), this.rightEdge = new u(1, 0, 0), this.leftEdge.unproject(a), this.rightEdge.unproject(a), this.bounds, this.gameNum = 1, this.cam = {
@@ -1000,11 +845,7 @@ Promise.all([
                 const h = new u;
                 l.boundingBox.getSize(h), e = i.userData.invBaseSize = new u(1 / (h.x || 1), 1 / (h.y || 1), 1 / (h.z || 1));
             }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             this._dummy ||= new te;
-=======
-            this._dummy ||= new ee;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             const a = this._dummy, o = t[s] || {}, n = this.toVec3(o.size);
             a.position.copy(o.position || new u), o.rotation ? a.rotation.copy(o.rotation) : a.rotation.set(0, 0, 0), a.scale.set(n.x * e.x, n.y * e.y, n.z * e.z), a.updateMatrix(), i.setMatrixAt(s, a.matrix);
         }
@@ -1217,17 +1058,10 @@ Promise.all([
         getHorizontalWorldBounds(s = 0) {
             const t = new u(-1, 0, .5), i = new u(1, 0, .5), e = new u(0, 1, .5), a = new u(0, -1, .5);
             if (t.unproject(this.camera), i.unproject(this.camera), e.unproject(this.camera), a.unproject(this.camera), this.camera.isPerspectiveCamera) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const o = this.camera.position, n = t.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), p = a.clone().sub(o).normalize(), m = (s - o.z) / n.z, d = (s - o.z) / p.z, f = o.clone().add(n.multiplyScalar(m)), c = o.clone().add(l.multiplyScalar(m)), g = o.clone().add(h.multiplyScalar(d)), v = o.clone().add(p.multiplyScalar(d));
                 this.bounds = {
                     leftX: f.x,
                     rightX: c.x,
-=======
-                const o = this.camera.position, n = t.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), c = a.clone().sub(o).normalize(), m = (s - o.z) / n.z, d = (s - o.z) / c.z, f = o.clone().add(n.multiplyScalar(m)), p = o.clone().add(l.multiplyScalar(m)), g = o.clone().add(h.multiplyScalar(d)), v = o.clone().add(c.multiplyScalar(d));
-                this.bounds = {
-                    leftX: f.x,
-                    rightX: p.x,
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     topY: g.y,
                     bottomY: v.y
                 };
@@ -1240,28 +1074,18 @@ Promise.all([
                     const i = this.objs.grassPlanes.data[t], e = i.userData.body, a = i.userData.moveHor, o = i.userData.moveVert;
                     if (e && (a || o)) {
                         if (a) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                             const n = e.translation(), l = a.x1 + a.w1 + i.size.x * .5, h = a.x2 - a.w2 - i.size.x * .5, p = i.userData.speed ?? .05;
                             n.x >= h && (i.userData.direction = -1), n.x <= l && (i.userData.direction = 1);
                             const m = i.userData.direction * p, d = n.x + m;
-=======
-                            const n = e.translation(), l = a.x1 + a.w1 + i.size.x * .5, h = a.x2 - a.w2 - i.size.x * .5, c = i.userData.speed ?? .05;
-                            n.x >= h && (i.userData.direction = -1), n.x <= l && (i.userData.direction = 1);
-                            const m = i.userData.direction * c, d = n.x + m;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                             e.setNextKinematicTranslation({
                                 x: d,
                                 y: n.y,
                                 z: n.z
                             }), i.position.x = d, this.objs.lamps.data[t].position.x = d, this.objs.plafons.data[t].position.x = d, this.objs.bulbs.data[t].position.x = d, this.objs.topPlanes.data[t].position.x = d;
                         } else if (o) {
-                            const n = e.translation(), l = 2, h = .5, c = i.userData.speed ?? .03;
+                            const n = e.translation(), l = 2, h = .5, p = i.userData.speed ?? .03;
                             n.y >= l && (i.userData.direction = -1), n.y <= h && (i.userData.direction = 1);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                             const m = i.userData.direction * p, d = n.y + m;
-=======
-                            const m = i.userData.direction * c, d = n.y + m;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                             e.setNextKinematicTranslation({
                                 x: n.x,
                                 y: d,
@@ -1345,21 +1169,12 @@ Promise.all([
                         l.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 2), e.glow.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 0);
                         const h = o ? this.lightIntensity : 0;
                         l.intensity = N.lerp(l.intensity, h, .15);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                         const p = o ? 1 : 0;
                         this._emissive[n] = N.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const m = .5 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
                         const d = 1.1, f = this._emissive[n], c = 1 + d * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== c && (v.size.set(g.x * c, g.y * c, g.z * c), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = c, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
-=======
-                        const c = o ? 1 : 0;
-                        this._emissive[n] = N.lerp(this._emissive[n], c, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
-                        const m = .5 + this._emissive[n] * .8;
-                        e.glow && e.glow.scale.setScalar(m);
-                        const d = 1.1, f = this._emissive[n], p = 1 + d * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
-                        v.userData._lastBulbFactor !== p && (v.size.set(g.x * p, g.y * p, g.z * p), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = p, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
             } else {
@@ -1371,13 +1186,8 @@ Promise.all([
                         a.position.set(m.x, m.y + 1, m.z + 2), i.glow && i.glow.position.set(m.x, m.y + 1, m.z), a.intensity = N.lerp(a.intensity, 0, .2), a.intensity <= .01 && (a.intensity = 0, this.lights.push(a), i.pointLight = null, i.userData.light = !1, i.glow && (this.scene.remove(i.glow), this.glowPool.push(i.glow), i.glow = null));
                     }
                     this.objs.plafons.plafon.setColorAt(e, this._dayColor), t = !0, this._emissive && this._emissive.length > e && (this._emissive[e] = 0);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     const o = 1.1, n = this._emissive[e], l = 1 + o * n, h = this.objs.bulbs.baseSize, p = this.objs.bulbs.data[e];
                     p.userData._lastBulbFactor !== l && (p.size.set(h.x * l, h.y * l, h.z * l), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), p.userData._lastBulbFactor = l, s = !0);
-=======
-                    const o = 1.1, n = this._emissive[e], l = 1 + o * n, h = this.objs.bulbs.baseSize, c = this.objs.bulbs.data[e];
-                    c.userData._lastBulbFactor !== l && (c.size.set(h.x * l, h.y * l, h.z * l), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), c.userData._lastBulbFactor = l, s = !0);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0), t && (this.objs.plafons.plafon.instanceColor.needsUpdate = !0, this.objs.bulbs?.geometryBulb?.attributes?.aEmissive && (this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0));
             }
             else if (this.paramsClass.gameDir == "vert") if (this.lightIntensity, this.worldClass.night) {
@@ -1395,21 +1205,12 @@ Promise.all([
                         l.position.set(this.objs.lamps.data[n].position.x, this.objs.lamps.data[n].position.y + 1, this.objs.lamps.data[n].position.z + 2), e.glow.position.copy(e.position);
                         const h = o ? this.lightIntensity : 0;
                         l.intensity = N.lerp(l.intensity, h, .15);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                         const p = o ? 1 : 0;
                         this._emissive[n] = N.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const m = .8 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(m);
                         const d = 1, f = this._emissive[n], c = 1 + d * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== c && (v.size.set(g.x * c, g.y * c, g.z * c), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = c, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
-=======
-                        const c = o ? 1 : 0;
-                        this._emissive[n] = N.lerp(this._emissive[n], c, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
-                        const m = .8 + this._emissive[n] * .8;
-                        e.glow && e.glow.scale.setScalar(m);
-                        const d = 1, f = this._emissive[n], p = 1 + d * f, g = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
-                        v.userData._lastBulbFactor !== p && (v.size.set(g.x * p, g.y * p, g.z * p), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = p, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
             } else {
@@ -1469,15 +1270,9 @@ Promise.all([
         spring(s, t, i, e, a) {
             const o = 2 / e, n = o * a, l = 1 / (1 + n + .48 * n * n + .235 * n * n * n);
             let h = s - t;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const p = (i + o * h) * a, m = (i - o * p) * l;
             return {
                 newPos: t + (h + p) * l,
-=======
-            const c = (i + o * h) * a, m = (i - o * c) * l;
-            return {
-                newPos: t + (h + c) * l,
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 newVel: m
             };
         }
@@ -1492,11 +1287,7 @@ Promise.all([
                     const a = this.dataClass.table.vert[this.players.length - 1].find(ve);
                     a && (a.rec = this.scoreClass.score), await this.dataClass.submitMyScore(ysdk, `space${this.players.length}`, this.scoreClass.score);
                 }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 this.paramsClass.gameDir === "hor" ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1), await this.dataClass.saveTableToCloud(), await this.dataClass.loadTableFromCloud(), await this.dataClass.processDataAfterLoad(), await this.dataClass.refreshMineLabels(), this.menuClass.loadRecsData();
-=======
-                await this.dataClass.saveTableToCloud(), await this.dataClass.loadTableFromCloud(), this.paramsClass.gameDir === "hor" ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1), this.menuClass.loadRecsData();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             }
             if (this.audioClass.oceanAudio.isPlaying && this.audioClass.oceanAudio.stop(), this.audioClass.rainAudio.isPlaying && this.audioClass.rainAudio.stop(), this.gameClass.pause) document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.hideScreen("popup_game_btn15"), this.hideScreen("popup_game_btn1"), this.levelsMode && this.showScreen("popup_game_btn4");
             else if (this.gameClass.showGamePopup = !0, !this.levelsMode) !s || !this.canShowAds ? this.hideScreen("popup_game_btn1") : this.showScreen("popup_game_btn1"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win"), this.audioClass.looseAudio.isPlaying && this.audioClass.looseAudio.stop(), this.audioClass.musicOn && this.audioClass.looseAudio.play();
@@ -1619,15 +1410,9 @@ Promise.all([
             document.querySelector(`.${s}`).classList.remove("hidden_screen");
         }
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     class cs {
         constructor(s, t){
             this.world = s, this.RAPIER = t, this.dynamicBodies = [], this.allWallBodyCollision = [], this.playersHandles = [], this.allTops = [], this.instancedBodies = [], this._dummy = new te;
-=======
-    class ps {
-        constructor(s, t){
-            this.world = s, this.RAPIER = t, this.dynamicBodies = [], this.allWallBodyCollision = [], this.playersHandles = [], this.allTops = [], this.instancedBodies = [], this._dummy = new ee;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         static _ensureInvBase(s) {
             if (s.userData.invBase) return s.userData.invBase;
@@ -1642,11 +1427,7 @@ Promise.all([
             return typeof s == "number" ? new u(s, s, s) : s?.isVector3 ? s.clone() : new u(s?.x ?? 1, s?.y ?? 1, s?.z ?? 1);
         }
         addInstancedDynamic(s, t, i) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const e = cs._toVec3(i.size), a = cs._toVec3(i.position ?? {
-=======
-            const e = ps._toVec3(i.size), a = ps._toVec3(i.position ?? {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 x: 0,
                 y: 0,
                 z: 0
@@ -1664,11 +1445,7 @@ Promise.all([
             });
         }
         addInstancedStatic(s, t, i, e) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const a = cs._toVec3(e.size), o = cs._toVec3(e.position ?? {
-=======
-            const a = ps._toVec3(e.size), o = ps._toVec3(e.position ?? {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 x: 0,
                 y: 0,
                 z: 0
@@ -1688,11 +1465,7 @@ Promise.all([
         updateInstancedTransforms() {
             const s = this._dummy, t = new Set;
             for (const i of this.instancedBodies){
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const e = cs._ensureInvBase(i.mesh), a = i.body.translation(), o = i.body.rotation();
-=======
-                const e = ps._ensureInvBase(i.mesh), a = i.body.translation(), o = i.body.rotation();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 s.position.set(a.x, a.y, a.z), s.quaternion.set(o.x, o.y, o.z, o.w), s.scale.set(i.size.x * e.x, i.size.y * e.y, i.size.z * e.z), s.updateMatrix(), i.mesh.setMatrixAt(i.index, s.matrix), t.add(i.mesh);
             }
             for (const i of t)i.instanceMatrix.needsUpdate = !0;
@@ -1702,11 +1475,7 @@ Promise.all([
                 let t, i;
                 const e = s.rotation.clone();
                 s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const a = Os(s);
-=======
-                const a = Us(s);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 s.rotation.copy(e), s.userData.size = a, s.userData.orgRotation = e, t = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.dynamic().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(a.x / 2, a.y / 2, a.z / 2).setMass(.6).setRestitution(0).setFriction(.5).setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS), s.userData.body = t, s.userData.shape = i;
                 let o = t;
                 i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
@@ -1720,11 +1489,7 @@ Promise.all([
                 let t, i;
                 const e = s.rotation.clone();
                 s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const a = Os(s);
-=======
-                const a = Us(s);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 s.rotation.copy(e), s.userData.size = a, s.userData.orgRotation = e, t = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(a.x / 2, a.y / 2, a.z / 2).setMass(1).setRestitution(0).setFriction(.3), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, t);
                 s.userData.body = t, s.userData.collide = o, this.allWallBodyCollision.push(o), s.userData.handle = t.handle, this.dynamicBodies.push([
@@ -1736,11 +1501,7 @@ Promise.all([
                 let t, i;
                 const e = s.rotation.clone();
                 s.rotation.set(0, 0, 0), new fs().setFromObject(s);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const a = Os(s);
-=======
-                const a = Us(s);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 s.rotation.copy(e), s.userData.size = a, s.userData.orgRotation = e, t = this.world.createRigidBody(this.RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(s.position.x, s.position.y, s.position.z).setRotation(s.quaternion).setCanSleep(!1).enabledRotations(!1, !1, !1).setLinearDamping(0).setAngularDamping(2)), i = this.RAPIER.ColliderDesc.cuboid(a.x / 2, a.y / 2, a.z / 2).setMass(1).setRestitution(1).setFriction(0), i.setActiveEvents(this.RAPIER.ActiveEvents.COLLISION_EVENTS);
                 let o = this.world.createCollider(i, t);
                 s.userData.body = t, s.userData.collide = o, this.allWallBodyCollision.push(o), s.userData.handle = t.handle, this.dynamicBodies.push([
@@ -1751,19 +1512,11 @@ Promise.all([
             }
         }
     }
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     const Us = new u;
     function Os(r) {
         if (r.isMesh && r.geometry) {
             const t = r.geometry;
             return t.boundingBox || t.computeBoundingBox(), t.boundingBox.getSize(Us), Us.multiply(r.scale), Us.clone();
-=======
-    const Ws = new u;
-    function Us(r) {
-        if (r.isMesh && r.geometry) {
-            const t = r.geometry;
-            return t.boundingBox || t.computeBoundingBox(), t.boundingBox.getSize(Ws), Ws.multiply(r.scale), Ws.clone();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         return new fs().setFromObject(r).getSize(new u);
     }
@@ -2064,11 +1817,7 @@ Promise.all([
     }
     class Mt {
         constructor(s, t, i, e, a, o){
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             this.scene = s, this.camera = t, this.renderer = i, this.paramsClass = e, this.isMobile = a, this.audioClass = o, this.ambientLight = new Ue(11184810, 1), this.hemiLight = new Oe(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Ve(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new te, this.dirLight.target = this.targetObject, this.helper = new Ye(this.dirLight, 3), this.water, this.night = !1, this._prevCamX = this.camera.position.x, this.thunder = !1, this.thunderStart = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0, this.minThunderIntervalMs = 1e3, this.maxThunderIntervalMs = 3e3, this.currentThunderIndex = 0, this.rain = !1, this.rainStart = !1, this.isRainActive = !1, this.rainEndTimestampMs = 0, this.activeLightningLines = [], this.lightningMaterialBase = new $e({
-=======
-            this.scene = s, this.camera = t, this.renderer = i, this.paramsClass = e, this.isMobile = a, this.audioClass = o, this.ambientLight = new Ue(11184810, 1), this.hemiLight = new Oe(16777215, 16777215, 2), this.hemiLight.groundColor.setHSL(.095, 1, .75), this.hemiLight.position.set(0, 10, 0), this.dirLight = new Ve(16777215, 2), this.dirLight.position.set(0, 5, 5), this.dirLight.castShadow = !0, this.dirLight.shadow.camera.far = 100, this.topLight = 1e3, this.targetObject = new ee, this.dirLight.target = this.targetObject, this.helper = new Ye(this.dirLight, 3), this.water, this.night = !1, this._prevCamX = this.camera.position.x, this.thunder = !1, this.thunderStart = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0, this.minThunderIntervalMs = 1e3, this.maxThunderIntervalMs = 3e3, this.currentThunderIndex = 0, this.rain = !1, this.rainStart = !1, this.isRainActive = !1, this.rainEndTimestampMs = 0, this.activeLightningLines = [], this.lightningMaterialBase = new $e({
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 color: 16777215,
                 transparent: !0,
                 opacity: 1,
@@ -2097,11 +1846,7 @@ Promise.all([
                 sizeAttenuation: !0,
                 depthWrite: !0,
                 blending: Ts
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             }), this.rainPoints = new Zs(this.rainGeometry, this.rainMaterial), this.rainPoints.layers.set(1);
-=======
-            }), this.rainPoints = new Js(this.rainGeometry, this.rainMaterial), this.rainPoints.layers.set(1);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         async loadWaterSky() {
             this.waterGeometry = new Hs(900, 500), this.water = new Ke(this.waterGeometry, {
@@ -2130,13 +1875,8 @@ Promise.all([
             const t = 1500, i = new Float32Array(t * 3), e = new Float32Array(t), a = new Float32Array(t * 3);
             for(let h = 0; h < t; h++){
                 i[3 * h] = Math.random() * 600 - 300, i[3 * h + 1] = Math.random() * 150 - 100, i[3 * h + 2] = Math.random() * 300 - 500, e[h] = Math.random() * 2 + .7;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const p = new os().setHSL(.5 + Math.random() * .1, .6 + Math.random() * .3, .85 + Math.random() * .15);
                 a[3 * h] = p.r, a[3 * h + 1] = p.g, a[3 * h + 2] = p.b;
-=======
-                const c = new os().setHSL(.5 + Math.random() * .1, .6 + Math.random() * .3, .85 + Math.random() * .15);
-                a[3 * h] = c.r, a[3 * h + 1] = c.g, a[3 * h + 2] = c.b;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             }
             const o = new Ds;
             o.setAttribute("position", new ds(i, 3)), o.setAttribute("size", new ds(e, 1)), o.setAttribute("color", new ds(a, 3));
@@ -2184,11 +1924,7 @@ void main() {
                 vertexColors: !0,
                 depthWrite: !1,
                 blending: Ts
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             }), this.stars = new Zs(o, this.materialStars), this.stars.layers.set(1), this.scene.add(this.stars), this.camera.layers.enable(1);
-=======
-            }), this.stars = new Js(o, this.materialStars), this.stars.layers.set(1), this.scene.add(this.stars), this.camera.layers.enable(1);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         updateSky() {
             const s = this.camera.position.x, t = Math.sign(s - this._prevCamX);
@@ -2255,32 +1991,19 @@ void main() {
             this.thunder = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
         }
         createLightningBolt(s, t, i) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-            const e = s + (Math.random() - .5) * 6, a = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = a - t, h = o - i, p = Math.hypot(n, l, h) || 1, m = n / p, d = l / p, f = h / p, c = n / p, v = -(h / p), M = 0, y = c, _ = Math.abs(d) > .9 ? new u(1, 0, 0) : new u(0, 1, 0), R = new u(m, d, f), q = new u().crossVectors(R, _).normalize(), b = new u().crossVectors(R, q).normalize(), x = 2 + Math.random() * 2, H = 1.2, T = Math.random() * Math.PI * 2, k = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
-            for(let S = 0; S <= C; S++){
-                const B = S / C, A = 1 - B;
-                let K = s + n * B, ls = t + l * B, Q = i + h * B;
-                const X = Math.sin(B * Math.PI * x + T) * H * (.3 + .7 * A), ss = Math.sin(B * Math.PI * k + ms) * U * (.3 + .7 * A), es = (Math.random() - .5) * 2 * j * A, O = (Math.random() - .5) * 1.6 * j * A, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * A : 0;
-=======
-            const e = s + (Math.random() - .5) * 6, a = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = a - t, h = o - i, c = Math.hypot(n, l, h) || 1, m = n / c, d = l / c, f = h / c, p = n / c, v = -(h / c), M = 0, y = p, _ = Math.abs(d) > .9 ? new u(1, 0, 0) : new u(0, 1, 0), R = new u(m, d, f), q = new u().crossVectors(R, _).normalize(), b = new u().crossVectors(R, q).normalize(), x = 2 + Math.random() * 2, H = 1.2, E = Math.random() * Math.PI * 2, k = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
+            const e = s + (Math.random() - .5) * 6, a = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = a - t, h = o - i, p = Math.hypot(n, l, h) || 1, m = n / p, d = l / p, f = h / p, c = n / p, v = -(h / p), M = 0, y = c, _ = Math.abs(d) > .9 ? new u(1, 0, 0) : new u(0, 1, 0), R = new u(m, d, f), q = new u().crossVectors(R, _).normalize(), b = new u().crossVectors(R, q).normalize(), x = 2 + Math.random() * 2, H = 1.2, E = Math.random() * Math.PI * 2, k = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
             for(let S = 0; S <= C; S++){
                 const B = S / C, A = 1 - B;
                 let K = s + n * B, ls = t + l * B, Q = i + h * B;
                 const X = Math.sin(B * Math.PI * x + E) * H * (.3 + .7 * A), ss = Math.sin(B * Math.PI * k + ms) * U * (.3 + .7 * A), es = (Math.random() - .5) * 2 * j * A, O = (Math.random() - .5) * 1.6 * j * A, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * A : 0;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 if (K += q.x * (X + es + W) + b.x * (ss + O * .7), ls += q.y * (X + es * .5) + b.y * (ss + O * .5), Q += q.z * (X + es + W) + b.z * (ss + O * .7), $.push(K, ls, Q), S > 3 && S < C - 3 && Math.random() < .22) {
                     const rs = [], xs = 3 + Math.floor(Math.random() * 2), hs = .25 + Math.random() * .35;
                     let Ms = K, Ps = ls, Cs = Q;
                     rs.push(Ms, Ps, Cs);
                     for(let Bs = 1; Bs <= xs; Bs++)Ms += (Math.random() - .5) * j * hs, Ps += -(.8 + Math.random() * .8) * hs, Cs += (Math.random() - .5) * j * hs, rs.push(Ms, Ps, Cs);
                     const zs = new Ds;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     zs.setAttribute("position", new re(rs, 3));
                     const bs = new he(zs, this.lightningMaterialBase.clone());
-=======
-                    zs.setAttribute("position", new le(rs, 3));
-                    const bs = new re(zs, this.lightningMaterialBase.clone());
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     bs.material.opacity = .6, bs.userData.life = .16 + Math.random() * .12, this.scene.add(bs), this.activeLightningLines.push(bs);
                 }
             }
@@ -2288,21 +2011,12 @@ void main() {
             for(let S = -1; S <= ys; S++){
                 const B = S === -1, A = B ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
                 for(let W = 0; W < ss; W++){
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * A * K * xs + y * hs * .3, Ps = M * A * K * xs + hs * .05, Cs = y * A * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Bs = W * 3 + 2, ie = $[zs], oe = $[bs], ne = $[Bs];
                     B ? X.push(ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05, ne + (Math.random() - .5) * .05) : X.push(ie + Ms + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2, ne + Cs + (Math.random() - .5) * .2);
                 }
                 const es = new Ds;
                 es.setAttribute("position", new re(X, 3));
                 const O = new he(es, this.lightningMaterialBase.clone());
-=======
-                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * A * K * xs + y * hs * .3, Ps = M * A * K * xs + hs * .05, Cs = y * A * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Bs = W * 3 + 2, ae = $[zs], ie = $[bs], oe = $[Bs];
-                    B ? X.push(ae + (Math.random() - .5) * .05, ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05) : X.push(ae + Ms + (Math.random() - .5) * .2, ie + Ps + (Math.random() - .5) * .2, oe + Cs + (Math.random() - .5) * .2);
-                }
-                const es = new Ds;
-                es.setAttribute("position", new le(X, 3));
-                const O = new re(es, this.lightningMaterialBase.clone());
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 O.material.opacity = B ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
             }
         }
@@ -2339,13 +2053,8 @@ void main() {
         }
         loadRecsData() {
             let s = this.dataClass.masTables, t = document.querySelectorAll(".rec_table_small"), i = "free_game_my_rec", e = "";
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             t[0].innerHTML = "", t[1].innerHTML = "", console.log(s), s.forEach((a, o, n)=>{
                 s[o].forEach((l, h, p)=>{
-=======
-            t[0].innerHTML = "", t[1].innerHTML = "", s.forEach((a, o, n)=>{
-                s[o].forEach((l, h, c)=>{
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     s[o][h].findIndex((m)=>m.name === "Мой рекорд") < 3 ? t[o].insertAdjacentHTML("beforeend", `
           <div class='rec_table_small_block ${this.playersNum == h + 1 ? "" : "hidden_screen"}'>
             <div class='yellow_back one_place ${Vs(s[o][h][0]) ? i : e}'>
@@ -2436,61 +2145,37 @@ void main() {
                 this.hideScreen("free_game_screen"), this.initMatch(this.playersNum, 4, !1, !1);
             }), document.querySelectorAll(".free_game_chels").forEach((i, e)=>{
                 i.addEventListener("click", ()=>{
-                    document.querySelectorAll(".free_game_chels").forEach((c)=>{
-                        c.classList.remove("free_game_chels_active");
+                    document.querySelectorAll(".free_game_chels").forEach((p)=>{
+                        p.classList.remove("free_game_chels_active");
                     }), i.classList.add("free_game_chels_active");
                     const a = e + 1, o = document.querySelectorAll(".rec_table_small"), n = [];
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     o.forEach((p)=>{
                         const m = p.querySelector(".rec_table_small_block:not(.hidden_screen)");
-=======
-                    o.forEach((c)=>{
-                        const m = c.querySelector(".rec_table_small_block:not(.hidden_screen)");
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                         m && (n.push(m), m.getBoundingClientRect(), m.classList.add("anim-out"));
                     });
                     let l = 0;
                     const h = ()=>{
                         if (l++, l < n.length) return;
                         this.playersNum = a, this.loadRecsData();
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                         const p = [];
                         document.querySelectorAll(".rec_table_small").forEach((m)=>{
                             const d = m.querySelector(".rec_table_small_block:not(.hidden_screen)");
                             d && (d.classList.add("anim-in"), p.push(d));
                         }), requestAnimationFrame(()=>{
                             p.forEach((d)=>{
-=======
-                        const c = [];
-                        document.querySelectorAll(".rec_table_small").forEach((m)=>{
-                            const d = m.querySelector(".rec_table_small_block:not(.hidden_screen)");
-                            d && (d.classList.add("anim-in"), c.push(d));
-                        }), requestAnimationFrame(()=>{
-                            c.forEach((d)=>{
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                                 d.getBoundingClientRect(), d.classList.add("anim-play");
                             });
                             const m = (d)=>{
                                 d.classList.remove("anim-in", "anim-play"), d.removeEventListener("transitionend", m);
                             };
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                             p.forEach((d)=>d.addEventListener("transitionend", ()=>m(d), {
-=======
-                            c.forEach((d)=>d.addEventListener("transitionend", ()=>m(d), {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                                     once: !0
                                 }));
                         });
                     };
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     n.length === 0 ? (this.playersNum = a, this.loadRecsData()) : n.forEach((p)=>{
                         p.addEventListener("transitionend", ()=>{
                             p.classList.remove("anim-out"), p.removeEventListener("transitionend", h), h();
-=======
-                    n.length === 0 ? (this.playersNum = a, this.loadRecsData()) : n.forEach((c)=>{
-                        c.addEventListener("transitionend", ()=>{
-                            c.classList.remove("anim-out"), c.removeEventListener("transitionend", h), h();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                         }, {
                             once: !0
                         });
@@ -2535,7 +2220,6 @@ void main() {
             for (const d of t){
                 const f = d?.player;
                 if (!f) continue;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const c = f.userData || (f.userData = {});
                 c.score == null && (c.score = 0);
                 let g = f.position?.[e] ?? 0;
@@ -2544,21 +2228,10 @@ void main() {
                     M !== 0 && (c.score += M, c._lastMeterPos = g);
                 }
                 c.score === 0 && (c._lastMeterPos = g), c._wasLive = !!c.live;
-=======
-                const p = f.userData || (f.userData = {});
-                p.score == null && (p.score = 0);
-                let g = f.position?.[e] ?? 0;
-                if (p._lastMeterPos == null && (p._lastMeterPos = g), i !== "vert" && p._wasLive === !1 && p.live && (p._lastMeterPos = g), p.live) {
-                    const v = g - p._lastMeterPos, M = v > a ? v : 0;
-                    M !== 0 && (p.score += M, p._lastMeterPos = g);
-                }
-                p.score === 0 && (p._lastMeterPos = g), p._wasLive = !!p.live;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             }
             this.playerPanels || (this.playerPanels = Array.from(document.querySelectorAll(".player_panel_rec_num")).slice(0, 3));
             let o = 0;
             for(let d = 0; d < 3; d++){
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const f = this.playerPanels[d], c = t[d]?.player, g = Math.max(0, Math.floor(c?.userData?.score || 0));
                 o += g, f && (f.textContent = String(g).padStart(3, "0"));
             }
@@ -2567,16 +2240,6 @@ void main() {
             const l = Ys, h = performance.now(), p = 50, m = (d)=>{
                 const f = Math.min(1, (d - h) / p), c = 1 - Math.pow(1 - f, 4), g = Math.round(l + (n - l) * c);
                 this.score = g, this.metersFloatEl && (this.metersFloatEl.textContent = String(g).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Ys = n;
-=======
-                const f = this.playerPanels[d], p = t[d]?.player, g = Math.max(0, Math.floor(p?.userData?.score || 0));
-                o += g, f && (f.textContent = String(g).padStart(3, "0"));
-            }
-            const n = Math.max(0, Math.floor(o));
-            if (n === Vs) return;
-            const l = Vs, h = performance.now(), c = 50, m = (d)=>{
-                const f = Math.min(1, (d - h) / c), p = 1 - Math.pow(1 - f, 4), g = Math.round(l + (n - l) * p);
-                this.score = g, this.metersFloatEl && (this.metersFloatEl.textContent = String(g).padStart(3, "0")), f < 1 ? requestAnimationFrame(m) : Vs = n;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             };
             requestAnimationFrame(m);
         }
@@ -2820,15 +2483,7 @@ void main() {
                 "vert"
             ].forEach((i)=>{
                 if (this.table[i]) for(let e = 0; e < 3; e++)t(this.table[i][e]);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             }), console.log(3), this.processDataAfterLoad();
-=======
-            }), this.processDataAfterLoad();
-        }
-        saveLocalData() {}
-        async loadLocalData() {
-            this.processDataAfterLoad();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
         async loadLevels(s) {
             const t = document.querySelector(".levels_blocks");
@@ -2857,7 +2512,6 @@ void main() {
                 }
             }, a = 40, o = 60, n = 600;
             for(let l = 0; l < this.levelsStatus[s].length; l++){
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const h = this.levelsStatus[s][l], { modifierClass: p, labelText: m, ariaState: d } = e(h), f = l === 9, c = document.createElement("div");
                 c.className = `levels_block ${p}${f ? " levels_block--super" : ""}`, c.setAttribute("data-level", String(l + 1)), c.setAttribute("role", "button"), c.setAttribute("tabindex", h === "locked" ? "-1" : "0"), c.setAttribute("aria-label", `Уровень ${l + 1}, ${d}${f ? ", бонусный уровень" : ""}`);
                 const g = Math.min(o + l * a, n);
@@ -2866,33 +2520,15 @@ void main() {
                 if (v.className = "levels_block_number", v.textContent = String(l + 1), f) {
                     const _ = document.createElement("div");
                     _.className = "level_reward_icon", _.innerHTML = "+❤️", c.appendChild(_);
-=======
-                const h = this.levelsStatus[s][l], { modifierClass: c, labelText: m, ariaState: d } = e(h), f = l === 9, p = document.createElement("div");
-                p.className = `levels_block ${c}${f ? " levels_block--super" : ""}`, p.setAttribute("data-level", String(l + 1)), p.setAttribute("role", "button"), p.setAttribute("tabindex", h === "locked" ? "-1" : "0"), p.setAttribute("aria-label", `Уровень ${l + 1}, ${d}${f ? ", бонусный уровень" : ""}`);
-                const g = Math.min(o + l * a, n);
-                p.style.setProperty("--show-delay", `${g}ms`);
-                const v = document.createElement("div");
-                if (v.className = "levels_block_number", v.textContent = String(l + 1), f) {
-                    const _ = document.createElement("div");
-                    _.className = "level_reward_icon", _.innerHTML = "+❤️", p.appendChild(_);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 }
                 const M = document.createElement("div");
                 M.className = "levels_block_status";
                 const y = document.createElement("span");
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 y.className = `status_chip ${h === "completed" ? "status_chip--completed" : h === "available" ? "status_chip--available" : "status_chip--locked"}`, y.setAttribute("data-i18n", `levels.status.${h}`), y.textContent = m, M.appendChild(y), c.append(v, M), c.addEventListener("click", ()=>{
                     h !== "locked" && (document.querySelectorAll(".levels_block").forEach((_)=>_.classList.remove("active")), c.classList.add("active"));
                 }), c.addEventListener("keydown", (_)=>{
                     h !== "locked" && (_.key === "Enter" || _.key === " ") && (_.preventDefault(), c.click());
                 }), i.appendChild(c);
-=======
-                y.className = `status_chip ${h === "completed" ? "status_chip--completed" : h === "available" ? "status_chip--available" : "status_chip--locked"}`, y.setAttribute("data-i18n", `levels.status.${h}`), y.textContent = m, M.appendChild(y), p.append(v, M), p.addEventListener("click", ()=>{
-                    h !== "locked" && (document.querySelectorAll(".levels_block").forEach((_)=>_.classList.remove("active")), p.classList.add("active"));
-                }), p.addEventListener("keydown", (_)=>{
-                    h !== "locked" && (_.key === "Enter" || _.key === " ") && (_.preventDefault(), p.click());
-                }), i.appendChild(p);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             }
             t.append(i), requestAnimationFrame(()=>{
                 t.classList.remove("levels_blocks--reenter"), t.querySelectorAll(".levels_block").forEach((l)=>{
@@ -2910,28 +2546,17 @@ void main() {
             for(let o = 0; o < this.allLevels; o++){
                 const n = o + 1, l = this.table.levelsStatusContest?.[o] ?? 0, h = document.createElement("div");
                 h.className = "levels_block levels_block--contest", h.setAttribute("data-level", n), h.setAttribute("role", "button"), h.setAttribute("tabindex", "0"), h.setAttribute("aria-label", `Уровень ${n}, значение ${l}`);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 const p = Math.min(e + o * i, a);
                 h.style.setProperty("--show-delay", `${p}ms`), l && h.classList.add(`level_player${l}`);
-=======
-                const c = Math.min(e + o * i, a);
-                h.style.setProperty("--show-delay", `${c}ms`), l && h.classList.add(`level_player${l}`);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 const m = document.createElement("div");
                 m.className = "levels_block_number", m.textContent = String(n);
                 const d = document.createElement("div");
                 d.className = "levels_block_status", l ? (d.setAttribute("data-i18n", `contest.player${l}`), d.textContent = z(`contest.player${l}`)) : d.textContent = "";
                 const f = l ? z(`contest.player${l}`) : "";
                 d.textContent = f, h.append(m, d), h.addEventListener("click", ()=>{
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     document.querySelectorAll(".levels_block").forEach((c)=>c.classList.remove("active")), h.classList.add("active");
                 }), h.addEventListener("keydown", (c)=>{
                     (c.key === "Enter" || c.key === " ") && (c.preventDefault(), h.click());
-=======
-                    document.querySelectorAll(".levels_block").forEach((p)=>p.classList.remove("active")), h.classList.add("active");
-                }), h.addEventListener("keydown", (p)=>{
-                    (p.key === "Enter" || p.key === " ") && (p.preventDefault(), h.click());
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 }), t.append(h);
             }
             s.append(t), requestAnimationFrame(()=>{
@@ -3004,11 +2629,7 @@ void main() {
                 const s = await this.yandexPlayer.player.getData([
                     "table"
                 ]);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 s && s.table && typeof s.table == "object" ? (this.table = s.table, console.log(2)) : (console.log("Первый вход: создаём новую table"), this.table = this.createDefaultTable(), await this.saveTableToCloud());
-=======
-                s && s.table && typeof s.table == "object" ? this.table = s.table : (console.log("Первый вход: создаём новую table"), this.table = this.createDefaultTable(), await this.saveTableToCloud());
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             } catch (s) {
                 console.warn("Cloud load failed:", s), this.table = this.createDefaultTable();
             }
@@ -3117,11 +2738,7 @@ void main() {
             try {
                 await this.yandexPlayer.player.setData({
                     table: this.table
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                 }, s), console.log(1);
-=======
-                }, s);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             } catch (t) {
                 console.warn("Cloud save failed:", t);
             }
@@ -3247,22 +2864,14 @@ void main() {
                         }));
                     const h = this.leaderboardPlacement[e];
                     if (!h) return;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                     const p = h.group === "hor" ? this.table.hor[h.row] : this.table.vert[h.row];
-=======
-                    const c = h.group === "hor" ? this.table.hor[h.row] : this.table.vert[h.row];
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                     for(let d = 0; d < 3; d++){
                         const f = l[d] || {
                             pos: d + 1,
                             name: "",
                             rec: 0
                         };
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                         p[d + 1] = {
-=======
-                        c[d + 1] = {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                             pos: f.pos,
                             name: f.name,
                             rec: f.rec
@@ -3270,11 +2879,7 @@ void main() {
                     }
                     if (!l.some((d)=>d.name === this.getMineLabel()) && o && t) {
                         const d = o.rank || 0, f = typeof o.score == "number" ? o.score : 0;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
                         p[3] = {
-=======
-                        c[3] = {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                             pos: d,
                             name: this.getMineLabel(),
                             rec: f
@@ -3323,11 +2928,7 @@ void main() {
                 s.loadAsync("textures/grass.jpg"),
                 s.loadAsync("textures/mks.png")
             ]);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             this.plane.texture = t, this.plane.material = new ps({
-=======
-            this.plane.texture = t, this.plane.material = new cs({
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 map: t,
                 transparent: !0,
                 opacity: 1
@@ -3340,11 +2941,7 @@ void main() {
             });
         }
         async loadModels() {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             await new Qs().loadAsync("models/bird/bird.glb").then((i)=>{
-=======
-            await new Zs().loadAsync("models/bird/bird.glb").then((i)=>{
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 const e = i.scene, a = i.animations;
                 e.scale.x = 2, e.scale.y = 2, e.scale.z = 2, e.position.y = 0, e.rotation.y = -Math.PI / 3, this.angryBirdModel = e, this.angryBirdModel.userData.mixer = new st(this.angryBirdModel), this.angryBirdModel.userData.action = this.angryBirdModel.userData.mixer.clipAction(a[0]), this.angryBirdModel.userData.action.play(), this.angryBirdModel.userData.clock = new Ns, this.angryBirdModel.traverse((n)=>{
                     (n.isMesh || n.isSkinnedMesh) && (n.castShadow = !1, n.receiveShadow = !1, n.geometry && !n.geometry.boundingSphere && n.geometry.computeBoundingSphere());
@@ -3398,11 +2995,7 @@ void main() {
     }, {
         passive: !1
     });
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-    let se, kt = new Ns, De, ns, ws, Z, P, D, Ss, G, As, E, gs, $s = !1, Ks = !1, w = new _t;
-=======
-    let Qs, kt = new Ns, De, ns, ws, Z, P, D, Ss, G, As, T, gs, Ys = !1, $s = !1, w = new _t;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+    let se, kt = new Ns, De, ns, ws, Z, P, D, Ss, G, As, T, gs, $s = !1, Ks = !1, w = new _t;
     const us = new et;
     us.background = new os(13230580);
     const je = ct({
@@ -3411,11 +3004,7 @@ void main() {
         scene: us
     }), I = new tt(25, window.innerWidth / window.innerHeight, .1, 2e3);
     I.position.y = 2;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
     const At = 16 / 9, zt = N.degToRad(25), Bt = 2 * Math.atan(Math.tan(zt / 2) * At), Xs = rt();
-=======
-    const At = 16 / 9, zt = N.degToRad(25), Bt = 2 * Math.atan(Math.tan(zt / 2) * At), Ks = rt();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
     function Gs() {
         const r = (window.visualViewport?.height || window.innerHeight) * .01;
         document.documentElement.style.setProperty("--vh", `${r}px`);
@@ -3454,13 +3043,9 @@ void main() {
     });
     let Y = document.querySelector(".loader_line");
     async function Et() {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-        xe(!0), E = new St;
+        xe(!0), T = new St;
         const r = ysdk.environment.i18n.lang.toLowerCase();
-        gt(()=>E.refreshMineLabels(), r, E), gs = new Lt, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await E.loadTableFromCloud(), await E.loadLeaderboardsTop3(ysdk), await E.loadLevels(0), await E.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Ct(Le, E.loadLevels, w, D, E), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
-=======
-        xe(!0), T = new St, gt(()=>T.refreshMineLabels()), gs = new Lt, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await T.loadTableFromCloud(), await T.loadLeaderboardsTop3(ysdk), await T.loadLevels(0), await T.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Ct(Le, T.loadLevels, w, D, T), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+        gt(()=>T.refreshMineLabels(), r), gs = new Lt, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await T.loadTableFromCloud(), await T.loadLeaderboardsTop3(ysdk), await T.loadLevels(0), await T.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Ct(Le, T.loadLevels, w, D, T), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
     }
     await Et();
     async function Tt() {
@@ -3479,15 +3064,9 @@ void main() {
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-        se = new s.World(new s.Vector3(0, -9.81, 0)), De = new s.EventQueue(!0), Z = new cs(se, s), As = new jt(I, E), ws = new Mt(us, I, F, G, Xs, D), P = new vt(us, D, Z, F, I, Xs, G, ws, Le, E, w, je, _e, As, ns, gs);
-        for(let t = 0; t < r; t++)P.players.push(new bt(E, us, D, P, G, I, w, gs));
-        Ss = new xt(P, Xs, F, I, G, D), Ss.addKeyListeners();
-=======
-        Qs = new s.World(new s.Vector3(0, -9.81, 0)), De = new s.EventQueue(!0), Z = new ps(Qs, s), As = new jt(I, T), ws = new Mt(us, I, F, G, Ks, D), P = new vt(us, D, Z, F, I, Ks, G, ws, Le, T, w, je, _e, As, ns, gs);
+        se = new s.World(new s.Vector3(0, -9.81, 0)), De = new s.EventQueue(!0), Z = new cs(se, s), As = new jt(I, T), ws = new Mt(us, I, F, G, Xs, D), P = new vt(us, D, Z, F, I, Xs, G, ws, Le, T, w, je, _e, As, ns, gs);
         for(let t = 0; t < r; t++)P.players.push(new bt(T, us, D, P, G, I, w, gs));
-        Ss = new xt(P, Ks, F, I, G, D), Ss.addKeyListeners();
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+        Ss = new xt(P, Xs, F, I, G, D), Ss.addKeyListeners();
     }
     async function Ft() {
         await ws.loadWorld(), D.musicOn && D.backAudio.play(), D.musicOn && D.oceanAudio.play();
@@ -3509,11 +3088,7 @@ void main() {
         });
     }
     async function Le(r, s, t = !1) {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-        It(), ns.toggleLoader(!0), G = new Dt, await Ht(r), Y.setAttribute("style", "width:30%"), P.gameNum = s, await Ft(), Y.setAttribute("style", "width:60%"), await Rt(t), Y.setAttribute("style", "width:90%"), G.gameDir === "hor" ? As.loadRecsToHud(0, P.players.length - 1) : As.loadRecsToHud(1, P.players.length - 1), G.dataLoaded = !0, w.gameStarting = !0, E.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
-=======
         It(), ns.toggleLoader(!0), G = new Dt, await Ht(r), Y.setAttribute("style", "width:30%"), P.gameNum = s, await Ft(), Y.setAttribute("style", "width:60%"), await Rt(t), Y.setAttribute("style", "width:90%"), G.gameDir === "hor" ? As.loadRecsToHud(0, P.players.length - 1) : As.loadRecsToHud(1, P.players.length - 1), G.dataLoaded = !0, w.gameStarting = !0, T.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             ns.toggleLoader(!1), Y.setAttribute("style", "width:0%");
         }, 1e3);
     }
@@ -3521,28 +3096,16 @@ void main() {
         I.position.y = 2, I.position.x = 0, F.toneMappingExposure = 1.05, Ss?.removedKeyListeners(), ws = null, Z = null, P = null, Ss = null, G = null, As = null;
     }
     function Nt() {
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
-        if (w.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && P.showScreen("menu_in_game"), E.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? (ns.showScreen("hud"), ns.hideScreen("level_hud_wrap")) : !E.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ns.hideScreen("hud"), ns.showScreen("level_hud_wrap")), E.gameInit && w.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, t)=>{
-            r.classList.add("hidden_screen");
-        }) : E.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((r, s, t)=>{
-            r.classList.remove("hidden_screen");
-        }), w.gameStarting ? (je.update(Is), _e.update(Is), $s || (ysdk.features.GameplayAPI.start(), $s = !0, Ks = !1)) : Ks || (ysdk.features.GameplayAPI.stop(), Ks = !0, $s = !1), G.dataLoaded && w.gameStarting) {
-=======
         if (w.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && P.showScreen("menu_in_game"), T.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? (ns.showScreen("hud"), ns.hideScreen("level_hud_wrap")) : !T.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ns.hideScreen("hud"), ns.showScreen("level_hud_wrap")), T.gameInit && w.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, t)=>{
             r.classList.add("hidden_screen");
         }) : T.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((r, s, t)=>{
             r.classList.remove("hidden_screen");
-        }), w.gameStarting ? (je.update(Is), _e.update(Is), Ys || (ysdk.features.GameplayAPI.start(), Ys = !0, $s = !1)) : $s || (ysdk.features.GameplayAPI.stop(), $s = !0, Ys = !1), G.dataLoaded && w.gameStarting) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
+        }), w.gameStarting ? (je.update(Is), _e.update(Is), $s || (ysdk.features.GameplayAPI.start(), $s = !0, Ks = !1)) : Ks || (ysdk.features.GameplayAPI.stop(), Ks = !0, $s = !1), G.dataLoaded && w.gameStarting) {
             P.players.forEach((r, s, t)=>{
                 r.playerMove();
             }), ws.updateLighting(), P.levelAnimate(I), P.cameraMove(I);
             for(let r = 0, s = Z.dynamicBodies.length; r < s; r++)Z.dynamicBodies[r][0].position.copy(Z.dynamicBodies[r][1].translation()), Z.dynamicBodies[r][0].quaternion.copy(Z.dynamicBodies[r][1].rotation());
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             Z.updateInstancedTransforms(), se.step(De), w.gameStarting && F.render(us, I);
-=======
-            Z.updateInstancedTransforms(), Qs.step(De), w.gameStarting && F.render(us, I);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
     }
     let Js = 0;
@@ -3550,11 +3113,7 @@ void main() {
     F.setAnimationLoop(()=>{
         if (G != null) {
             let r = kt.getDelta();
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             for(r > we && (r = we), Js += r; Js >= Is;)Nt(), Js -= Is;
-=======
-            for(r > we && (r = we), Xs += r; Xs >= Is;)Nt(), Xs -= Is;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
         }
     });
     function xe(r) {
@@ -3583,44 +3142,26 @@ void main() {
         ];
         let s = null, t = null, i = null, e = !1, a = 0, o = 0;
         const n = ()=>{
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             for (const c of r){
                 const g = document.querySelector(c);
-=======
-            for (const p of r){
-                const g = document.querySelector(p);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 if (g && !g.classList.contains("hidden_screen")) return g;
             }
             return null;
         }, l = ()=>{
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const c = n();
             c !== s && (s && s.removeEventListener("scroll", h, {
                 passive: !0
             }), i && (i.removeEventListener("mousedown", p), i.removeEventListener("touchstart", p)), s = c, t = s ? s.querySelector(".scroll-progress") : null, i = t ? t.querySelector(".scroll-progress__bar") : null, s && s.addEventListener("scroll", h, {
-=======
-            const p = n();
-            p !== s && (s && s.removeEventListener("scroll", h, {
                 passive: !0
-            }), i && (i.removeEventListener("mousedown", c), i.removeEventListener("touchstart", c)), s = p, t = s ? s.querySelector(".scroll-progress") : null, i = t ? t.querySelector(".scroll-progress__bar") : null, s && s.addEventListener("scroll", h, {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
-                passive: !0
-            }), i && (i.addEventListener("mousedown", c), i.addEventListener("touchstart", c)), h());
+            }), i && (i.addEventListener("mousedown", p), i.addEventListener("touchstart", p)), h());
         }, h = ()=>{
             if (!s || !t || !i) return;
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const c = s.clientHeight, g = s.scrollHeight, v = s.scrollTop;
             if (g <= c + 1) {
-=======
-            const p = s.clientHeight, g = s.scrollHeight, v = s.scrollTop;
-            if (g <= p + 1) {
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
                 t.classList.remove("visible");
                 return;
             }
             t.classList.add("visible");
-<<<<<<< HEAD:dist/assets/main-CSIyLKcQ.js
             const M = t.getBoundingClientRect().height, _ = Math.max(c / g * M, 24), R = g - c, q = M - _, b = R > 0 ? v / R * q : 0;
             i.style.height = `${_}px`, i.style.top = `${b}px`;
         }, p = (c)=>{
@@ -3628,15 +3169,6 @@ void main() {
         }, m = (c)=>{
             if (!e || !s || !i || !t) return;
             const v = (c.touches ? c.touches[0].clientY : c.clientY) - a, M = t.getBoundingClientRect().height, y = s.clientHeight, _ = s.scrollHeight, R = Math.max(1, M - i.offsetHeight), q = (_ - y) / R;
-=======
-            const M = t.getBoundingClientRect().height, _ = Math.max(p / g * M, 24), R = g - p, q = M - _, b = R > 0 ? v / R * q : 0;
-            i.style.height = `${_}px`, i.style.top = `${b}px`;
-        }, c = (p)=>{
-            !s || !i || (e = !0, a = p.touches ? p.touches[0].clientY : p.clientY, o = s.scrollTop, document.body.style.userSelect = "none", p.preventDefault());
-        }, m = (p)=>{
-            if (!e || !s || !i || !t) return;
-            const v = (p.touches ? p.touches[0].clientY : p.clientY) - a, M = t.getBoundingClientRect().height, y = s.clientHeight, _ = s.scrollHeight, R = Math.max(1, M - i.offsetHeight), q = (_ - y) / R;
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/main-CobfIRnQ.js
             s.scrollTop = o + v * q;
         }, d = ()=>{
             e = !1, document.body.style.userSelect = "";

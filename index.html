@@ -15,27 +15,27 @@
 
    <script type="module">
       window.__loadMain = () => import('./main.js');
-    </script>
+   </script>
 
- <!-- Yandex Games SDK -->
- <script>
-   function initSDK() {
-     if (typeof YaGames !== 'undefined') {
-       YaGames.init().then(function (ysdk) {
-         console.log('Yandex SDK initialized');
-         window.ysdk = ysdk;
-         window.__loadMain();
-       });
-     } else {
-       console.error('YaGames is not defined!');
-       // при желании можно всё равно стартануть игру:
-       window.__loadMain();
-     }
-   }
- </script>
- <script src="/sdk.js" onload="initSDK()"></script>
-   
-   
+   <!-- Yandex Games SDK -->
+   <script>
+      function initSDK() {
+         if (typeof YaGames !== 'undefined') {
+            YaGames.init().then(function (ysdk) {
+               console.log('Yandex SDK initialized');
+               window.ysdk = ysdk;
+               window.__loadMain();
+            });
+         } else {
+            console.error('YaGames is not defined!');
+            // при желании можно всё равно стартануть игру:
+            window.__loadMain();
+         }
+      }
+   </script>
+   <script src="/sdk.js" onload="initSDK()"></script>
+
+
 </head>
 
 <body>

@@ -1,8 +1,4 @@
-<<<<<<< HEAD:dist/assets/index-CmT3Z085.js
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CSIyLKcQ.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
-=======
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CobfIRnQ.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/index-CUXjiWWV.js
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CocjPckC.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
 let E;
 let __tla = (async ()=>{
     (function() {
@@ -71,11 +67,7 @@ let __tla = (async ()=>{
             return i().catch(t);
         });
     };
-<<<<<<< HEAD:dist/assets/index-CmT3Z085.js
-    window.__loadMain = ()=>E(()=>import("./main-CSIyLKcQ.js").then(async (m)=>{
-=======
-    window.__loadMain = ()=>E(()=>import("./main-CobfIRnQ.js").then(async (m)=>{
->>>>>>> 67b1bef136c371d09782a0161bc0e0fc48caf0d2:dist/assets/index-CUXjiWWV.js
+    window.__loadMain = ()=>E(()=>import("./main-CocjPckC.js").then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([0,1]), import.meta.url);
