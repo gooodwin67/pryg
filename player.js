@@ -231,7 +231,8 @@ export class PlayerClass {
       this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
     }
 
-    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - 10 && this.player.userData.live && this.levelClass.scoreClass.score > 8) {
+
+    if (this.paramsClass.gameDir == 'vert' && this.player.position.y < this.camera.position.y - 13 && this.player.userData.live && this.camera.position.y > 10) {
       this.player.userData.lives = 0;
       this.reLiveField();
 
@@ -353,8 +354,8 @@ export class PlayerClass {
                 if (value.player.userData.finish) {
                   this.dataClass.table.levelsStatusContest[this.levelClass.levelsMode - 1] = index + 1;
 
-                  this.dataClass.saveLocalData();
-                  this.dataClass.loadLocalData();
+                  // this.dataClass.saveLocalData();
+                  // this.dataClass.loadLocalData();
                   this.dataClass.loadLevelsContest();
                 }
               })

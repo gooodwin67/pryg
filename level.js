@@ -2418,13 +2418,17 @@ export class LevelClass {
 
 
 
-      this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
 
-      await this.dataClass.saveTableToCloud();
-      await this.dataClass.loadTableFromCloud();
-      await this.dataClass.processDataAfterLoad();
+      await this.dataClass.saveTableToCloud();          // по желанию оставь
+      // локально обновляем представление топ-3
+      const group = this.paramsClass.gameDir === 'hor' ? 'hor' : 'vert';
+      const rowIndex = this.players.length - 1; // 0..2 по кол-ву игроков
+      this.dataClass.updateLocalTop3(group, rowIndex, this.scoreClass.myRec);
+
+      // подтянем перевод "Мой рекорд" и перерисуем меню
       await this.dataClass.refreshMineLabels();
       this.menuClass.loadRecsData();
+      this.paramsClass.gameDir === 'hor' ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
 
     }
 
@@ -2482,6 +2486,8 @@ export class LevelClass {
             })
             if (bonusHeart || newLevel) {
               await this.dataClass.saveTableToCloud();
+              await this.dataClass.loadTableFromCloud();
+              await this.dataClass.loadLevels(this.players.length - 1)
 
             }
           }
@@ -2529,30 +2535,27 @@ export class LevelClass {
 
   }
 
+  // level.js -> reloadLevel(clelNum = -1)
   async reloadLevel(clelNum = -1) {
-
     if (this.paramsClass.gameDir == 'hor' && !this.levelsMode) {
+      let needSave = false; // ← флаг, сохраняем только если что-то поменяли
+
       if (clelNum >= 0) {
         let player = this.players[clelNum];
+
         if (this.dataClass.table.player.bonusHeart[clelNum]) {
-
-
           player.player.userData.maxLives = 4;
           player.player.userData.lives = player.player.userData.maxLives;
           player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[clelNum];
 
           this.dataClass.table.player.bonusHeart[clelNum]--;
-
-        }
-        else {
+          needSave = true; // ← списали сердечко — нужно сохранить
+        } else {
           player.player.userData.maxLives = 3;
           player.player.userData.lives = player.player.userData.maxLives;
         }
-      }
-      else {
-
-        let masPos = [0, -1, 1]
-
+      } else {
+        let masPos = [0, -1, 1];
 
         for (let i = 0; i < this.players.length; i++) {
           let player = this.players[i];
@@ -2560,40 +2563,34 @@ export class LevelClass {
 
           if (!this.levelsMode) {
             player.reLiveField();
-
             player.player.position.x = player.player.position.x - i * 0.3 + 1;
-          }
-          else {
+          } else {
             player.player.position.x = masPos[randNum];
           }
-
-
-
-          masPos.splice(randNum, 1)
+          masPos.splice(randNum, 1);
 
           if (this.dataClass.table.player.bonusHeart[i]) {
-
             player.player.userData.maxLives = 4;
             player.player.userData.lives = player.player.userData.maxLives;
             player.player.userData.bonusHeart = this.dataClass.table.player.bonusHeart[i];
 
             this.dataClass.table.player.bonusHeart[i]--;
-
-
-          }
-          else {
+            needSave = true; // ← хотя бы у одного списали — сохраняем
+          } else {
             player.player.userData.maxLives = 3;
             player.player.userData.lives = player.player.userData.maxLives;
           }
           if (!this.levelsMode) player.reLiveField();
-
         }
       }
 
-      await this.dataClass.saveTableToCloud();
-
+      // 💾 сохраняем только если реально меняли данные
+      if (needSave) {
+        await this.dataClass.saveTableToCloud();
+      }
     }
   }
+
 
   rebindButton(selector, handler) {
     const oldButton = document.querySelector(selector);
@@ -2629,32 +2626,52 @@ export class LevelClass {
 
     this.rebindButton('.popup_game_btn1', async () => {
 
-      if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
-      this.boostHatModels.forEach((value, index, array) => {
-        value.userData.fly = false;
-      })
-      let mas = [];
-      this.players.forEach((value, index, array) => {
-        mas.push(value.player.position.x);
-      })
+      ysdk.adv.showRewardedVideo({
+        callbacks: {
+            onOpen: () => {
+              console.log('Video ad open.');
+            },
+            onRewarded: () => {
+              console.log('Rewarded!');
 
-      this.players.forEach((value, index, array) => {
+              if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
+              this.boostHatModels.forEach((value, index, array) => {
+                value.userData.fly = false;
+              })
+              let mas = [];
+              this.players.forEach((value, index, array) => {
+                mas.push(value.player.position.x);
+              })
 
-        value.playerAliving(false);
-        value.player.userData.lives = 1;
-        value.player.position.x = Math.max(...mas);
-        this.camera.position.x = value.player.position.x;
-      })
+              this.players.forEach((value, index, array) => {
+
+                value.playerAliving(false);
+                value.player.userData.lives = 1;
+                value.player.position.x = Math.max(...mas);
+                this.camera.position.x = value.player.position.x;
+              })
 
 
 
 
-      this.audioClass.pauseMusic(['back']);
-      this.audioClass.playMusic(['back']);
-      if (!this.levelsMode) this.canShowAds = false;
-      this.gameClass.showGamePopup = false;
+              this.audioClass.pauseMusic(['back']);
+              this.audioClass.playMusic(['back']);
+              if (!this.levelsMode) this.canShowAds = false;
+              this.gameClass.showGamePopup = false;
 
-      this.hideScreen('popup_in_game');
+              this.hideScreen('popup_in_game');
+
+            },
+            onClose: () => {
+              console.log('Video ad closed.');
+            },
+            onError: (e) => {
+              console.log('Error while open video ad:', e);
+            },
+        }
+      })  
+
+      
     })
 
     this.rebindButton('.popup_game_btn2', async () => {

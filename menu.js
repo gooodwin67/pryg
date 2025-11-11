@@ -5,8 +5,8 @@ const MY_REC_NAMES = new Set(["Мой рекорд", "My record"]);
 function isMy(row) {
   if (!row) return false;
   if (row.isMine === true) return true;
-  const locMy = t('hud.mineRecord', 'Мой рекорд'); // можно завести такое поле в словаре
-  return row.name === locMy || MY_REC_NAMES.has(row.name);
+  const mine = t('leaderboard.mine', 'Мой рекорд');
+  return row.name === mine;
 }
 
 
@@ -32,6 +32,7 @@ export class MenuClass {
 
   loadRecsData() {
 
+
     let masTables = this.dataClass.masTables;
     let tables = document.querySelectorAll('.rec_table_small');
 
@@ -45,7 +46,8 @@ export class MenuClass {
     masTables.forEach((value, index, array) => {
       masTables[index].forEach((val, i, array) => {
 
-        if (masTables[index][i].findIndex(el => el.name === 'Мой рекорд') < 3) {
+        const mine = t('leaderboard.mine', 'Мой рекорд');
+        if (masTables[index][i].findIndex(el => el && el.name === mine) < 3) {
 
           tables[index].insertAdjacentHTML('beforeend', `
           <div class='rec_table_small_block ${this.playersNum == i + 1 ? "" : "hidden_screen"}'>
@@ -106,6 +108,7 @@ export class MenuClass {
       document.querySelectorAll('.levels_game_screen .level_game_chels').forEach((value, index, array) => {
         if (value.classList.contains('level_game_chels_active')) {
           this.levelPlayersNum = index + 1;
+          this.dataClass.loadLevels(this.levelPlayersNum - 1);
         }
       })
 

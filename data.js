@@ -200,25 +200,26 @@ export class DataClass {
 
   refreshMineLabels() {
     const mine = this.getMineLabel();
-
+    const allMine = new Set(['Мой рекорд', 'My record']); // известные варианты
+  
     const fixRow = (row) => {
       if (!row) return;
-      // pos:0 — всегда мой рекорд
-      if (row[0]) row[0].name = mine;
-      // если в pos:1..3 где-то «я» — переименуем
+      if (row[0]) row[0].name = mine; // pos:0 всегда "мой рекорд"
       for (let i = 1; i <= 3; i++) {
-        if (row[i] && row[i].isMe === true) row[i].name = mine;
+        const r = row[i];
+        if (!r) continue;
+        if (r.isMe === true || allMine.has(r.name)) { // ← главное: ловим старую строку
+          r.name = mine;
+          r.isMe = true;
+        }
       }
     };
-
+  
     ['hor', 'vert'].forEach(group => {
       if (!this.table[group]) return;
       for (let r = 0; r < 3; r++) fixRow(this.table[group][r]);
     });
-
-    console.log(3);
-
-    // masTables строим так, чтобы подтягивался актуальный перевод
+  
     this.processDataAfterLoad();
   }
 
@@ -467,21 +468,30 @@ export class DataClass {
   processDataAfterLoad() {
     // строим masTables из table.hor/vert ровно так, как их ожидает menu.js
     const buildRowsForMenu = (row) => {
-      // row[1..3] — это то, что мы только что проставили из лидерборда
+      const mine = this.getMineLabel();
+    
+      // 1) первые три строки — то, что пришло из лидерборда
       const firstThree = [row[1], row[2], row[3]].map((x, idx) => (
         x ? { pos: x.pos, name: x.name, rec: x.rec } : { pos: idx + 1, name: '', rec: 0 }
       ));
-      const hasMyInFirst3 = firstThree.some(x => x && x.name === this.getMineLabel());
-
+      const hasMyInFirst3 = firstThree.some(x => x && x.name === mine);
+    
+      // 2) актуальный «мой» рекорд = максимум из pos:0 и [3] (если [3] действительно «я»)
+      const rec0 = Number(row?.[0]?.rec) || 0;
+      const rec3 = (row?.[3]?.name === mine) ? (Number(row[3].rec) || 0) : 0;
+      const myBest = Math.max(rec0, rec3);
+    
       if (hasMyInFirst3) {
-        // кейс: я в топ-3 — меню будет рендерить 0,1,2 индексы
-        return firstThree; // длина 3
+        // если я в топ-3 — просто возвращаем первые три (они уже помечены)
+        return firstThree;
       } else {
-        // кейс: я НЕ в топ-3 — меню возьмёт 0,1 и специальный элемент [3]
-        const me = row[3] && row[3].name === this.getMineLabel()
-          ? { pos: row[3].pos, name: this.getMineLabel(), rec: row[3].rec }
-          : { pos: 0, name: this.getMineLabel(), rec: row[0]?.rec || 0 }; // запасной вариант
-        return [firstThree[0], firstThree[1], firstThree[2], me]; // ОБЯЗАТЕЛЬНО с индексом [3]
+        // если меня нет в топ-3 — серую строку собираем из лучшего значения
+        const me = {
+          pos: (row?.[3]?.name === mine ? (row[3].pos || 0) : 0),
+          name: mine,
+          rec: myBest,
+        };
+        return [firstThree[0], firstThree[1], firstThree[2], me];
       }
     };
 
@@ -663,6 +673,7 @@ export class DataClass {
               pos: item.uid === myUid ? item.pos : item.pos, // оставляем реальный ранг
               name: item.uid === myUid ? this.getMineLabel() : item.name,
               rec: item.rec,
+              isMe: item.uid === myUid, 
             }));
           } else {
             // Я не в топ-3: берём топ-2 (без меня на всякий случай) + я третьей строкой с моим реальным рангом
@@ -671,9 +682,10 @@ export class DataClass {
               name: item.name,
               rec: item.rec,
             }));
-            const meRow = { pos: myRank || 0, name: this.getMineLabel(), rec: myScore };
+            const meRow = { pos: myRank || 0, name: this.getMineLabel(), rec: myScore, isMe: true };
             displayRows = [...top2, meRow];
           }
+          
 
           // обновим pos:0 (мой рекорд) числом
           const placementForPos0 = this.leaderboardPlacement[leaderboardId];
@@ -704,7 +716,7 @@ export class DataClass {
         // пишем pos:1..3 для отображения
         for (let i = 0; i < 3; i++) {
           const src = displayRows[i] || { pos: i + 1, name: '', rec: 0 };
-          targetRow[i + 1] = { pos: src.pos, name: src.name, rec: src.rec };
+          targetRow[i + 1] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
         }
         const iAmShownInTop3 = displayRows.some(r => r.name === this.getMineLabel());
         if (!iAmShownInTop3 && myEntry && myUid) {
@@ -746,6 +758,78 @@ export class DataClass {
       console.warn('Submit score failed:', error);
     }
   }
+
+
+
+
+  // ЛОКАЛЬНЫЙ апдейт витрины top-3 без сети.
+// group: 'hor' | 'vert'
+// rowIndex: 0..2 (по числу игроков)
+// myRecord: число (новый личный рекорд для этой витрины)
+updateLocalTop3(group, rowIndex, myRecord) {
+  const mineLabel = this.getMineLabel();
+  const tableRow = this.table?.[group]?.[rowIndex];
+  if (!tableRow) return;
+
+  const normalize = (src, place) => ({
+    pos: (src?.pos ?? place),
+    name: (src?.name ?? ''),
+    rec: Number(src?.rec) || 0,
+    isMe: !!src?.isMe || src?.name === mineLabel
+  });
+
+  // pos:0 — всегда мой локальный рекорд (держим максимум)
+  const newMyBest = Number(myRecord) || 0;
+  tableRow[0] = tableRow[0] || { pos: 0, name: mineLabel, rec: 0 };
+  tableRow[0].name = mineLabel;
+  tableRow[0].rec = Math.max(Number(tableRow[0].rec) || 0, newMyBest);
+
+  // текущие три строки витрины
+  let top = [ normalize(tableRow[1], 1), normalize(tableRow[2], 2), normalize(tableRow[3], 3) ];
+
+  const iAmInTop3 = top.findIndex(entry => entry.isMe);
+  const myBest = Math.max(newMyBest, Number(tableRow[0].rec) || 0);
+
+  if (iAmInTop3 >= 0) {
+    // Я уже в топ-3: просто обновим мой счёт и пересортируем
+    top[iAmInTop3].name = mineLabel;
+    top[iAmInTop3].isMe = true;
+    top[iAmInTop3].rec = Math.max(top[iAmInTop3].rec, myBest);
+    top = top.sort((a, b) => b.rec - a.rec).slice(0, 3);
+  } else {
+    // Меня нет в топ-3 сейчас
+    const thirdScore = top[2]?.rec || 0;
+
+    if (myBest > thirdScore) {
+      // Мой счёт реально тянет в топ-3 — вставляем и пересортировываем
+      top.push({ pos: 0, name: mineLabel, rec: myBest, isMe: true });
+      top = top.sort((a, b) => b.rec - a.rec).slice(0, 3);
+    } else {
+      // Требование: даже если не тяну в топ-3 — показывать меня ТРЕТЬИМ
+      // Берём двух лучших "не я" как 1 и 2, а 3 — это я
+      const othersSorted = top.filter(e => !e.isMe).sort((a, b) => b.rec - a.rec);
+      const first = othersSorted[0] || { pos: 1, name: '', rec: 0 };
+      const second = othersSorted[1] || { pos: 2, name: '', rec: 0 };
+      const meAsThird = {
+        pos: (tableRow[3]?.pos || 0), // можешь хранить реальный ранг, если есть
+        name: mineLabel,
+        rec: myBest,
+        isMe: true
+      };
+      top = [first, second, meAsThird];
+    }
+  }
+
+  // Записываем обратно в pos:1..3
+  for (let place = 1; place <= 3; place++) {
+    const src = top[place - 1] || { pos: place, name: '', rec: 0 };
+    tableRow[place] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
+  }
+
+  // Пересобираем производные структуры (masTables) для меню
+  this.processDataAfterLoad();
+}
+
 
 
 }
