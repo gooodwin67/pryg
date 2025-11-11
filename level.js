@@ -2500,7 +2500,6 @@ export class LevelClass {
           }
 
 
-
           this.dataClass.loadLevels(this.players.length - 1)
 
         }
@@ -2591,7 +2590,6 @@ export class LevelClass {
       }
 
       await this.dataClass.saveTableToCloud();
-
     }
   }
 

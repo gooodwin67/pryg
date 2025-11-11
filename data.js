@@ -200,7 +200,6 @@ export class DataClass {
 
   refreshMineLabels() {
     const mine = this.getMineLabel();
-
     const fixRow = (row) => {
       if (!row) return;
       // pos:0 — всегда мой рекорд
@@ -210,7 +209,6 @@ export class DataClass {
         if (row[i] && row[i].isMe === true) row[i].name = mine;
       }
     };
-
     ['hor', 'vert'].forEach(group => {
       if (!this.table[group]) return;
       for (let r = 0; r < 3; r++) fixRow(this.table[group][r]);
