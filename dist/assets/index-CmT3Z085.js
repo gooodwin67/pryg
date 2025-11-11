@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-C5wbJ0ij.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CSIyLKcQ.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
 let E;
 let __tla = (async ()=>{
     (function() {
@@ -67,7 +67,7 @@ let __tla = (async ()=>{
             return i().catch(t);
         });
     };
-    window.__loadMain = ()=>E(()=>import("./main-C5wbJ0ij.js").then(async (m)=>{
+    window.__loadMain = ()=>E(()=>import("./main-CSIyLKcQ.js").then(async (m)=>{
                 await m.__tla;
                 return m;
             }), __vite__mapDeps([0,1]), import.meta.url);

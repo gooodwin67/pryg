@@ -1,3 +1,4 @@
+import { t } from './i18n.js';
 
 export class ScoreClass {
   constructor(camera, dataClass) {
@@ -19,11 +20,32 @@ export class ScoreClass {
   }
 
   loadRecsToHud(mode = 0, num = 0) {
-    this.worldRec = this.dataClass.masTables[mode][num][0].rec;
-    this.myRec = this.dataClass.masTables[mode][num].find((value) => value['pos'] == 0).rec; /////////////////////////////////////////
+    // 0 = hor (ocean*), 1 = vert (space*)
+    const block = this.dataClass.masTables?.[mode]?.[num] || [];
+  
+    // Мировой рекорд — первая строка блока (это топ-1)
+    this.worldRec = Number(block?.[0]?.rec) || 0;
+  
+    // Мой рекорд:
+    // 1) если я в топ-3 — ищем строку с именем "Мой рекорд" среди первых трёх
+    const mineLabel = t('leaderboard.mine', 'Мой рекорд');
+    let myRow = block.find(row => row && row.name === mineLabel && row.pos !== 0);
 
-    this.myRecField.textContent = this.myRec;
-    this.worldRecField.textContent = this.worldRec;
+    
+    if (!myRow && block?.[3]?.name === mineLabel) {
+      myRow = block[3];
+    }
+  
+    // 3) фоллбек: берём из базовой таблицы pos:0 (мы его держим как “мой счёт”)
+    if (!myRow) {
+      const groupKey = (mode === 0) ? 'hor' : 'vert';
+      myRow = this.dataClass.table?.[groupKey]?.[num]?.[0] || { rec: 0 };
+    }
+  
+    this.myRec = Number(myRow.rec) || 0;
+  
+    if (this.myRecField)   this.myRecField.textContent   = this.myRec;
+    if (this.worldRecField) this.worldRecField.textContent = this.worldRec;
   }
 
   // updateMetersFloat(to) {

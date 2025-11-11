@@ -48,6 +48,7 @@ const messages = {
         hud: { metersLabel: "м", records: "Рекорды:", mine: "Мой:", world: "Мировой:", secPlayer: "Я", thirdPlayer: "Ь" },
         popup: { continue: "Продолжить +", next: "Следующий уровень", restart: "Начать заново", levelSelect: "Выбор уровня", exit: "Выйти в меню" },
         loader: { loading: "Загрузка..." },
+        leaderboard: { mine: "Мой рекорд" },
 
     },
     en: {
@@ -97,6 +98,7 @@ const messages = {
         hud: { metersLabel: "m", records: "Records:", mine: "Mine:", world: "World:", secPlayer: "Z", thirdPlayer: "M" },
         popup: { continue: "Continue +", next: "Next level", restart: "Restart", levelSelect: "Level select", exit: "Main menu" },
         loader: { loading: "Loading..." },
+        leaderboard: { mine: "My record" },
     }
 };
 
@@ -135,11 +137,19 @@ export function applyTranslations(locale = 'ru', root = document) {
 
         }
     }
+
+
 }
 
-export function initI18n() {
-    const saved = localStorage.getItem('locale') || 'ru';
-    applyTranslations(saved);
+export function initI18n(refreshMineLabels, lang) {
+    if (lang != undefined) {
+        applyTranslations(lang);
+    }
+    else {
+        const saved = localStorage.getItem('locale') || 'ru';
+        applyTranslations(saved);
+    }
+
 
     //  const btn = document.getElementById('lang-toggle');
     //  if (btn) {
@@ -158,6 +168,8 @@ export function initI18n() {
             const curr = localStorage.getItem('locale') || 'ru';
             const next = curr === 'ru' ? 'en' : 'ru';
             applyTranslations(next);
+            refreshMineLabels();
+
 
             // if(flag.classList.contains('ru')){
             //     flag.classList.remove('ru');
@@ -170,6 +182,7 @@ export function initI18n() {
             //     flag.src="https://flagicons.lipis.dev/flags/4x3/ru.svg"
             // }
         })
+
     }
 
 
