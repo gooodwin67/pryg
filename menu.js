@@ -46,6 +46,8 @@ export class MenuClass {
     masTables.forEach((value, index, array) => {
       masTables[index].forEach((val, i, array) => {
 
+        
+
         const mine = t('leaderboard.mine', 'Мой рекорд');
         if (masTables[index][i].findIndex(el => el && el.name === mine) < 3) {
 
@@ -62,7 +64,7 @@ export class MenuClass {
                 <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='blue_back three_place ${isMy(masTables[index][i][2]) ? my : notMy}'>
-                <span class='place_num'>3</span>
+                <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos: 3}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][2].name}</span>
                 <div><span class='place_rec'>${masTables[index][i][2].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
@@ -83,7 +85,7 @@ export class MenuClass {
                 <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='blue_back three_place ${my}'>
-                <span class='place_num'>${masTables[index][i][3].pos}</span>
+            <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos: 3}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][3].name}</span>
                 <div><span class='place_rec'>${masTables[index][i][3].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>

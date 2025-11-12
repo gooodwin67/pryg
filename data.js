@@ -172,6 +172,8 @@ export class DataClass {
 
     this.masTables = [];
 
+    this.mainScore = 0;
+
     this.localStorageKey = 'gameData';
 
     this.disableSelection = () => {
@@ -551,6 +553,10 @@ export class DataClass {
     }
   }
 
+
+
+
+
   // --- 2. ПРОСТО: загрузить table из облака, без локала/слияний ---
   async loadTableFromCloud() {
     await this.initYandexPlayer();
@@ -577,6 +583,9 @@ export class DataClass {
   }
 
 
+
+
+
   // дефолтная структура для нового игрока
   createDefaultTable() {
     return {
@@ -600,6 +609,8 @@ export class DataClass {
     };
   }
 
+
+
   // --- 3. ПРОСТО: сохранить table в облако ---
   async saveTableToCloud({ flush = false } = {}) {
     await this.initYandexPlayer();
@@ -610,6 +621,8 @@ export class DataClass {
       console.warn('Cloud save failed:', error);
     }
   }
+
+
 
 
   // --- 4. Загрузить ТОЛЬКО ТОП-3 из набора лидербордов в table.hor/vert ---
@@ -623,6 +636,8 @@ export class DataClass {
     space2: { group: 'vert', row: 1 },
     space3: { group: 'vert', row: 2 },
   };
+
+
 
 
 
@@ -644,6 +659,8 @@ export class DataClass {
 
 
 
+
+
   applyLocalMyBestToTop3() {
     // не трогаем авторизованных — для них витрина из облака уже «правильная»
     if (this.yandexPlayer?.isAuthorized) return;
@@ -659,6 +676,8 @@ export class DataClass {
       }
     });
   }
+
+
 
 
 
@@ -776,6 +795,7 @@ export class DataClass {
       }
     };
 
+
     await Promise.all(this.leaderboardsPartIds.map(loadOne));
 
     this.refreshMineLabels();
@@ -796,7 +816,33 @@ export class DataClass {
       const allowed = await ysdkInstance.isAvailableMethod('leaderboards.setScore');
 
       if (!allowed) return;
-      await ysdkInstance.leaderboards.setScore(leaderboardId, numericScore);
+
+      const mineLabel = this.getMineLabel();
+      this.mainScore = [...this.table.hor, ...this.table.vert].reduce((sum, row) => {
+        const bestPos0 = Number(row?.[0]?.rec) || 0;
+        const bestGrey = row?.[3]?.name === mineLabel ? (Number(row[3].rec) || 0) : 0;
+        return sum + Math.max(bestPos0, bestGrey);
+      }, 0);
+
+      // Fire-and-forget: частный борд — сразу
+      setTimeout(async () => {
+        try {
+          await ysdkInstance.leaderboards.setScore(leaderboardId, numericScore);
+        } catch (error) {
+          console.warn('setScore (part) failed:', error);
+        }
+      }, 0);
+
+      // Fire-and-forget: main — через 1.2с, чтобы не словить лимит
+      setTimeout(async () => {
+        try {
+          await ysdkInstance.leaderboards.setScore('main', this.mainScore);
+        } catch (error) {
+          console.warn('setScore (main) failed:', error);
+        }
+      }, 1200);
+      
+
     } catch (error) {
       console.warn('Submit score failed:', error);
     }

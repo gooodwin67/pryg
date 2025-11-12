@@ -1,5 +1,5 @@
-import { _ as ke, __tla as __tla_0 } from "./index-CzyW9h8s.js";
-import { B as Ds, a as ds, P as Me, N as Ae, b as Zs, c as Hs, C as ee, M as Ls, d as vs, V as m, e as ze, W as Be, f as fs, Q as ks, g as Te, h as is, i as js, j as ps, G as Qs, E as J, k as os, D as Pe, S as Ee, l as He, m as le, I as ts, n as as, o as Fe, p as Ns, O as te, R as _s, q as Ts, r as Re, s as Ie, A as Es, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as re, Y as he, Z as Ze, _ as Qe, $ as de, a0 as ce, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
+import { _ as ke, __tla as __tla_0 } from "./index-CP0s3r3c.js";
+import { B as Ds, a as ds, P as Me, N as Ae, b as Zs, c as Hs, C as ee, M as Ls, d as vs, V as m, e as ze, W as Te, f as fs, Q as ks, g as Be, h as is, i as js, j as ps, G as Qs, E as J, k as os, D as Pe, S as Ee, l as He, m as le, I as ts, n as as, o as Fe, p as Ns, O as te, R as _s, q as Bs, r as Re, s as Ie, A as Es, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as re, Y as he, Z as Ze, _ as Qe, $ as de, a0 as ce, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
         try {
@@ -39,7 +39,7 @@ Promise.all([
     function me(r) {
         return r?.userData?.id ?? r?.uuid ?? r?.id;
     }
-    const dt = new fs(new m(-.5, -.5, -.5), new m(.5, .5, .5)), ye = new Te, be = new ks;
+    const dt = new fs(new m(-.5, -.5, -.5), new m(.5, .5, .5)), ye = new Be, be = new ks;
     function ge(r) {
         if (r?.isObject3D) {
             if (r.updateMatrixWorld(!0), r.geometry?.isBufferGeometry) {
@@ -114,7 +114,7 @@ Promise.all([
                 for(let ys = 0; ys < $; ys++){
                     const S = _();
                     if (S === -1) break;
-                    const T = Math.sqrt(Math.random()) * z, B = Math.random() * Math.PI * 2, K = T * Math.cos(B), ls = T * Math.sin(B), Q = Math.sqrt(Math.random()), X = Math.cos(B) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(B) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), W = (1 - j / 2 + Math.random() * j) * 1;
+                    const B = Math.sqrt(Math.random()) * z, T = Math.random() * Math.PI * 2, K = B * Math.cos(T), ls = B * Math.sin(T), Q = Math.sqrt(Math.random()), X = Math.cos(T) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(T) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), W = (1 - j / 2 + Math.random() * j) * 1;
                     R(h, S, g.x + K, g.y, g.z + ls), R(p, S, X * M, es * M, ss * M), u[S] = O, d[S] = 0, b[S] = W, c[S] = 1;
                 }
                 f.attributes.position.needsUpdate = !0, f.attributes.aSize.needsUpdate = !0;
@@ -127,14 +127,14 @@ Promise.all([
                     if (!c[C]) continue;
                     if (E = !0, d[C] += g, d[C] >= u[C]) {
                         c[C] = 0;
-                        const B = C * 3;
-                        h[B] = 1e9, h[B + 1] = 1e9, h[B + 2] = 1e9;
+                        const T = C * 3;
+                        h[T] = 1e9, h[T + 1] = 1e9, h[T + 2] = 1e9;
                         continue;
                     }
                     const j = C * 3;
                     p[j + 1] += M * g;
-                    const $ = p[j], ys = p[j + 1], S = p[j + 2], T = Math.max(0, 1 - H * g);
-                    p[j] = $ * T, p[j + 1] = ys * T, p[j + 2] = S * T, h[j] += p[j] * g, h[j + 1] += p[j + 1] * g, h[j + 2] += p[j + 2] * g;
+                    const $ = p[j], ys = p[j + 1], S = p[j + 2], B = Math.max(0, 1 - H * g);
+                    p[j] = $ * B, p[j + 1] = ys * B, p[j + 2] = S * B, h[j] += p[j] * g, h[j + 1] += p[j + 1] * g, h[j + 2] += p[j + 2] * g;
                 }
                 E && (f.attributes.position.needsUpdate = !0);
                 let z = 0, U = 0;
@@ -235,7 +235,7 @@ Promise.all([
         t && (s.shadowMap.autoUpdate = !1);
         const n = r.visible;
         r.visible = !0;
-        const l = new Be(1, 1, {
+        const l = new Te(1, 1, {
             depthBuffer: !1,
             stencilBuffer: !1
         });
@@ -972,7 +972,7 @@ Promise.all([
                     for(let t = 0; t < this.count; t++){
                         let o = L(this.planeWidth, this.planeWidth - 1), n = a + o / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), l = L(-1.2, 1.2) - this.planeHeight / 1.5;
                         if (e && (o = e[t]), t == 0 ? (this.objs.planes.data[t].size.x = this.planeWidth, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.planes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth, this.objs.topPlanes.data[t].size.x = this.planeWidth + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth * 1.2) : t == 1 ? (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : t == this.count - 1 ? (e ? this.objs.planes.data[t].size.x = e[e.length - 1] - .2 : this.objs.planes.data[t].size.x = 5, this.objs.planes.data[t].size.y = this.planeHeight, e ? this.objs.topPlanes.data[t].size.x = e[e.length - 1] : this.objs.topPlanes.data[t].size.x = 5 + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, e ? this.objs.grassPlanes.data[t].size.x = e[e.length - 1] : this.objs.grassPlanes.data[t].size.x = 5 + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[t].size.x = o, this.objs.planes.data[t].size.y = this.planeHeight, this.objs.topPlanes.data[t].size.x = o + .3, this.objs.topPlanes.data[t].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[t].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), t == 0 ? (l = 1 - this.planeHeight / 1.5, this.objs.planes.data[t].position.x = 0, this.objs.planes.data[t].position.y = l + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[t].position.x = 0, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[t].position.x = 0, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5 - 1.5) : t == 1 ? (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5) : (this.objs.planes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.planes.data[t].position.y = l + this.planeHeight / 6, this.objs.topPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.topPlanes.data[t].position.y = l + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[t].position.x = n + this.fixedDistanceHor.min / 4, this.objs.grassPlanes.data[t].position.y = l + this.planeHeight / 1.5), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.lights.length < this.lightsCount) {
-                            const h = new Ts(16247464, 0, 4);
+                            const h = new Bs(16247464, 0, 4);
                             h.position.set(0, 0, 1.6), this.lights.push(h), this.scene.add(h);
                         }
                         this.apply(t, this.objs.planes.data, this.objs.planes.plane), this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), a = n + o / 2;
@@ -995,7 +995,7 @@ Promise.all([
                         e && (o = e[t]), this.minPlaneWidthTic += .1, Math.random() < .5 ? this.objs.grassPlanes.data[t].userData.direction = 1 : this.objs.grassPlanes.data[t].userData.direction = -1;
                         let n = i + L(this.fixedDistanceVert.min, this.fixedDistanceVert.max);
                         if (this.objs.topPlanes.data[t].position.y = n - 1.3, this.objs.grassPlanes.data[t].position.y = n, this.objs.sensorPlanes.data[t].position.y = n - .3, this.objs.topPlanes.data[t].size.y = .3, this.objs.grassPlanes.data[t].size.y = .7, this.objs.sensorPlanes.data[t].size.y = .9, t > 0 ? (this.objs.topPlanes.data[t].size.x = o + .3, this.objs.grassPlanes.data[t].size.x = o + .3, this.objs.sensorPlanes.data[t].size.x = o + .7) : (this.objs.topPlanes.data[t].size.x = 10, this.objs.grassPlanes.data[t].size.x = 10, this.objs.sensorPlanes.data[t].size.x = 10), this.objs.lamps.data[t].position.x = this.objs.grassPlanes.data[t].position.x, this.objs.lamps.data[t].position.z = -this.planeDepth / 4, this.objs.lamps.data[t].position.y = this.objs.grassPlanes.data[t].position.y + this.objs.grassPlanes.data[t].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.plafons.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.plafons.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.bulbs.data[t].position.x = this.objs.lamps.data[t].position.x, this.objs.bulbs.data[t].position.z = this.objs.lamps.data[t].position.z, this.objs.bulbs.data[t].position.y = this.objs.lamps.data[t].position.y + 1, this.objs.grassPlanes.data[t].userData.speed = L(6, 10) / 100, this.lights.length < this.lightsCount) {
-                            const l = new Ts(16247464, 0, 4);
+                            const l = new Bs(16247464, 0, 4);
                             l.position.set(0, 0, 1.6), this.lights.push(l), this.scene.add(l);
                         }
                         this.apply(t, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(t, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(t, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(t, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(t, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(t, this.objs.bulbs.data, this.objs.bulbs.bulb), i = n;
@@ -1010,7 +1010,7 @@ Promise.all([
                     for(let e = 0; e < this.count; e++){
                         let t = L(this.planeWidth / this.minPlaneWidthTic, this.planeWidth - 1), o = a + t / 2 + L(this.fixedDistanceHor.min, this.fixedDistanceHor.max), n = L(-1.2, 1.2) - this.planeHeight / 1.5;
                         if (e > 20 && (this.fixedDistanceHor.max = 6), this.minPlaneWidthTic += .1, e > this.count - 20 ? (this.objs.planes.data[e].size.x = .1, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = .2 + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = .2 + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : e > 0 ? (this.objs.planes.data[e].size.x = t, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = t + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = t + .3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[e].size.x = this.planeWidth, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = this.planeWidth + .3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = this.planeWidth + .3, this.objs.grassPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), e == 0 ? (n = 1 - this.planeHeight / 1.5, this.objs.planes.data[e].position.x = 0, this.objs.planes.data[e].position.y = n + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[e].position.x = 0, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2 - 1.5, this.objs.grassPlanes.data[e].position.x = 0, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5 - 1.5) : e == 1 ? (o = 6, this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5) : e > 1 && (this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + .2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5), this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - .2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.lights.length < this.lightsCount) {
-                            const l = new Ts(16247464, 0, 4);
+                            const l = new Bs(16247464, 0, 4);
                             l.position.set(0, 0, 1.6), this.lights.push(l), this.scene.add(l);
                         }
                         this.apply(e, this.objs.planes.data, this.objs.planes.plane), this.apply(e, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(e, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(e, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(e, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), a = o + t / 2;
@@ -1051,7 +1051,7 @@ Promise.all([
                             ]), this.scene.add(n);
                         }
                         if (this.lights.length < this.lightsCount) {
-                            const n = new Ts(16247464, 0, 4);
+                            const n = new Bs(16247464, 0, 4);
                             n.position.set(0, 0, 1.6), this.lights.push(n), this.scene.add(n);
                         }
                         this.apply(e, this.objs.topPlanes.data, this.objs.topPlanes.planeTop), this.apply(e, this.objs.grassPlanes.data, this.objs.grassPlanes.planeGrass), this.apply(e, this.objs.sensorPlanes.data, this.objs.sensorPlanes.planeSensor), this.apply(e, this.objs.lamps.data, this.objs.lamps.lamp), this.apply(e, this.objs.plafons.data, this.objs.plafons.plafon), this.apply(e, this.objs.bulbs.data, this.objs.bulbs.bulb), i = o;
@@ -2019,14 +2019,14 @@ void main() {
         createLightningBolt(s, a, i) {
             const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, p = Math.hypot(n, l, h) || 1, u = n / p, d = l / p, b = h / p, c = n / p, v = -(h / p), x = 0, y = c, _ = Math.abs(d) > .9 ? new m(1, 0, 0) : new m(0, 1, 0), R = new m(u, d, b), q = new m().crossVectors(R, _).normalize(), g = new m().crossVectors(R, q).normalize(), M = 2 + Math.random() * 2, H = 1.2, E = Math.random() * Math.PI * 2, z = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
             for(let S = 0; S <= C; S++){
-                const T = S / C, B = 1 - T;
-                let K = s + n * T, ls = a + l * T, Q = i + h * T;
-                const X = Math.sin(T * Math.PI * M + E) * H * (.3 + .7 * B), ss = Math.sin(T * Math.PI * z + ms) * U * (.3 + .7 * B), es = (Math.random() - .5) * 2 * j * B, O = (Math.random() - .5) * 1.6 * j * B, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * B : 0;
+                const B = S / C, T = 1 - B;
+                let K = s + n * B, ls = a + l * B, Q = i + h * B;
+                const X = Math.sin(B * Math.PI * M + E) * H * (.3 + .7 * T), ss = Math.sin(B * Math.PI * z + ms) * U * (.3 + .7 * T), es = (Math.random() - .5) * 2 * j * T, O = (Math.random() - .5) * 1.6 * j * T, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * T : 0;
                 if (K += q.x * (X + es + W) + g.x * (ss + O * .7), ls += q.y * (X + es * .5) + g.y * (ss + O * .5), Q += q.z * (X + es + W) + g.z * (ss + O * .7), $.push(K, ls, Q), S > 3 && S < C - 3 && Math.random() < .22) {
                     const rs = [], xs = 3 + Math.floor(Math.random() * 2), hs = .25 + Math.random() * .35;
                     let Ms = K, Ps = ls, Cs = Q;
                     rs.push(Ms, Ps, Cs);
-                    for(let Bs = 1; Bs <= xs; Bs++)Ms += (Math.random() - .5) * j * hs, Ps += -(.8 + Math.random() * .8) * hs, Cs += (Math.random() - .5) * j * hs, rs.push(Ms, Ps, Cs);
+                    for(let Ts = 1; Ts <= xs; Ts++)Ms += (Math.random() - .5) * j * hs, Ps += -(.8 + Math.random() * .8) * hs, Cs += (Math.random() - .5) * j * hs, rs.push(Ms, Ps, Cs);
                     const zs = new Ds;
                     zs.setAttribute("position", new re(rs, 3));
                     const bs = new he(zs, this.lightningMaterialBase.clone());
@@ -2035,15 +2035,15 @@ void main() {
             }
             const ys = 2;
             for(let S = -1; S <= ys; S++){
-                const T = S === -1, B = T ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
+                const B = S === -1, T = B ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
                 for(let W = 0; W < ss; W++){
-                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * B * K * xs + y * hs * .3, Ps = x * B * K * xs + hs * .05, Cs = y * B * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Bs = W * 3 + 2, ie = $[zs], oe = $[bs], ne = $[Bs];
-                    T ? X.push(ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05, ne + (Math.random() - .5) * .05) : X.push(ie + Ms + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2, ne + Cs + (Math.random() - .5) * .2);
+                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * T * K * xs + y * hs * .3, Ps = x * T * K * xs + hs * .05, Cs = y * T * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Ts = W * 3 + 2, ie = $[zs], oe = $[bs], ne = $[Ts];
+                    B ? X.push(ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05, ne + (Math.random() - .5) * .05) : X.push(ie + Ms + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2, ne + Cs + (Math.random() - .5) * .2);
                 }
                 const es = new Ds;
                 es.setAttribute("position", new re(X, 3));
                 const O = new he(es, this.lightningMaterialBase.clone());
-                O.material.opacity = T ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
+                O.material.opacity = B ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
             }
         }
         triggerLightningFlash() {
@@ -2075,7 +2075,7 @@ void main() {
         }
         loadRecsData() {
             let s = this.dataClass.masTables, a = document.querySelectorAll(".rec_table_small"), i = "free_game_my_rec", e = "";
-            a[0].innerHTML = "", a[1].innerHTML = "", console.log(s), s.forEach((t, o, n)=>{
+            a[0].innerHTML = "", a[1].innerHTML = "", s.forEach((t, o, n)=>{
                 s[o].forEach((l, h, p)=>{
                     const u = k("leaderboard.mine", "Мой рекорд");
                     s[o][h].findIndex((d)=>d && d.name === u) < 3 ? a[o].insertAdjacentHTML("beforeend", `
@@ -2091,7 +2091,7 @@ void main() {
                 <div><span class='place_rec'>${s[o][h][1].rec}</span><span>${k("hud.metersLabel", "м")}</span></div>
             </div>
             <div class='blue_back three_place ${Vs(s[o][h][2]) ? i : e}'>
-                <span class='place_num'>3</span>
+                <span class='place_num'>${s[o][h][2]?.pos > 2 ? s[o][h][2]?.pos : 3}</span>
                 <span class='rec_table_small_name'>${s[o][h][2].name}</span>
                 <div><span class='place_rec'>${s[o][h][2].rec}</span><span>${k("hud.metersLabel", "м")}</span></div>
             </div>
@@ -2109,14 +2109,14 @@ void main() {
                 <div><span class='place_rec'>${s[o][h][1].rec}</span><span>${k("hud.metersLabel", "м")}</span></div>
             </div>
             <div class='blue_back three_place ${i}'>
-                <span class='place_num'>${s[o][h][3].pos}</span>
+            <span class='place_num'>${s[o][h][2]?.pos > 2 ? s[o][h][2]?.pos : 3}</span>
                 <span class='rec_table_small_name'>${s[o][h][3].name}</span>
                 <div><span class='place_rec'>${s[o][h][3].rec}</span><span>${k("hud.metersLabel", "м")}</span></div>
             </div>
           </div>
         `);
                 });
-            }), console.log(4);
+            });
         }
         mainMenu = ()=>{
             document.querySelector(".new_game_btn1").addEventListener("click", ()=>{
@@ -2482,7 +2482,7 @@ void main() {
                         }
                     ]
                 ]
-            }, this.masTables = [], this.localStorageKey = "gameData", this.disableSelection = ()=>{
+            }, this.masTables = [], this.mainScore = 0, this.localStorageKey = "gameData", this.disableSelection = ()=>{
                 document.querySelectorAll(".levels_block, .status_chip, .levels_block_number").forEach((a)=>{
                     a.style.userSelect = "none", a.style.webkitUserSelect = "none", a.style.webkitTapHighlightColor = "transparent", a.draggable = !1;
                 });
@@ -2660,7 +2660,7 @@ void main() {
                 const s = await this.yandexPlayer.player.getData([
                     "table"
                 ]);
-                s && s.table && typeof s.table == "object" ? (this.table = s.table, console.log(2)) : (console.log("Первый вход: создаём новую table"), this.table = this.createDefaultTable(), await this.saveTableToCloud());
+                s && s.table && typeof s.table == "object" ? this.table = s.table : (console.log("Первый вход: создаём новую table"), this.table = this.createDefaultTable(), await this.saveTableToCloud());
             } catch (s) {
                 console.warn("Cloud load failed:", s), this.table = this.createDefaultTable();
             }
@@ -2769,7 +2769,7 @@ void main() {
             try {
                 await this.yandexPlayer.player.setData({
                     table: this.table
-                }, s), console.log(1);
+                }, s);
             } catch (a) {
                 console.warn("Cloud save failed:", a);
             }
@@ -2952,7 +2952,26 @@ void main() {
             const e = Number(i) || 0;
             try {
                 if (!await s.isAvailableMethod("leaderboards.setScore")) return;
-                await s.leaderboards.setScore(a, e);
+                const o = this.getMineLabel();
+                this.mainScore = [
+                    ...this.table.hor,
+                    ...this.table.vert
+                ].reduce((n, l)=>{
+                    const h = Number(l?.[0]?.rec) || 0, p = l?.[3]?.name === o && Number(l[3].rec) || 0;
+                    return n + Math.max(h, p);
+                }, 0), setTimeout(async ()=>{
+                    try {
+                        await s.leaderboards.setScore(a, e);
+                    } catch (n) {
+                        console.warn("setScore (part) failed:", n);
+                    }
+                }, 0), setTimeout(async ()=>{
+                    try {
+                        await s.leaderboards.setScore("main", this.mainScore);
+                    } catch (n) {
+                        console.warn("setScore (main) failed:", n);
+                    }
+                }, 1200);
             } catch (t) {
                 console.warn("Submit score failed:", t);
             }
@@ -3157,13 +3176,13 @@ void main() {
         once: !0
     });
     let Y = document.querySelector(".loader_line");
-    async function Bt() {
+    async function Tt() {
         xe(!0), A = new _t;
         const r = ysdk.environment.i18n.lang.toLowerCase();
-        gt(()=>A.refreshMineLabels(), r), gs = new St, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await A.loadTableFromCloud(), await A.loadLeaderboardsTop3(ysdk), await A.loadLevels(0), await A.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Pt(Le, A.loadLevels, w, D, A), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
+        gt(()=>A.refreshMineLabels(), r), gs = new St, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Bt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await A.loadTableFromCloud(), await A.loadLeaderboardsTop3(ysdk), await A.loadLevels(0), await A.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Pt(Le, A.loadLevels, w, D, A), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
     }
-    await Bt();
-    async function Tt() {
+    await Tt();
+    async function Bt() {
         [
             "images/back-win.jpg",
             "images/back-loose.jpg",
