@@ -1,4 +1,4 @@
-import { _ as Ae, __tla as __tla_0 } from "./index-DB8xvwd7.js";
+import { _ as Ae, __tla as __tla_0 } from "./index-BGANHwbF.js";
 import { B as Ds, a as ds, P as Me, N as ze, b as Zs, c as Fs, C as ee, M as ks, d as vs, V as m, e as Te, W as Pe, f as fs, Q as As, g as Be, h as is, i as js, j as ps, G as Qs, E as J, k as os, D as Ce, S as Ee, l as He, m as le, I as ts, n as as, o as Fe, p as Ns, O as te, R as _s, q as Es, r as Re, s as Ie, A as Hs, t as F, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as De, K as Xe, U as Je, X as re, Y as he, Z as Ze, _ as Qe, $ as de, a0 as ce, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
@@ -188,51 +188,33 @@ Promise.all([
         };
     }
     function ut(h, s, a, i) {
+        if (!h) return;
         const e = {
-            position: h.position.clone()
+            position: h.position.clone(),
+            quaternion: h.quaternion.clone()
         }, t = [];
         h.traverse((c)=>{
-            (c.isMesh || c.isSkinnedMesh) && t.push([
-                c,
-                c.frustumCulled,
-                c.visible,
-                c.castShadow,
-                c.receiveShadow
-            ]);
-        });
-        const o = new Set;
-        h.traverse((c)=>{
-            (c.isMesh || c.isSkinnedMesh) && (Array.isArray(c.material) ? c.material : [
-                c.material
-            ]).forEach((y)=>{
-                y && [
-                    "map",
-                    "normalMap",
-                    "emissiveMap",
-                    "metalnessMap",
-                    "roughnessMap",
-                    "aoMap",
-                    "alphaMap",
-                    "specularMap",
-                    "displacementMap"
-                ].forEach((p)=>{
-                    y[p] && o.add(y[p]);
-                });
+            (c.isMesh || c.isSkinnedMesh) && t.push({
+                object3d: c,
+                frustumCulled: c.frustumCulled,
+                visible: c.visible,
+                castShadow: c.castShadow,
+                receiveShadow: c.receiveShadow
             });
-        }), o.forEach((c)=>s.initTexture?.(c));
-        const n = a.getWorldDirection(new m).multiplyScalar(3);
-        h.position.copy(a.position).add(n), h.updateMatrixWorld(!0), t.forEach(([c])=>{
-            c.frustumCulled = !1, c.visible = !0;
-        }), h.userData?.mixer && h.userData.mixer.update(1 / 60), s.compile(i, a);
-        const l = s.getRenderTarget(), r = s.shadowMap?.autoUpdate ?? !1;
-        s.shadowMap && (s.shadowMap.autoUpdate = !1);
-        const u = new Pe(1, 1, {
+        });
+        const o = s.shadowMap?.enabled ?? !1;
+        s.shadowMap && (s.shadowMap.enabled = !1), t.forEach(({ object3d: c })=>{
+            c.frustumCulled = !1, c.visible = !0, c.castShadow = !1;
+        });
+        const n = a.getWorldDirection(new m).multiplyScalar(2.5), l = a.position.clone().add(n);
+        l.z = a.position.z - 1.5, h.position.copy(l), h.updateMatrixWorld(!0), h.userData?.mixer && h.userData.mixer.update(1 / 60), s.compile(i, a);
+        const r = s.getRenderTarget(), u = new Pe(1, 1, {
             depthBuffer: !1,
             stencilBuffer: !1
         });
-        s.setRenderTarget(u), s.render(i, a), s.setRenderTarget(l), u.dispose(), s.shadowMap && (s.shadowMap.autoUpdate = r, s.shadowMap.needsUpdate = !0), h.position.copy(e.position), t.forEach(([c, d, y, p, g])=>{
+        s.setRenderTarget(u), s.render(i, a), s.setRenderTarget(r), u.dispose(), h.position.copy(e.position), h.quaternion.copy(e.quaternion), t.forEach(({ object3d: c, frustumCulled: d, visible: y, castShadow: p, receiveShadow: g })=>{
             c.frustumCulled = d, c.visible = y, c.castShadow = p, c.receiveShadow = g;
-        });
+        }), s.shadowMap && (s.shadowMap.enabled = o);
     }
     function mt(h, s, a) {
         const i = h.localClippingEnabled, e = h.clippingPlanes ? h.clippingPlanes.slice() : [];
@@ -309,7 +291,7 @@ Promise.all([
                 "take"
             ]), this.audioClass.musicOn && this.audioClass.playMusic([
                 "take"
-            ]), this.reLiveField(), V(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = !0), this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), this.paramsClass.gameDir == "hor" && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new m(this.player.userData.body.translation().x, -5, 0))), this.paramsClass.gameDir == "vert" && this.player.position.y < this.camera.position.y - 13 && this.player.userData.live && this.camera.position.y > 10 && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new m(0, -5, 0))), !this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == "hor" && (this.levelClass.canHorDie = !0), this.player.position.y < -2 && this.gameClass.gameStarting && (this.player.userData.splash || (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live && (this.audioClass.stopMusic([
+            ]), this.reLiveField(), V(this.player, this.levelClass.objs.livesBlocks.data).userData.taked = !0), this.playerModel.position.x = this.player.position.x, this.playerModel.position.y = this.player.position.y - this.playerHeight / 2, this.playerModel.position.z = this.player.position.z, this.playerOut.position.copy(this.player.position), this.playerOut.rotation.copy(this.player.rotation), this.paramsClass.gameDir == "hor" && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.7 && this.player.userData.live && this.levelClass.canHorDie && this.levelClass.startAfterReset && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new m(this.player.userData.body.translation().x, -5, 0))), this.paramsClass.gameDir == "vert" && this.player.position.y < this.camera.position.y - 13 && this.player.userData.live && this.camera.position.y > 10 && (this.player.userData.lives = 0, this.reLiveField(), this.player.userData.body.setTranslation(new m(0, -5, 0))), !this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == "hor" && (this.levelClass.canHorDie = !0), console.log(this.levelClass.players[0].player.position.x), this.player.position.y < -2 && this.gameClass.gameStarting && (this.player.userData.splash || (!this.player.userData.finish && !this.gameClass.pause && this.player.userData.live && (this.audioClass.stopMusic([
                 "inwater"
             ]), this.audioClass.musicOn && this.dataClass.levelCoopMode == "coop" ? this.audioClass.playMusic([
                 "inwater"
@@ -617,7 +599,7 @@ Promise.all([
             }, this.count = 120, this._dayColor = new os(16777215), this._nightColor = new os(16771488), this.mksWidth = 100, this.mksHeight = 100, this.geometryPlane = new Fs(this.mksWidth, this.mksHeight), this.materialPlane = new ks({
                 color: 0,
                 side: Ce
-            }), this.mks = new vs(this.geometryPlane, this.materialPlane), this.mks.position.z = -550, this.isMobile ? this.mks.position.y = 100 : this.mks.position.y = 140, this.mks.layers.set(1);
+            }), this.mks = new vs(this.geometryPlane, this.materialPlane), this.mks.position.z = -550, this.isMobile ? this.mks.position.y = 100 : this.mks.position.y = 140, this.mks.layers.set(1), this.startAfterReset = !0;
             const x = new Ee, b = .01;
             x.moveTo(5 * b, 5 * b), x.bezierCurveTo(5 * b, 5 * b, 4 * b, 2 * b, 0 * b, 2 * b), x.bezierCurveTo(-6 * b, 2 * b, -6 * b, 7 * b, -6 * b, 7 * b), x.bezierCurveTo(-6 * b, 10 * b, -3 * b, 14 * b, 5 * b, 18 * b), x.bezierCurveTo(12 * b, 14 * b, 16 * b, 10 * b, 16 * b, 7 * b), x.bezierCurveTo(16 * b, 7 * b, 16 * b, 2 * b, 10 * b, 2 * b), x.bezierCurveTo(7 * b, 2 * b, 5 * b, 5 * b, 5 * b, 5 * b);
             const _ = {
@@ -885,7 +867,7 @@ Promise.all([
             })();
         }
         async loadBarriers() {
-            let s = new is(.5, .7, 1), a = new ks({
+            let s = new is(.5, .5, 1), a = new ks({
                 color: 52224,
                 transparent: !0,
                 opacity: 0
@@ -1319,7 +1301,7 @@ Promise.all([
             return s + (a - s) * t;
         }
         async showPopupInGame(s = !1, a = !1) {
-            this.hideScreen("popup_game_btn_close"), this.hideScreen("menu_in_game");
+            this.hideScreen("popup_game_btn_close"), this.hideScreen("menu_in_game"), this.startAfterReset = !1;
             let i = 0;
             if (this.scoreClass.score > this.scoreClass.myRec && (this.scoreClass.myRec = this.scoreClass.score, i++), this.scoreClass.score > this.scoreClass.worldRec && (this.scoreClass.worldRec = this.scoreClass.score, i++), i) {
                 if (this.paramsClass.gameDir === "hor") {
@@ -1447,7 +1429,9 @@ Promise.all([
                     "ocean"
                 ]), this.audioClass.playMusic([
                     "ocean"
-                ]), this.camera.position.x = 0, this.gameClass.pause = !1, this.gameClass.showGamePopup = !1, this.hideScreen("popup_in_game");
+                ]), this.camera.position.x = 0, this.gameClass.pause = !1, this.gameClass.showGamePopup = !1, this.hideScreen("popup_in_game"), setTimeout(()=>{
+                    this.startAfterReset = !0;
+                }, 2e3);
             }), this.rebindButton(".popup_game_btn15", async ()=>{
                 this.audioClass.hardStopAll(), await s(), this.paramsClass.dataLoaded = !1, qs(this.scene), this.audioClass.stopMusic(0), setTimeout(()=>{
                     let a = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 1;

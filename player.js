@@ -225,7 +225,7 @@ export class PlayerClass {
 
 
 
-    if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.2 && this.player.userData.live && this.levelClass.canHorDie) {
+    if (this.paramsClass.gameDir == 'hor' && this.player.position.x < this.camera.position.x - Math.abs(this.levelClass.bounds.leftX) * 1.7 && this.player.userData.live && this.levelClass.canHorDie  && this.levelClass.startAfterReset) {
       this.player.userData.lives = 0;
       this.reLiveField();
       this.player.userData.body.setTranslation(new THREE.Vector3(this.player.userData.body.translation().x, -5, 0));
@@ -242,6 +242,8 @@ export class PlayerClass {
     if (!this.levelClass.canHorDie && this.camera.position.x > 4 && this.camera.position.x < 8 && this.paramsClass.gameDir == 'hor') {
       this.levelClass.canHorDie = true;
     }
+
+    console.log(this.levelClass.players[0].player.position.x);
 
 
     if (this.player.position.y < -2 && this.gameClass.gameStarting) {
@@ -618,6 +620,7 @@ export class PlayerClass {
       this.gameClass.gameStarting = true;
       this.player.userData.splash = false;
     }, 100);
+    
   }
 
   reLiveField() {

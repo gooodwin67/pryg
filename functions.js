@@ -450,70 +450,72 @@ export function createRippleRing({ scene, size = 1.5, ttl = 0.9 } = {}) {
 }
 
 export function prewarmSkinnedModel(model, renderer, camera, scene) {
-    // 1) Снимем состояние
-    const saved = {
-      position: model.position.clone(),
-    };
-    const savedFlags = [];
-    model.traverse((object3d) => {
-      if (object3d.isMesh || object3d.isSkinnedMesh) {
-        savedFlags.push([object3d, object3d.frustumCulled, object3d.visible, object3d.castShadow, object3d.receiveShadow]);
-      }
-    });
+    if (!model) return;
   
-    // 2) Соберём материалы и текстуры (чтобы three и драйвер потрогали их заранее)
-    const materials = [];
-    const textures = new Set();
+    // Сохраняем состояние
+    const savedState = {
+      position: model.position.clone(),
+      quaternion: model.quaternion.clone(),
+    };
+    const savedMeshFlags = [];
     model.traverse((object3d) => {
       if (object3d.isMesh || object3d.isSkinnedMesh) {
-        const list = Array.isArray(object3d.material) ? object3d.material : [object3d.material];
-        list.forEach((material) => {
-          if (!material) return;
-          materials.push(material);
-          ['map','normalMap','emissiveMap','metalnessMap','roughnessMap','aoMap','alphaMap','specularMap','displacementMap']
-            .forEach((key) => { if (material[key]) textures.add(material[key]); });
+        savedMeshFlags.push({
+          object3d,
+          frustumCulled: object3d.frustumCulled,
+          visible: object3d.visible,
+          castShadow: object3d.castShadow,
+          receiveShadow: object3d.receiveShadow,
         });
       }
     });
-    textures.forEach((texture) => renderer.initTexture?.(texture));
   
-    // 3) Вынесем модель гарантированно в фрустум перед камерой
-    const forward = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(3);
-    model.position.copy(camera.position).add(forward);
+    // Временно отключаем тени на всём рендерере (важно: не трогаем autoUpdate)
+    const savedRendererShadowsEnabled = renderer.shadowMap?.enabled ?? false;
+    if (renderer.shadowMap) renderer.shadowMap.enabled = false;
+  
+    // Делаем меши гарантированно видимыми и без теней на время прогрева
+    savedMeshFlags.forEach(({ object3d }) => {
+      object3d.frustumCulled = false;
+      object3d.visible = true;
+      object3d.castShadow = false;     // ← ключ к отсутствию «мигания» после прогрева
+    });
+  
+    // Ставим модель в фрустум камеры (перед ней на пару метров)
+    const forward = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(2.5);
+    const prewarmPosition = camera.position.clone().add(forward);
+    prewarmPosition.z = camera.position.z - 1.5;
+    model.position.copy(prewarmPosition);
     model.updateMatrixWorld(true);
-    savedFlags.forEach(([o]) => { o.frustumCulled = false; o.visible = true; });
   
-    // 4) Обновим миксер на «тик», если есть — чтобы заодно прогреть skinning path
-    if (model.userData?.mixer) model.userData.mixer.update(1/60);
+    // Чуть «шевельнём» скиннинг, чтобы прогрелся шейдер пути skinning
+    if (model.userData?.mixer) model.userData.mixer.update(1 / 60);
   
-    // 5) Сначала обычная компиляция
+    // Компиляция шейдеров
     renderer.compile(scene, camera);
   
-    // 6) И КРОХОТНЫЙ реальный кадр в временный RT 1x1 — это убирает «первый дёрг»
-    const prevTarget = renderer.getRenderTarget();
-    const prevShadowAuto = renderer.shadowMap?.autoUpdate ?? false;
-    if (renderer.shadowMap) renderer.shadowMap.autoUpdate = false;
-  
+    // Один крошечный кадр в 1×1 RT БЕЗ теней
+    const previousTarget = renderer.getRenderTarget();
     const tmpTarget = new THREE.WebGLRenderTarget(1, 1, { depthBuffer: false, stencilBuffer: false });
     renderer.setRenderTarget(tmpTarget);
     renderer.render(scene, camera);
-    renderer.setRenderTarget(prevTarget);
+    renderer.setRenderTarget(previousTarget);
     tmpTarget.dispose();
   
-    if (renderer.shadowMap) {
-      renderer.shadowMap.autoUpdate = prevShadowAuto;
-      renderer.shadowMap.needsUpdate = true;
-    }
-  
-    // 7) Откат состояния
-    model.position.copy(saved.position);
-    savedFlags.forEach(([o, culled, visible, castShadow, receiveShadow]) => {
-      o.frustumCulled = culled;
-      o.visible = visible;
-      o.castShadow = castShadow;
-      o.receiveShadow = receiveShadow;
+    // Возвращаем модель на место и восстанавливаем флаги
+    model.position.copy(savedState.position);
+    model.quaternion.copy(savedState.quaternion);
+    savedMeshFlags.forEach(({ object3d, frustumCulled, visible, castShadow, receiveShadow }) => {
+      object3d.frustumCulled = frustumCulled;
+      object3d.visible = visible;
+      object3d.castShadow = castShadow;
+      object3d.receiveShadow = receiveShadow;
     });
+  
+    // Включаем тени обратно ровно в том состоянии, как были
+    if (renderer.shadowMap) renderer.shadowMap.enabled = savedRendererShadowsEnabled;
   }
+  
   
 
 // Прогреть “клиппинг-варианты” материалов (как при рендере отражения воды)

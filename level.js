@@ -86,6 +86,8 @@ export class LevelClass {
 
     this.mks.layers.set(1);
 
+    this.startAfterReset = true;
+
 
     /*HEART*/
     const x = 0, y = 0;
@@ -516,7 +518,7 @@ export class LevelClass {
   }
 
   async loadBarriers() {
-    let geometryBird = new THREE.BoxGeometry(0.5, 0.7, 1);
+    let geometryBird = new THREE.BoxGeometry(0.5, 0.5, 1);
     let materialBird = new THREE.MeshBasicMaterial({ color: 0x00cc00, transparent: true, opacity: 0 });
     this.angryBird = new THREE.Mesh(geometryBird, materialBird);
     this.angryBird.userData.name = 'bird';
@@ -2421,6 +2423,7 @@ export class LevelClass {
     this.hideScreen('popup_game_btn_close');
     this.hideScreen('menu_in_game');
 
+    this.startAfterReset = false;
 
     let newRec = 0;
     if (this.scoreClass.score > this.scoreClass.myRec) {
@@ -2792,6 +2795,10 @@ export class LevelClass {
       this.gameClass.showGamePopup = false;
 
       this.hideScreen('popup_in_game');
+
+      setTimeout(() => {
+        this.startAfterReset = true;
+      }, 3000);
 
 
     })
