@@ -409,7 +409,7 @@ function resetMatch() {
 
 
 
-function animate() {
+function animate(delta) {
 
 
 
@@ -479,7 +479,7 @@ function animate() {
     worldClass.updateLighting();
     levelClass.levelAnimate(camera);
 
-    levelClass.cameraMove(camera);
+    levelClass.cameraMove(camera, delta);
 
 
 
