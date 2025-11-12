@@ -41,7 +41,7 @@ export class MenuClass {
 
     tables[0].innerHTML = '';
     tables[1].innerHTML = '';
-    console.log(masTables)
+
 
     masTables.forEach((value, index, array) => {
       masTables[index].forEach((val, i, array) => {
@@ -92,7 +92,7 @@ export class MenuClass {
         }
       })
     })
-    console.log(4);
+
   }
 
 

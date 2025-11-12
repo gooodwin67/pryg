@@ -560,7 +560,7 @@ export class DataClass {
       if (cloud && cloud.table && typeof cloud.table === 'object') {
         // есть данные — используем их
         this.table = cloud.table;
-        console.log(2);
+
       } else {
         // игрок впервые — создаём новую таблицу по умолчанию
         console.log('Первый вход: создаём новую table');
@@ -605,7 +605,7 @@ export class DataClass {
     await this.initYandexPlayer();
     try {
       await this.yandexPlayer.player.setData({ table: this.table }, flush);
-      console.log(1);
+
     } catch (error) {
       console.warn('Cloud save failed:', error);
     }
