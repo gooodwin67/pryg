@@ -49,6 +49,10 @@ const messages = {
         popup: { continue: "Продолжить +", next: "Следующий уровень", restart: "Начать заново", levelSelect: "Выбор уровня", exit: "Выйти в меню" },
         loader: { loading: "Загрузка..." },
         leaderboard: { mine: "Мой рекорд" },
+        auth: {
+            title: 'Авторизуйтесь для участия в чемпионате',
+            cta: 'Войти'
+        }
 
     },
     en: {
@@ -99,6 +103,10 @@ const messages = {
         popup: { continue: "Continue +", next: "Next level", restart: "Restart", levelSelect: "Level select", exit: "Main menu" },
         loader: { loading: "Loading..." },
         leaderboard: { mine: "My record" },
+        auth: {
+            title: 'Log in to participate in the championship',
+            cta: 'LogIn'
+        }
     }
 };
 

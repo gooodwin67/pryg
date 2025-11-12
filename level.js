@@ -2521,7 +2521,9 @@ export class LevelClass {
       document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
       this.hideScreen('popup_game_btn15')
       this.hideScreen('popup_game_btn1')
+
       if (this.levelsMode) this.showScreen('popup_game_btn4');
+      else this.hideScreen('popup_game_btn4');
 
     }
 
@@ -2628,50 +2630,50 @@ export class LevelClass {
 
       ysdk.adv.showRewardedVideo({
         callbacks: {
-            onOpen: () => {
-              console.log('Video ad open.');
-            },
-            onRewarded: () => {
-              console.log('Rewarded!');
+          onOpen: () => {
+            console.log('Video ad open.');
+          },
+          onRewarded: () => {
+            console.log('Rewarded!');
 
-              if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
-              this.boostHatModels.forEach((value, index, array) => {
-                value.userData.fly = false;
-              })
-              let mas = [];
-              this.players.forEach((value, index, array) => {
-                mas.push(value.player.position.x);
-              })
+            if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
+            this.boostHatModels.forEach((value, index, array) => {
+              value.userData.fly = false;
+            })
+            let mas = [];
+            this.players.forEach((value, index, array) => {
+              mas.push(value.player.position.x);
+            })
 
-              this.players.forEach((value, index, array) => {
+            this.players.forEach((value, index, array) => {
 
-                value.playerAliving(false);
-                value.player.userData.lives = 1;
-                value.player.position.x = Math.max(...mas);
-                this.camera.position.x = value.player.position.x;
-              })
-
-
+              value.playerAliving(false);
+              value.player.userData.lives = 1;
+              value.player.position.x = Math.max(...mas);
+              this.camera.position.x = value.player.position.x;
+            })
 
 
-              this.audioClass.pauseMusic(['back']);
-              this.audioClass.playMusic(['back']);
-              if (!this.levelsMode) this.canShowAds = false;
-              this.gameClass.showGamePopup = false;
 
-              this.hideScreen('popup_in_game');
 
-            },
-            onClose: () => {
-              console.log('Video ad closed.');
-            },
-            onError: (e) => {
-              console.log('Error while open video ad:', e);
-            },
+            this.audioClass.pauseMusic(['back']);
+            this.audioClass.playMusic(['back']);
+            if (!this.levelsMode) this.canShowAds = false;
+            this.gameClass.showGamePopup = false;
+
+            this.hideScreen('popup_in_game');
+
+          },
+          onClose: () => {
+            console.log('Video ad closed.');
+          },
+          onError: (e) => {
+            console.log('Error while open video ad:', e);
+          },
         }
-      })  
+      })
 
-      
+
     })
 
     this.rebindButton('.popup_game_btn2', async () => {

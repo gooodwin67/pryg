@@ -1,4 +1,4 @@
-import { _ as ke, __tla as __tla_0 } from "./index-DIof5uIp.js";
+import { _ as ke, __tla as __tla_0 } from "./index-CzyW9h8s.js";
 import { B as Ds, a as ds, P as Me, N as Ae, b as Zs, c as Hs, C as ee, M as Ls, d as vs, V as m, e as ze, W as Be, f as fs, Q as ks, g as Te, h as is, i as js, j as ps, G as Qs, E as J, k as os, D as Pe, S as Ee, l as He, m as le, I as ts, n as as, o as Fe, p as Ns, O as te, R as _s, q as Ts, r as Re, s as Ie, A as Es, t as N, u as Ne, v as Ge, w as qe, x as We, y as Ue, H as Oe, z as Ve, F as Ye, L as $e, J as Ke, T as Ce, K as Xe, U as Je, X as re, Y as he, Z as Ze, _ as Qe, $ as de, a0 as ce, a1 as st, a2 as et, a3 as tt, a4 as at, a5 as it, a6 as ot, a7 as nt, a8 as lt } from "./three-DOpQIdiv.js";
 Promise.all([
     (()=>{
@@ -76,13 +76,13 @@ Promise.all([
         function n() {
             const M = document.createElement("canvas");
             M.width = M.height = 64;
-            const H = M.getContext("2d"), T = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
-            T.addColorStop(0, "rgba(255,255,255,1)"), T.addColorStop(1, "rgba(255,255,255,0)"), H.fillStyle = T, H.fillRect(0, 0, 64, 64);
-            const A = new ee(M);
-            return A.anisotropy = 1, A.needsUpdate = !0, A;
+            const H = M.getContext("2d"), E = H.createRadialGradient(64 / 2, 64 / 2, 0, 64 / 2, 64 / 2, 64 / 2);
+            E.addColorStop(0, "rgba(255,255,255,1)"), E.addColorStop(1, "rgba(255,255,255,0)"), H.fillStyle = E, H.fillRect(0, 0, 64, 64);
+            const z = new ee(M);
+            return z.anisotropy = 1, z.needsUpdate = !0, z;
         }
-        const l = e || n(), h = new Float32Array(s * 3), p = new Float32Array(s * 3), u = new Float32Array(s), d = new Float32Array(s), g = new Float32Array(s), c = new Uint8Array(s), f = new Ds;
-        f.setAttribute("position", new ds(h, 3)), f.setAttribute("aSize", new ds(g, 1));
+        const l = e || n(), h = new Float32Array(s * 3), p = new Float32Array(s * 3), u = new Float32Array(s), d = new Float32Array(s), b = new Float32Array(s), c = new Uint8Array(s), f = new Ds;
+        f.setAttribute("position", new ds(h, 3)), f.setAttribute("aSize", new ds(b, 1));
         const v = new Me({
             map: l,
             size: t,
@@ -95,51 +95,51 @@ Promise.all([
         x.userData.persistent = !0, x.frustumCulled = !1, x.position.set(0, -20, 0), r.add(x);
         let y = 0;
         function _() {
-            for(let b = 0; b < s; b++){
-                const M = (y + b) % s;
+            for(let g = 0; g < s; g++){
+                const M = (y + g) % s;
                 if (!c[M]) return y = (M + 1) % s, M;
             }
             return -1;
         }
-        function R(b, M, H, T, A) {
+        function R(g, M, H, E, z) {
             const U = M * 3;
-            b[U] = H, b[U + 1] = T, b[U + 2] = A;
+            g[U] = H, g[U + 1] = E, g[U + 2] = z;
         }
         return {
-            trigger (b, M = 1, H = {}) {
-                const { count: T = 42, spread: A = .35, up: U = 3, horiz: ms = 2.2, ttl: C = [
+            trigger (g, M = 1, H = {}) {
+                const { count: E = 42, spread: z = .35, up: U = 3, horiz: ms = 2.2, ttl: C = [
                     .35,
                     .8
-                ], sizeJitter: j = .5 } = H, $ = Math.max(1, Math.floor(T * M));
+                ], sizeJitter: j = .5 } = H, $ = Math.max(1, Math.floor(E * M));
                 for(let ys = 0; ys < $; ys++){
                     const S = _();
                     if (S === -1) break;
-                    const B = Math.sqrt(Math.random()) * A, z = Math.random() * Math.PI * 2, K = B * Math.cos(z), ls = B * Math.sin(z), Q = Math.sqrt(Math.random()), X = Math.cos(z) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(z) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), W = (1 - j / 2 + Math.random() * j) * 1;
-                    R(h, S, b.x + K, b.y, b.z + ls), R(p, S, X * M, es * M, ss * M), u[S] = O, d[S] = 0, g[S] = W, c[S] = 1;
+                    const T = Math.sqrt(Math.random()) * z, B = Math.random() * Math.PI * 2, K = T * Math.cos(B), ls = T * Math.sin(B), Q = Math.sqrt(Math.random()), X = Math.cos(B) * ms * Q * (.6 + .4 * Math.random()), ss = Math.sin(B) * ms * Q * (.6 + .4 * Math.random()), es = U * (.6 + .4 * Math.random()), O = C[0] + Math.random() * (C[1] - C[0]), W = (1 - j / 2 + Math.random() * j) * 1;
+                    R(h, S, g.x + K, g.y, g.z + ls), R(p, S, X * M, es * M, ss * M), u[S] = O, d[S] = 0, b[S] = W, c[S] = 1;
                 }
                 f.attributes.position.needsUpdate = !0, f.attributes.aSize.needsUpdate = !0;
             },
-            update (b) {
-                if (b <= 0) return;
+            update (g) {
+                if (g <= 0) return;
                 const M = a, H = Math.max(0, i);
-                let T = !1;
+                let E = !1;
                 for(let C = 0; C < s; C++){
                     if (!c[C]) continue;
-                    if (T = !0, d[C] += b, d[C] >= u[C]) {
+                    if (E = !0, d[C] += g, d[C] >= u[C]) {
                         c[C] = 0;
-                        const z = C * 3;
-                        h[z] = 1e9, h[z + 1] = 1e9, h[z + 2] = 1e9;
+                        const B = C * 3;
+                        h[B] = 1e9, h[B + 1] = 1e9, h[B + 2] = 1e9;
                         continue;
                     }
                     const j = C * 3;
-                    p[j + 1] += M * b;
-                    const $ = p[j], ys = p[j + 1], S = p[j + 2], B = Math.max(0, 1 - H * b);
-                    p[j] = $ * B, p[j + 1] = ys * B, p[j + 2] = S * B, h[j] += p[j] * b, h[j + 1] += p[j + 1] * b, h[j + 2] += p[j + 2] * b;
+                    p[j + 1] += M * g;
+                    const $ = p[j], ys = p[j + 1], S = p[j + 2], T = Math.max(0, 1 - H * g);
+                    p[j] = $ * T, p[j + 1] = ys * T, p[j + 2] = S * T, h[j] += p[j] * g, h[j + 1] += p[j + 1] * g, h[j + 2] += p[j + 2] * g;
                 }
-                T && (f.attributes.position.needsUpdate = !0);
-                let A = 0, U = 0;
-                for(let C = 0; C < s; C++)c[C] && (A++, U += 1 - d[C] / u[C]);
-                const ms = A ? .25 + .75 * (U / A) : 1;
+                E && (f.attributes.position.needsUpdate = !0);
+                let z = 0, U = 0;
+                for(let C = 0; C < s; C++)c[C] && (z++, U += 1 - d[C] / u[C]);
+                const ms = z ? .25 + .75 * (U / z) : 1;
                 v.size = t * ms;
             },
             get object3D () {
@@ -152,10 +152,10 @@ Promise.all([
     }
     function pt({ scene: r, size: s = 1.5, ttl: a = .9 } = {}) {
         const i = new Hs(1, 1), e = (()=>{
-            const g = document.createElement("canvas");
-            g.width = g.height = 64;
-            const c = g.getContext("2d");
-            return c.clearRect(0, 0, 64, 64), c.strokeStyle = "rgba(255,255,255,0.9)", c.lineWidth = 3, c.beginPath(), c.arc(32, 32, 20, 0, Math.PI * 2), c.stroke(), new ee(g);
+            const b = document.createElement("canvas");
+            b.width = b.height = 64;
+            const c = b.getContext("2d");
+            return c.clearRect(0, 0, 64, 64), c.strokeStyle = "rgba(255,255,255,0.9)", c.lineWidth = 3, c.beginPath(), c.arc(32, 32, 20, 0, Math.PI * 2), c.stroke(), new ee(b);
         })(), t = new Ls({
             map: e,
             transparent: !0,
@@ -164,12 +164,12 @@ Promise.all([
         o.visible = !1, o.userData.persistent = !0, r.add(o);
         let n = 0, l = !1;
         const h = new m;
-        function p(g) {
-            h.copy(g), n = 0, l = !0, o.visible = !0;
+        function p(b) {
+            h.copy(b), n = 0, l = !0, o.visible = !0;
         }
-        function u(g, c) {
+        function u(b, c) {
             if (!l) return;
-            if (n += g, n >= a) {
+            if (n += b, n >= a) {
                 l = !1, o.visible = !1;
                 return;
             }
@@ -469,6 +469,10 @@ Promise.all([
             },
             leaderboard: {
                 mine: "Мой рекорд"
+            },
+            auth: {
+                title: "Авторизуйтесь для участия в чемпионате",
+                cta: "Войти"
             }
         },
         en: {
@@ -551,6 +555,10 @@ Promise.all([
             },
             leaderboard: {
                 mine: "My record"
+            },
+            auth: {
+                title: "Log in to participate in the championship",
+                cta: "LogIn"
             }
         }
     };
@@ -588,8 +596,8 @@ Promise.all([
         "My record"
     ]), ve = (r)=>r?.isMine === !0 || r?.name === k("hud.mineRecord", "Мой рекорд") || ft.has(r?.name);
     class vt {
-        constructor(s, a, i, e, t, o, n, l, h, p, u, d, g, c, f, v){
-            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = u, this.splash = d, this.ring = g, this.dataClass = p, this.scoreClass = c, this.menuClass = f, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
+        constructor(s, a, i, e, t, o, n, l, h, p, u, d, b, c, f, v){
+            this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = l, this.initMatch = h, this.gameClass = u, this.splash = d, this.ring = b, this.dataClass = p, this.scoreClass = c, this.menuClass = f, this.assetsManager = v, this.playersLoaded = !1, this.cameraSpeed = .01, this.levelsMode = !1, this.levelsNoFric = !1, this.allLevels = this.dataClass.allLevels, this.randomNoFric = .3, this.randomAnimateHor = .2, this.randomAnimateVert = .2, this.canShowAds = !0, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = !0, this.canHorDie = !1, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
                 min: 1,
                 max: 4
             }, this.fixedDistanceVert = {
@@ -611,7 +619,7 @@ Promise.all([
                 planes: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -633,7 +641,7 @@ Promise.all([
                 topPlanes: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -657,7 +665,7 @@ Promise.all([
                 grassPlanes: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -684,7 +692,7 @@ Promise.all([
                 sensorPlanes: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -708,7 +716,7 @@ Promise.all([
                 lamps: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -730,7 +738,7 @@ Promise.all([
                 plafons: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -755,7 +763,7 @@ Promise.all([
                 bulbs: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -777,7 +785,7 @@ Promise.all([
                 livesBlocks: {
                     data: Array.from({
                         length: this.count
-                    }, (b, M)=>({
+                    }, (g, M)=>({
                             position: new m(0, -10, 0),
                             rotation: new J(0, 0, 0),
                             scale: new m(1, 1, 1),
@@ -794,38 +802,38 @@ Promise.all([
                     }),
                     livesBlock: null
                 }
-            }, this.objs.planes.plane = new ts(this.objs.planes.geometryPlane, this.objs.planes.materialPlane, this.count), this.objs.planes.plane.instanceMatrix.setUsage(as), this.objs.planes.plane.receiveShadow = !0, this.objs.planes.plane.castShadow = !0, this.objs.planes.plane.frustumCulled = !1, this.objs.topPlanes.planeTop = new ts(this.objs.topPlanes.geometryPlaneTop, this.objs.topPlanes.materialPlaneTop, this.count), this.objs.topPlanes.planeTop.instanceMatrix.setUsage(as), this.objs.topPlanes.planeTop.frustumCulled = !1, this.objs.grassPlanes.planeGrass = new ts(this.objs.grassPlanes.geometryPlaneGrass, this.objs.grassPlanes.materialPlaneGrass, this.count), this.objs.grassPlanes.planeGrass.instanceMatrix.setUsage(as), this.objs.grassPlanes.planeGrass.userData.direction = 1, this.objs.grassPlanes.planeGrass.receiveShadow = !0, this.objs.grassPlanes.planeGrass.castShadow = !0, this.objs.grassPlanes.planeGrass.userData.name = "tops", this.objs.grassPlanes.planeGrass.frustumCulled = !1, this.objs.sensorPlanes.planeSensor = new ts(this.objs.sensorPlanes.geometryPlaneSensor, this.objs.sensorPlanes.materialPlaneSensor, this.count), this.objs.sensorPlanes.planeSensor.instanceMatrix.setUsage(as), this.objs.sensorPlanes.planeSensor.frustumCulled = !1, this.objs.sensorPlanes.planeSensor.visible = !1, this.objs.lamps.lamp = new ts(this.objs.lamps.geometryLamp, this.objs.lamps.materialLamp, this.count), this.objs.lamps.lamp.instanceMatrix.setUsage(as), this.objs.lamps.lamp.frustumCulled = !1, this.objs.plafons.plafon = new ts(this.objs.plafons.geometryPlafon, this.objs.plafons.materialPlafon, this.count), this.objs.plafons.plafon.instanceMatrix.setUsage(as), this.objs.plafons.plafon.frustumCulled = !1, this.objs.bulbs.bulb = new ts(this.objs.bulbs.geometryBulb, this.objs.bulbs.materialBulb, this.count), this.objs.bulbs.bulb.instanceMatrix.setUsage(as), this.objs.bulbs.bulb.frustumCulled = !1, this.objs.bulbs.baseSize = this.objs.bulbs.data[0].size.clone(), this.objs.livesBlocks.livesBlock = new ts(this.objs.livesBlocks.geometryLivesBlock, this.objs.livesBlocks.materialLivesBlock, this.count), this.objs.livesBlocks.livesBlock.instanceMatrix.setUsage(as), this.objs.livesBlocks.livesBlock.frustumCulled = !1, this.objs.livesBlocks.geometryLivesBlock.center(), this.objs.livesBlocks.geometryLivesBlock.rotateZ(Math.PI), this.objs.livesBlocks.geometryLivesBlock.center(), this.objs.livesBlocks.livesBlock.castShadow = !0, this.objs.plafons.materialPlafon.onBeforeCompile = (b)=>{
-                b.uniforms.fresnelPower = {
+            }, this.objs.planes.plane = new ts(this.objs.planes.geometryPlane, this.objs.planes.materialPlane, this.count), this.objs.planes.plane.instanceMatrix.setUsage(as), this.objs.planes.plane.receiveShadow = !0, this.objs.planes.plane.castShadow = !0, this.objs.planes.plane.frustumCulled = !1, this.objs.topPlanes.planeTop = new ts(this.objs.topPlanes.geometryPlaneTop, this.objs.topPlanes.materialPlaneTop, this.count), this.objs.topPlanes.planeTop.instanceMatrix.setUsage(as), this.objs.topPlanes.planeTop.frustumCulled = !1, this.objs.grassPlanes.planeGrass = new ts(this.objs.grassPlanes.geometryPlaneGrass, this.objs.grassPlanes.materialPlaneGrass, this.count), this.objs.grassPlanes.planeGrass.instanceMatrix.setUsage(as), this.objs.grassPlanes.planeGrass.userData.direction = 1, this.objs.grassPlanes.planeGrass.receiveShadow = !0, this.objs.grassPlanes.planeGrass.castShadow = !0, this.objs.grassPlanes.planeGrass.userData.name = "tops", this.objs.grassPlanes.planeGrass.frustumCulled = !1, this.objs.sensorPlanes.planeSensor = new ts(this.objs.sensorPlanes.geometryPlaneSensor, this.objs.sensorPlanes.materialPlaneSensor, this.count), this.objs.sensorPlanes.planeSensor.instanceMatrix.setUsage(as), this.objs.sensorPlanes.planeSensor.frustumCulled = !1, this.objs.sensorPlanes.planeSensor.visible = !1, this.objs.lamps.lamp = new ts(this.objs.lamps.geometryLamp, this.objs.lamps.materialLamp, this.count), this.objs.lamps.lamp.instanceMatrix.setUsage(as), this.objs.lamps.lamp.frustumCulled = !1, this.objs.plafons.plafon = new ts(this.objs.plafons.geometryPlafon, this.objs.plafons.materialPlafon, this.count), this.objs.plafons.plafon.instanceMatrix.setUsage(as), this.objs.plafons.plafon.frustumCulled = !1, this.objs.bulbs.bulb = new ts(this.objs.bulbs.geometryBulb, this.objs.bulbs.materialBulb, this.count), this.objs.bulbs.bulb.instanceMatrix.setUsage(as), this.objs.bulbs.bulb.frustumCulled = !1, this.objs.bulbs.baseSize = this.objs.bulbs.data[0].size.clone(), this.objs.livesBlocks.livesBlock = new ts(this.objs.livesBlocks.geometryLivesBlock, this.objs.livesBlocks.materialLivesBlock, this.count), this.objs.livesBlocks.livesBlock.instanceMatrix.setUsage(as), this.objs.livesBlocks.livesBlock.frustumCulled = !1, this.objs.livesBlocks.geometryLivesBlock.center(), this.objs.livesBlocks.geometryLivesBlock.rotateZ(Math.PI), this.objs.livesBlocks.geometryLivesBlock.center(), this.objs.livesBlocks.livesBlock.castShadow = !0, this.objs.plafons.materialPlafon.onBeforeCompile = (g)=>{
+                g.uniforms.fresnelPower = {
                     value: 2.5
-                }, b.fragmentShader = b.fragmentShader.replace("#include <output_fragment>", `
+                }, g.fragmentShader = g.fragmentShader.replace("#include <output_fragment>", `
     float f = pow(1.0 - dot(normalize(vNormal), normalize(vViewPosition)), fresnelPower);
     gl_FragColor = vec4( outgoingLight + f * 0.15, diffuseColor.a );
     `);
             }, this.objs.plafons.materialPlafon.needsUpdate = !0;
             const R = new Float32Array(this.count);
-            for(let b = 0; b < this.count; b++)R[b] = 0;
-            this.objs.bulbs.geometryBulb.setAttribute("aEmissive", new Fe(R, 1)), this.objs.bulbs.materialBulb.onBeforeCompile = (b)=>{
-                b.vertexShader = `
+            for(let g = 0; g < this.count; g++)R[g] = 0;
+            this.objs.bulbs.geometryBulb.setAttribute("aEmissive", new Fe(R, 1)), this.objs.bulbs.materialBulb.onBeforeCompile = (g)=>{
+                g.vertexShader = `
     attribute float aEmissive;
     varying float vEmissive;
-  ` + b.vertexShader.replace("#include <begin_vertex>", `
+  ` + g.vertexShader.replace("#include <begin_vertex>", `
       #include <begin_vertex>
       vEmissive = aEmissive;
-    `), b.fragmentShader = `
+    `), g.fragmentShader = `
     varying float vEmissive;
-  ` + b.fragmentShader.replace("#include <lights_fragment_begin>", `
+  ` + g.fragmentShader.replace("#include <lights_fragment_begin>", `
       #include <lights_fragment_begin>
       // усиливаем эмиссию в зависимости от инстанса
       totalEmissiveRadiance *= vEmissive;
     `);
             }, this.objs.bulbs.materialBulb.needsUpdate = !0;
-            function q(b = 64) {
+            function q(g = 64) {
                 const M = document.createElement("canvas");
-                M.width = M.height = b;
-                const H = M.getContext("2d"), T = H.createRadialGradient(b / 2, b / 2, 0, b / 2, b / 2, b / 2);
-                T.addColorStop(0, "rgba(255, 235, 175, 1)"), T.addColorStop(1, "rgba(255, 235, 175, 0)"), H.fillStyle = T, H.fillRect(0, 0, b, b);
-                const A = new ee(M);
-                return A.anisotropy = 1, A.generateMipmaps = !1, A.needsUpdate = !0, A;
+                M.width = M.height = g;
+                const H = M.getContext("2d"), E = H.createRadialGradient(g / 2, g / 2, 0, g / 2, g / 2, g / 2);
+                E.addColorStop(0, "rgba(255, 235, 175, 1)"), E.addColorStop(1, "rgba(255, 235, 175, 0)"), H.fillStyle = E, H.fillRect(0, 0, g, g);
+                const z = new ee(M);
+                return z.anisotropy = 1, z.generateMipmaps = !1, z.needsUpdate = !0, z;
             }
             this._glowTex = q(), this._emissive = R, this.glowPool = [], this.lightsCount = 5, this.lights = [], this.lightIntensity = 25, this.bulbEmissiveIntensity = .9, this.playerOuts = [], this.players = [], this.backModel, this.backModels = [], this.leftEdge = new m(-1, 0, 0), this.rightEdge = new m(1, 0, 0), this.leftEdge.unproject(t), this.rightEdge.unproject(t), this.bounds, this.gameNum = 1, this.cam = {
                 targetX: this.camera.position.x,
@@ -1058,9 +1066,9 @@ Promise.all([
         getHorizontalWorldBounds(s = 0) {
             const a = new m(-1, 0, .5), i = new m(1, 0, .5), e = new m(0, 1, .5), t = new m(0, -1, .5);
             if (a.unproject(this.camera), i.unproject(this.camera), e.unproject(this.camera), t.unproject(this.camera), this.camera.isPerspectiveCamera) {
-                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), p = t.clone().sub(o).normalize(), u = (s - o.z) / n.z, d = (s - o.z) / p.z, g = o.clone().add(n.multiplyScalar(u)), c = o.clone().add(l.multiplyScalar(u)), f = o.clone().add(h.multiplyScalar(d)), v = o.clone().add(p.multiplyScalar(d));
+                const o = this.camera.position, n = a.clone().sub(o).normalize(), l = i.clone().sub(o).normalize(), h = e.clone().sub(o).normalize(), p = t.clone().sub(o).normalize(), u = (s - o.z) / n.z, d = (s - o.z) / p.z, b = o.clone().add(n.multiplyScalar(u)), c = o.clone().add(l.multiplyScalar(u)), f = o.clone().add(h.multiplyScalar(d)), v = o.clone().add(p.multiplyScalar(d));
                 this.bounds = {
-                    leftX: g.x,
+                    leftX: b.x,
                     rightX: c.x,
                     topY: f.y,
                     bottomY: v.y
@@ -1173,7 +1181,7 @@ Promise.all([
                         this._emissive[n] = N.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const u = .5 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(u);
-                        const d = 1.1, g = this._emissive[n], c = 1 + d * g, f = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
+                        const d = 1.1, b = this._emissive[n], c = 1 + d * b, f = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== c && (v.size.set(f.x * c, f.y * c, f.z * c), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = c, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1209,7 +1217,7 @@ Promise.all([
                         this._emissive[n] = N.lerp(this._emissive[n], p, .18), this.objs.bulbs.geometryBulb.attributes.aEmissive.needsUpdate = !0;
                         const u = .8 + this._emissive[n] * .8;
                         e.glow && e.glow.scale.setScalar(u);
-                        const d = 1, g = this._emissive[n], c = 1 + d * g, f = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
+                        const d = 1, b = this._emissive[n], c = 1 + d * b, f = this.objs.bulbs.baseSize, v = this.objs.bulbs.data[n];
                         v.userData._lastBulbFactor !== c && (v.size.set(f.x * c, f.y * c, f.z * c), this.apply(n, this.objs.bulbs.data, this.objs.bulbs.bulb), v.userData._lastBulbFactor = c, s = !0), !o && l.intensity <= .01 && this._emissive[n] <= .02 && (this.lights.push(l), e.pointLight = null, e.glow && (this.glowPool.push(e.glow), this.scene.remove(e.glow), e.glow = null));
                     }
                 }), s && (this.objs.bulbs.bulb.instanceMatrix.needsUpdate = !0);
@@ -1291,7 +1299,7 @@ Promise.all([
                 const e = this.paramsClass.gameDir === "hor" ? "hor" : "vert", t = this.players.length - 1;
                 this.dataClass.updateLocalTop3(e, t, this.scoreClass.myRec), await this.dataClass.refreshMineLabels(), this.menuClass.loadRecsData(), this.paramsClass.gameDir === "hor" ? this.scoreClass.loadRecsToHud(0, this.players.length - 1) : this.scoreClass.loadRecsToHud(1, this.players.length - 1);
             }
-            if (this.audioClass.oceanAudio.isPlaying && this.audioClass.oceanAudio.stop(), this.audioClass.rainAudio.isPlaying && this.audioClass.rainAudio.stop(), this.gameClass.pause) document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.hideScreen("popup_game_btn15"), this.hideScreen("popup_game_btn1"), this.levelsMode && this.showScreen("popup_game_btn4");
+            if (this.audioClass.oceanAudio.isPlaying && this.audioClass.oceanAudio.stop(), this.audioClass.rainAudio.isPlaying && this.audioClass.rainAudio.stop(), this.gameClass.pause) document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.hideScreen("popup_game_btn15"), this.hideScreen("popup_game_btn1"), this.levelsMode ? this.showScreen("popup_game_btn4") : this.hideScreen("popup_game_btn4");
             else if (this.gameClass.showGamePopup = !0, !this.levelsMode) !s || !this.canShowAds ? this.hideScreen("popup_game_btn1") : this.showScreen("popup_game_btn1"), document.querySelector(".popup_in_game_wrap").classList.remove("popup_in_game_wrap_win"), this.audioClass.looseAudio.isPlaying && this.audioClass.looseAudio.stop(), this.audioClass.musicOn && this.audioClass.looseAudio.play();
             else if (this.players.every((e)=>e.player.userData.finish) && this.dataClass.levelCoopMode == "coop" || this.players.some((e)=>e.player.userData.finish) && this.dataClass.levelCoopMode == "contest") {
                 if (document.querySelector(".popup_in_game_wrap").classList.add("popup_in_game_wrap_win"), this.audioClass.winAudio.isPlaying && this.audioClass.winAudio.stop(), this.audioClass.musicOn && this.audioClass.winAudio.play(), this.levelsMode < this.allLevels && this.showScreen("popup_game_btn15"), this.hideScreen("popup_game_btn4"), this.dataClass.levelCoopMode == "coop") {
@@ -2009,12 +2017,12 @@ void main() {
             this.thunder = !1, this.isThunderActive = !1, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
         }
         createLightningBolt(s, a, i) {
-            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, p = Math.hypot(n, l, h) || 1, u = n / p, d = l / p, g = h / p, c = n / p, v = -(h / p), x = 0, y = c, _ = Math.abs(d) > .9 ? new m(1, 0, 0) : new m(0, 1, 0), R = new m(u, d, g), q = new m().crossVectors(R, _).normalize(), b = new m().crossVectors(R, q).normalize(), M = 2 + Math.random() * 2, H = 1.2, T = Math.random() * Math.PI * 2, A = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
+            const e = s + (Math.random() - .5) * 6, t = -4 + Math.random() * 3, o = i + (Math.random() - .5) * 6, n = e - s, l = t - a, h = o - i, p = Math.hypot(n, l, h) || 1, u = n / p, d = l / p, b = h / p, c = n / p, v = -(h / p), x = 0, y = c, _ = Math.abs(d) > .9 ? new m(1, 0, 0) : new m(0, 1, 0), R = new m(u, d, b), q = new m().crossVectors(R, _).normalize(), g = new m().crossVectors(R, q).normalize(), M = 2 + Math.random() * 2, H = 1.2, E = Math.random() * Math.PI * 2, z = 3 + Math.random() * 2.5, U = .8, ms = Math.random() * Math.PI * 2, C = 28, j = 4, $ = [];
             for(let S = 0; S <= C; S++){
-                const B = S / C, z = 1 - B;
-                let K = s + n * B, ls = a + l * B, Q = i + h * B;
-                const X = Math.sin(B * Math.PI * M + T) * H * (.3 + .7 * z), ss = Math.sin(B * Math.PI * A + ms) * U * (.3 + .7 * z), es = (Math.random() - .5) * 2 * j * z, O = (Math.random() - .5) * 1.6 * j * z, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * z : 0;
-                if (K += q.x * (X + es + W) + b.x * (ss + O * .7), ls += q.y * (X + es * .5) + b.y * (ss + O * .5), Q += q.z * (X + es + W) + b.z * (ss + O * .7), $.push(K, ls, Q), S > 3 && S < C - 3 && Math.random() < .22) {
+                const T = S / C, B = 1 - T;
+                let K = s + n * T, ls = a + l * T, Q = i + h * T;
+                const X = Math.sin(T * Math.PI * M + E) * H * (.3 + .7 * B), ss = Math.sin(T * Math.PI * z + ms) * U * (.3 + .7 * B), es = (Math.random() - .5) * 2 * j * B, O = (Math.random() - .5) * 1.6 * j * B, W = Math.random() < .12 ? (Math.random() - .5) * 3.5 * B : 0;
+                if (K += q.x * (X + es + W) + g.x * (ss + O * .7), ls += q.y * (X + es * .5) + g.y * (ss + O * .5), Q += q.z * (X + es + W) + g.z * (ss + O * .7), $.push(K, ls, Q), S > 3 && S < C - 3 && Math.random() < .22) {
                     const rs = [], xs = 3 + Math.floor(Math.random() * 2), hs = .25 + Math.random() * .35;
                     let Ms = K, Ps = ls, Cs = Q;
                     rs.push(Ms, Ps, Cs);
@@ -2027,15 +2035,15 @@ void main() {
             }
             const ys = 2;
             for(let S = -1; S <= ys; S++){
-                const B = S === -1, z = B ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
+                const T = S === -1, B = T ? 0 : S % 2 === 0 ? 1 : -1, K = .55 + Math.random() * .45, ls = .35, Q = Math.random() * Math.PI * 2, X = [], ss = $.length / 3;
                 for(let W = 0; W < ss; W++){
-                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * z * K * xs + y * hs * .3, Ps = x * z * K * xs + hs * .05, Cs = y * z * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Bs = W * 3 + 2, ie = $[zs], oe = $[bs], ne = $[Bs];
-                    B ? X.push(ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05, ne + (Math.random() - .5) * .05) : X.push(ie + Ms + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2, ne + Cs + (Math.random() - .5) * .2);
+                    const rs = W / (ss - 1), xs = .35 + .85 * rs, hs = Math.sin(rs * Math.PI * 2 + Q) * ls * (.2 + .8 * rs), Ms = v * B * K * xs + y * hs * .3, Ps = x * B * K * xs + hs * .05, Cs = y * B * K * xs - v * hs * .3, zs = W * 3 + 0, bs = W * 3 + 1, Bs = W * 3 + 2, ie = $[zs], oe = $[bs], ne = $[Bs];
+                    T ? X.push(ie + (Math.random() - .5) * .05, oe + (Math.random() - .5) * .05, ne + (Math.random() - .5) * .05) : X.push(ie + Ms + (Math.random() - .5) * .2, oe + Ps + (Math.random() - .5) * .2, ne + Cs + (Math.random() - .5) * .2);
                 }
                 const es = new Ds;
                 es.setAttribute("position", new re(X, 3));
                 const O = new he(es, this.lightningMaterialBase.clone());
-                O.material.opacity = B ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
+                O.material.opacity = T ? .95 : .32, O.userData.life = .22 + Math.random() * .18, this.scene.add(O), this.activeLightningLines.push(O);
             }
         }
         triggerLightningFlash() {
@@ -2233,11 +2241,11 @@ void main() {
         updateMetersFloat(s, a, i = "hor") {
             const e = i === "vert" ? "y" : "x", t = 1e-4;
             for (const d of a){
-                const g = d?.player;
-                if (!g) continue;
-                const c = g.userData || (g.userData = {});
+                const b = d?.player;
+                if (!b) continue;
+                const c = b.userData || (b.userData = {});
                 c.score == null && (c.score = 0);
-                let f = g.position?.[e] ?? 0;
+                let f = b.position?.[e] ?? 0;
                 if (c._lastMeterPos == null && (c._lastMeterPos = f), i !== "vert" && c._wasLive === !1 && c.live && (c._lastMeterPos = f), c.live) {
                     const v = f - c._lastMeterPos, x = v > t ? v : 0;
                     x !== 0 && (c.score += x, c._lastMeterPos = f);
@@ -2247,14 +2255,14 @@ void main() {
             this.playerPanels || (this.playerPanels = Array.from(document.querySelectorAll(".player_panel_rec_num")).slice(0, 3));
             let o = 0;
             for(let d = 0; d < 3; d++){
-                const g = this.playerPanels[d], c = a[d]?.player, f = Math.max(0, Math.floor(c?.userData?.score || 0));
-                o += f, g && (g.textContent = String(f).padStart(3, "0"));
+                const b = this.playerPanels[d], c = a[d]?.player, f = Math.max(0, Math.floor(c?.userData?.score || 0));
+                o += f, b && (b.textContent = String(f).padStart(3, "0"));
             }
             const n = Math.max(0, Math.floor(o));
             if (n === Ys) return;
             const l = Ys, h = performance.now(), p = 50, u = (d)=>{
-                const g = Math.min(1, (d - h) / p), c = 1 - Math.pow(1 - g, 4), f = Math.round(l + (n - l) * c);
-                this.score = f, this.metersFloatEl && (this.metersFloatEl.textContent = String(f).padStart(3, "0")), g < 1 ? requestAnimationFrame(u) : Ys = n;
+                const b = Math.min(1, (d - h) / p), c = 1 - Math.pow(1 - b, 4), f = Math.round(l + (n - l) * c);
+                this.score = f, this.metersFloatEl && (this.metersFloatEl.textContent = String(f).padStart(3, "0")), b < 1 ? requestAnimationFrame(u) : Ys = n;
             };
             requestAnimationFrame(u);
         }
@@ -2533,12 +2541,12 @@ void main() {
                 }
             }, t = 40, o = 60, n = 600;
             for(let l = 0; l < this.levelsStatus[s].length; l++){
-                const h = this.levelsStatus[s][l], { modifierClass: p, labelText: u, ariaState: d } = e(h), g = l === 9, c = document.createElement("div");
-                c.className = `levels_block ${p}${g ? " levels_block--super" : ""}`, c.setAttribute("data-level", String(l + 1)), c.setAttribute("role", "button"), c.setAttribute("tabindex", h === "locked" ? "-1" : "0"), c.setAttribute("aria-label", `Уровень ${l + 1}, ${d}${g ? ", бонусный уровень" : ""}`);
+                const h = this.levelsStatus[s][l], { modifierClass: p, labelText: u, ariaState: d } = e(h), b = l === 9, c = document.createElement("div");
+                c.className = `levels_block ${p}${b ? " levels_block--super" : ""}`, c.setAttribute("data-level", String(l + 1)), c.setAttribute("role", "button"), c.setAttribute("tabindex", h === "locked" ? "-1" : "0"), c.setAttribute("aria-label", `Уровень ${l + 1}, ${d}${b ? ", бонусный уровень" : ""}`);
                 const f = Math.min(o + l * t, n);
                 c.style.setProperty("--show-delay", `${f}ms`);
                 const v = document.createElement("div");
-                if (v.className = "levels_block_number", v.textContent = String(l + 1), g) {
+                if (v.className = "levels_block_number", v.textContent = String(l + 1), b) {
                     const _ = document.createElement("div");
                     _.className = "level_reward_icon", _.innerHTML = "+❤️", c.appendChild(_);
                 }
@@ -2573,8 +2581,8 @@ void main() {
                 u.className = "levels_block_number", u.textContent = String(n);
                 const d = document.createElement("div");
                 d.className = "levels_block_status", l ? (d.setAttribute("data-i18n", `contest.player${l}`), d.textContent = k(`contest.player${l}`)) : d.textContent = "";
-                const g = l ? k(`contest.player${l}`) : "";
-                d.textContent = g, h.append(u, d), h.addEventListener("click", ()=>{
+                const b = l ? k(`contest.player${l}`) : "";
+                d.textContent = b, h.append(u, d), h.addEventListener("click", ()=>{
                     document.querySelectorAll(".levels_block").forEach((c)=>c.classList.remove("active")), h.classList.add("active");
                 }), h.addEventListener("keydown", (c)=>{
                     (c.key === "Enter" || c.key === " ") && (c.preventDefault(), h.click());
@@ -2637,8 +2645,14 @@ void main() {
             ];
             for(let a = 0; a < 3; a++)for(let i = 0; i < this.allLevels; i++)i < this.table.player.levels[a] ? this.levelsStatus[a][i] = "completed" : i == this.table.player.levels[a] ? this.levelsStatus[a][i] = "available" : this.levelsStatus[a][i] = "locked";
         }
-        async initYandexPlayer() {
-            this.yandexPlayer.player || (this.yandexPlayer.player = await ysdk.getPlayer());
+        async initYandexPlayer({ force: s = !1 } = {}) {
+            try {
+                (!this.yandexPlayer.player || s) && (this.yandexPlayer.player = await ysdk.getPlayer()), this.yandexPlayer.isAuthorized = await this.yandexPlayer.player.isAuthorized();
+            } catch  {
+                this.yandexPlayer.isAuthorized = !1;
+            }
+            const a = document.querySelector(".autoriz");
+            a && (this.yandexPlayer.isAuthorized && console.log("авторизовались"), a.classList.toggle("hidden_screen", this.yandexPlayer.isAuthorized === !0), this.yandexPlayer.isAuthorized === !0 && (a.setAttribute("aria-hidden", "true"), a.style.display = "none"));
         }
         async loadTableFromCloud() {
             await this.initYandexPlayer();
@@ -2828,96 +2842,111 @@ void main() {
             ]);
             for(let a = 0; a < 3; a++)(!Array.isArray(this.table.hor[a]) || this.table.hor[a].length !== 4) && (this.table.hor[a] = s()), (!Array.isArray(this.table.vert[a]) || this.table.vert[a].length !== 4) && (this.table.vert[a] = s());
         }
+        applyLocalMyBestToTop3() {
+            this.yandexPlayer?.isAuthorized || [
+                "hor",
+                "vert"
+            ].forEach((s)=>{
+                for(let a = 0; a < 3; a++){
+                    const i = this.table?.[s]?.[a];
+                    if (!i) continue;
+                    const e = Number(i?.[0]?.rec) || 0;
+                    e > 0 && this.updateLocalTop3(s, a, e);
+                }
+            });
+        }
         async loadLeaderboardsTop3(s) {
             await this.initYandexPlayer(), this.ensureRowsForLeaderboards();
-            const a = this.yandexPlayer?.player?.getUniqueID ? this.yandexPlayer.player.getUniqueID() : null, i = async (e)=>{
+            const a = !!this.yandexPlayer.isAuthorized, i = a && this.yandexPlayer.player?.getUniqueID ? this.yandexPlayer.player.getUniqueID() : null, e = async (t)=>{
                 try {
-                    const [t, o] = await Promise.all([
-                        s.leaderboards.getEntries(e, {
-                            quantityTop: 3,
-                            includeUser: !0,
-                            quantityAround: 0
-                        }),
-                        s.leaderboards.getPlayerEntry(e).catch(()=>null)
-                    ]), n = (t.entries || []).map((d)=>({
+                    const n = ((await s.leaderboards.getEntries(t, {
+                        quantityTop: 3,
+                        includeUser: !1,
+                        quantityAround: 0
+                    })).entries || []).map((d)=>({
                             uid: d.player?.uniqueID || null,
                             name: d.player?.publicName || "Anon",
                             rec: typeof d.score == "number" ? d.score : 0,
                             pos: d.rank || 0
                         }));
-                    n.sort((d, g)=>g.rec - d.rec);
-                    let l = [];
-                    if (o && a) {
-                        const d = o.rank || 0, g = typeof o.score == "number" ? o.score : 0;
-                        if (n.some((v)=>v.uid === a)) l = n.slice(0, 3).map((v)=>({
-                                pos: (v.uid === a, v.pos),
-                                name: v.uid === a ? this.getMineLabel() : v.name,
+                    let l = null;
+                    if (a && await s.isAvailableMethod("leaderboards.getPlayerEntry")) try {
+                        l = await s.leaderboards.getPlayerEntry(t);
+                    } catch  {
+                        l = null;
+                    }
+                    let h = [];
+                    if (a && l && i) {
+                        const d = l.rank || 0, b = typeof l.score == "number" ? l.score : 0;
+                        if (n.some((v)=>v.uid === i)) h = n.slice(0, 3).map((v)=>({
+                                pos: v.pos,
+                                name: v.uid === i ? this.getMineLabel() : v.name,
                                 rec: v.rec,
-                                isMe: v.uid === a
+                                isMe: v.uid === i
                             }));
                         else {
-                            const v = n.filter((y)=>y.uid !== a).slice(0, 2).map((y)=>({
+                            const v = n.filter((y)=>y.uid !== i).slice(0, 2).map((y)=>({
                                     pos: y.pos,
                                     name: y.name,
                                     rec: y.rec
                                 })), x = {
-                                pos: d || 0,
+                                pos: d,
                                 name: this.getMineLabel(),
-                                rec: g,
+                                rec: b,
                                 isMe: !0
                             };
-                            l = [
+                            h = [
                                 ...v,
                                 x
                             ];
                         }
-                        const f = this.leaderboardPlacement[e];
+                        const f = this.leaderboardPlacement[t];
                         if (f) {
                             const v = f.group === "hor" ? this.table.hor[f.row] : this.table.vert[f.row];
-                            v && v[0] && (v[0].rec = g);
+                            v && v[0] && (v[0].rec = b);
                         }
-                    } else l = n.slice(0, 3).map((d)=>({
+                    } else h = n.slice(0, 3).map((d)=>({
                             pos: d.pos,
                             name: d.name,
                             rec: d.rec
                         }));
-                    const h = this.leaderboardPlacement[e];
-                    if (!h) return;
-                    const p = h.group === "hor" ? this.table.hor[h.row] : this.table.vert[h.row];
-                    for(let d = 0; d < 3; d++){
-                        const g = l[d] || {
-                            pos: d + 1,
+                    const p = this.leaderboardPlacement[t];
+                    if (!p) return;
+                    const u = p.group === "hor" ? this.table.hor[p.row] : this.table.vert[p.row];
+                    for(let d = 1; d <= 3; d++){
+                        const b = h[d - 1] || {
+                            pos: d,
                             name: "",
                             rec: 0
                         };
-                        p[d + 1] = {
-                            pos: g.pos,
-                            name: g.name,
-                            rec: g.rec,
-                            isMe: !!g.isMe
+                        u[d] = {
+                            pos: b.pos,
+                            name: b.name,
+                            rec: b.rec,
+                            isMe: !!b.isMe
                         };
                     }
-                    if (!l.some((d)=>d.name === this.getMineLabel()) && o && a) {
-                        const d = o.rank || 0, g = typeof o.score == "number" ? o.score : 0;
-                        p[3] = {
-                            pos: d,
+                    if (a && !h.some((b)=>b.isMe || b?.name === this.getMineLabel()) && l && i) {
+                        const b = l.rank || 0, c = typeof l.score == "number" ? l.score : 0;
+                        u[3] = {
+                            pos: b,
                             name: this.getMineLabel(),
-                            rec: g
+                            rec: c
                         };
                     }
-                } catch (t) {
-                    console.warn(`Leaderboard ${e} smart top-3 failed:`, t);
-                    const o = this.leaderboardPlacement[e];
-                    if (!o) return;
-                    const n = o.group === "hor" ? this.table.hor[o.row] : this.table.vert[o.row];
-                    for(let l = 1; l <= 3; l++)n[l] = {
-                        pos: l,
+                } catch (o) {
+                    console.warn(`Leaderboard ${t} load failed:`, o);
+                    const n = this.leaderboardPlacement[t];
+                    if (!n) return;
+                    const l = n.group === "hor" ? this.table.hor[n.row] : this.table.vert[n.row];
+                    for(let h = 1; h <= 3; h++)l[h] = {
+                        pos: h,
                         name: "",
                         rec: 0
                     };
                 }
             };
-            await Promise.all(this.leaderboardsPartIds.map(i)), this.processDataAfterLoad();
+            await Promise.all(this.leaderboardsPartIds.map(e)), this.refreshMineLabels(), this.applyLocalMyBestToTop3(), this.processDataAfterLoad();
         }
         async submitMyScore(s, a, i) {
             const e = Number(i) || 0;
@@ -2956,9 +2985,9 @@ void main() {
                     name: e,
                     rec: p,
                     isMe: !0
-                }), l = l.sort((d, g)=>g.rec - d.rec).slice(0, 3);
+                }), l = l.sort((d, b)=>b.rec - d.rec).slice(0, 3);
                 else {
-                    const d = l.filter((v)=>!v.isMe).sort((v, x)=>x.rec - v.rec), g = d[0] || {
+                    const d = l.filter((v)=>!v.isMe).sort((v, x)=>x.rec - v.rec), b = d[0] || {
                         pos: 1,
                         name: "",
                         rec: 0
@@ -2973,7 +3002,7 @@ void main() {
                         isMe: !0
                     };
                     l = [
-                        g,
+                        b,
                         c,
                         f
                     ];
@@ -3081,7 +3110,7 @@ void main() {
     }, {
         passive: !1
     });
-    let se, Lt = new Ns, De, ns, ws, Z, P, D, Ss, G, As, E, gs, $s = !1, Ks = !1, w = new jt;
+    let se, Lt = new Ns, De, ns, ws, Z, P, D, Ss, G, As, A, gs, $s = !1, Ks = !1, w = new jt;
     const us = new et;
     us.background = new os(13230580);
     const je = ct({
@@ -3129,9 +3158,9 @@ void main() {
     });
     let Y = document.querySelector(".loader_line");
     async function Bt() {
-        xe(!0), E = new _t;
+        xe(!0), A = new _t;
         const r = ysdk.environment.i18n.lang.toLowerCase();
-        gt(()=>E.refreshMineLabels(), r), gs = new St, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await E.loadTableFromCloud(), await E.loadLeaderboardsTop3(ysdk), await E.loadLevels(0), await E.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Pt(Le, E.loadLevels, w, D, E), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
+        gt(()=>A.refreshMineLabels(), r), gs = new St, await gs.loadModels(), await gs.loadBoostsModel(), Y.setAttribute("style", "width:30%"), await gs.loadTexture(), await Tt(), Y.setAttribute("style", "width:30%"), D = new wt, await D.loadAudio(), Y.setAttribute("style", "width:60%"), await A.loadTableFromCloud(), await A.loadLeaderboardsTop3(ysdk), await A.loadLevels(0), await A.loadLevelsContest(), Y.setAttribute("style", "width:100%"), ns = new Pt(Le, A.loadLevels, w, D, A), xe(!1), Y.setAttribute("style", "width:0%"), ysdk.features.LoadingAPI.ready(), ysdk.features.GameplayAPI.stop();
     }
     await Bt();
     async function Tt() {
@@ -3150,8 +3179,8 @@ void main() {
                 await m.__tla;
                 return m;
             }), [], import.meta.url);
-        se = new s.World(new s.Vector3(0, -9.81, 0)), De = new s.EventQueue(!0), Z = new cs(se, s), As = new Dt(I, E), ws = new Mt(us, I, F, G, Xs, D), P = new vt(us, D, Z, F, I, Xs, G, ws, Le, E, w, je, _e, As, ns, gs);
-        for(let a = 0; a < r; a++)P.players.push(new bt(E, us, D, P, G, I, w, gs));
+        se = new s.World(new s.Vector3(0, -9.81, 0)), De = new s.EventQueue(!0), Z = new cs(se, s), As = new Dt(I, A), ws = new Mt(us, I, F, G, Xs, D), P = new vt(us, D, Z, F, I, Xs, G, ws, Le, A, w, je, _e, As, ns, gs);
+        for(let a = 0; a < r; a++)P.players.push(new bt(A, us, D, P, G, I, w, gs));
         Ss = new xt(P, Xs, F, I, G, D), Ss.addKeyListeners();
     }
     async function Ht() {
@@ -3174,7 +3203,7 @@ void main() {
         });
     }
     async function Le(r, s, a = !1) {
-        Rt(), ns.toggleLoader(!0), G = new Ct, await Et(r), Y.setAttribute("style", "width:30%"), P.gameNum = s, await Ht(), Y.setAttribute("style", "width:60%"), await Ft(a), Y.setAttribute("style", "width:90%"), G.gameDir === "hor" ? As.loadRecsToHud(0, P.players.length - 1) : As.loadRecsToHud(1, P.players.length - 1), G.dataLoaded = !0, w.gameStarting = !0, E.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
+        Rt(), ns.toggleLoader(!0), G = new Ct, await Et(r), Y.setAttribute("style", "width:30%"), P.gameNum = s, await Ht(), Y.setAttribute("style", "width:60%"), await Ft(a), Y.setAttribute("style", "width:90%"), G.gameDir === "hor" ? As.loadRecsToHud(0, P.players.length - 1) : As.loadRecsToHud(1, P.players.length - 1), G.dataLoaded = !0, w.gameStarting = !0, A.gameInit = !0, Y.setAttribute("style", "width:100%"), setTimeout(()=>{
             ns.toggleLoader(!1), Y.setAttribute("style", "width:0%");
         }, 1e3);
     }
@@ -3182,9 +3211,9 @@ void main() {
         I.position.y = 2, I.position.x = 0, F.toneMappingExposure = 1.05, Ss?.removedKeyListeners(), ws = null, Z = null, P = null, Ss = null, G = null, As = null;
     }
     function It() {
-        if (w.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && P.showScreen("menu_in_game"), E.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? (ns.showScreen("hud"), ns.hideScreen("level_hud_wrap")) : !E.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ns.hideScreen("hud"), ns.showScreen("level_hud_wrap")), E.gameInit && w.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
+        if (w.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && G.dataLoaded && P.showScreen("menu_in_game"), A.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && G.dataLoaded ? (ns.showScreen("hud"), ns.hideScreen("level_hud_wrap")) : !A.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (ns.hideScreen("hud"), ns.showScreen("level_hud_wrap")), A.gameInit && w.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
             r.classList.add("hidden_screen");
-        }) : E.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
+        }) : A.gameInit && w.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((r, s, a)=>{
             r.classList.remove("hidden_screen");
         }), w.gameStarting ? (je.update(Is), _e.update(Is), $s || (ysdk.features.GameplayAPI.start(), $s = !0, Ks = !1)) : Ks || (ysdk.features.GameplayAPI.stop(), Ks = !0, $s = !1), G.dataLoaded && w.gameStarting) {
             P.players.forEach((r, s, a)=>{
@@ -3208,6 +3237,14 @@ void main() {
     }
     document.addEventListener("visibilitychange", function() {
         document.visibilityState === "visible" ? (!w.pause && !w.showGamePopup && (w.gameStarting = !0, D.togglePauseAll(!w.gameStarting)), w.visible = !0) : (!w.pause && !w.showGamePopup ? (w.gameStarting = !1, D.togglePauseAll(!w.gameStarting)) : w.pause || D.togglePauseAll(!w.gameStarting), w.visible = !1);
+    });
+    document.querySelector(".autoriz_btn").addEventListener("click", async ()=>{
+        try {
+            await ysdk.auth.openAuthDialog();
+        } catch  {}
+        await A.initYandexPlayer({
+            force: !0
+        }), await A.loadTableFromCloud(), await A.loadLeaderboardsTop3(ysdk);
     });
     document.querySelector(".pause_btn_wrap").addEventListener("click", ()=>{
         !w.pause && w.gameStarting && (w.pause = !w.pause, w.pause && (P.showPopupInGame(), w.gameStarting = !1, D.togglePauseAll(!w.gameStarting), P.showScreen("popup_game_btn_close")));
@@ -3248,8 +3285,8 @@ void main() {
                 return;
             }
             a.classList.add("visible");
-            const x = a.getBoundingClientRect().height, _ = Math.max(c / f * x, 24), R = f - c, q = x - _, b = R > 0 ? v / R * q : 0;
-            i.style.height = `${_}px`, i.style.top = `${b}px`;
+            const x = a.getBoundingClientRect().height, _ = Math.max(c / f * x, 24), R = f - c, q = x - _, g = R > 0 ? v / R * q : 0;
+            i.style.height = `${_}px`, i.style.top = `${g}px`;
         }, p = (c)=>{
             !s || !i || (e = !0, t = c.touches ? c.touches[0].clientY : c.clientY, o = s.scrollTop, document.body.style.userSelect = "none", c.preventDefault());
         }, u = (c)=>{

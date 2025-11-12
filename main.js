@@ -292,6 +292,7 @@ async function preloadPopupBackgrounds() {
 
 
 
+
 async function initClases(chels) {
 
 
@@ -563,6 +564,18 @@ document.addEventListener("visibilitychange", function () {
 
   }
 
+});
+
+document.querySelector('.autoriz_btn').addEventListener('click', async () => {
+  try {
+    await ysdk.auth.openAuthDialog(); // открылся и закрылся диалог
+  } catch (_) {
+    // остался гостем
+  }
+  await dataClass.initYandexPlayer({ force: true }); // СКРЫВАЕМ БАННЕР БЕЗ РЕЛОАДА
+  // если хочешь сразу подтянуть облачные данные под авторизованного:
+  await dataClass.loadTableFromCloud();
+  await dataClass.loadLeaderboardsTop3(ysdk);
 });
 
 

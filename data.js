@@ -201,7 +201,7 @@ export class DataClass {
   refreshMineLabels() {
     const mine = this.getMineLabel();
     const allMine = new Set(['Мой рекорд', 'My record']); // известные варианты
-  
+
     const fixRow = (row) => {
       if (!row) return;
       if (row[0]) row[0].name = mine; // pos:0 всегда "мой рекорд"
@@ -214,12 +214,12 @@ export class DataClass {
         }
       }
     };
-  
+
     ['hor', 'vert'].forEach(group => {
       if (!this.table[group]) return;
       for (let r = 0; r < 3; r++) fixRow(this.table[group][r]);
     });
-  
+
     this.processDataAfterLoad();
   }
 
@@ -469,18 +469,18 @@ export class DataClass {
     // строим masTables из table.hor/vert ровно так, как их ожидает menu.js
     const buildRowsForMenu = (row) => {
       const mine = this.getMineLabel();
-    
+
       // 1) первые три строки — то, что пришло из лидерборда
       const firstThree = [row[1], row[2], row[3]].map((x, idx) => (
         x ? { pos: x.pos, name: x.name, rec: x.rec } : { pos: idx + 1, name: '', rec: 0 }
       ));
       const hasMyInFirst3 = firstThree.some(x => x && x.name === mine);
-    
+
       // 2) актуальный «мой» рекорд = максимум из pos:0 и [3] (если [3] действительно «я»)
       const rec0 = Number(row?.[0]?.rec) || 0;
       const rec3 = (row?.[3]?.name === mine) ? (Number(row[3].rec) || 0) : 0;
       const myBest = Math.max(rec0, rec3);
-    
+
       if (hasMyInFirst3) {
         // если я в топ-3 — просто возвращаем первые три (они уже помечены)
         return firstThree;
@@ -523,17 +523,31 @@ export class DataClass {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  async initYandexPlayer() {
-    if (!this.yandexPlayer.player) {
-      this.yandexPlayer.player = await ysdk.getPlayer();
+  async initYandexPlayer({ force = false } = {}) {
+    try {
+      // 👇 при force переполучаем player, чтобы он был уже "авторизованный"
+      if (!this.yandexPlayer.player || force) {
+        this.yandexPlayer.player = await ysdk.getPlayer();
+      }
+      this.yandexPlayer.isAuthorized = await this.yandexPlayer.player.isAuthorized();
+    } catch (_) {
+      this.yandexPlayer.isAuthorized = false;
+    }
 
+    const autorizElement = document.querySelector('.autoriz');
+    if (autorizElement) {
+      // лог только когда реально авторизованы
+      if (this.yandexPlayer.isAuthorized) {
+        console.log('авторизовались');
+      }
+      // прячем баннер без перезагрузки
+      autorizElement.classList.toggle('hidden_screen', this.yandexPlayer.isAuthorized === true);
 
-      // ysdk.leaderboards.getEntries('ocean1').then(res => console.log(res));
-      // ysdk.leaderboards.getEntries('ocean2').then(res => console.log(res));
-
-
-
-
+      // на случай грязных стилей/анимаций — дубль через aria/display (не обязательно, но полезно)
+      if (this.yandexPlayer.isAuthorized === true) {
+        autorizElement.setAttribute('aria-hidden', 'true');
+        autorizElement.style.display = 'none';
+      }
     }
   }
 
@@ -628,66 +642,89 @@ export class DataClass {
     }
   }
 
+
+
+  applyLocalMyBestToTop3() {
+    // не трогаем авторизованных — для них витрина из облака уже «правильная»
+    if (this.yandexPlayer?.isAuthorized) return;
+
+    ['hor', 'vert'].forEach((groupName) => {
+      for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
+        const tableRow = this.table?.[groupName]?.[rowIndex];
+        if (!tableRow) continue;
+        const myBestLocal = Number(tableRow?.[0]?.rec) || 0; // pos:0 — «Мой рекорд»
+        if (myBestLocal > 0) {
+          this.updateLocalTop3(groupName, rowIndex, myBestLocal);
+        }
+      }
+    });
+  }
+
+
+
   async loadLeaderboardsTop3(ysdkInstance) {
     await this.initYandexPlayer();
     this.ensureRowsForLeaderboards();
 
-    // получаем UID игрока (нужен для сравнения)
-    const myUid = this.yandexPlayer?.player?.getUniqueID
+    const isAuthorized = !!this.yandexPlayer.isAuthorized;
+
+    // UID игрока нужен ТОЛЬКО когда авторизован
+    const myUid = (isAuthorized && this.yandexPlayer.player?.getUniqueID)
       ? this.yandexPlayer.player.getUniqueID()
       : null;
 
     const loadOne = async (leaderboardId) => {
       try {
-        // тянем топ-3 и мою запись отдельно (чтобы знать точный ранг)
-        const [topRes, myEntry] = await Promise.all([
-          ysdkInstance.leaderboards.getEntries(leaderboardId, {
-            quantityTop: 3,
-            includeUser: true,
-            quantityAround: 0,
-          }),
-          ysdkInstance.leaderboards.getPlayerEntry(leaderboardId).catch(() => null),
-        ]);
+        // 1) Всегда тянем публичный топ-3
+        const topRes = await ysdkInstance.leaderboards.getEntries(leaderboardId, {
+          quantityTop: 3,
+          includeUser: false,   // важно: для гостя это не работает; для всех — не полагаемся на это
+          quantityAround: 0,
+        });
 
-        // нормализуем топ-3
-        const top3Raw = (topRes.entries || []).map(e => ({
-          uid: e.player?.uniqueID || null,
-          name: e.player?.publicName || 'Anon',
-          rec: typeof e.score === 'number' ? e.score : 0,
-          pos: e.rank || 0, // реальный ранг из ЯИ
+        const top3Raw = (topRes.entries || []).map(entry => ({
+          uid: entry.player?.uniqueID || null,
+          name: entry.player?.publicName || 'Anon',
+          rec: typeof entry.score === 'number' ? entry.score : 0,
+          pos: entry.rank || 0, // реальный ранг из API
         }));
-        top3Raw.sort((a, b) => b.rec - a.rec);
 
-        // заготовка итоговых 3 строки
+        // 2) Моя запись — только если авторизован
+        let myEntry = null;
+        if (isAuthorized && await ysdkInstance.isAvailableMethod('leaderboards.getPlayerEntry')) {
+          try {
+            myEntry = await ysdkInstance.leaderboards.getPlayerEntry(leaderboardId);
+          } catch (_) {
+            myEntry = null; // нет записи — это норм
+          }
+        }
+
+        // 3) Сбор витрины
         let displayRows = [];
-
-        if (myEntry && myUid) {
+        if (isAuthorized && myEntry && myUid) {
           const myRank = myEntry.rank || 0;
           const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
 
           const iAmInTop3 = top3Raw.some(x => x.uid === myUid);
 
           if (iAmInTop3) {
-            // Я в топ-3: заменяем имя на "Мой рекорд"
             displayRows = top3Raw.slice(0, 3).map(item => ({
-              pos: item.uid === myUid ? item.pos : item.pos, // оставляем реальный ранг
+              pos: item.pos,
               name: item.uid === myUid ? this.getMineLabel() : item.name,
               rec: item.rec,
-              isMe: item.uid === myUid, 
+              isMe: item.uid === myUid,
             }));
           } else {
-            // Я не в топ-3: берём топ-2 (без меня на всякий случай) + я третьей строкой с моим реальным рангом
             const top2 = top3Raw.filter(x => x.uid !== myUid).slice(0, 2).map(item => ({
               pos: item.pos,
               name: item.name,
               rec: item.rec,
             }));
-            const meRow = { pos: myRank || 0, name: this.getMineLabel(), rec: myScore, isMe: true };
+            const meRow = { pos: myRank, name: this.getMineLabel(), rec: myScore, isMe: true };
             displayRows = [...top2, meRow];
           }
-          
 
-          // обновим pos:0 (мой рекорд) числом
+          // Обновим pos:0 числом моего лучшего результата
           const placementForPos0 = this.leaderboardPlacement[leaderboardId];
           if (placementForPos0) {
             const targetRow0 = placementForPos0.group === 'hor'
@@ -697,7 +734,7 @@ export class DataClass {
           }
 
         } else {
-          // не авторизован или записи нет: просто топ-3 как есть
+          // Гость/нет записи — просто публичный топ-3 как есть
           displayRows = top3Raw.slice(0, 3).map(item => ({
             pos: item.pos,
             name: item.name,
@@ -705,7 +742,7 @@ export class DataClass {
           }));
         }
 
-        // положим три строки в pos:1..3 (pos:0 не трогаем)
+        // 4) Записываем pos:1..3 (pos:0 не трогаем)
         const placement = this.leaderboardPlacement[leaderboardId];
         if (!placement) return;
 
@@ -713,20 +750,23 @@ export class DataClass {
           ? this.table.hor[placement.row]
           : this.table.vert[placement.row];
 
-        // пишем pos:1..3 для отображения
-        for (let i = 0; i < 3; i++) {
-          const src = displayRows[i] || { pos: i + 1, name: '', rec: 0 };
-          targetRow[i + 1] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
+        for (let place = 1; place <= 3; place++) {
+          const src = displayRows[place - 1] || { pos: place, name: '', rec: 0 };
+          targetRow[place] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
         }
-        const iAmShownInTop3 = displayRows.some(r => r.name === this.getMineLabel());
-        if (!iAmShownInTop3 && myEntry && myUid) {
-          const myRank = myEntry.rank || 0;
-          const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
-          targetRow[3] = { pos: myRank, name: this.getMineLabel(), rec: myScore };
+
+        // Если меня нет среди трёх строк, не подсовываем «серую» строку гостю
+        if (isAuthorized) {
+          const iAmShown = displayRows.some(r => r.isMe || r?.name === this.getMineLabel());
+          if (!iAmShown && myEntry && myUid) {
+            const myRank = myEntry.rank || 0;
+            const myScore = typeof myEntry.score === 'number' ? myEntry.score : 0;
+            targetRow[3] = { pos: myRank, name: this.getMineLabel(), rec: myScore };
+          }
         }
 
       } catch (error) {
-        console.warn(`Leaderboard ${leaderboardId} smart top-3 failed:`, error);
+        console.warn(`Leaderboard ${leaderboardId} load failed:`, error);
         const placement = this.leaderboardPlacement[leaderboardId];
         if (!placement) return;
         const targetRow = placement.group === 'hor'
@@ -738,9 +778,12 @@ export class DataClass {
 
     await Promise.all(this.leaderboardsPartIds.map(loadOne));
 
-    // обновляем ваши производные структуры
+    this.refreshMineLabels();
+    this.applyLocalMyBestToTop3();
+
     this.processDataAfterLoad();
   }
+
 
 
 
@@ -763,72 +806,72 @@ export class DataClass {
 
 
   // ЛОКАЛЬНЫЙ апдейт витрины top-3 без сети.
-// group: 'hor' | 'vert'
-// rowIndex: 0..2 (по числу игроков)
-// myRecord: число (новый личный рекорд для этой витрины)
-updateLocalTop3(group, rowIndex, myRecord) {
-  const mineLabel = this.getMineLabel();
-  const tableRow = this.table?.[group]?.[rowIndex];
-  if (!tableRow) return;
+  // group: 'hor' | 'vert'
+  // rowIndex: 0..2 (по числу игроков)
+  // myRecord: число (новый личный рекорд для этой витрины)
+  updateLocalTop3(group, rowIndex, myRecord) {
+    const mineLabel = this.getMineLabel();
+    const tableRow = this.table?.[group]?.[rowIndex];
+    if (!tableRow) return;
 
-  const normalize = (src, place) => ({
-    pos: (src?.pos ?? place),
-    name: (src?.name ?? ''),
-    rec: Number(src?.rec) || 0,
-    isMe: !!src?.isMe || src?.name === mineLabel
-  });
+    const normalize = (src, place) => ({
+      pos: (src?.pos ?? place),
+      name: (src?.name ?? ''),
+      rec: Number(src?.rec) || 0,
+      isMe: !!src?.isMe || src?.name === mineLabel
+    });
 
-  // pos:0 — всегда мой локальный рекорд (держим максимум)
-  const newMyBest = Number(myRecord) || 0;
-  tableRow[0] = tableRow[0] || { pos: 0, name: mineLabel, rec: 0 };
-  tableRow[0].name = mineLabel;
-  tableRow[0].rec = Math.max(Number(tableRow[0].rec) || 0, newMyBest);
+    // pos:0 — всегда мой локальный рекорд (держим максимум)
+    const newMyBest = Number(myRecord) || 0;
+    tableRow[0] = tableRow[0] || { pos: 0, name: mineLabel, rec: 0 };
+    tableRow[0].name = mineLabel;
+    tableRow[0].rec = Math.max(Number(tableRow[0].rec) || 0, newMyBest);
 
-  // текущие три строки витрины
-  let top = [ normalize(tableRow[1], 1), normalize(tableRow[2], 2), normalize(tableRow[3], 3) ];
+    // текущие три строки витрины
+    let top = [normalize(tableRow[1], 1), normalize(tableRow[2], 2), normalize(tableRow[3], 3)];
 
-  const iAmInTop3 = top.findIndex(entry => entry.isMe);
-  const myBest = Math.max(newMyBest, Number(tableRow[0].rec) || 0);
+    const iAmInTop3 = top.findIndex(entry => entry.isMe);
+    const myBest = Math.max(newMyBest, Number(tableRow[0].rec) || 0);
 
-  if (iAmInTop3 >= 0) {
-    // Я уже в топ-3: просто обновим мой счёт и пересортируем
-    top[iAmInTop3].name = mineLabel;
-    top[iAmInTop3].isMe = true;
-    top[iAmInTop3].rec = Math.max(top[iAmInTop3].rec, myBest);
-    top = top.sort((a, b) => b.rec - a.rec).slice(0, 3);
-  } else {
-    // Меня нет в топ-3 сейчас
-    const thirdScore = top[2]?.rec || 0;
-
-    if (myBest > thirdScore) {
-      // Мой счёт реально тянет в топ-3 — вставляем и пересортировываем
-      top.push({ pos: 0, name: mineLabel, rec: myBest, isMe: true });
+    if (iAmInTop3 >= 0) {
+      // Я уже в топ-3: просто обновим мой счёт и пересортируем
+      top[iAmInTop3].name = mineLabel;
+      top[iAmInTop3].isMe = true;
+      top[iAmInTop3].rec = Math.max(top[iAmInTop3].rec, myBest);
       top = top.sort((a, b) => b.rec - a.rec).slice(0, 3);
     } else {
-      // Требование: даже если не тяну в топ-3 — показывать меня ТРЕТЬИМ
-      // Берём двух лучших "не я" как 1 и 2, а 3 — это я
-      const othersSorted = top.filter(e => !e.isMe).sort((a, b) => b.rec - a.rec);
-      const first = othersSorted[0] || { pos: 1, name: '', rec: 0 };
-      const second = othersSorted[1] || { pos: 2, name: '', rec: 0 };
-      const meAsThird = {
-        pos: (tableRow[3]?.pos || 0), // можешь хранить реальный ранг, если есть
-        name: mineLabel,
-        rec: myBest,
-        isMe: true
-      };
-      top = [first, second, meAsThird];
+      // Меня нет в топ-3 сейчас
+      const thirdScore = top[2]?.rec || 0;
+
+      if (myBest > thirdScore) {
+        // Мой счёт реально тянет в топ-3 — вставляем и пересортировываем
+        top.push({ pos: 0, name: mineLabel, rec: myBest, isMe: true });
+        top = top.sort((a, b) => b.rec - a.rec).slice(0, 3);
+      } else {
+        // Требование: даже если не тяну в топ-3 — показывать меня ТРЕТЬИМ
+        // Берём двух лучших "не я" как 1 и 2, а 3 — это я
+        const othersSorted = top.filter(e => !e.isMe).sort((a, b) => b.rec - a.rec);
+        const first = othersSorted[0] || { pos: 1, name: '', rec: 0 };
+        const second = othersSorted[1] || { pos: 2, name: '', rec: 0 };
+        const meAsThird = {
+          pos: (tableRow[3]?.pos || 0), // можешь хранить реальный ранг, если есть
+          name: mineLabel,
+          rec: myBest,
+          isMe: true
+        };
+        top = [first, second, meAsThird];
+      }
     }
-  }
 
-  // Записываем обратно в pos:1..3
-  for (let place = 1; place <= 3; place++) {
-    const src = top[place - 1] || { pos: place, name: '', rec: 0 };
-    tableRow[place] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
-  }
+    // Записываем обратно в pos:1..3
+    for (let place = 1; place <= 3; place++) {
+      const src = top[place - 1] || { pos: place, name: '', rec: 0 };
+      tableRow[place] = { pos: src.pos, name: src.name, rec: src.rec, isMe: !!src.isMe };
+    }
 
-  // Пересобираем производные структуры (masTables) для меню
-  this.processDataAfterLoad();
-}
+    // Пересобираем производные структуры (masTables) для меню
+    this.processDataAfterLoad();
+  }
 
 
 
