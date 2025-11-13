@@ -81,7 +81,8 @@ export class LevelClass {
     this.materialPlane = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
     this.mks = new THREE.Mesh(this.geometryPlane, this.materialPlane);
     this.mks.position.z = -550
-    if (this.isMobile) this.mks.position.y = 100
+    this.mks.position.x = 100
+    if (this.isMobile) this.mks.position.y = 120
     else this.mks.position.y = 140
 
     this.mks.layers.set(1);
@@ -2260,7 +2261,7 @@ export class LevelClass {
   cameraMove(camera, delta) {
 
 
-    const dt = Math.min(0.033, Math.max(0.001, delta || 1/60));
+    const dt = Math.min(0.033, Math.max(0.001, delta || 1 / 60));
 
     switch (this.gameNum) {
       case 1:
@@ -2270,72 +2271,72 @@ export class LevelClass {
         camera.position.z = this.isMobile ? 25 : 30;
         camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         break;
-        case 2: {
-          const leadIndex = Math.max(0, this.maxSpeed(true));
-          const hasLeader = (leadIndex >= 0 && !this.worldClass.thunder) || this.levelsMode;
-        
-          if (hasLeader) {
-            // 1) целимся в лидера, а если жив один — держим его правее (как было у тебя)
-            let leaderX = 0;
-            const onlyOneAlive = this.players.filter(p => p.player.userData.live).length === 1;
-            if (!onlyOneAlive) {
-              leaderX = this.players[leadIndex].player.position.x;
-            } else if (this.paramsClass.gameDir === 'hor') {
-              leaderX = this.players[leadIndex].player.position.x + this.bounds.rightX / 2;
-            }
-        
-            // 2) чуть предсказываем вперёд по скорости лидера (срезает «зубчики» от физики)
-            let leaderVelX = 0;
-            const leaderBody = this.players[leadIndex]?.player?.userData?.body || this.players[leadIndex]?.player?.userData?.collider;
-            if (leaderBody && leaderBody.linvel) {
-              const v = leaderBody.linvel();
-              leaderVelX = v.x || 0;
-            }
-            const lookAhead = THREE.MathUtils.clamp(
-              leaderVelX * this.cam.lookAheadSeconds,
-              -this.cam.lookAheadMax,
-              this.cam.lookAheadMax
-            );
-            const rawDesiredX = leaderX + lookAhead;
-        
-            // 3) фильтруем САМУ цель (не только позицию камеры)
-            this.cam.targetX = this.dampScalar(
-              this.cam.targetX,
-              rawDesiredX,
-              this.cam.targetFilterLambda,
-              dt
-            );
-        
-            // 4) ограничиваем резкий откат цели назад (как раньше)
-            if (this.cam.targetX < camera.position.x - this.cam.maxBackJump) {
-              this.cam.targetX = camera.position.x - this.cam.maxBackJump;
-            }
-        
-            // 5) стабильный smooth damp к отфильтрованной цели
-            const s = this.smoothDamp(
-              camera.position.x,
-              this.cam.targetX,
-              this.cam.velocityX,
-              this.cam.smoothTime,
-              Infinity,
-              dt
-            );
-            camera.position.x = s.newPos;
-            this.cam.velocityX = s.newVel;
-        
-            // остальное без изменений
-            camera.position.y = this.isMobile ? 2.5 : 3;
-            camera.position.z = this.isMobile ? 25 : 30;
-            camera.lookAt(camera.position.x, camera.position.y - 2, 0);
-          } else {
-            if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 2;
-            camera.position.y = this.isMobile ? 3 : 3;
-            camera.position.z = this.isMobile ? 25 : 30;
-            camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+      case 2: {
+        const leadIndex = Math.max(0, this.maxSpeed(true));
+        const hasLeader = (leadIndex >= 0 && !this.worldClass.thunder) || this.levelsMode;
+
+        if (hasLeader) {
+          // 1) целимся в лидера, а если жив один — держим его правее (как было у тебя)
+          let leaderX = 0;
+          const onlyOneAlive = this.players.filter(p => p.player.userData.live).length === 1;
+          if (!onlyOneAlive) {
+            leaderX = this.players[leadIndex].player.position.x;
+          } else if (this.paramsClass.gameDir === 'hor') {
+            leaderX = this.players[leadIndex].player.position.x + this.bounds.rightX / 2;
           }
-          break;
+
+          // 2) чуть предсказываем вперёд по скорости лидера (срезает «зубчики» от физики)
+          let leaderVelX = 0;
+          const leaderBody = this.players[leadIndex]?.player?.userData?.body || this.players[leadIndex]?.player?.userData?.collider;
+          if (leaderBody && leaderBody.linvel) {
+            const v = leaderBody.linvel();
+            leaderVelX = v.x || 0;
+          }
+          const lookAhead = THREE.MathUtils.clamp(
+            leaderVelX * this.cam.lookAheadSeconds,
+            -this.cam.lookAheadMax,
+            this.cam.lookAheadMax
+          );
+          const rawDesiredX = leaderX + lookAhead;
+
+          // 3) фильтруем САМУ цель (не только позицию камеры)
+          this.cam.targetX = this.dampScalar(
+            this.cam.targetX,
+            rawDesiredX,
+            this.cam.targetFilterLambda,
+            dt
+          );
+
+          // 4) ограничиваем резкий откат цели назад (как раньше)
+          if (this.cam.targetX < camera.position.x - this.cam.maxBackJump) {
+            this.cam.targetX = camera.position.x - this.cam.maxBackJump;
+          }
+
+          // 5) стабильный smooth damp к отфильтрованной цели
+          const s = this.smoothDamp(
+            camera.position.x,
+            this.cam.targetX,
+            this.cam.velocityX,
+            this.cam.smoothTime,
+            Infinity,
+            dt
+          );
+          camera.position.x = s.newPos;
+          this.cam.velocityX = s.newVel;
+
+          // остальное без изменений
+          camera.position.y = this.isMobile ? 2.5 : 3;
+          camera.position.z = this.isMobile ? 25 : 30;
+          camera.lookAt(camera.position.x, camera.position.y - 2, 0);
+        } else {
+          if (this.gameClass.gameStarting) camera.position.x += this.cameraSpeed * 2;
+          camera.position.y = this.isMobile ? 3 : 3;
+          camera.position.z = this.isMobile ? 25 : 30;
+          camera.lookAt(camera.position.x, camera.position.y - 2, 0);
         }
-        
+        break;
+      }
+
       case 3:
         // this.getHorizontalWorldBounds();
         if (this.gameClass.gameStarting) camera.position.y += this.cameraSpeed;
@@ -2395,21 +2396,21 @@ export class LevelClass {
     const epsilon = 1e-6;
     smoothTime = Math.max(epsilon, smoothTime);
     const omega = 2 / smoothTime;
-  
+
     const x = omega * dt;
     const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
-  
+
     let change = current - target;
     const maxChange = (maxSpeed > 0 ? maxSpeed : Infinity) * smoothTime;
     change = THREE.MathUtils.clamp(change, -maxChange, maxChange);
-  
+
     const temp = (velocity + omega * change) * dt;
     const newVelocity = (velocity - omega * temp) * exp;
     const newPosition = target + (change + temp) * exp;
-  
+
     return { newPos: newPosition, newVel: newVelocity };
   }
-  
+
   // простой экспоненциальный фильтр цели
   dampScalar(current, target, lambdaPerSec, dt) {
     const t = 1 - Math.exp(-lambdaPerSec * dt);

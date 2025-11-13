@@ -458,6 +458,7 @@ export class AudioClass {
       else {
         this.timeToChange = 0;
         this.stopMusic(['back']);
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(2);
         this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => el['name'] === 'back1')['music'];
         if (this.musicOn) this.playMusic(['back']);
         this.musicNight = false;
@@ -475,6 +476,7 @@ export class AudioClass {
       else {
         this.timeToChange = 0;
         this.stopMusic(['back']);
+        this.musics.find((el) => el['name'] === 'back')['music'].setVolume(2);
         this.musics.find((el) => el['name'] === 'back')['music'] = this.musics.find((el) => !hor ? el['name'] === 'back2' : el['name'] === 'back3')['music'];
         if (this.musicOn) this.playMusic(['back']);
         this.musicNight = true;
