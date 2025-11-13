@@ -50,7 +50,7 @@ const messages = {
         loader: { loading: "Загрузка..." },
         leaderboard: { mine: "Мой рекорд" },
         auth: {
-            title: 'Авторизуйтесь для участия в чемпионате',
+            title: 'Авторизуйтесь для участия в рекордах',
             cta: 'Войти'
         }
 
@@ -104,7 +104,7 @@ const messages = {
         loader: { loading: "Loading..." },
         leaderboard: { mine: "My record" },
         auth: {
-            title: 'Log in to participate in the championship',
+            title: 'Log in to participate in the records',
             cta: 'LogIn'
         }
     }
