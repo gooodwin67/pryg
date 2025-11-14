@@ -230,6 +230,7 @@ export class MenuClass {
     //   this.initMatch(1, 1);
     // })
     document.querySelector('.free_game_btn1_2').addEventListener('click', () => {
+      ym(105298813, 'reachGoal', 'play_ocean');
       this.hideScreen('free_game_screen');
       this.initMatch(this.playersNum, 2);
 
@@ -239,6 +240,7 @@ export class MenuClass {
     //   this.initMatch(1, 3);
     // })
     document.querySelector('.free_game_btn1_4').addEventListener('click', () => {
+      ym(105298813, 'reachGoal', 'play_space');
       this.hideScreen('free_game_screen');
       this.initMatch(this.playersNum, 4, false, false);
     })

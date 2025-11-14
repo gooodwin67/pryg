@@ -29,6 +29,15 @@ export class LevelClass {
 
     this.cameraSpeed = 0.01;
 
+    this.score300ChampHorSent = false;
+    this.score100ChampVertSent = false;
+
+    this.levelsPlayedTracked = new Set();
+    this.levelsContestPlayedTracked = new Set();
+
+    this.hardHorReachedSent = false;
+    this.hardVertReachedSent = false;
+
     this.levelsMode = false;
     this.levelsNoFric = false;
     this.allLevels = this.dataClass.allLevels;
@@ -1704,8 +1713,52 @@ export class LevelClass {
     if (!this.levelsMode) {
       if (this.paramsClass.gameDir == 'hor') {
         this.scoreClass.updateMetersFloat(null, this.players, 'hor');
+
+        // --- достигли красных (последних) блоков в чемпионате, горизонталь ---
+        if (!this.hardHorReachedSent) {
+          const hardStartIndex = this.count - 10; // первые из красных блоков
+          const hardStartX = this.objs.grassPlanes.data[hardStartIndex]?.position.x ?? Infinity;
+
+          const reachedHardZone = this.players.some((playerWrapper) => {
+            const player = playerWrapper?.player;
+            if (!player) return false;
+            return player.position.x >= hardStartX;
+          });
+
+          if (reachedHardZone) {
+            this.hardHorReachedSent = true;
+            ym(105298813, 'reachGoal', `champ_hor_hard_${this.players.length}`);
+          }
+        }
+    
+        if (!this.score300ChampHorSent && this.scoreClass.score >= 300) {
+          this.score300ChampHorSent = true;
+          ym(105298813, 'reachGoal', `score300_champ_hor_${this.players.length}`);
+        }
+    
       } else {
         this.scoreClass.updateMetersFloat(null, this.players, 'vert');
+
+        if (!this.hardVertReachedSent) {
+          const hardStartIndex = this.count - 10; // первые из красных блоков
+          const hardStartY = this.objs.grassPlanes.data[hardStartIndex]?.position.y ?? Infinity;
+
+          const reachedHardZone = this.players.some((playerWrapper) => {
+            const player = playerWrapper?.player;
+            if (!player) return false;
+            return player.position.y >= hardStartY;
+          });
+
+          if (reachedHardZone) {
+            this.hardVertReachedSent = true;
+            ym(105298813, 'reachGoal', `champ_vert_hard_${this.players.length}`);
+          }
+        }
+    
+        if (!this.score100ChampVertSent && this.scoreClass.score >= 100) {
+          this.score100ChampVertSent = true;
+          ym(105298813, 'reachGoal', `score100_champ_vert_${this.players.length}`);
+        }
       }
     }
 
@@ -2517,6 +2570,12 @@ export class LevelClass {
           if (this.dataClass.levelCoopMode == 'coop') {
             let bonusHeart = false;
             let newLevel = false;
+
+            if (!this.levelsPlayedTracked.has(this.levelsMode)) {
+              this.levelsPlayedTracked.add(this.levelsMode);
+              ym(105298813, 'reachGoal', `level_coop_${this.levelsMode}_${this.players.length}`);
+            }
+
             this.players.forEach((value, index, array) => {
               if (this.levelsMode == this.allLevels) {
                 this.dataClass.table.player.bonusHeart[index] = 10;
@@ -2537,6 +2596,13 @@ export class LevelClass {
             }
           }
           else if (this.dataClass.levelCoopMode == 'contest') {
+
+
+            if (!this.levelsContestPlayedTracked.has(this.levelsMode)) {
+              this.levelsContestPlayedTracked.add(this.levelsMode);
+              ym(105298813, 'reachGoal', `level_contest_${this.levelsMode}_${this.players.length}`);
+            }
+
             this.players.forEach(async (value, index, array) => {
               if (value.player.userData.finish) {
                 if (this.dataClass.table.levelsStatusContest[this.levelsMode - 1] != index + 1) {
