@@ -140,6 +140,29 @@ const isMobile = detectDevice();
 ///////////////////////////////////////
 
 
+async function loadRapier() {
+  // 1. Если уже есть глобальный RAPIER (подключили через <script>), просто используем его
+  if (window.RAPIER) {
+    return window.RAPIER;
+  }
+
+  // 2. Современный путь – динамический импорт модуля
+  try {
+    const rapierModule = await import('@dimforge/rapier3d');
+    return rapierModule;
+  } catch (error) {
+    console.warn('Не удалось импортировать @dimforge/rapier3d как модуль', error);
+
+    // вдруг за это время глобальный всё-таки появился
+    if (window.RAPIER) {
+      return window.RAPIER;
+    }
+
+    throw error; // пусть дальше отловится в runInit и покажет оверлей
+  }
+}
+
+
 function setVhVar() {
   const h = (window.visualViewport?.height || window.innerHeight) * 0.01;
   document.documentElement.style.setProperty('--vh', `${h}px`);
@@ -263,8 +286,9 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:100%");
 
 
-  menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
-
+  // menuClass = new MenuClass(initMatch, gameClass, audioClass, dataClass);
+  menuClass = new MenuClass();
+  menuClass.init();
 
 
   ysdk.features.LoadingAPI.ready();
@@ -301,17 +325,17 @@ async function BeforeStart() {
 
 function showInitError(error) {
   let message = 'Init error';
-  if (error) {
-    if (error.message) {
-      message += ': ' + error.message;
-    } else {
-      message += ': ' + String(error);
-    }
+
+  if (typeof error === 'string') {
+    message += ':\n' + error;
+  } else if (error) {
+    if (error.message) message += ': ' + error.message;
+    if (error.stack)  message += '\n' + error.stack;
   }
 
   const debugOverlay = document.createElement('div');
   debugOverlay.className = 'debug_error_overlay';
-  debugOverlay.textContent = "Ошибка загрузки, перезагрузите страницу" + message;
+  debugOverlay.textContent = message;
 
   document.body.appendChild(debugOverlay);
 }
@@ -332,7 +356,8 @@ async function preloadPopupBackgrounds() {
 async function initClases(chels) {
 
 
-  const RAPIER = await import('@dimforge/rapier3d');
+  // const RAPIER = await import('@dimforge/rapier3d');
+  const RAPIER = await loadRapier();
   world = new RAPIER.World(new RAPIER.Vector3(0, -9.81, 0));
 
   eventQueue = new RAPIER.EventQueue(true);

@@ -437,6 +437,261 @@ export class LevelClass {
 
     this.dt = new THREE.Clock();
 
+
+
+    this.menuInGame = () => {
+
+
+
+      async function showFullscreenAdvSafe() {
+        return new Promise((resolve) => {
+          ysdk.adv.showFullscreenAdv({
+            callbacks: {
+              onOpen: () => console.log('Ad opened'),
+              onClose: (wasShown) => {
+                console.log('Ad closed', wasShown);
+                resolve(wasShown); // продолжаем выполнение
+              },
+              onError: (err) => {
+                console.warn('Ad error', err);
+                resolve(false); // всё равно продолжаем
+              },
+            },
+          });
+        });
+      }
+  
+      this.rebindButton('.popup_game_btn1', async () => {
+  
+        ysdk.adv.showRewardedVideo({
+          callbacks: {
+            onOpen: () => {
+              console.log('Video ad open.');
+            },
+            onRewarded: () => {
+              console.log('Rewarded!');
+  
+              if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
+              this.boostHatModels.forEach((value, index, array) => {
+                value.userData.fly = false;
+              })
+              let mas = [];
+              this.players.forEach((value, index, array) => {
+                mas.push(value.player.position.x);
+              })
+  
+              this.players.forEach((value, index, array) => {
+  
+                value.playerAliving(false);
+                value.player.userData.lives = 1;
+                value.player.position.x = Math.max(...mas);
+                this.camera.position.x = value.player.position.x;
+              })
+  
+  
+  
+  
+              this.audioClass.pauseMusic(['back']);
+              this.audioClass.playMusic(['back']);
+              if (!this.levelsMode) this.canShowAds = false;
+              this.gameClass.showGamePopup = false;
+  
+              this.hideScreen('popup_in_game');
+  
+            },
+            onClose: () => {
+              console.log('Video ad closed.');
+            },
+            onError: (e) => {
+              console.log('Error while open video ad:', e);
+            },
+          }
+        })
+  
+  
+      })
+  
+      this.rebindButton('.popup_game_btn2', async () => {
+  
+  
+  
+  
+        this.audioClass.hardStopAll();
+        await showFullscreenAdvSafe();
+  
+  
+  
+        let masPos = [0, -1, 1]
+  
+        this.players.forEach((value, index, array) => {
+          value.player.userData.live = false;
+          value.player.userData.score = 0;
+          value.player.userData._lastMeterPos = null;
+          value.player.userData._wasLive = false;
+          value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
+  
+          value.player.userData.finish = false;
+          value.playerAliving(true);
+  
+          if (this.levelsMode) {
+            let player = this.players[index];
+            let randNum = Math.floor(Math.random() * masPos.length);
+            player.player.userData.startPos.x = masPos[randNum];
+            masPos.splice(randNum, 1)
+          }
+          else {
+            value.player.position.x = value.player.position.x - index * 1 + 1;
+          }
+        })
+  
+        if (this.gameNum == 1 || this.gameNum == 3) {
+          // this.camera.position.z = 7;
+          this.camera.position.y = 0;
+          this.camera.position.x = 0;
+          this.cameraSpeed = 0.01;
+        }
+  
+        this.canShowAds = true;
+  
+        if (this.birdYes) {
+          setTimeout(() => {
+            this.birdFlyingMark = 10;
+            this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
+            this.angryBird.userData.flying = false;
+          }, 100);
+        }
+        this.boostHatModels.forEach((value, index, array) => {
+          value.position.x = this.boostHatCoords[index][0];
+          value.position.y = this.boostHatCoords[index][1];
+          value.userData.fly = false;
+        })
+  
+        for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
+          this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
+          this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+        }
+        this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
+  
+  
+        this.audioClass.stopMusic(['back']);
+        this.audioClass.playMusic(['back']);
+        this.audioClass.stopMusic(['ocean']);
+        this.audioClass.playMusic(['ocean']);
+  
+        this.camera.position.x = 0;
+  
+  
+  
+        this.gameClass.pause = false;
+        this.gameClass.showGamePopup = false;
+  
+        this.hideScreen('popup_in_game');
+  
+        setTimeout(() => {
+          this.startAfterReset = true;
+        }, 3000);
+  
+  
+      })
+      this.rebindButton('.popup_game_btn15', async () => {
+  
+        this.audioClass.hardStopAll();
+        await showFullscreenAdvSafe();
+        this.paramsClass.dataLoaded = false;
+        disposeScene(this.scene);
+        this.audioClass.stopMusic(0);
+  
+  
+  
+        setTimeout(() => {
+          let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 1;
+  
+          if (level == this.allLevels) this.hideScreen('popup_game_btn15');
+  
+          this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
+        }, 100);
+        setTimeout(() => {
+          this.players.forEach((value, index, array) => {
+            value.playerAliving(true);
+          })
+        }, 100);
+  
+        this.gameClass.showGamePopup = false;
+  
+        this.hideScreen('popup_in_game');
+  
+        // if (this.gameNum == 1 || this.gameNum == 3) {
+        //   this.camera.position.z = 7;
+        //   this.camera.position.y = 2;
+        //   this.camera.position.x = 0;
+        //   this.cameraSpeed = 0.01;
+        // }
+        // this.canShowAds = true;
+  
+        // if (this.birdYes) {
+        //   setTimeout(() => {
+        //     this.birdFlyingMark = 10;
+        //     this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
+        //     this.angryBird.userData.flying = false;
+        //   }, 100);
+        // }
+        // this.boostHatModels.forEach((value, index, array) => {
+        //   value.position.x = this.boostHatCoords[index][0];
+        //   value.position.y = this.boostHatCoords[index][1];
+        //   value.userData.fly = false;
+        // })
+  
+        // for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
+        //   this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
+        //   this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
+        // }
+        // this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
+  
+  
+        // this.audioClass.stopMusic(['back']);
+        // this.audioClass.playMusic(['back']);
+  
+      })
+      this.rebindButton('.popup_game_btn3', async () => {
+        this.audioClass.hardStopAll();
+        await showFullscreenAdvSafe();
+        this.gameClass.pause = false;
+        this.gameClass.showGamePopup = false;
+        this.hideScreen('popup_in_game');
+        this.showScreen('main_screen');
+        // this.players.forEach((value, index, array) => {
+        //   value.playerAliving(true);
+        // })
+        this.paramsClass.dataLoaded = false;
+        disposeScene(this.scene);
+        this.audioClass.stopMusic(0);
+        this.dataClass.gameInit = false;
+  
+      })
+  
+      this.rebindButton('.popup_game_btn4', async () => {
+        this.audioClass.hardStopAll();
+        await showFullscreenAdvSafe();
+        this.gameClass.pause = false;
+        this.gameClass.showGamePopup = false;
+  
+        this.hideScreen('popup_in_game');
+  
+        if (this.dataClass.levelCoopMode == 'contest') {
+          this.showScreen('levels_game_screen_contest');
+        }
+        else {
+          this.showScreen('levels_game_screen');
+        }
+  
+        this.paramsClass.dataLoaded = false;
+        disposeScene(this.scene);
+        this.audioClass.stopMusic(0);
+        this.dataClass.gameInit = false;
+  
+      })
+    }
+
     this.menuInGame();
 
 
@@ -2715,258 +2970,7 @@ export class LevelClass {
 
 
 
-  menuInGame = () => {
-
-
-
-    async function showFullscreenAdvSafe() {
-      return new Promise((resolve) => {
-        ysdk.adv.showFullscreenAdv({
-          callbacks: {
-            onOpen: () => console.log('Ad opened'),
-            onClose: (wasShown) => {
-              console.log('Ad closed', wasShown);
-              resolve(wasShown); // продолжаем выполнение
-            },
-            onError: (err) => {
-              console.warn('Ad error', err);
-              resolve(false); // всё равно продолжаем
-            },
-          },
-        });
-      });
-    }
-
-    this.rebindButton('.popup_game_btn1', async () => {
-
-      ysdk.adv.showRewardedVideo({
-        callbacks: {
-          onOpen: () => {
-            console.log('Video ad open.');
-          },
-          onRewarded: () => {
-            console.log('Rewarded!');
-
-            if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
-            this.boostHatModels.forEach((value, index, array) => {
-              value.userData.fly = false;
-            })
-            let mas = [];
-            this.players.forEach((value, index, array) => {
-              mas.push(value.player.position.x);
-            })
-
-            this.players.forEach((value, index, array) => {
-
-              value.playerAliving(false);
-              value.player.userData.lives = 1;
-              value.player.position.x = Math.max(...mas);
-              this.camera.position.x = value.player.position.x;
-            })
-
-
-
-
-            this.audioClass.pauseMusic(['back']);
-            this.audioClass.playMusic(['back']);
-            if (!this.levelsMode) this.canShowAds = false;
-            this.gameClass.showGamePopup = false;
-
-            this.hideScreen('popup_in_game');
-
-          },
-          onClose: () => {
-            console.log('Video ad closed.');
-          },
-          onError: (e) => {
-            console.log('Error while open video ad:', e);
-          },
-        }
-      })
-
-
-    })
-
-    this.rebindButton('.popup_game_btn2', async () => {
-
-
-
-
-      this.audioClass.hardStopAll();
-      await showFullscreenAdvSafe();
-
-
-
-      let masPos = [0, -1, 1]
-
-      this.players.forEach((value, index, array) => {
-        value.player.userData.live = false;
-        value.player.userData.score = 0;
-        value.player.userData._lastMeterPos = null;
-        value.player.userData._wasLive = false;
-        value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-
-        value.player.userData.finish = false;
-        value.playerAliving(true);
-
-        if (this.levelsMode) {
-          let player = this.players[index];
-          let randNum = Math.floor(Math.random() * masPos.length);
-          player.player.userData.startPos.x = masPos[randNum];
-          masPos.splice(randNum, 1)
-        }
-        else {
-          value.player.position.x = value.player.position.x - index * 1 + 1;
-        }
-      })
-
-      if (this.gameNum == 1 || this.gameNum == 3) {
-        // this.camera.position.z = 7;
-        this.camera.position.y = 0;
-        this.camera.position.x = 0;
-        this.cameraSpeed = 0.01;
-      }
-
-      this.canShowAds = true;
-
-      if (this.birdYes) {
-        setTimeout(() => {
-          this.birdFlyingMark = 10;
-          this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
-          this.angryBird.userData.flying = false;
-        }, 100);
-      }
-      this.boostHatModels.forEach((value, index, array) => {
-        value.position.x = this.boostHatCoords[index][0];
-        value.position.y = this.boostHatCoords[index][1];
-        value.userData.fly = false;
-      })
-
-      for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
-        this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
-        this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
-      }
-      this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
-
-
-      this.audioClass.stopMusic(['back']);
-      this.audioClass.playMusic(['back']);
-      this.audioClass.stopMusic(['ocean']);
-      this.audioClass.playMusic(['ocean']);
-
-      this.camera.position.x = 0;
-
-
-
-      this.gameClass.pause = false;
-      this.gameClass.showGamePopup = false;
-
-      this.hideScreen('popup_in_game');
-
-      setTimeout(() => {
-        this.startAfterReset = true;
-      }, 3000);
-
-
-    })
-    this.rebindButton('.popup_game_btn15', async () => {
-
-      this.audioClass.hardStopAll();
-      await showFullscreenAdvSafe();
-      this.paramsClass.dataLoaded = false;
-      disposeScene(this.scene);
-      this.audioClass.stopMusic(0);
-
-
-
-      setTimeout(() => {
-        let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 1;
-
-        if (level == this.allLevels) this.hideScreen('popup_game_btn15');
-
-        this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
-      }, 100);
-      setTimeout(() => {
-        this.players.forEach((value, index, array) => {
-          value.playerAliving(true);
-        })
-      }, 100);
-
-      this.gameClass.showGamePopup = false;
-
-      this.hideScreen('popup_in_game');
-
-      // if (this.gameNum == 1 || this.gameNum == 3) {
-      //   this.camera.position.z = 7;
-      //   this.camera.position.y = 2;
-      //   this.camera.position.x = 0;
-      //   this.cameraSpeed = 0.01;
-      // }
-      // this.canShowAds = true;
-
-      // if (this.birdYes) {
-      //   setTimeout(() => {
-      //     this.birdFlyingMark = 10;
-      //     this.angryBird.userData.body.setTranslation({ x: this.birdFlyingMark + this.bounds.rightX + this.distanceToBird, y: 20, z: this.angryBird.userData.body.translation().z });
-      //     this.angryBird.userData.flying = false;
-      //   }, 100);
-      // }
-      // this.boostHatModels.forEach((value, index, array) => {
-      //   value.position.x = this.boostHatCoords[index][0];
-      //   value.position.y = this.boostHatCoords[index][1];
-      //   value.userData.fly = false;
-      // })
-
-      // for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
-      //   this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
-      //   this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
-      // }
-      // this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
-
-
-      // this.audioClass.stopMusic(['back']);
-      // this.audioClass.playMusic(['back']);
-
-    })
-    this.rebindButton('.popup_game_btn3', async () => {
-      this.audioClass.hardStopAll();
-      await showFullscreenAdvSafe();
-      this.gameClass.pause = false;
-      this.gameClass.showGamePopup = false;
-      this.hideScreen('popup_in_game');
-      this.showScreen('main_screen');
-      // this.players.forEach((value, index, array) => {
-      //   value.playerAliving(true);
-      // })
-      this.paramsClass.dataLoaded = false;
-      disposeScene(this.scene);
-      this.audioClass.stopMusic(0);
-      this.dataClass.gameInit = false;
-
-    })
-
-    this.rebindButton('.popup_game_btn4', async () => {
-      this.audioClass.hardStopAll();
-      await showFullscreenAdvSafe();
-      this.gameClass.pause = false;
-      this.gameClass.showGamePopup = false;
-
-      this.hideScreen('popup_in_game');
-
-      if (this.dataClass.levelCoopMode == 'contest') {
-        this.showScreen('levels_game_screen_contest');
-      }
-      else {
-        this.showScreen('levels_game_screen');
-      }
-
-      this.paramsClass.dataLoaded = false;
-      disposeScene(this.scene);
-      this.audioClass.stopMusic(0);
-      this.dataClass.gameInit = false;
-
-    })
-  }
+  
 
 
   hideScreen(screen) {

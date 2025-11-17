@@ -186,6 +186,17 @@ export class DataClass {
       });
     };
 
+    this.leaderboardsPartIds = ['ocean1', 'ocean2', 'ocean3', 'space1', 'space2', 'space3'];
+
+    this.leaderboardPlacement = {
+      ocean1: { group: 'hor', row: 0 },
+      ocean2: { group: 'hor', row: 1 },
+      ocean3: { group: 'hor', row: 2 },
+      space1: { group: 'vert', row: 0 },
+      space2: { group: 'vert', row: 1 },
+      space3: { group: 'vert', row: 2 },
+    };
+
   }
 
 
@@ -627,15 +638,15 @@ export class DataClass {
 
   // --- 4. Загрузить ТОЛЬКО ТОП-3 из набора лидербордов в table.hor/vert ---
   // pos:0 (Мой рекорд) НЕ трогаем.
-  leaderboardsPartIds = ['ocean1', 'ocean2', 'ocean3', 'space1', 'space2', 'space3'];
-  leaderboardPlacement = {
-    ocean1: { group: 'hor', row: 0 },
-    ocean2: { group: 'hor', row: 1 },
-    ocean3: { group: 'hor', row: 2 },
-    space1: { group: 'vert', row: 0 },
-    space2: { group: 'vert', row: 1 },
-    space3: { group: 'vert', row: 2 },
-  };
+  // leaderboardsPartIds = ['ocean1', 'ocean2', 'ocean3', 'space1', 'space2', 'space3'];
+  // leaderboardPlacement = {
+  //   ocean1: { group: 'hor', row: 0 },
+  //   ocean2: { group: 'hor', row: 1 },
+  //   ocean3: { group: 'hor', row: 2 },
+  //   space1: { group: 'vert', row: 0 },
+  //   space2: { group: 'vert', row: 1 },
+  //   space3: { group: 'vert', row: 2 },
+  // };
 
 
 

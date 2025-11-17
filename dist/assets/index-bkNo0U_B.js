@@ -1,12 +1,11 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CZ5oRgCo.js","./three-DOpQIdiv.js"])))=>i.map(i=>d[i]);
-let E;
-let __tla = (async ()=>{
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./main-CrIWr3aF.js","./three-lHb6daVq.js"])))=>i.map(i=>d[i]);
+(async ()=>{
     (function() {
         const i = document.createElement("link").relList;
         if (i && i.supports && i.supports("modulepreload")) return;
-        for (const e of document.querySelectorAll('link[rel="modulepreload"]'))a(e);
+        for (const e of document.querySelectorAll('link[rel="modulepreload"]'))u(e);
         new MutationObserver((e)=>{
-            for (const t of e)if (t.type === "childList") for (const r of t.addedNodes)r.tagName === "LINK" && r.rel === "modulepreload" && a(r);
+            for (const t of e)if (t.type === "childList") for (const r of t.addedNodes)r.tagName === "LINK" && r.rel === "modulepreload" && u(r);
         }).observe(document, {
             childList: !0,
             subtree: !0
@@ -15,41 +14,37 @@ let __tla = (async ()=>{
             const t = {};
             return e.integrity && (t.integrity = e.integrity), e.referrerPolicy && (t.referrerPolicy = e.referrerPolicy), e.crossOrigin === "use-credentials" ? t.credentials = "include" : e.crossOrigin === "anonymous" ? t.credentials = "omit" : t.credentials = "same-origin", t;
         }
-        function a(e) {
+        function u(e) {
             if (e.ep) return;
             e.ep = !0;
             const t = l(e);
             fetch(e.href, t);
         }
     })();
-    let v, g, p;
-    v = "modulepreload";
-    g = function(m, i) {
+    const v = "modulepreload", g = function(m, i) {
         return new URL(m, i).href;
-    };
-    p = {};
-    E = function(i, l, a) {
+    }, p = {}, E = function(i, l, u) {
         let e = Promise.resolve();
         if (l && l.length > 0) {
             let y = function(n) {
-                return Promise.all(n.map((c)=>Promise.resolve(c).then((u)=>({
+                return Promise.all(n.map((c)=>Promise.resolve(c).then((a)=>({
                             status: "fulfilled",
-                            value: u
-                        }), (u)=>({
+                            value: a
+                        }), (a)=>({
                             status: "rejected",
-                            reason: u
+                            reason: a
                         }))));
             };
             const r = document.getElementsByTagName("link"), o = document.querySelector("meta[property=csp-nonce]"), h = o?.nonce || o?.getAttribute("nonce");
             e = y(l.map((n)=>{
-                if (n = g(n, a), n in p) return;
+                if (n = g(n, u), n in p) return;
                 p[n] = !0;
-                const c = n.endsWith(".css"), u = c ? '[rel="stylesheet"]' : "";
-                if (!!a) for(let f = r.length - 1; f >= 0; f--){
+                const c = n.endsWith(".css"), a = c ? '[rel="stylesheet"]' : "";
+                if (!!u) for(let f = r.length - 1; f >= 0; f--){
                     const d = r[f];
                     if (d.href === n && (!c || d.rel === "stylesheet")) return;
                 }
-                else if (document.querySelector(`link[href="${n}"]${u}`)) return;
+                else if (document.querySelector(`link[href="${n}"]${a}`)) return;
                 const s = document.createElement("link");
                 if (s.rel = c ? "stylesheet" : v, c || (s.as = "script"), s.crossOrigin = "", s.href = n, h && s.setAttribute("nonce", h), document.head.appendChild(s), c) return new Promise((f, d)=>{
                     s.addEventListener("load", f), s.addEventListener("error", ()=>d(new Error(`Unable to preload CSS for ${n}`)));
@@ -67,9 +62,5 @@ let __tla = (async ()=>{
             return i().catch(t);
         });
     };
-    window.__loadMain = ()=>E(()=>import("./main-CZ5oRgCo.js").then(async (m)=>{
-                await m.__tla;
-                return m;
-            }), __vite__mapDeps([0,1]), import.meta.url);
+    window.__loadMain = ()=>E(()=>import("./main-CrIWr3aF.js"), __vite__mapDeps([0,1]), import.meta.url);
 })();
-export { E as _, __tla };

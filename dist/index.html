@@ -79,13 +79,31 @@
          // Глобальные ловушки ошибок — чтобы увидеть падение на любых девайсах
          window.addEventListener('error', function (event) {
             if (!event) return;
-            showInitError(event.error || event.message || 'window.onerror');
+
+            var parts = [];
+
+            if (event.message) parts.push(event.message);
+            if (event.filename) parts.push('at ' + event.filename + ':' + event.lineno + ':' + event.colno);
+
+            // event.error может быть объектом SyntaxError с .stack
+            if (event.error && event.error.stack) {
+               parts.push(event.error.stack);
+            }
+
+            showInitError(parts.join('\n'));
          });
 
-         window.addEventListener('unhandledrejection', function (event) {
-            if (!event) return;
-            showInitError(event.reason || 'unhandledrejection');
-         });
+window.addEventListener('unhandledrejection', function (event) {
+   if (!event) return;
+
+   var reason = event.reason || 'unhandledrejection';
+   if (reason && reason.stack) {
+      showInitError(reason.stack);
+   } else {
+      showInitError(String(reason));
+   }
+});
+
 
          // Инициализация SDK как раньше
          window.initSDK = function () {
@@ -117,7 +135,7 @@
 
 
 
-  <script type="module" crossorigin src="./assets/index-CMow_74Q.js"></script>
+  <script type="module" crossorigin src="./assets/index-bkNo0U_B.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-zt5KcSKt.css">
 </head>
 
