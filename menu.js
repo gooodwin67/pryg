@@ -46,7 +46,7 @@ export class MenuClass {
     masTables.forEach((value, index, array) => {
       masTables[index].forEach((val, i, array) => {
 
-        
+
 
         const mine = t('leaderboard.mine', 'Мой рекорд');
         if (masTables[index][i].findIndex(el => el && el.name === mine) < 3) {
@@ -64,7 +64,7 @@ export class MenuClass {
                 <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='blue_back three_place ${isMy(masTables[index][i][2]) ? my : notMy}'>
-                <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos: 3}</span>
+                <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos : 3}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][2].name}</span>
                 <div><span class='place_rec'>${masTables[index][i][2].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
@@ -85,7 +85,7 @@ export class MenuClass {
                 <div><span class='place_rec'>${masTables[index][i][1].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
             <div class='blue_back three_place ${my}'>
-            <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos: 3}</span>
+            <span class='place_num'>${masTables[index][i][2]?.pos > 2 ? masTables[index][i][2]?.pos : 3}</span>
                 <span class='rec_table_small_name'>${masTables[index][i][3].name}</span>
                 <div><span class='place_rec'>${masTables[index][i][3].rec}</span><span>${t('hud.metersLabel', 'м')}</span></div>
             </div>
@@ -107,6 +107,9 @@ export class MenuClass {
 
     document.querySelector('.new_game_btn2').addEventListener('click', async () => {
       this.dataClass.levelCoopMode = 'coop';
+
+      if (!document.querySelector('.popup_game_btn1').classList.contains('hidden_screen')) document.querySelector('.popup_game_btn1').classList.add('hidden_screen');
+
       document.querySelectorAll('.levels_game_screen .level_game_chels').forEach((value, index, array) => {
         if (value.classList.contains('level_game_chels_active')) {
           this.levelPlayersNum = index + 1;
@@ -120,6 +123,9 @@ export class MenuClass {
 
     document.querySelector('.new_game_btn3').addEventListener('click', async () => {
       this.dataClass.levelCoopMode = 'contest';
+
+      if (!document.querySelector('.popup_game_btn1').classList.contains('hidden_screen')) document.querySelector('.popup_game_btn1').classList.add('hidden_screen');
+
       document.querySelectorAll('.levels_game_screen_contest .level_game_chels_contest').forEach((value, index, array) => {
         if (value.classList.contains('level_game_chels_contest_active')) {
           this.levelPlayersNum = index + 2;

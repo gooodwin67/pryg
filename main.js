@@ -202,32 +202,14 @@ onWindowResize();
 
 
 
-document.body.addEventListener("touchstart", function (e) {
-  e.preventDefault(); // Отключаем системные реакции
-  document.body.requestFullscreen().then(() => {
-    screen.orientation.lock("landscape").catch(() => { });
-  }).catch(() => { });
-}, { passive: false, once: true });
-
-// document.body.addEventListener("touchstart", async function () {
-//   try {
-//     // Проверяем, поддерживается ли fullscreen
-//     const el = document.documentElement;
-//     if (el.requestFullscreen) {
-//       await el.requestFullscreen();
-//     } else if (el.webkitRequestFullscreen) {
-//       await el.webkitRequestFullscreen(); // для Safari
-//     }
+// document.body.addEventListener("touchstart", function (e) {
+//   e.preventDefault(); // Отключаем системные реакции
+//   document.body.requestFullscreen().then(() => {
+//     screen.orientation.lock("landscape").catch(() => { });
+//   }).catch(() => { });
+// }, { passive: false, once: true });
 
 
-//     // Поворот экрана на iOS не работает, просто подгоняем вьюпорт
-//     if (window.screen.orientation?.lock) {
-//       await window.screen.orientation.lock("landscape").catch(() => { });
-//     }
-//   } catch (e) {
-//     console.warn('Fullscreen not supported', e);
-//   }
-// }, { once: true });
 
 
 
@@ -243,17 +225,25 @@ async function BeforeStart() {
 
   dataClass = new DataClass();
 
+
+
   const lang = ysdk.environment.i18n.lang.toLowerCase();
   initI18n(() => dataClass.refreshMineLabels(), lang);
+
+
 
   assetsManager = new AssetsManager();
   await assetsManager.loadModels();
   await assetsManager.loadBoostsModel();
   loaderLine.setAttribute("style", "width:30%");
 
+
+
   await assetsManager.loadTexture();
   await preloadPopupBackgrounds();
   loaderLine.setAttribute("style", "width:30%");
+
+
 
 
   audioClass = new AudioClass();
@@ -261,24 +251,70 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:60%");
 
 
+
+
   await dataClass.loadTableFromCloud();         // тянем table из облака
   await dataClass.loadLeaderboardsTop3(ysdk);   // подтягиваем топ-3 в hor/vert
   await dataClass.loadLevels(0);
   await dataClass.loadLevelsContest();
+
+
 
   loaderLine.setAttribute("style", "width:100%");
 
 
   menuClass = new MenuClass(initMatch, dataClass.loadLevels, gameClass, audioClass, dataClass);
 
-  toggleLoader(false);
-  loaderLine.setAttribute("style", "width:0%");
 
 
   ysdk.features.LoadingAPI.ready();
   ysdk.features.GameplayAPI.stop();
+
+
+
+  toggleLoader(false);
+  loaderLine.setAttribute("style", "width:0%");
+
 }
-await BeforeStart();
+// (async () => {
+//   try {
+//     await BeforeStart();
+//   } catch (error) {
+//     console.error('Init error', error);
+//     // на всякий случай убираем лоадер,
+//     // чтобы не висеть с квадратом по центру
+//     toggleLoader(false);
+//     // тут по желанию можно показать попап:
+//     alert('Игра не смогла запуститься на этом устройстве');
+//   }
+// })();
+
+(async function runInit() {
+  try {
+    await BeforeStart();
+  } catch (error) {
+    toggleLoader(false);
+    showInitError(error);
+  }
+})();
+
+
+function showInitError(error) {
+  let message = 'Init error';
+  if (error) {
+    if (error.message) {
+      message += ': ' + error.message;
+    } else {
+      message += ': ' + String(error);
+    }
+  }
+
+  const debugOverlay = document.createElement('div');
+  debugOverlay.className = 'debug_error_overlay';
+  debugOverlay.textContent = "Ошибка загрузки, перезагрузите страницу" + message;
+
+  document.body.appendChild(debugOverlay);
+}
 
 
 async function preloadPopupBackgrounds() {
@@ -750,77 +786,88 @@ function initCustomScroll() {
 initCustomScroll();
 
 
-// // --- Плавное скрытие для всех .fadeable с .hidden_screen --- //
-// (function installSmoothHidden() {
-//   const TAG = '_screen';
 
-//   const makeFadeable = (el) => {
-//     if (!(el instanceof Element)) return;
-//     if (!el.classList) return;
-//     if (!el.className.includes(TAG)) return; // экраны вида main_screen, loader_screen...
-//     if (!el.classList.contains('fadeable')) el.classList.add('fadeable');
+const popupInGameWrapElement = document.querySelector('.popup_in_game_wrap');
 
-//     // запомним нормальный display
-//     if (!el.dataset.displayOrig) {
-//       const cs = getComputedStyle(el);
-//       el.dataset.displayOrig = cs.display !== 'none' ? cs.display : 'block';
-//     }
-//     // если изначально скрыт — сразу уберём из потока
-//     if (el.classList.contains('hidden_screen')) {
-//       el.style.display = 'none';
-//     }
-//   };
+if (popupInGameWrapElement) {
+  let popupTouchStartY = 0;
+  let popupTouchStartScrollTop = 0;
 
-//   // 1) промаркировать уже существующие
-//   document.querySelectorAll('[class*="_screen"]').forEach(makeFadeable);
+  // запоминаем точку старта
+  popupInGameWrapElement.addEventListener(
+    'touchstart',
+    function handlePopupTouchStart(event) {
+      if (!event.touches || event.touches.length === 0) return;
+      popupTouchStartY = event.touches[0].clientY;
+      popupTouchStartScrollTop = popupInGameWrapElement.scrollTop;
+    },
+    { passive: true }
+  );
 
-//   // 2) следить за добавлением новых узлов и изменением классов
-//   const mo = new MutationObserver((muts) => {
-//     for (const m of muts) {
-//       // новые элементы
-//       if (m.type === 'childList') {
-//         m.addedNodes.forEach((n) => {
-//           if (!(n instanceof Element)) return;
-//           if (n.matches?.('[class*="_screen"]')) makeFadeable(n);
-//           // и вложенные
-//           n.querySelectorAll?.('[class*="_screen"]').forEach(makeFadeable);
-//         });
-//       }
-//       // изменения классов
-//       if (m.type === 'attributes' && m.attributeName === 'class') {
-//         const el = m.target;
-//         if (!(el instanceof Element)) continue;
-//         if (!el.classList.contains('fadeable')) continue;
+  // блокируем только "перетягивание" за края, плюс случай без скролла
+  popupInGameWrapElement.addEventListener(
+    'touchmove',
+    function handlePopupTouchMove(event) {
+      if (!event.touches || event.touches.length === 0) return;
 
-//         // показываем: вернуть display ПЕРЕД началом fade-in
-//         if (!el.classList.contains('hidden_screen')) {
-//           const orig = el.dataset.displayOrig || 'block';
-//           el.style.display = orig;
-//           // форс-рефлоу — чтобы точно стартовал переход opacity
-//           // eslint-disable-next-line no-unused-expressions
-//           el.offsetWidth;
-//         }
-//       }
-//     }
-//   });
+      const isScrollable =
+        popupInGameWrapElement.scrollHeight > popupInGameWrapElement.clientHeight;
 
-//   mo.observe(document.body, {
-//     subtree: true,
-//     childList: true,
-//     attributes: true,
-//     attributeFilter: ['class'],
-//   });
+      // если внутри вообще нечего скроллить — глушим жест целиком
+      if (!isScrollable) {
+        event.preventDefault();
+        return;
+      }
 
-//   // 3) когда opacity-переход закончился и элемент скрыт — убрать из потока
-//   document.body.addEventListener('transitionend', (e) => {
-//     const el = e.target;
-//     if (!(el instanceof Element)) return;
-//     if (!el.classList.contains('fadeable')) return;
-//     if (e.propertyName !== 'opacity') return;
-//     if (el.classList.contains('hidden_screen')) {
-//       el.style.display = 'none';
-//     }
-//   }, true);
-// })();
+      const currentY = event.touches[0].clientY;
+      const deltaY = currentY - popupTouchStartY;
+
+      const isAtTop = popupInGameWrapElement.scrollTop <= 0;
+      const isAtBottom =
+        popupInGameWrapElement.scrollTop + popupInGameWrapElement.clientHeight >=
+        popupInGameWrapElement.scrollHeight - 1;
+
+      const scrollingDown = deltaY > 0;
+      const scrollingUp = deltaY < 0;
+
+      // тянем вниз на самом верху → это как раз pull-to-refresh → блокируем
+      if ((isAtTop && scrollingDown) || (isAtBottom && scrollingUp)) {
+        event.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+}
 
 
+
+const popupInGameElement = document.querySelector('.popup_in_game');
+
+if (popupInGameElement) {
+  popupInGameElement.addEventListener(
+    'touchmove',
+    function (event) {
+      // если тач НЕ внутри карточки – это фон попапа → глушим всегда
+      const isInsideCard = event.target.closest('.popup_in_game_wrap');
+      if (!isInsideCard) {
+        event.preventDefault();
+      }
+    },
+    { passive: false }
+  );
+}
+
+
+const loaderScreenElement = document.querySelector('.loader_screen');
+
+if (loaderScreenElement) {
+  loaderScreenElement.addEventListener(
+    'touchmove',
+    function (event) {
+      // На экране загрузки вообще ничего скроллить не нужно,
+      // поэтому просто полностью глушим жест.
+      event.preventDefault();
+    },
+    { passive: false }
+  );
+}
