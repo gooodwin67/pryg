@@ -1,10 +1,19 @@
 import { defineConfig } from 'vite';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import wasm from 'vite-plugin-wasm';
+import legacy from '@vitejs/plugin-legacy';
 
 export default defineConfig({
   plugins: [
     topLevelAwait(),
+    legacy({
+      targets: [
+        'Android >= 5',
+        'iOS >= 10',
+        'Chrome >= 49'
+      ],
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+    }),
     wasm() // 👈 добавляем поддержку .wasm
   ],
   base: './',
@@ -12,7 +21,7 @@ export default defineConfig({
     exclude: ['@dimforge/rapier3d']
   },
   build: {
-    target: 'esnext',
+    target: 'es5',
     rollupOptions: {
       output: {
         manualChunks(id) {

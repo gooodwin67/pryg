@@ -460,9 +460,9 @@ export class LevelClass {
           });
         });
       }
-  
+
       this.rebindButton('.popup_game_btn1', async () => {
-  
+
         ysdk.adv.showRewardedVideo({
           callbacks: {
             onOpen: () => {
@@ -470,7 +470,7 @@ export class LevelClass {
             },
             onRewarded: () => {
               console.log('Rewarded!');
-  
+
               if (!this.audioClass.oceanAudio.isPlaying) this.audioClass.oceanAudio.play();
               this.boostHatModels.forEach((value, index, array) => {
                 value.userData.fly = false;
@@ -479,25 +479,25 @@ export class LevelClass {
               this.players.forEach((value, index, array) => {
                 mas.push(value.player.position.x);
               })
-  
+
               this.players.forEach((value, index, array) => {
-  
+
                 value.playerAliving(false);
                 value.player.userData.lives = 1;
                 value.player.position.x = Math.max(...mas);
                 this.camera.position.x = value.player.position.x;
               })
-  
-  
-  
-  
+
+
+
+
               this.audioClass.pauseMusic(['back']);
               this.audioClass.playMusic(['back']);
               if (!this.levelsMode) this.canShowAds = false;
               this.gameClass.showGamePopup = false;
-  
+
               this.hideScreen('popup_in_game');
-  
+
             },
             onClose: () => {
               console.log('Video ad closed.');
@@ -507,32 +507,32 @@ export class LevelClass {
             },
           }
         })
-  
-  
+
+
       })
-  
+
       this.rebindButton('.popup_game_btn2', async () => {
-  
-  
-  
-  
+
+
+
+
         this.audioClass.hardStopAll();
         await showFullscreenAdvSafe();
-  
-  
-  
+
+
+
         let masPos = [0, -1, 1]
-  
+
         this.players.forEach((value, index, array) => {
           value.player.userData.live = false;
           value.player.userData.score = 0;
           value.player.userData._lastMeterPos = null;
           value.player.userData._wasLive = false;
           value.player.userData.body.setTranslation(new THREE.Vector3(0, -5, 0));
-  
+
           value.player.userData.finish = false;
           value.playerAliving(true);
-  
+
           if (this.levelsMode) {
             let player = this.players[index];
             let randNum = Math.floor(Math.random() * masPos.length);
@@ -543,16 +543,16 @@ export class LevelClass {
             value.player.position.x = value.player.position.x - index * 1 + 1;
           }
         })
-  
+
         if (this.gameNum == 1 || this.gameNum == 3) {
           // this.camera.position.z = 7;
           this.camera.position.y = 0;
           this.camera.position.x = 0;
           this.cameraSpeed = 0.01;
         }
-  
+
         this.canShowAds = true;
-  
+
         if (this.birdYes) {
           setTimeout(() => {
             this.birdFlyingMark = 10;
@@ -565,49 +565,49 @@ export class LevelClass {
           value.position.y = this.boostHatCoords[index][1];
           value.userData.fly = false;
         })
-  
+
         for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
           this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
           this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
         }
         this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
-  
-  
+
+
         this.audioClass.stopMusic(['back']);
         this.audioClass.playMusic(['back']);
         this.audioClass.stopMusic(['ocean']);
         this.audioClass.playMusic(['ocean']);
-  
+
         this.camera.position.x = 0;
-  
-  
-  
+
+
+
         this.gameClass.pause = false;
         this.gameClass.showGamePopup = false;
-  
+
         this.hideScreen('popup_in_game');
-  
+
         setTimeout(() => {
           this.startAfterReset = true;
         }, 3000);
-  
-  
+
+
       })
       this.rebindButton('.popup_game_btn15', async () => {
-  
+
         this.audioClass.hardStopAll();
         await showFullscreenAdvSafe();
         this.paramsClass.dataLoaded = false;
         disposeScene(this.scene);
         this.audioClass.stopMusic(0);
-  
-  
-  
+
+
+
         setTimeout(() => {
           let level = this.levelsMode < this.allLevels ? this.levelsMode + 1 : 1;
-  
+
           if (level == this.allLevels) this.hideScreen('popup_game_btn15');
-  
+
           this.initMatch(this.players.length, this.gameNum, level, this.birdYes);
         }, 100);
         setTimeout(() => {
@@ -615,11 +615,11 @@ export class LevelClass {
             value.playerAliving(true);
           })
         }, 100);
-  
+
         this.gameClass.showGamePopup = false;
-  
+
         this.hideScreen('popup_in_game');
-  
+
         // if (this.gameNum == 1 || this.gameNum == 3) {
         //   this.camera.position.z = 7;
         //   this.camera.position.y = 2;
@@ -627,7 +627,7 @@ export class LevelClass {
         //   this.cameraSpeed = 0.01;
         // }
         // this.canShowAds = true;
-  
+
         // if (this.birdYes) {
         //   setTimeout(() => {
         //     this.birdFlyingMark = 10;
@@ -640,17 +640,17 @@ export class LevelClass {
         //   value.position.y = this.boostHatCoords[index][1];
         //   value.userData.fly = false;
         // })
-  
+
         // for (let i = 0; i < this.objs.livesBlocks.data.length; i++) {
         //   this.objs.livesBlocks.data[i].position = this.objs.livesBlocks.data[i].userData.startPos;
         //   this.apply(i, this.objs.livesBlocks.data, this.objs.livesBlocks.livesBlock);
         // }
         // this.objs.livesBlocks.livesBlock.instanceMatrix.needsUpdate = true;
-  
-  
+
+
         // this.audioClass.stopMusic(['back']);
         // this.audioClass.playMusic(['back']);
-  
+
       })
       this.rebindButton('.popup_game_btn3', async () => {
         this.audioClass.hardStopAll();
@@ -666,29 +666,29 @@ export class LevelClass {
         disposeScene(this.scene);
         this.audioClass.stopMusic(0);
         this.dataClass.gameInit = false;
-  
+
       })
-  
+
       this.rebindButton('.popup_game_btn4', async () => {
         this.audioClass.hardStopAll();
         await showFullscreenAdvSafe();
         this.gameClass.pause = false;
         this.gameClass.showGamePopup = false;
-  
+
         this.hideScreen('popup_in_game');
-  
+
         if (this.dataClass.levelCoopMode == 'contest') {
           this.showScreen('levels_game_screen_contest');
         }
         else {
           this.showScreen('levels_game_screen');
         }
-  
+
         this.paramsClass.dataLoaded = false;
         disposeScene(this.scene);
         this.audioClass.stopMusic(0);
         this.dataClass.gameInit = false;
-  
+
       })
     }
 
@@ -1985,12 +1985,12 @@ export class LevelClass {
             ym(105298813, 'reachGoal', `champ_hor_hard_${this.players.length}`);
           }
         }
-    
+
         if (!this.score300ChampHorSent && this.scoreClass.score >= 300) {
           this.score300ChampHorSent = true;
           ym(105298813, 'reachGoal', `score300_champ_hor_${this.players.length}`);
         }
-    
+
       } else {
         this.scoreClass.updateMetersFloat(null, this.players, 'vert');
 
@@ -2009,7 +2009,7 @@ export class LevelClass {
             ym(105298813, 'reachGoal', `champ_vert_hard_${this.players.length}`);
           }
         }
-    
+
         if (!this.score100ChampVertSent && this.scoreClass.score >= 100) {
           this.score100ChampVertSent = true;
           ym(105298813, 'reachGoal', `score100_champ_vert_${this.players.length}`);
@@ -2732,6 +2732,22 @@ export class LevelClass {
     this.hideScreen('popup_game_btn_close');
     this.hideScreen('menu_in_game');
 
+
+
+    if (!showNext || !this.canShowAds || this.levelsMode || this.gameClass.pause) {
+      this.hideScreen('popup_game_btn1')
+
+    }
+    else if ((showNext || this.canShowAds) && !this.levelsMode && !this.gameClass.pause) {
+      this.showScreen('popup_game_btn1')
+
+    }
+
+    if (this.levelsMode) this.showScreen('popup_game_btn4');
+    else this.hideScreen('popup_game_btn4');
+
+
+
     this.startAfterReset = false;
 
     let newRec = 0;
@@ -2798,12 +2814,7 @@ export class LevelClass {
 
       this.gameClass.showGamePopup = true;
       if (!this.levelsMode) {
-        if (!showNext || !this.canShowAds) {
-          this.hideScreen('popup_game_btn1')
-        }
-        else {
-          this.showScreen('popup_game_btn1')
-        }
+
         document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         if (this.audioClass.looseAudio.isPlaying) this.audioClass.looseAudio.stop();
         if (this.audioClass.musicOn) this.audioClass.looseAudio.play();
@@ -2819,8 +2830,9 @@ export class LevelClass {
           if (this.audioClass.musicOn) this.audioClass.winAudio.play();
 
           if (this.levelsMode < this.allLevels) this.showScreen('popup_game_btn15');
-
           this.hideScreen('popup_game_btn4');
+
+
 
           if (this.dataClass.levelCoopMode == 'coop') {
             let bonusHeart = false;
@@ -2878,7 +2890,7 @@ export class LevelClass {
         }
         else {
           this.hideScreen('popup_game_btn15');
-          this.showScreen('popup_game_btn4');
+
           document.querySelector('.popup_in_game_wrap').classList.remove('popup_in_game_wrap_win');
         }
       }
@@ -2886,10 +2898,9 @@ export class LevelClass {
     else {
       document.querySelector('.popup_in_game_wrap').classList.add('popup_in_game_wrap_win');
       this.hideScreen('popup_game_btn15')
-      this.hideScreen('popup_game_btn1')
 
-      if (this.levelsMode) this.showScreen('popup_game_btn4');
-      else this.hideScreen('popup_game_btn4');
+
+
 
     }
 
@@ -2970,7 +2981,7 @@ export class LevelClass {
 
 
 
-  
+
 
 
   hideScreen(screen) {

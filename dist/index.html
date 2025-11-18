@@ -11,118 +11,17 @@
    <base href="./" />
    <link rel="icon" type="image/x-icon" href="./assets/favicon-Bw0IQTl4.ico">
    <link rel="shortcut icon" href="./assets/favicon-Bw0IQTl4.ico" type="image/x-icon">
+
+
+
+
+
+
+
 
 
-   <!-- Yandex Games SDK -->
-   <!-- <script>
-      function initSDK() {
-         alert(typeof YaGames)
-         if (typeof YaGames !== 'undefined') {
-            YaGames.init().then(function (ysdk) {
-               console.log('Yandex SDK initialized');
-               window.ysdk = ysdk;
-               window.__loadMain();
-            
-            });
-         } else {
-            
-            console.error('YaGames is not defined!');
-            // при желании можно всё равно стартануть игру:
-            window.__loadMain();
-         }
-      }
-
-
-   </script>
-   <script src="/sdk.js" onload="initSDK()"></script> -->
-
-
-
-
-   <script>
-      (function () {
-         function renderInitError(message) {
-            var container = document.body || document.documentElement;
-            if (!container) return;
-
-            var overlay = document.getElementById('debug-error-overlay');
-            if (!overlay) {
-               overlay = document.createElement('div');
-               overlay.id = 'debug-error-overlay';
-               overlay.className = 'debug_error_overlay';
-               container.appendChild(overlay);
-            }
-
-            overlay.textContent = message;
-         }
-
-         window.showInitError = function (error) {
-            var message = 'Init error';
-            if (error) {
-               if (error.message) message += ': ' + error.message;
-               else message += ': ' + String(error);
-            }
-
-            if (document.readyState === 'loading') {
-               document.addEventListener(
-                  'DOMContentLoaded',
-                  function () {
-                     renderInitError(message);
-                  },
-                  { once: true }
-               );
-            } else {
-               renderInitError(message);
-            }
-         };
-
-         // Глобальные ловушки ошибок — чтобы увидеть падение на любых девайсах
-         window.addEventListener('error', function (event) {
-            if (!event) return;
-
-            var parts = [];
-
-            if (event.message) parts.push(event.message);
-            if (event.filename) parts.push('at ' + event.filename + ':' + event.lineno + ':' + event.colno);
-
-            // event.error может быть объектом SyntaxError с .stack
-            if (event.error && event.error.stack) {
-               parts.push(event.error.stack);
-            }
-
-            showInitError(parts.join('\n'));
-         });
-
-window.addEventListener('unhandledrejection', function (event) {
-   if (!event) return;
-
-   var reason = event.reason || 'unhandledrejection';
-   if (reason && reason.stack) {
-      showInitError(reason.stack);
-   } else {
-      showInitError(String(reason));
-   }
-});
-
-
-         // Инициализация SDK как раньше
-         window.initSDK = function () {
-            if (typeof YaGames !== 'undefined') {
-               YaGames.init()
-                  .then(function (ysdk) {
-                     window.ysdk = ysdk;
-                     window.__loadMain && window.__loadMain();
-                  })
-                  .catch(function (error) {
-                     showInitError(error);
-                  });
-            } else {
-               showInitError('YaGames is not defined');
-            }
-         };
-      })();
-   </script>
-   <script src="/sdk.js" onload="initSDK()"></script>
+   <!-- ОДИН раз подключаем SDK, без onload -->
+   <script src="/sdk.js"></script>
 
 
 
@@ -135,8 +34,15 @@ window.addEventListener('unhandledrejection', function (event) {
 
 
 
-  <script type="module" crossorigin src="./assets/index-bkNo0U_B.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-zt5KcSKt.css">
+
+
+
+
+  <script type="module" crossorigin src="./assets/index-oNVAy2Ce.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/three-D9UGufMG.js">
+  <link rel="stylesheet" crossorigin href="./assets/index-bhk8XMPB.css">
+  <script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();window.__vite_is_modern_browser=true</script>
+  <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
 </head>
 
 <body>
@@ -413,6 +319,9 @@ window.addEventListener('unhandledrejection', function (event) {
    <!-- /Yandex.Metrika counter -->
 
 
+  <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+  <script nomodule crossorigin id="vite-legacy-polyfill" src="./assets/polyfills-legacy-DG-cD3Hg.js"></script>
+  <script nomodule crossorigin id="vite-legacy-entry" data-src="./assets/index-legacy-CDkuXW5_.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
 </body>
 
 </html>

@@ -1403,6 +1403,7 @@ body .level_game_chels_contest_active {
 
     width: 100%;
     max-width: 550px;
+    min-height: 225px;
 
     /* вся магия: ограничиваем по высоте и включаем внутренний скролл */
     max-height: calc(100dvh - 40px);

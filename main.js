@@ -89,18 +89,18 @@ let clock = new THREE.Clock();
 
 let eventQueue;
 
-let menuClass;
+let menuClass = null;
 
-let worldClass;
-let physicsClass;
-let levelClass;
-let audioClass;
-let controlClass;
-let paramsClass;
-let scoreClass;
+let worldClass = null;
+let physicsClass = null;
+let levelClass = null;
+let audioClass = null;
+let controlClass = null;
+let paramsClass = null;
+let scoreClass = null;
 
-let dataClass;
-let assetsManager;
+let dataClass = null;
+let assetsManager = null;
 
 let gameStartingToggle = false;
 let gameStopingToggle = false;
@@ -223,7 +223,7 @@ function onWindowResize() {
 window.addEventListener('resize', onWindowResize);
 onWindowResize();
 
-
+let ysdk;
 
 // document.body.addEventListener("touchstart", function (e) {
 //   e.preventDefault(); // Отключаем системные реакции
@@ -286,8 +286,8 @@ async function BeforeStart() {
   loaderLine.setAttribute("style", "width:100%");
 
 
-  // menuClass = new MenuClass(initMatch, gameClass, audioClass, dataClass);
-  menuClass = new MenuClass();
+  menuClass = new MenuClass(initMatch, gameClass, audioClass, dataClass);
+
   menuClass.init();
 
 
@@ -313,31 +313,20 @@ async function BeforeStart() {
 //   }
 // })();
 
-(async function runInit() {
+export async function startGame(ysdkInstance) {
+  ysdk = ysdkInstance;          // сохраняем локально в модуле
+  window.ysdk = ysdkInstance;   // если где-то ещё рассчитываешь на глобал
+
   try {
     await BeforeStart();
   } catch (error) {
     toggleLoader(false);
-    showInitError(error);
+    if (window.showInitError) {
+      window.showInitError(error);
+    } else {
+      console.error('Init error', error);
+    }
   }
-})();
-
-
-function showInitError(error) {
-  let message = 'Init error';
-
-  if (typeof error === 'string') {
-    message += ':\n' + error;
-  } else if (error) {
-    if (error.message) message += ': ' + error.message;
-    if (error.stack)  message += '\n' + error.stack;
-  }
-
-  const debugOverlay = document.createElement('div');
-  debugOverlay.className = 'debug_error_overlay';
-  debugOverlay.textContent = message;
-
-  document.body.appendChild(debugOverlay);
 }
 
 
@@ -603,28 +592,24 @@ function toggleLoader(need) {
 
 
 document.addEventListener("visibilitychange", function () {
+  // Проверяем, инициализирован ли вообще аудио
+  if (!audioClass) return;
 
   if (document.visibilityState === 'visible') {
     if (!gameClass.pause && !gameClass.showGamePopup) {
       gameClass.gameStarting = true;
-
       audioClass.togglePauseAll(!gameClass.gameStarting);
     }
     gameClass.visible = true;
-
   } else {
-
     if (!gameClass.pause && !gameClass.showGamePopup) {
       gameClass.gameStarting = false;
       audioClass.togglePauseAll(!gameClass.gameStarting);
-    }
-    else if (!gameClass.pause) {
+    } else if (!gameClass.pause) {
       audioClass.togglePauseAll(!gameClass.gameStarting);
     }
     gameClass.visible = false;
-
   }
-
 });
 
 document.querySelector('.autoriz_btn').addEventListener('click', async () => {

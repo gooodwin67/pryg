@@ -13,37 +13,16 @@
    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
    <link href="style.css" rel="stylesheet" />
 
+
+
+
+
+
+
+
    <script type="module">
-      window.__loadMain = () => import('./main.js');
-   </script>
+      import { startGame } from './main.js';
 
-   <!-- Yandex Games SDK -->
-   <!-- <script>
-      function initSDK() {
-         alert(typeof YaGames)
-         if (typeof YaGames !== 'undefined') {
-            YaGames.init().then(function (ysdk) {
-               console.log('Yandex SDK initialized');
-               window.ysdk = ysdk;
-               window.__loadMain();
-            
-            });
-         } else {
-            
-            console.error('YaGames is not defined!');
-            // при желании можно всё равно стартануть игру:
-            window.__loadMain();
-         }
-      }
-
-
-   </script>
-   <script src="/sdk.js" onload="initSDK()"></script> -->
-
-
-
-
-   <script>
       (function () {
          function renderInitError(message) {
             var container = document.body || document.documentElement;
@@ -80,7 +59,6 @@
             }
          };
 
-         // Глобальные ловушки ошибок — чтобы увидеть падение на любых девайсах
          window.addEventListener('error', function (event) {
             if (!event) return;
 
@@ -89,44 +67,58 @@
             if (event.message) parts.push(event.message);
             if (event.filename) parts.push('at ' + event.filename + ':' + event.lineno + ':' + event.colno);
 
-            // event.error может быть объектом SyntaxError с .stack
             if (event.error && event.error.stack) {
                parts.push(event.error.stack);
             }
 
-            showInitError(parts.join('\n'));
+            window.showInitError(parts.join('\n'));
          });
 
-window.addEventListener('unhandledrejection', function (event) {
-   if (!event) return;
+         window.addEventListener('unhandledrejection', function (event) {
+            if (!event) return;
 
-   var reason = event.reason || 'unhandledrejection';
-   if (reason && reason.stack) {
-      showInitError(reason.stack);
-   } else {
-      showInitError(String(reason));
-   }
-});
+            var reason = event.reason || 'unhandledrejection';
+            if (reason && reason.stack) {
+               window.showInitError(reason.stack);
+            } else {
+               window.showInitError(String(reason));
+            }
+         });
 
-
-         // Инициализация SDK как раньше
+         // Инициализация SDK + старт игры
          window.initSDK = function () {
             if (typeof YaGames !== 'undefined') {
                YaGames.init()
-                  .then(function (ysdk) {
-                     window.ysdk = ysdk;
-                     window.__loadMain && window.__loadMain();
+                  .then(function (ysdkInstance) {
+                     window.ysdk = ysdkInstance;
+                     startGame(ysdkInstance);
                   })
                   .catch(function (error) {
-                     showInitError(error);
+                     window.showInitError(error);
                   });
             } else {
-               showInitError('YaGames is not defined');
+               window.showInitError('YaGames is not defined');
             }
          };
+
+         // Гарантированно вызываем initSDK, когда страница и sdk.js уже загрузились
+         if (document.readyState === 'complete') {
+            // страница уже загружена
+            window.initSDK();
+         } else {
+            window.addEventListener('load', function () {
+               window.initSDK();
+            });
+         }
       })();
    </script>
-   <script src="/sdk.js" onload="initSDK()"></script>
+
+   <!-- ОДИН раз подключаем SDK, без onload -->
+   <script src="/sdk.js"></script>
+
+
+
+
 
 
 
