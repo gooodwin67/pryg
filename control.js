@@ -183,11 +183,23 @@ export class ControlClass {
       if (player.userData.canFly && !player.userData.onGround) {
         if (player.userData.canFlyJumps > 0) {
           player.userData.canFlyJumps--;
-          if (player.userData.canFlyJumps == 0) {
+          if (player.userData.canFlyJumps === 0) {
+      
+            const flyIndex = player.userData.canFlyNum;
+      
             setTimeout(() => {
               player.userData.canFly = false;
-              this.levelClass.boostHatModels[player.userData.canFlyNum].userData.fly = false;
-              // player.userData.canFlyNum = null;
+      
+              // ---- ФИКС ----
+              if (
+                this.levelClass &&
+                Array.isArray(this.levelClass.boostHatModels) &&
+                flyIndex !== null &&
+                this.levelClass.boostHatModels[flyIndex]
+              ) {
+                this.levelClass.boostHatModels[flyIndex].userData.fly = false;
+              }
+              // ---------------
             }, 1000);
           }
         }
@@ -214,8 +226,22 @@ export class ControlClass {
           player.userData.hatBoost--;
           if (player.userData.hatBoost == 0) {
             player.userData.canFly = false;
+          
+            const boostIndex = player.userData.numHatBoost;
+          
             setTimeout(() => {
-              this.levelClass.boostHatModels[player.userData.numHatBoost].userData.fly = false;
+          
+              // ---- ФИКС ----
+              if (
+                this.levelClass &&
+                Array.isArray(this.levelClass.boostHatModels) &&
+                boostIndex !== null &&
+                this.levelClass.boostHatModels[boostIndex]
+              ) {
+                this.levelClass.boostHatModels[boostIndex].userData.fly = false;
+              }
+              // ---------------
+          
             }, 500);
           }
         }

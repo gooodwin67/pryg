@@ -59,31 +59,31 @@
             }
          };
 
-         window.addEventListener('error', function (event) {
-            if (!event) return;
+         // window.addEventListener('error', function (event) {
+         //    if (!event) return;
 
-            var parts = [];
+         //    var parts = [];
 
-            if (event.message) parts.push(event.message);
-            if (event.filename) parts.push('at ' + event.filename + ':' + event.lineno + ':' + event.colno);
+         //    if (event.message) parts.push(event.message);
+         //    if (event.filename) parts.push('at ' + event.filename + ':' + event.lineno + ':' + event.colno);
 
-            if (event.error && event.error.stack) {
-               parts.push(event.error.stack);
-            }
+         //    if (event.error && event.error.stack) {
+         //       parts.push(event.error.stack);
+         //    }
 
-            window.showInitError(parts.join('\n'));
-         });
+         //    window.showInitError(parts.join('\n'));
+         // });
 
-         window.addEventListener('unhandledrejection', function (event) {
-            if (!event) return;
+         // window.addEventListener('unhandledrejection', function (event) {
+         //    if (!event) return;
 
-            var reason = event.reason || 'unhandledrejection';
-            if (reason && reason.stack) {
-               window.showInitError(reason.stack);
-            } else {
-               window.showInitError(String(reason));
-            }
-         });
+         //    var reason = event.reason || 'unhandledrejection';
+         //    if (reason && reason.stack) {
+         //       window.showInitError(reason.stack);
+         //    } else {
+         //       window.showInitError(String(reason));
+         //    }
+         // });
 
          // Инициализация SDK + старт игры
          window.initSDK = function () {

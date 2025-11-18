@@ -1938,11 +1938,24 @@ let __tla = (async () => {
       s.userData.live && (s.userData.onGround ? (!s.userData.readyJump && this.audioClass.musicOn && s.userData.audio[0].play(), s.userData.readyJump = true) : s.userData.canFly && (!s.userData.readyJump && this.audioClass.musicOn && s.userData.audio[0].play(), s.userData.readyJump = true));
     }
     upKeys(s) {
-      s.userData.live && (s.userData.canFly && !s.userData.onGround && s.userData.canFlyJumps > 0 && (s.userData.canFlyJumps--, s.userData.canFlyJumps == 0 && setTimeout(() => {
-        s.userData.canFly = false, this.levelClass.boostHatModels[s.userData.canFlyNum].userData.fly = false;
-      }, 1e3)), s.userData.readyJump && s.userData.onGround ? (s.userData.jumping = true, s.userData.readyJump = false, s.userData.audio[0].stop(), !s.userData.audio[1].isPlaying && this.audioClass.musicOn && s.userData.audio[1].play(), s.userData.onGround = false) : s.userData.onGround || (s.userData.canFly ? (s.userData.jumping = true, s.userData.readyJump = false, s.userData.audio[0].stop(), !s.userData.audio[1].isPlaying && this.audioClass.musicOn && s.userData.audio[1].play(), s.userData.onGround = false, s.userData.hatBoost--, s.userData.hatBoost == 0 && (s.userData.canFly = false, setTimeout(() => {
-        this.levelClass.boostHatModels[s.userData.numHatBoost].userData.fly = false;
-      }, 500))) : (s.userData.readyJump = false, s.userData.audio[0].stop())));
+      if (s.userData.live) {
+        if (s.userData.canFly && !s.userData.onGround && s.userData.canFlyJumps > 0 && (s.userData.canFlyJumps--, s.userData.canFlyJumps === 0)) {
+          const t = s.userData.canFlyNum;
+          setTimeout(() => {
+            s.userData.canFly = false, this.levelClass && Array.isArray(this.levelClass.boostHatModels) && t !== null && this.levelClass.boostHatModels[t] && (this.levelClass.boostHatModels[t].userData.fly = false);
+          }, 1e3);
+        }
+        if (s.userData.readyJump && s.userData.onGround) s.userData.jumping = true, s.userData.readyJump = false, s.userData.audio[0].stop(), !s.userData.audio[1].isPlaying && this.audioClass.musicOn && s.userData.audio[1].play(), s.userData.onGround = false;
+        else if (!s.userData.onGround) if (s.userData.canFly) {
+          if (s.userData.jumping = true, s.userData.readyJump = false, s.userData.audio[0].stop(), !s.userData.audio[1].isPlaying && this.audioClass.musicOn && s.userData.audio[1].play(), s.userData.onGround = false, s.userData.hatBoost--, s.userData.hatBoost == 0) {
+            s.userData.canFly = false;
+            const t = s.userData.numHatBoost;
+            setTimeout(() => {
+              this.levelClass && Array.isArray(this.levelClass.boostHatModels) && t !== null && this.levelClass.boostHatModels[t] && (this.levelClass.boostHatModels[t].userData.fly = false);
+            }, 500);
+          }
+        } else s.userData.readyJump = false, s.userData.audio[0].stop();
+      }
     }
   }
   class Lt {
@@ -3451,17 +3464,7 @@ let __tla = (async () => {
       }, {
         once: true
       }) : r(t);
-    }, window.addEventListener("error", function(s) {
-      if (s) {
-        var t = [];
-        s.message && t.push(s.message), s.filename && t.push("at " + s.filename + ":" + s.lineno + ":" + s.colno), s.error && s.error.stack && t.push(s.error.stack), window.showInitError(t.join("\n"));
-      }
-    }), window.addEventListener("unhandledrejection", function(s) {
-      if (s) {
-        var t = s.reason || "unhandledrejection";
-        t.stack ? window.showInitError(t.stack) : window.showInitError(String(t));
-      }
-    }), window.initSDK = function() {
+    }, window.initSDK = function() {
       typeof YaGames < "u" ? YaGames.init().then(function(s) {
         window.ysdk = s, qt(s);
       }).catch(function(s) {
