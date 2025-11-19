@@ -8,11 +8,9 @@ const sg = 2;
 const rg = 1, og = 2;
 const ag = 4;
 const lo = "attached", Tl = "detached";
-const lg = 1e3, cg = 1001;
-const hg = 1006;
-const ug = 1023;
+const lg = 1e3;
 const vt = "srgb", Ct = "srgb-linear", Fs = "linear", st = "srgb";
-const dg = 35048, co = "300 es";
+const cg = 35048, co = "300 es";
 class Gn {
   addEventListener(e, t) {
     this._listeners === void 0 && (this._listeners = {});
@@ -3299,7 +3297,7 @@ class uc extends Sn {
     e.setRenderTarget(r);
   }
 }
-class fg extends rt {
+class hg extends rt {
   constructor() {
     super(), this.isScene = true, this.type = "Scene", this.background = null, this.environment = null, this.fog = null, this.backgroundBlurriness = 0, this.backgroundIntensity = 1, this.backgroundRotation = new jt(), this.environmentIntensity = 1, this.environmentRotation = new jt(), this.overrideMaterial = null, typeof __THREE_DEVTOOLS__ < "u" && __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent("observe", { detail: this }));
   }
@@ -3455,7 +3453,7 @@ class dc extends Vt {
 }
 let ni;
 const wi = new w(), ii = new w(), si = new w(), ri = new oe(), Ri = new oe(), Ya = new De(), ms = new w(), Ci = new w(), gs = new w(), Co = new oe(), hr = new oe(), Po = new oe();
-class pg extends rt {
+class ug extends rt {
   constructor(e = new dc()) {
     if (super(), this.isSprite = true, this.type = "Sprite", ni === void 0) {
       ni = new Pt();
@@ -3981,7 +3979,7 @@ class zn extends rt {
     super(), this.isGroup = true, this.type = "Group";
   }
 }
-class mg extends ft {
+class dg extends ft {
   constructor(e, t, n, i, r, o, a, l, c) {
     super(e, t, n, i, r, o, a, l, c), this.isCanvasTexture = true, this.needsUpdate = true;
   }
@@ -5142,7 +5140,7 @@ class en extends Yr {
     return super.copy(e), this.defines = { STANDARD: "", PHYSICAL: "" }, this.anisotropy = e.anisotropy, this.anisotropyRotation = e.anisotropyRotation, this.anisotropyMap = e.anisotropyMap, this.clearcoat = e.clearcoat, this.clearcoatMap = e.clearcoatMap, this.clearcoatRoughness = e.clearcoatRoughness, this.clearcoatRoughnessMap = e.clearcoatRoughnessMap, this.clearcoatNormalMap = e.clearcoatNormalMap, this.clearcoatNormalScale.copy(e.clearcoatNormalScale), this.dispersion = e.dispersion, this.ior = e.ior, this.iridescence = e.iridescence, this.iridescenceMap = e.iridescenceMap, this.iridescenceIOR = e.iridescenceIOR, this.iridescenceThicknessRange = [...e.iridescenceThicknessRange], this.iridescenceThicknessMap = e.iridescenceThicknessMap, this.sheen = e.sheen, this.sheenColor.copy(e.sheenColor), this.sheenColorMap = e.sheenColorMap, this.sheenRoughness = e.sheenRoughness, this.sheenRoughnessMap = e.sheenRoughnessMap, this.transmission = e.transmission, this.transmissionMap = e.transmissionMap, this.thickness = e.thickness, this.thicknessMap = e.thicknessMap, this.attenuationDistance = e.attenuationDistance, this.attenuationColor.copy(e.attenuationColor), this.specularIntensity = e.specularIntensity, this.specularIntensityMap = e.specularIntensityMap, this.specularColor.copy(e.specularColor), this.specularColorMap = e.specularColorMap, this;
   }
 }
-class gg extends Vt {
+class fg extends Vt {
   constructor(e) {
     super(), this.isMeshPhongMaterial = true, this.type = "MeshPhongMaterial", this.color = new Re(16777215), this.specular = new Re(1118481), this.shininess = 30, this.map = null, this.lightMap = null, this.lightMapIntensity = 1, this.aoMap = null, this.aoMapIntensity = 1, this.emissive = new Re(0), this.emissiveIntensity = 1, this.emissiveMap = null, this.bumpMap = null, this.bumpScale = 1, this.normalMap = null, this.normalMapType = 0, this.normalScale = new oe(1, 1), this.displacementMap = null, this.displacementScale = 1, this.displacementBias = 0, this.specularMap = null, this.alphaMap = null, this.envMap = null, this.envMapRotation = new jt(), this.combine = 0, this.reflectivity = 1, this.refractionRatio = 0.98, this.wireframe = false, this.wireframeLinewidth = 1, this.wireframeLinecap = "round", this.wireframeLinejoin = "round", this.flatShading = false, this.fog = true, this.setValues(e);
   }
@@ -5876,7 +5874,7 @@ class Zi extends rt {
     return t.object.color = this.color.getHex(), t.object.intensity = this.intensity, this.groundColor !== void 0 && (t.object.groundColor = this.groundColor.getHex()), this.distance !== void 0 && (t.object.distance = this.distance), this.angle !== void 0 && (t.object.angle = this.angle), this.decay !== void 0 && (t.object.decay = this.decay), this.penumbra !== void 0 && (t.object.penumbra = this.penumbra), this.shadow !== void 0 && (t.object.shadow = this.shadow.toJSON()), this.target !== void 0 && (t.object.target = this.target.uuid), t;
   }
 }
-class _g extends Zi {
+class pg extends Zi {
   constructor(e, t, n) {
     super(e, n), this.isHemisphereLight = true, this.type = "HemisphereLight", this.position.copy(rt.DEFAULT_UP), this.updateMatrix(), this.groundColor = new Re(t);
   }
@@ -6018,7 +6016,7 @@ class Mh extends Zi {
     return super.copy(e), this.target = e.target.clone(), this.shadow = e.shadow.clone(), this;
   }
 }
-class vg extends Zi {
+class mg extends Zi {
   constructor(e, t) {
     super(e, t), this.isAmbientLight = true, this.type = "AmbientLight";
   }
@@ -6088,7 +6086,7 @@ class hl {
     Cs = e;
   }
 }
-class xg extends Vn {
+class gg extends Vn {
   constructor(e) {
     super(e);
   }
@@ -6141,7 +6139,7 @@ function ea() {
   return performance.now();
 }
 const Cn = new w(), ta = new Ut(), Ah = new w(), Pn = new w();
-class yg extends rt {
+class _g extends rt {
   constructor() {
     super(), this.type = "AudioListener", this.context = hl.getContext(), this.gain = this.context.createGain(), this.gain.connect(this.context.destination), this.filter = null, this.timeDelta = 0, this._clock = new Eh();
   }
@@ -6297,7 +6295,7 @@ class bh extends rt {
   }
 }
 const In = new w(), na = new Ut(), wh = new w(), Ln = new w();
-class Mg extends bh {
+class vg extends bh {
   constructor(e) {
     super(e), this.panner = this.context.createPanner(), this.panner.panningModel = "HRTF", this.panner.connect(this.gain);
   }
@@ -6851,7 +6849,7 @@ class Oh {
   }
 }
 const zh = new Float32Array(1);
-class Sg extends Gn {
+class xg extends Gn {
   constructor(e) {
     super(), this._root = e, this._initMemoryManager(), this._accuIndex = 0, this.time = 0, this.timeScale = 1;
   }
@@ -7048,7 +7046,7 @@ class Sg extends Gn {
   }
 }
 const ia = new De();
-class Tg {
+class yg {
   constructor(e, t, n = 0, i = 1 / 0) {
     this.ray = new Ki(e, t), this.near = n, this.far = i, this.camera = null, this.layers = new Gr(), this.params = { Mesh: {}, Line: { threshold: 1 }, LOD: {}, Points: { threshold: 1 }, Sprite: {} };
   }
@@ -7080,7 +7078,7 @@ function Fr(s, e, t, n) {
   }
 }
 const ra = new w(), Ps = new w(), oa = new w();
-class Eg extends rt {
+class Mg extends rt {
   constructor(e, t, n) {
     super(), this.light = e, this.matrix = e.matrixWorld, this.matrixAutoUpdate = false, this.color = n, this.type = "DirectionalLightHelper", t === void 0 && (t = 1);
     let i = new Pt();
@@ -10294,7 +10292,7 @@ function Sm(s, e, t, n) {
   }
   return { bind: l, update: c, dispose: p };
 }
-class Ag {
+class Sg {
   constructor(e = {}) {
     const { canvas: t = Gl(), context: n = null, depth: i = true, stencil: r = false, alpha: o = false, antialias: a = false, premultipliedAlpha: l = true, preserveDrawingBuffer: c = false, powerPreference: h = "default", failIfMajorPerformanceCaveat: u = false, reverseDepthBuffer: d = false } = e;
     this.isWebGLRenderer = true;
@@ -10870,7 +10868,7 @@ function La(s, e) {
     return r.setIndex(i), r.clearGroups(), r;
   } else return console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unknown draw mode:", e), s;
 }
-class bg extends Vn {
+class Tg extends Vn {
   constructor(e) {
     super(e), this.dracoLoader = null, this.ktx2Loader = null, this.meshoptDecoder = null, this.pluginCallbacks = [], this.register(function(t) {
       return new wm(t);
@@ -12121,7 +12119,7 @@ function Fa(s, e, t) {
     return e.targets !== void 0 ? Zm(s, e.targets, t) : s;
   });
 }
-class wg extends wt {
+class Eg extends wt {
   constructor(e, t = {}) {
     super(e), this.isWater = true;
     const n = this, i = t.textureWidth !== void 0 ? t.textureWidth : 512, r = t.textureHeight !== void 0 ? t.textureHeight : 512, o = t.clipBias !== void 0 ? t.clipBias : 0, a = t.alpha !== void 0 ? t.alpha : 1, l = t.time !== void 0 ? t.time : 0, c = t.waterNormals !== void 0 ? t.waterNormals : null, h = t.sunDirection !== void 0 ? t.sunDirection : new w(0.70707, 0.70707, 0), u = new Re(t.sunColor !== void 0 ? t.sunColor : 16777215), d = new Re(t.waterColor !== void 0 ? t.waterColor : 8355711), f = t.eye !== void 0 ? t.eye : new w(0, 0, 0), g = t.distortionScale !== void 0 ? t.distortionScale : 20, _ = t.side !== void 0 ? t.side : 0, m = t.fog !== void 0 ? t.fog : false, p = new yn(), b = new w(), S = new w(), x = new w(), I = new De(), R = new w(0, 0, -1), C = new Je(), D = new w(), T = new w(), M = new Je(), P = new De(), W = new bt(), z = new Sn(i, r), V = { name: "MirrorShader", uniforms: Bs.merge([le.fog, le.lights, { normalSampler: { value: null }, mirrorSampler: { value: null }, alpha: { value: 1 }, time: { value: 0 }, size: { value: 1 }, distortionScale: { value: 20 }, textureMatrix: { value: new De() }, sunColor: { value: new Re(8355711) }, sunDirection: { value: new w(0.70707, 0.70707, 0) }, eye: { value: new w() }, waterColor: { value: new Re(5592405) } }]), vertexShader: "\n				uniform mat4 textureMatrix;\n				uniform float time;\n\n				varying vec4 mirrorCoord;\n				varying vec4 worldPosition;\n\n				#include <common>\n				#include <fog_pars_vertex>\n				#include <shadowmap_pars_vertex>\n				#include <logdepthbuf_pars_vertex>\n\n				void main() {\n					mirrorCoord = modelMatrix * vec4( position, 1.0 );\n					worldPosition = mirrorCoord.xyzw;\n					mirrorCoord = textureMatrix * mirrorCoord;\n					vec4 mvPosition =  modelViewMatrix * vec4( position, 1.0 );\n					gl_Position = projectionMatrix * mvPosition;\n\n				#include <beginnormal_vertex>\n				#include <defaultnormal_vertex>\n				#include <logdepthbuf_vertex>\n				#include <fog_vertex>\n				#include <shadowmap_vertex>\n			}", fragmentShader: "\n				uniform sampler2D mirrorSampler;\n				uniform float alpha;\n				uniform float time;\n				uniform float size;\n				uniform float distortionScale;\n				uniform sampler2D normalSampler;\n				uniform vec3 sunColor;\n				uniform vec3 sunDirection;\n				uniform vec3 eye;\n				uniform vec3 waterColor;\n\n				varying vec4 mirrorCoord;\n				varying vec4 worldPosition;\n\n				vec4 getNoise( vec2 uv ) {\n					vec2 uv0 = ( uv / 103.0 ) + vec2(time / 17.0, time / 29.0);\n					vec2 uv1 = uv / 107.0-vec2( time / -19.0, time / 31.0 );\n					vec2 uv2 = uv / vec2( 8907.0, 9803.0 ) + vec2( time / 101.0, time / 97.0 );\n					vec2 uv3 = uv / vec2( 1091.0, 1027.0 ) - vec2( time / 109.0, time / -113.0 );\n					vec4 noise = texture2D( normalSampler, uv0 ) +\n						texture2D( normalSampler, uv1 ) +\n						texture2D( normalSampler, uv2 ) +\n						texture2D( normalSampler, uv3 );\n					return noise * 0.5 - 1.0;\n				}\n\n				void sunLight( const vec3 surfaceNormal, const vec3 eyeDirection, float shiny, float spec, float diffuse, inout vec3 diffuseColor, inout vec3 specularColor ) {\n					vec3 reflection = normalize( reflect( -sunDirection, surfaceNormal ) );\n					float direction = max( 0.0, dot( eyeDirection, reflection ) );\n					specularColor += pow( direction, shiny ) * sunColor * spec;\n					diffuseColor += max( dot( sunDirection, surfaceNormal ), 0.0 ) * sunColor * diffuse;\n				}\n\n				#include <common>\n				#include <packing>\n				#include <bsdfs>\n				#include <fog_pars_fragment>\n				#include <logdepthbuf_pars_fragment>\n				#include <lights_pars_begin>\n				#include <shadowmap_pars_fragment>\n				#include <shadowmask_pars_fragment>\n\n				void main() {\n\n					#include <logdepthbuf_fragment>\n					vec4 noise = getNoise( worldPosition.xz * size );\n					vec3 surfaceNormal = normalize( noise.xzy * vec3( 1.5, 1.0, 1.5 ) );\n\n					vec3 diffuseLight = vec3(0.0);\n					vec3 specularLight = vec3(0.0);\n\n					vec3 worldToEye = eye-worldPosition.xyz;\n					vec3 eyeDirection = normalize( worldToEye );\n					sunLight( surfaceNormal, eyeDirection, 100.0, 2.0, 0.5, diffuseLight, specularLight );\n\n					float distance = length(worldToEye);\n\n					vec2 distortion = surfaceNormal.xz * ( 0.001 + 1.0 / distance ) * distortionScale;\n					vec3 reflectionSample = vec3( texture2D( mirrorSampler, mirrorCoord.xy / mirrorCoord.w + distortion ) );\n\n					float theta = max( dot( eyeDirection, surfaceNormal ), 0.0 );\n					float rf0 = 0.3;\n					float reflectance = rf0 + ( 1.0 - rf0 ) * pow( ( 1.0 - theta ), 5.0 );\n					vec3 scatter = max( 0.0, dot( surfaceNormal, eyeDirection ) ) * waterColor;\n					vec3 albedo = mix( ( sunColor * diffuseLight * 0.3 + scatter ) * getShadowMask(), ( vec3( 0.1 ) + reflectionSample * 0.9 + reflectionSample * specularLight ), reflectance);\n					vec3 outgoingLight = albedo;\n					gl_FragColor = vec4( outgoingLight, alpha );\n\n					#include <tonemapping_fragment>\n					#include <colorspace_fragment>\n					#include <fog_fragment>	\n				}" }, K = new Jt({ name: V.name, uniforms: Bs.clone(V.uniforms), vertexShader: V.vertexShader, fragmentShader: V.fragmentShader, lights: true, side: _, fog: m });
@@ -12148,15 +12146,15 @@ export {
   hg as $,
   og as A,
   Pt as B,
-  mg as C,
+  dg as C,
   sg as D,
   jt as E,
-  Eg as F,
-  bg as G,
-  _g as H,
+  Mg as F,
+  Tg as G,
+  pg as H,
   _c as I,
-  wg as J,
-  eo as K,
+  yc as J,
+  Eg as K,
   Wr as L,
   On as M,
   rg as N,
@@ -12166,23 +12164,20 @@ export {
   lg as R,
   Fc as S,
   mh as T,
-  Jt as U,
+  eo as U,
   w as V,
   Sn as W,
-  St as X,
-  Wi as Y,
-  ja as Z,
-  ug as _,
+  Jt as X,
+  St as Y,
+  Wi as Z,
+  xg as _,
   Rt as a,
-  cg as a0,
-  Sg as a1,
-  fg as a2,
-  bt as a3,
-  Us as a4,
-  Ag as a5,
-  ig as a6,
-  vt as a7,
-  ag as a8,
+  bt as a0,
+  Us as a1,
+  Sg as a2,
+  ig as a3,
+  vt as a4,
+  ag as a5,
   Sc as b,
   Gs as c,
   wt as d,
@@ -12190,22 +12185,22 @@ export {
   De as f,
   yn as g,
   vi as h,
-  gg as i,
+  fg as i,
   Yr as j,
   Re as k,
   rl as l,
   ol as m,
-  dg as n,
+  cg as n,
   Pr as o,
   Eh as p,
   xh as q,
-  pg as r,
+  ug as r,
   dc as s,
   kl as t,
-  yg as u,
-  xg as v,
-  Mg as w,
-  Tg as x,
-  vg as y,
+  _g as u,
+  gg as v,
+  vg as w,
+  yg as x,
+  mg as y,
   Mh as z
 };
