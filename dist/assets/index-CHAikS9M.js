@@ -163,7 +163,7 @@ let __tla = (async () => {
     }), x = new De(g, b);
     x.userData.persistent = true, x.frustumCulled = false, x.position.set(0, -20, 0), l.add(x);
     let f = 0;
-    function A() {
+    function k() {
       for (let v = 0; v < s; v++) {
         const M = (f + v) % s;
         if (!u[M]) return f = (M + 1) % s, M;
@@ -181,10 +181,10 @@ let __tla = (async () => {
           0.8
         ], sizeJitter: L = 0.5 } = w, X = Math.max(1, Math.floor(D * M));
         for (let bs = 0; bs < X; bs++) {
-          const k = A();
-          if (k === -1) break;
+          const A = k();
+          if (A === -1) break;
           const H = Math.sqrt(Math.random()) * j, T = Math.random() * Math.PI * 2, J = H * Math.cos(T), ds = H * Math.sin(T), as = Math.sqrt(Math.random()), Z = Math.cos(T) * K * as * (0.6 + 0.4 * Math.random()), is = Math.sin(T) * K * as * (0.6 + 0.4 * Math.random()), os = N * (0.6 + 0.4 * Math.random()), O = _[0] + Math.random() * (_[1] - _[0]), U = (1 - L / 2 + Math.random() * L) * 1;
-          I(h, k, v.x + J, v.y, v.z + ds), I(c, k, Z * M, os * M, is * M), d[k] = O, p[k] = 0, m[k] = U, u[k] = 1;
+          I(h, A, v.x + J, v.y, v.z + ds), I(c, A, Z * M, os * M, is * M), d[A] = O, p[A] = 0, m[A] = U, u[A] = 1;
         }
         g.attributes.position.needsUpdate = true, g.attributes.aSize.needsUpdate = true;
       },
@@ -202,8 +202,8 @@ let __tla = (async () => {
           }
           const L = _ * 3;
           c[L + 1] += M * v;
-          const X = c[L], bs = c[L + 1], k = c[L + 2], H = Math.max(0, 1 - w * v);
-          c[L] = X * H, c[L + 1] = bs * H, c[L + 2] = k * H, h[L] += c[L] * v, h[L + 1] += c[L + 1] * v, h[L + 2] += c[L + 2] * v;
+          const X = c[L], bs = c[L + 1], A = c[L + 2], H = Math.max(0, 1 - w * v);
+          c[L] = X * H, c[L + 1] = bs * H, c[L + 2] = A * H, h[L] += c[L] * v, h[L + 1] += c[L + 1] * v, h[L + 2] += c[L + 2] * v;
         }
         D && (g.attributes.position.needsUpdate = true);
         let j = 0, N = 0;
@@ -673,7 +673,7 @@ let __tla = (async () => {
       }), this.mks = new xs(this.geometryPlane, this.materialPlane), this.mks.position.z = -550, this.mks.position.x = 100, this.isMobile ? this.mks.position.y = 120 : this.mks.position.y = 140, this.mks.layers.set(1), this.startAfterReset = true;
       const x = new Fe(), f = 0.01;
       x.moveTo(5 * f, 5 * f), x.bezierCurveTo(5 * f, 5 * f, 4 * f, 2 * f, 0 * f, 2 * f), x.bezierCurveTo(-6 * f, 2 * f, -6 * f, 7 * f, -6 * f, 7 * f), x.bezierCurveTo(-6 * f, 10 * f, -3 * f, 14 * f, 5 * f, 18 * f), x.bezierCurveTo(12 * f, 14 * f, 16 * f, 10 * f, 16 * f, 7 * f), x.bezierCurveTo(16 * f, 7 * f, 16 * f, 2 * f, 10 * f, 2 * f), x.bezierCurveTo(7 * f, 2 * f, 5 * f, 5 * f, 5 * f, 5 * f);
-      const A = {
+      const k = {
         depth: 0.22,
         bevelEnabled: false,
         curveSegments: 12,
@@ -860,7 +860,7 @@ let __tla = (async () => {
               startPos: new y(0, -10, 0)
             }
           })),
-          geometryLivesBlock: new Ie(x, A),
+          geometryLivesBlock: new Ie(x, k),
           materialLivesBlock: new ys({
             color: 16711680
           }),
@@ -2100,12 +2100,12 @@ let __tla = (async () => {
       this.thunder = false, this.isThunderActive = false, this.thunderEndTimestampMs = 0, this.nextThunderFlashTimestampMs = 0;
     }
     createLightningBolt(s, t, i) {
-      const e = s + (Math.random() - 0.5) * 6, a = -4 + Math.random() * 3, o = i + (Math.random() - 0.5) * 6, n = e - s, r = a - t, h = o - i, c = Math.hypot(n, r, h) || 1, d = n / c, p = r / c, m = h / c, u = n / c, b = -(h / c), x = 0, f = u, A = Math.abs(p) > 0.9 ? new y(1, 0, 0) : new y(0, 1, 0), I = new y(d, p, m), W = new y().crossVectors(I, A).normalize(), v = new y().crossVectors(I, W).normalize(), M = 2 + Math.random() * 2, w = 1.2, D = Math.random() * Math.PI * 2, j = 3 + Math.random() * 2.5, N = 0.8, K = Math.random() * Math.PI * 2, _ = 28, L = 4, X = [];
-      for (let k = 0; k <= _; k++) {
-        const H = k / _, T = 1 - H;
+      const e = s + (Math.random() - 0.5) * 6, a = -4 + Math.random() * 3, o = i + (Math.random() - 0.5) * 6, n = e - s, r = a - t, h = o - i, c = Math.hypot(n, r, h) || 1, d = n / c, p = r / c, m = h / c, u = n / c, b = -(h / c), x = 0, f = u, k = Math.abs(p) > 0.9 ? new y(1, 0, 0) : new y(0, 1, 0), I = new y(d, p, m), W = new y().crossVectors(I, k).normalize(), v = new y().crossVectors(I, W).normalize(), M = 2 + Math.random() * 2, w = 1.2, D = Math.random() * Math.PI * 2, j = 3 + Math.random() * 2.5, N = 0.8, K = Math.random() * Math.PI * 2, _ = 28, L = 4, X = [];
+      for (let A = 0; A <= _; A++) {
+        const H = A / _, T = 1 - H;
         let J = s + n * H, ds = t + r * H, as = i + h * H;
         const Z = Math.sin(H * Math.PI * M + D) * w * (0.3 + 0.7 * T), is = Math.sin(H * Math.PI * j + K) * N * (0.3 + 0.7 * T), os = (Math.random() - 0.5) * 2 * L * T, O = (Math.random() - 0.5) * 1.6 * L * T, U = Math.random() < 0.12 ? (Math.random() - 0.5) * 3.5 * T : 0;
-        if (J += W.x * (Z + os + U) + v.x * (is + O * 0.7), ds += W.y * (Z + os * 0.5) + v.y * (is + O * 0.5), as += W.z * (Z + os + U) + v.z * (is + O * 0.7), X.push(J, ds, as), k > 3 && k < _ - 3 && Math.random() < 0.22) {
+        if (J += W.x * (Z + os + U) + v.x * (is + O * 0.7), ds += W.y * (Z + os * 0.5) + v.y * (is + O * 0.5), as += W.z * (Z + os + U) + v.z * (is + O * 0.7), X.push(J, ds, as), A > 3 && A < _ - 3 && Math.random() < 0.22) {
           const cs = [], Cs = 3 + Math.floor(Math.random() * 2), ps = 0.25 + Math.random() * 0.35;
           let Ps = J, Ds = ds, js = as;
           cs.push(Ps, Ds, js);
@@ -2117,8 +2117,8 @@ let __tla = (async () => {
         }
       }
       const bs = 2;
-      for (let k = -1; k <= bs; k++) {
-        const H = k === -1, T = H ? 0 : k % 2 === 0 ? 1 : -1, J = 0.55 + Math.random() * 0.45, ds = 0.35, as = Math.random() * Math.PI * 2, Z = [], is = X.length / 3;
+      for (let A = -1; A <= bs; A++) {
+        const H = A === -1, T = H ? 0 : A % 2 === 0 ? 1 : -1, J = 0.55 + Math.random() * 0.45, ds = 0.35, as = Math.random() * Math.PI * 2, Z = [], is = X.length / 3;
         for (let U = 0; U < is; U++) {
           const cs = U / (is - 1), Cs = 0.35 + 0.85 * cs, ps = Math.sin(cs * Math.PI * 2 + as) * ds * (0.2 + 0.8 * cs), Ps = b * T * J * Cs + f * ps * 0.3, Ds = x * T * J * Cs + ps * 0.05, js = f * T * J * Cs - b * ps * 0.3, Bs = U * 3 + 0, gs = U * 3 + 1, Hs = U * 3 + 2, ne = X[Bs], le = X[gs], re = X[Hs];
           H ? Z.push(ne + (Math.random() - 0.5) * 0.05, le + (Math.random() - 0.5) * 0.05, re + (Math.random() - 0.5) * 0.05) : Z.push(ne + Ps + (Math.random() - 0.5) * 0.2, le + Ds + (Math.random() - 0.5) * 0.2, re + js + (Math.random() - 0.5) * 0.2);
@@ -2315,12 +2315,12 @@ let __tla = (async () => {
     }
   }
   let Ks = 0;
-  class At {
+  class kt {
     constructor() {
       this.gameStarting = false, this.pause = false, this.visible = true, this.showGamePopup = false;
     }
   }
-  class kt {
+  class At {
     constructor() {
       this.gameInit = false, this.yandexPlayer = {
         id: 0,
@@ -2626,16 +2626,16 @@ let __tla = (async () => {
         u.style.setProperty("--show-delay", "".concat(g, "ms"));
         const b = document.createElement("div");
         if (b.className = "levels_block_number", b.textContent = String(r + 1), m) {
-          const A = document.createElement("div");
-          A.className = "level_reward_icon", A.innerHTML = "+\u2764\uFE0F", u.appendChild(A);
+          const k = document.createElement("div");
+          k.className = "level_reward_icon", k.innerHTML = "+\u2764\uFE0F", u.appendChild(k);
         }
         const x = document.createElement("div");
         x.className = "levels_block_status";
         const f = document.createElement("span");
         f.className = "status_chip ".concat(h === "completed" ? "status_chip--completed" : h === "available" ? "status_chip--available" : "status_chip--locked"), f.setAttribute("data-i18n", "levels.status.".concat(h)), f.textContent = d, x.appendChild(f), u.append(b, x), u.addEventListener("click", () => {
-          h !== "locked" && (document.querySelectorAll(".levels_block").forEach((A) => A.classList.remove("active")), u.classList.add("active"));
-        }), u.addEventListener("keydown", (A) => {
-          h !== "locked" && (A.key === "Enter" || A.key === " ") && (A.preventDefault(), u.click());
+          h !== "locked" && (document.querySelectorAll(".levels_block").forEach((k) => k.classList.remove("active")), u.classList.add("active"));
+        }), u.addEventListener("keydown", (k) => {
+          h !== "locked" && (k.key === "Enter" || k.key === " ") && (k.preventDefault(), u.click());
         }), i.appendChild(u);
       }
       t.append(i), requestAnimationFrame(() => {
@@ -3183,16 +3183,16 @@ let __tla = (async () => {
     capture: true
   });
   (navigator.userAgent.includes("YaBrowser") || navigator.userAgent.includes("Yandex")) && document.addEventListener("touchstart", (l) => {
-    l.preventDefault();
+    l.target.closest(".new_game_btn, .free_game_btn, .popup_game_btn, .popup_game_btn_close, .level_game_chels, .level_game_chels_contest, .free_game_chels, .contest_game_btn, .arrow_back, .levels_block, .sound_btn_wrap, .pause_btn_wrap, .lang-toggle, .auth_btn, .small_btn") || l.preventDefault();
   }, {
     passive: false
   });
-  let ee, Et = new qs(), Le, es = null, Ms = null, ss = null, P = null, S = null, As = null, q = null, Ts = null, B = null, vs = null, Xs = false, Js = false, C = new At();
+  let ee, Et = new qs(), Le, es = null, Ms = null, ss = null, P = null, S = null, ks = null, q = null, Ts = null, B = null, vs = null, Xs = false, Js = false, C = new kt();
   const fs = new tt();
   fs.background = new hs(13230580);
-  const Ae = yt({
+  const ke = yt({
     scene: fs
-  }), ke = ft({
+  }), Ae = ft({
     scene: fs
   }), G = new at(25, window.innerWidth / window.innerHeight, 0.1, 2e3);
   G.position.y = 2;
@@ -3240,7 +3240,7 @@ let __tla = (async () => {
   ze();
   let ts, $ = document.querySelector(".loader_line");
   async function Ft() {
-    te(true), B = new kt();
+    te(true), B = new At();
     const l = ts.environment.i18n.lang.toLowerCase();
     xt(() => B.refreshMineLabels(), l), vs = new zt(), await vs.loadModels(), await vs.loadBoostsModel(), $.setAttribute("style", "width:30%"), await vs.loadTexture(), await Gt(), $.setAttribute("style", "width:30%"), S = new Pt(), await S.loadAudio(), $.setAttribute("style", "width:60%"), await B.loadTableFromCloud(), await B.loadLeaderboardsTop3(ts), await B.loadLevels(0), await B.loadLevelsContest(), $.setAttribute("style", "width:100%"), es = new _t(Ee, C, S, B), es.init(), ts.features.LoadingAPI.ready(), ts.features.GameplayAPI.stop(), te(false), $.setAttribute("style", "width:0%");
   }
@@ -3265,9 +3265,9 @@ let __tla = (async () => {
   }
   async function Nt(l) {
     const s = await Rt();
-    ee = new s.World(new s.Vector3(0, -9.81, 0)), Le = new s.EventQueue(true), ss = new ms(ee, s), Ts = new Lt(G, B), Ms = new jt(fs, G, F, q, Zs, S), P = new Ct(fs, S, ss, F, G, Zs, q, Ms, Ee, B, C, Ae, ke, Ts, es, vs);
+    ee = new s.World(new s.Vector3(0, -9.81, 0)), Le = new s.EventQueue(true), ss = new ms(ee, s), Ts = new Lt(G, B), Ms = new jt(fs, G, F, q, Zs, S), P = new Ct(fs, S, ss, F, G, Zs, q, Ms, Ee, B, C, ke, Ae, Ts, es, vs);
     for (let t = 0; t < l; t++) P.players.push(new wt(B, fs, S, P, q, G, C, vs));
-    As = new Dt(P, Zs, F, G, q, S), As.addKeyListeners();
+    ks = new Dt(P, Zs, F, G, q, S), ks.addKeyListeners();
   }
   async function qt() {
     await Ms.loadWorld(), S.musicOn && S.backAudio.play(), S.musicOn && S.oceanAudio.play();
@@ -3294,14 +3294,14 @@ let __tla = (async () => {
     }, 1e3);
   }
   function Ut() {
-    G.position.y = 2, G.position.x = 0, F.toneMappingExposure = 1.05, As == null ? void 0 : As.removedKeyListeners(), Ms = null, ss = null, P = null, As = null, q = null, Ts = null;
+    G.position.y = 2, G.position.x = 0, F.toneMappingExposure = 1.05, ks == null ? void 0 : ks.removedKeyListeners(), Ms = null, ss = null, P = null, ks = null, q = null, Ts = null;
   }
   function Ot(l) {
     if (C.gameStarting && document.querySelector(".menu_in_game").classList.contains("hidden_screen") && q.dataLoaded && P.showScreen("menu_in_game"), B.gameInit && C.gameStarting && !P.levelsMode && document.querySelector(".hud").classList.contains("hidden_screen") && q.dataLoaded ? (es.showScreen("hud"), es.hideScreen("level_hud_wrap")) : !B.gameInit && !document.querySelector(".hud").classList.contains("hidden_screen") && (es.hideScreen("hud"), es.showScreen("level_hud_wrap")), B.gameInit && C.gameStarting && P.levelsMode && !document.querySelector(".player_panel_rec").classList.contains("hidden_screen") ? document.querySelectorAll(".player_panel_rec").forEach((s, t, i) => {
       s.classList.add("hidden_screen");
     }) : B.gameInit && C.gameStarting && !P.levelsMode && document.querySelector(".player_panel_rec").classList.contains("hidden_screen") && document.querySelectorAll(".player_panel_rec").forEach((s, t, i) => {
       s.classList.remove("hidden_screen");
-    }), C.gameStarting ? (Ae.update(ks), ke.update(ks), Xs || (ts.features.GameplayAPI.start(), Xs = true, Js = false)) : Js || (ts.features.GameplayAPI.stop(), Js = true, Xs = false), q.dataLoaded && C.gameStarting) {
+    }), C.gameStarting ? (ke.update(As), Ae.update(As), Xs || (ts.features.GameplayAPI.start(), Xs = true, Js = false)) : Js || (ts.features.GameplayAPI.stop(), Js = true, Xs = false), q.dataLoaded && C.gameStarting) {
       P.players.forEach((s, t, i) => {
         s.playerMove();
       }), Ms.updateLighting(), P.levelAnimate(G), P.cameraMove(G, l);
@@ -3310,11 +3310,11 @@ let __tla = (async () => {
     }
   }
   let Qs = 0;
-  const ks = 1 / 60, Me = 0.1;
+  const As = 1 / 60, Me = 0.1;
   F.setAnimationLoop(() => {
     if (q != null) {
       let l = Et.getDelta();
-      for (l > Me && (l = Me), Qs += l; Qs >= ks; ) Ot(ks), Qs -= ks;
+      for (l > Me && (l = Me), Qs += l; Qs >= As; ) Ot(As), Qs -= As;
     }
   });
   function te(l) {
@@ -3372,13 +3372,13 @@ let __tla = (async () => {
         return;
       }
       t.classList.add("visible");
-      const x = t.getBoundingClientRect().height, A = Math.max(u / g * x, 24), I = g - u, W = x - A, v = I > 0 ? b / I * W : 0;
-      i.style.height = "".concat(A, "px"), i.style.top = "".concat(v, "px");
+      const x = t.getBoundingClientRect().height, k = Math.max(u / g * x, 24), I = g - u, W = x - k, v = I > 0 ? b / I * W : 0;
+      i.style.height = "".concat(k, "px"), i.style.top = "".concat(v, "px");
     }, c = (u) => {
       !s || !i || (e = true, a = u.touches ? u.touches[0].clientY : u.clientY, o = s.scrollTop, document.body.style.userSelect = "none", u.preventDefault());
     }, d = (u) => {
       if (!e || !s || !i || !t) return;
-      const b = (u.touches ? u.touches[0].clientY : u.clientY) - a, x = t.getBoundingClientRect().height, f = s.clientHeight, A = s.scrollHeight, I = Math.max(1, x - i.offsetHeight), W = (A - f) / I;
+      const b = (u.touches ? u.touches[0].clientY : u.clientY) - a, x = t.getBoundingClientRect().height, f = s.clientHeight, k = s.scrollHeight, I = Math.max(1, x - i.offsetHeight), W = (k - f) / I;
       s.scrollTop = o + b * W;
     }, p = () => {
       e = false, document.body.style.userSelect = "";
