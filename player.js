@@ -66,6 +66,109 @@ export class PlayerClass {
     this.headPosition;
 
     this.playerColors = [0xf2b0b0, 0xb0f2b0, 0xf4f07a];
+
+
+    this.playerPowerBlocks = {
+      data: Array.from({ length: 8 }, (_, i) => ({
+        position: new THREE.Vector3(0, 0, 0),
+        rotation: new THREE.Euler(0, 0, 0),
+        scale: new THREE.Vector3(1, 1, 1),
+        size: new THREE.Vector3(0.01, 0.01, 0.01),
+        userData: { name: 'powerBlocks',},
+      })),
+      geometryPowerBlocks: new THREE.BoxGeometry(0.3, 0.1, 0.1),
+      materialPowerBlocks: new THREE.MeshPhongMaterial({ 
+        color: 0xffffff,        // Базовый белый, чтобы накладывать цвета
+        emissive: 0xffffff,     // Цвет свечения
+        emissiveIntensity: 0.1, // Сила свечения
+        roughness: 0.9,         // Немного блеска
+        metalness: 0.3,
+        transparent: true, 
+        opacity: 0.9 
+    }),
+      powerBlocks: null,
+    }
+
+    this.playerPowerBlocks.powerBlocks = new THREE.InstancedMesh(this.playerPowerBlocks.geometryPowerBlocks, this.playerPowerBlocks.materialPowerBlocks, 8);
+    this.playerPowerBlocks.powerBlocks.instanceMatrix.setUsage(THREE.DynamicDrawUsage); // на случай будущих обновлений
+    
+    this.playerPowerBlocks.powerBlocks.receiveShadow = false;
+    this.playerPowerBlocks.powerBlocks.castShadow = false;
+    this.playerPowerBlocks.powerBlocks.frustumCulled = false;
+
+    this.dummy = new THREE.Object3D(); 
+
+
+    
+
+
+  }
+
+
+  updatePowerBlocks() {
+    if (!this.playerPowerBlocks.powerBlocks) return;
+
+    let activeBlocksCount = 0;
+    if (this.player.userData.readyJump) {
+      activeBlocksCount = Math.floor(this.player.userData.playerPowerJump);
+    }
+
+    // Параметры расположения
+    const stepY = 0.15;  // Расстояние между блоками по высоте
+    const shiftLeft = 0.4; // Насколько далеко влево от центра игрока
+
+    // Временный цвет для вычислений
+    const tempColor = new THREE.Color();
+
+    for (let i = 0; i < 8; i++) {
+      if (i < activeBlocksCount) {
+        // --- БЛОК ВИДЕН ---
+        
+        // 1. Базовая позиция игрока
+        this.dummy.position.copy(this.player.position);
+        
+        // 2. Смещение ВЛЕВО
+        // this.player.position.x - это центр. Отнимаем значение, чтобы сдвинуть влево.
+        this.dummy.position.x -= shiftLeft;
+
+        // 3. Смещение ВВЕРХ (строим снизу вверх)
+        // Начинаем от пояса и идем вверх
+        this.dummy.position.y += -0.3 + (i * stepY);
+        
+        // Z оставляем как у игрока, или чуть выносим вперед, чтобы не проваливались в текстуры
+        this.dummy.position.z = this.player.position.z+0.5; 
+
+        // Масштаб (можно сделать плавное увеличение ширины к верху для эпичности)
+        const scaleWidth = 1 + (i * 0.05); 
+        this.dummy.scale.set(scaleWidth, 1, 1);
+        this.dummy.rotation.set(0, 0, 0);
+
+        // --- ЦВЕТ (Градиент) ---
+        // Зеленый (низкая сила) -> Красный (высокая сила)
+        // HSL hue: 0.33 (зеленый) -> 0.0 (красный)
+        const hue = 0.33 - (i / 7) * 0.33; 
+        tempColor.setHSL(hue, 1.0, 0.5);
+        
+        // Красим конкретный инстанс
+        this.playerPowerBlocks.powerBlocks.setColorAt(i, tempColor);
+
+      } else {
+        // --- БЛОК СКРЫТ ---
+        this.dummy.position.set(0, -1000, 0); 
+        this.dummy.scale.set(0, 0, 0);
+      }
+
+      this.dummy.updateMatrix();
+      this.playerPowerBlocks.powerBlocks.setMatrixAt(i, this.dummy.matrix);
+    }
+
+    // Обновляем матрицы
+    this.playerPowerBlocks.powerBlocks.instanceMatrix.needsUpdate = true;
+    
+    // ВАЖНО: Обновляем цвета. Без этого градиент не заработает.
+    if (this.playerPowerBlocks.powerBlocks.instanceColor) {
+        this.playerPowerBlocks.powerBlocks.instanceColor.needsUpdate = true;
+    }
   }
 
 
@@ -99,6 +202,20 @@ export class PlayerClass {
       this.playerModel.scale.y = 1.3;
       this.playerModel.scale.z = 1.3;
     })
+
+    for (let i = 0; i < 8; i++) {
+      // Мы просто используем уже созданный в constructor меш
+      
+      this.playerPowerBlocks.data[i].position.x = this.player.position.x;
+      
+      // Инициализируем стартовые данные (если apply это делает)
+      this.levelClass.apply(i, this.playerPowerBlocks.data, this.playerPowerBlocks.powerBlocks);
+    }
+    
+    this.playerPowerBlocks.powerBlocks.instanceMatrix.needsUpdate = true;
+    this.scene.add(this.playerPowerBlocks.powerBlocks);
+
+    
   }
 
   playerMove() {
@@ -506,7 +623,10 @@ export class PlayerClass {
 
 
       if (this.player.userData.readyJump) {
-        if (this.player.userData.playerPowerJump < 8) this.player.userData.playerPowerJump += 0.2;
+        if (this.player.userData.playerPowerJump < 8) {
+          this.player.userData.playerPowerJump += 0.2;
+          
+        }
       }
 
       if (this.player.userData.jumping) {
@@ -585,6 +705,8 @@ export class PlayerClass {
         boostHatModel.children[0].children[1].rotation.y += 0.02;
       }
     }
+
+    this.updatePowerBlocks();
 
   }
   lerp(start, end, t) {
