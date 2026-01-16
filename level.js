@@ -72,7 +72,7 @@ export class LevelClass {
 
     this.minPlaneWidthTic = 1;
 
-    this.fixedDistanceHor = { min: 1, max: 4 }
+    this.fixedDistanceHor = { min: 1, max: 3 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 120;
@@ -859,7 +859,8 @@ export class LevelClass {
           this.randomAnimateVert = 0;
           this.gameNum = 2;
           this.cameraSpeed = 0.01;
-          this.fixedDistanceHor.min = 1.5;
+          this.fixedDistanceHor.min = 1.4;
+          this.fixedDistanceHor.max = 1.6;
           break;
         case 2:
           this.gameNum = 4; ////////////////////////////////////////////////////////////////////////////////////////// 3 / 4 верт
@@ -878,7 +879,8 @@ export class LevelClass {
           this.randomAnimateVert = 0;
           this.gameNum = 1;
           this.cameraSpeed = 0.01;
-          this.fixedDistanceHor.min = 1.5;
+          this.fixedDistanceHor.min = 1.4;
+          this.fixedDistanceHor.max = 1.6;
           break;
         case 4:
           this.gameNum = 3;
@@ -900,7 +902,8 @@ export class LevelClass {
           this.randomAnimateVert = 0;
           this.gameNum = 1;
           this.cameraSpeed = 0.01;
-          this.fixedDistanceHor.min = 1.5;
+          this.fixedDistanceHor.min = 1.4;
+          this.fixedDistanceHor.max = 1.6;
           break;
         case 6:
           this.birdYes = true;
@@ -912,7 +915,8 @@ export class LevelClass {
           this.randomAnimateVert = 1;
           this.gameNum = 2;
           this.cameraSpeed = 0.01;
-          this.fixedDistanceHor.min = 1.5;
+          this.fixedDistanceHor.min = 1.4;
+          this.fixedDistanceHor.max = 1.8;
           break;
         case 7:
           this.gameNum = 4;
@@ -937,7 +941,8 @@ export class LevelClass {
           this.gameNum = 2;
           this.cameraSpeed = 0.01;
           randomWLevel = [3, 2, 2, 2, 1, 6, 5, 6, 5, 6, 5, 1];
-          this.fixedDistanceHor.min = 2;
+          this.fixedDistanceHor.min = 1.3;
+          this.fixedDistanceHor.max = 1.8;
           break;
         case 9:
           this.gameNum = 3;
@@ -962,7 +967,8 @@ export class LevelClass {
           this.gameNum = 1;
           this.cameraSpeed = 0.01;
           randomWLevel = [2, 2, 1, 1, 1, 1, 1, 1, 5, 6, 5, 0.5];
-          this.fixedDistanceHor.min = 3;
+          this.fixedDistanceHor.min = 1.6;
+          this.fixedDistanceHor.max = 2.5;
           break;
       }
 
@@ -1252,7 +1258,7 @@ export class LevelClass {
             let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
             let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
-            if (i > 20) this.fixedDistanceHor.max = 6;
+            if (i > 20) this.fixedDistanceHor.max = 4;
 
             this.minPlaneWidthTic += 0.1;
 

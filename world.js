@@ -12,16 +12,16 @@ export class WorldClass {
     this.isMobile = isMobile;
     this.audioClass = audioClass;
 
-    this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1); 
+    this.ambientLight = new THREE.AmbientLight(0xaaaaaa, 1);
 
     this.hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 2);
     this.hemiLight.groundColor.setHSL(0.095, 1, 0.75);
     this.hemiLight.position.set(0, 10, 0);
 
     this.dirLight = new THREE.DirectionalLight(0xffffff, 2);
-    this.dirLight.position.set(0, 5, 5); 
+    this.dirLight.position.set(0, 5, 5);
     this.dirLight.castShadow = true;
-    this.dirLight.shadow.camera.far = 100; 
+    this.dirLight.shadow.camera.far = 100;
 
     this.topLight = 1000;
     this.targetObject = new THREE.Object3D();
@@ -36,12 +36,12 @@ export class WorldClass {
     this.thunderStart = false;
 
     // Тайминг грозы
-    this.isThunderActive = false;                 
-    this.thunderEndTimestampMs = 0;               
-    this.nextThunderFlashTimestampMs = 0;         
-    this.minThunderIntervalMs = 1000;             
-    this.maxThunderIntervalMs = 3000;             
-    this.currentThunderIndex = 0;                 
+    this.isThunderActive = false;
+    this.thunderEndTimestampMs = 0;
+    this.nextThunderFlashTimestampMs = 0;
+    this.minThunderIntervalMs = 1000;
+    this.maxThunderIntervalMs = 3000;
+    this.currentThunderIndex = 0;
 
     this.rain = false;
     this.rainStart = false;
@@ -49,13 +49,13 @@ export class WorldClass {
     this.rainEndTimestampMs = 0;
 
     this.activeLightningLines = [];
-    
+
     this.lightningMaterialBase = new THREE.LineBasicMaterial({
       color: 0xffffff,
       transparent: true,
       opacity: 1,
-      blending: THREE.AdditiveBlending,   
-      depthWrite: false                   
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
     });
 
     this.clock = new THREE.Clock;
@@ -66,31 +66,31 @@ export class WorldClass {
     // --- RAIN: НОВЫЕ ПАРАМЕТРЫ (LINES) ---
     this.rainDropCount = 9000;               // Увеличили количество, так как линии тоньше
     this.rainAreaHalfWidth = 20;             // Чуть шире зона
-    this.rainAreaHalfDepth = 20;             
+    this.rainAreaHalfDepth = 20;
     this.rainTopY = 15;                      // Сбрасываем выше
     this.rainBottomY = -5;
 
     this.rainGeometry = new THREE.BufferGeometry();
-    
+
     // Для линий нужно 2 вершины на каплю * 3 координаты
     this.rainPositions = new Float32Array(this.rainDropCount * 2 * 3);
     // Цвета для градиента (прозрачный хвост)
     this.rainColors = new Float32Array(this.rainDropCount * 2 * 3);
-    
-    this.rainVelocities = new Float32Array(this.rainDropCount);   
+
+    this.rainVelocities = new Float32Array(this.rainDropCount);
   }
 
   async loadRain() {
     // Инициализация дождя на основе линий (LineSegments)
-    
+
     for (let i = 0; i < this.rainDropCount; i++) {
       // Рандомная позиция
       const x = (Math.random() - 0.5) * this.rainAreaHalfWidth * 2;
       const y = Math.random() * (this.rainTopY - this.rainBottomY) + this.rainBottomY;
       const z = (Math.random() - 0.5) * this.rainAreaHalfDepth * 2;
-      
+
       // Скорость падения (быстрая)
-      const speed = 25 + Math.random() * 15; 
+      const speed = 25 + Math.random() * 15;
       this.rainVelocities[i] = speed;
 
       const idx = i * 6; // stride 6 (2 вершины * 3 оси)
@@ -99,21 +99,21 @@ export class WorldClass {
       this.rainPositions[idx + 0] = x;
       this.rainPositions[idx + 1] = y;
       this.rainPositions[idx + 2] = z;
-      
+
       // Цвет головы (светлый)
       const cBase = 0.8 + Math.random() * 0.2;
-      this.rainColors[idx + 0] = 0.7 * cBase; 
-      this.rainColors[idx + 1] = 0.8 * cBase; 
+      this.rainColors[idx + 0] = 0.7 * cBase;
+      this.rainColors[idx + 1] = 0.8 * cBase;
       this.rainColors[idx + 2] = 1.0 * cBase;
 
       // Вершина 2 (Хвост) - пока ставим там же, в updateLighting растянем
       this.rainPositions[idx + 3] = x;
-      this.rainPositions[idx + 4] = y + 0.5; 
+      this.rainPositions[idx + 4] = y + 0.5;
       this.rainPositions[idx + 5] = z;
 
       // Цвет хвоста (более темный и прозрачный эффект через материал)
-      this.rainColors[idx + 3] = 0.2 * cBase; 
-      this.rainColors[idx + 4] = 0.3 * cBase; 
+      this.rainColors[idx + 3] = 0.2 * cBase;
+      this.rainColors[idx + 4] = 0.3 * cBase;
       this.rainColors[idx + 5] = 0.5 * cBase;
     }
 
@@ -135,7 +135,7 @@ export class WorldClass {
     // Frustum culling можно отключить, так как мы сами управляем позициями, 
     // но для линий это не критично, если мы обновляем boundingSphere,
     // или просто ставим frustumCulled = false, чтобы дождь не мигал при поворотах.
-    this.rainPoints.frustumCulled = false; 
+    this.rainPoints.frustumCulled = false;
   }
 
 
@@ -238,7 +238,7 @@ export class WorldClass {
     this.materialStars = new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0.0 },
-        opacity: { value: 0.0 }, 
+        opacity: { value: 0.0 },
       },
       vertexShader,
       fragmentShader,
@@ -315,7 +315,7 @@ export class WorldClass {
         this.renderer.toneMappingExposure = Math.max(0.2, Math.min(1.05, this.renderer.toneMappingExposure));
       }
 
-      if (!this.rainStart && this.parameters.elevation < 2 && this.parameters.elevation > 1.5) { 
+      if (!this.rainStart && this.parameters.elevation < 2 && this.parameters.elevation > 1.5) {
         this.rain = true;
         this.startRain();
         if (this.audioClass.musicOn) this.audioClass.rainAudio.play();
@@ -324,7 +324,7 @@ export class WorldClass {
 
       if (this.parameters.elevation < -4.1 && !this.thunderStart) {
         this.thunder = true;
-        this.startThunder();       
+        this.startThunder();
         this.thunderStart = true;
       }
 
@@ -433,7 +433,7 @@ export class WorldClass {
     this.dirLight.target.position.set(this.camera.position.x - 4, -20, 10);
     this.dirLight.position.set(this.camera.position.x, this.camera.position.y, 0);
 
-    const d = 10; 
+    const d = 10;
     this.dirLight.shadow.camera.left = -d;
     this.dirLight.shadow.camera.right = d;
     this.dirLight.shadow.camera.top = d;
@@ -455,7 +455,7 @@ export class WorldClass {
     }
 
     if (this.lightningFade > 0) {
-      this.lightningFade -= this.deltaSeconds * 1.7; 
+      this.lightningFade -= this.deltaSeconds * 1.7;
       this.lightningFade = Math.max(0, this.lightningFade);
       this.renderer.toneMappingExposure = 0.03 + this.lightningFade * 0.97;
     }
@@ -464,10 +464,10 @@ export class WorldClass {
     if (this.rain) {
       const rainPositionAttr = this.rainGeometry.getAttribute("position");
       const array = rainPositionAttr.array;
-      
+
       const time = performance.now() * 0.001;
       // Глобальный ветер
-      const globalWindX = Math.sin(time * 0.1) * 1.0; 
+      const globalWindX = Math.sin(time * 0.1) * 1.0;
       const globalWindZ = Math.cos(time * 0.05) * 0.5;
 
       const camX = this.camera.position.x;
@@ -487,25 +487,25 @@ export class WorldClass {
 
         // 2. Проверка выхода за пределы "коробки" по высоте (Y)
         if (array[idx + 1] < this.rainBottomY) {
-            // Респаун сверху
-            array[idx + 1] = this.rainTopY;
-            // Случайная позиция вокруг камеры
-            array[idx + 0] = camX + (Math.random() - 0.5) * this.rainAreaHalfWidth * 2;
-            array[idx + 2] = camZ + (Math.random() - 0.5) * this.rainAreaHalfDepth * 2;
+          // Респаун сверху
+          array[idx + 1] = this.rainTopY;
+          // Случайная позиция вокруг камеры
+          array[idx + 0] = camX + (Math.random() - 0.5) * this.rainAreaHalfWidth * 2;
+          array[idx + 2] = camZ + (Math.random() - 0.5) * this.rainAreaHalfDepth * 2;
         }
 
         // 3. Wrapping (бесконечный мир по X и Z)
         // Если капля улетела слишком далеко от камеры - переносим её на другую сторону
         if (array[idx + 0] > camX + this.rainAreaHalfWidth) array[idx + 0] -= this.rainAreaHalfWidth * 2;
         if (array[idx + 0] < camX - this.rainAreaHalfWidth) array[idx + 0] += this.rainAreaHalfWidth * 2;
-        
+
         if (array[idx + 2] > camZ + this.rainAreaHalfDepth) array[idx + 2] -= this.rainAreaHalfDepth * 2;
         if (array[idx + 2] < camZ - this.rainAreaHalfDepth) array[idx + 2] += this.rainAreaHalfDepth * 2;
 
         // 4. Двигаем ХВОСТ капли
         // Хвост рассчитываем относительно головы + вектор движения (наклон)
         // Хвост X = Голова X - смещение ветра (чтобы капля наклонялась по ветру)
-        array[idx + 3] = array[idx + 0] - (globalWindX * this.deltaSeconds * 2); 
+        array[idx + 3] = array[idx + 0] - (globalWindX * this.deltaSeconds * 2);
         // Хвост Y = Голова Y + длина (хвост выше)
         array[idx + 4] = array[idx + 1] + tailLen;
         // Хвост Z
@@ -534,7 +534,7 @@ export class WorldClass {
     if (!this.thunder) return;
     const nowMs = performance.now();
     this.isThunderActive = true;
-    this.thunderEndTimestampMs = nowMs + 16000;
+    this.thunderEndTimestampMs = nowMs + 8000;
     this.triggerThunderFlashNow();
     this.scheduleNextThunderFlash(nowMs);
   }
@@ -574,31 +574,31 @@ export class WorldClass {
     const dirY = endY - startY;
     const dirZ = endZ - startZ;
     const dirLen = Math.hypot(dirX, dirY, dirZ) || 1;
-    const tx = dirX / dirLen, ty = dirY / dirLen, tz = dirZ / dirLen; 
+    const tx = dirX / dirLen, ty = dirY / dirLen, tz = dirZ / dirLen;
 
     const normX = dirX / dirLen, normY = dirY / dirLen, normZ = dirZ / dirLen;
     const perpX = -normZ, perpY = 0, perpZ = normX;
 
     const upGuess = Math.abs(ty) > 0.9 ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
     const tangent = new THREE.Vector3(tx, ty, tz);
-    const perp1 = new THREE.Vector3().crossVectors(tangent, upGuess).normalize();   
-    const perp2 = new THREE.Vector3().crossVectors(tangent, perp1).normalize();     
+    const perp1 = new THREE.Vector3().crossVectors(tangent, upGuess).normalize();
+    const perp2 = new THREE.Vector3().crossVectors(tangent, perp1).normalize();
 
-    const waveFreq1 = 2.0 + Math.random() * 2.0;   
-    const waveAmp1 = 1.2;                         
+    const waveFreq1 = 2.0 + Math.random() * 2.0;
+    const waveAmp1 = 1.2;
     const wavePhase1 = Math.random() * Math.PI * 2;
 
-    const waveFreq2 = 3.0 + Math.random() * 2.5;   
-    const waveAmp2 = 0.8;                         
+    const waveFreq2 = 3.0 + Math.random() * 2.5;
+    const waveAmp2 = 0.8;
     const wavePhase2 = Math.random() * Math.PI * 2;
 
-    const segmentCount = 28;        
-    const baseAmplitude = 4.0;      
+    const segmentCount = 28;
+    const baseAmplitude = 4.0;
     const positions = [];
 
     for (let i = 0; i <= segmentCount; i++) {
       const t = i / segmentCount;
-      const decay = 1.0 - t; 
+      const decay = 1.0 - t;
 
       let px = startX + dirX * t;
       let py = startY + dirY * t;
@@ -626,39 +626,39 @@ export class WorldClass {
         branchPositions.push(bx, by, bz);
         for (let s = 1; s <= branchSteps; s++) {
           bx += (Math.random() - 0.5) * baseAmplitude * branchScale;
-          by += -(0.8 + Math.random() * 0.8) * branchScale; 
+          by += -(0.8 + Math.random() * 0.8) * branchScale;
           bz += (Math.random() - 0.5) * baseAmplitude * branchScale;
           branchPositions.push(bx, by, bz);
         }
         const branchGeometry = new THREE.BufferGeometry();
         branchGeometry.setAttribute("position", new THREE.Float32BufferAttribute(branchPositions, 3));
         const branchLine = new THREE.Line(branchGeometry, this.lightningMaterialBase.clone());
-        branchLine.material.opacity = 0.6;                  
+        branchLine.material.opacity = 0.6;
         branchLine.userData.life = 0.16 + Math.random() * 0.12;
         this.scene.add(branchLine);
         this.activeLightningLines.push(branchLine);
       }
     }
 
-    const duplicateCount = 2; 
+    const duplicateCount = 2;
     for (let d = -1; d <= duplicateCount; d++) {
       const isCore = (d === -1);
-      const offsetDirection = isCore ? 0 : (d % 2 === 0 ? 1 : -1); 
-      const baseSpread = 0.55 + Math.random() * 0.45;             
-      const waveAmplitude = 0.35;                                  
-      const wavePhase = Math.random() * Math.PI * 2;               
+      const offsetDirection = isCore ? 0 : (d % 2 === 0 ? 1 : -1);
+      const baseSpread = 0.55 + Math.random() * 0.45;
+      const waveAmplitude = 0.35;
+      const wavePhase = Math.random() * Math.PI * 2;
 
       const jittered = [];
       const pointCount = positions.length / 3;
 
       for (let i = 0; i < pointCount; i++) {
-        const t = i / (pointCount - 1); 
+        const t = i / (pointCount - 1);
 
-        const fanScale = (0.35 + 0.85 * t); 
+        const fanScale = (0.35 + 0.85 * t);
         const sineBend = Math.sin(t * Math.PI * 2 + wavePhase) * waveAmplitude * (0.2 + 0.8 * t);
 
         const offsetX = perpX * offsetDirection * baseSpread * fanScale + perpZ * sineBend * 0.3;
-        const offsetY = perpY * offsetDirection * baseSpread * fanScale + sineBend * 0.05; 
+        const offsetY = perpY * offsetDirection * baseSpread * fanScale + sineBend * 0.05;
         const offsetZ = perpZ * offsetDirection * baseSpread * fanScale - perpX * sineBend * 0.3;
 
         const ix = i * 3 + 0;
@@ -688,7 +688,7 @@ export class WorldClass {
       lightningGeometry.setAttribute("position", new THREE.Float32BufferAttribute(jittered, 3));
 
       const line = new THREE.Line(lightningGeometry, this.lightningMaterialBase.clone());
-      line.material.opacity = isCore ? 0.95 : 0.32; 
+      line.material.opacity = isCore ? 0.95 : 0.32;
       line.userData.life = 0.22 + Math.random() * 0.18;
       this.scene.add(line);
       this.activeLightningLines.push(line);

@@ -884,6 +884,8 @@ body .green_btn {
 }
 
 
+
+
 .free_game_chels_wrap {
     display: flex;
     justify-content: center;
@@ -3644,9 +3646,45 @@ img {
 
 
 
+
+
+
+
+.hat_desc {
+    margin: 25px 0;
+}
+
+.hat_desc {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .85));
+    border: 2px solid rgba(255, 255, 255, .95);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, .55), 0 8px 20px rgba(0, 0, 0, .08);
+}
+
+
+.hat_desc>span {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    color: #5b6d75;
+    font-size: 13px;
+    opacity: .95;
+}
+
+
+
+
+
+
+
 /* ——— AUTH CARD ——— */
 .autoriz {
-    margin: 25px 0;
+    margin-bottom: 25px;
+    margin-top: 0;
 }
 
 .auth_card {

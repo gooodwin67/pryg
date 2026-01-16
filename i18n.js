@@ -52,6 +52,9 @@ const messages = {
         auth: {
             title: 'Авторизуйтесь для участия в рекордах',
             cta: 'Войти'
+        },
+        hat: {
+            title: 'Шапка помогает летать!',
         }
 
     },
@@ -106,6 +109,9 @@ const messages = {
         auth: {
             title: 'Log in to participate in the records',
             cta: 'LogIn'
+        },
+        hat: {
+            title: 'In hat you can fly!',
         }
     }
 };

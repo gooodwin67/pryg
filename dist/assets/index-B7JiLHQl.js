@@ -579,6 +579,9 @@ let __tla = (async () => {
       auth: {
         title: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u0443\u0439\u0442\u0435\u0441\u044C \u0434\u043B\u044F \u0443\u0447\u0430\u0441\u0442\u0438\u044F \u0432 \u0440\u0435\u043A\u043E\u0440\u0434\u0430\u0445",
         cta: "\u0412\u043E\u0439\u0442\u0438"
+      },
+      hat: {
+        title: "\u0428\u0430\u043F\u043A\u0430 \u043F\u043E\u043C\u043E\u0433\u0430\u0435\u0442 \u043B\u0435\u0442\u0430\u0442\u044C!"
       }
     },
     en: {
@@ -665,6 +668,9 @@ let __tla = (async () => {
       auth: {
         title: "Log in to participate in the records",
         cta: "LogIn"
+      },
+      hat: {
+        title: "In hat you can fly!"
       }
     }
   };
@@ -706,7 +712,7 @@ let __tla = (async () => {
     constructor(s, a, i, e, t, o, n, r, h, c, d, p, m, u, g, b) {
       this.scene = s, this.audioClass = a, this.physicsClass = i, this.renderer = e, this.camera = t, this.isMobile = o, this.paramsClass = n, this.worldClass = r, this.initMatch = h, this.gameClass = d, this.splash = p, this.ring = m, this.dataClass = c, this.scoreClass = u, this.menuClass = g, this.assetsManager = b, this.playersLoaded = false, this.cameraSpeed = 0.01, this.score300ChampHorSent = false, this.score100ChampVertSent = false, this.levelsPlayedTracked = /* @__PURE__ */ new Set(), this.levelsContestPlayedTracked = /* @__PURE__ */ new Set(), this.hardHorReachedSent = false, this.hardVertReachedSent = false, this.levelsMode = false, this.levelsNoFric = false, this.allLevels = this.dataClass.allLevels, this.randomNoFric = 0.3, this.randomAnimateHor = 0.2, this.randomAnimateVert = 0.2, this.canShowAds = true, this.boostHatModel, this.boostHatPropeller, this.boostHatMesh, this.boostHatModels = [], this.boostHatMeshes = [], this.boostHatCoords = [], this.angryBird, this.birdFlyingMark = 10, this.distanceToBird = 20, this.angryBirdModel, this.maxHeight = 0, this.birdYes = true, this.canHorDie = false, this.planeWidth = 4, this.planeHeight = 10, this.planeDepth = 1, this.minPlaneWidthTic = 1, this.fixedDistanceHor = {
         min: 1,
-        max: 4
+        max: 3
       }, this.fixedDistanceVert = {
         min: 3,
         max: 4
@@ -1074,22 +1080,22 @@ let __tla = (async () => {
         let a = -2.5, i = -5, e = false;
         switch (s) {
           case 1:
-            this.birdYes = false, this.count = 3, this.paramsClass.gameDir = "hor", this.levelsNoFric = true, this.randomAnimateHor = 0, this.randomAnimateVert = 0, this.gameNum = 2, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.5;
+            this.birdYes = false, this.count = 3, this.paramsClass.gameDir = "hor", this.levelsNoFric = true, this.randomAnimateHor = 0, this.randomAnimateVert = 0, this.gameNum = 2, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.4, this.fixedDistanceHor.max = 1.6;
             break;
           case 2:
             this.gameNum = 4, this.birdYes = false, this.count = 3, this.paramsClass.gameDir = "vert", this.randomAnimateHor = 0, this.randomAnimateVert = 0;
             break;
           case 3:
-            this.birdYes = true, this.count = 5, this.paramsClass.gameDir = "hor", this.levelsNoFric = true, this.randomAnimateHor = 1, this.randomAnimateVert = 0, this.gameNum = 1, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.5;
+            this.birdYes = true, this.count = 5, this.paramsClass.gameDir = "hor", this.levelsNoFric = true, this.randomAnimateHor = 1, this.randomAnimateVert = 0, this.gameNum = 1, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.4, this.fixedDistanceHor.max = 1.6;
             break;
           case 4:
             this.gameNum = 3, this.birdYes = true, this.count = 5, this.paramsClass.gameDir = "vert", this.levelsNoFric = true, this.randomAnimateHor = 0, this.randomAnimateVert = 0, this.cameraSpeed = 0.01;
             break;
           case 5:
-            this.birdYes = true, this.count = 7, this.paramsClass.gameDir = "hor", this.levelsNoFric = false, this.randomNoFric = 1, this.randomAnimateHor = 1, this.randomAnimateVert = 0, this.gameNum = 1, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.5;
+            this.birdYes = true, this.count = 7, this.paramsClass.gameDir = "hor", this.levelsNoFric = false, this.randomNoFric = 1, this.randomAnimateHor = 1, this.randomAnimateVert = 0, this.gameNum = 1, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.4, this.fixedDistanceHor.max = 1.6;
             break;
           case 6:
-            this.birdYes = true, this.count = 9, this.paramsClass.gameDir = "hor", this.levelsNoFric = false, this.randomNoFric = 1, this.randomAnimateHor = 0.5, this.randomAnimateVert = 1, this.gameNum = 2, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.5;
+            this.birdYes = true, this.count = 9, this.paramsClass.gameDir = "hor", this.levelsNoFric = false, this.randomNoFric = 1, this.randomAnimateHor = 0.5, this.randomAnimateVert = 1, this.gameNum = 2, this.cameraSpeed = 0.01, this.fixedDistanceHor.min = 1.4, this.fixedDistanceHor.max = 1.8;
             break;
           case 7:
             this.gameNum = 4, this.birdYes = false, this.count = 6, this.paramsClass.gameDir = "vert", this.levelsNoFric = true, this.randomAnimateHor = 0, this.randomAnimateVert = 0, this.cameraSpeed = 0.01, e = [
@@ -1121,7 +1127,7 @@ let __tla = (async () => {
               6,
               5,
               1
-            ], this.fixedDistanceHor.min = 2;
+            ], this.fixedDistanceHor.min = 1.3, this.fixedDistanceHor.max = 1.8;
             break;
           case 9:
             this.gameNum = 3, this.birdYes = false, this.count = 6, this.paramsClass.gameDir = "vert", this.levelsNoFric = true, this.randomAnimateHor = 0, this.randomAnimateVert = 0, this.cameraSpeed = 0.01, e = [
@@ -1153,7 +1159,7 @@ let __tla = (async () => {
               6,
               5,
               0.5
-            ], this.fixedDistanceHor.min = 3;
+            ], this.fixedDistanceHor.min = 1.6, this.fixedDistanceHor.max = 2.5;
             break;
         }
         if (this.paramsClass.gameDir == "hor") {
@@ -1197,7 +1203,7 @@ let __tla = (async () => {
           let a = -2.5;
           for (let e = 0; e < this.count; e++) {
             let t = z(this.planeWidth / this.minPlaneWidthTic, this.planeWidth - 1), o = a + t / 2 + z(this.fixedDistanceHor.min, this.fixedDistanceHor.max), n = z(-1.2, 1.2) - this.planeHeight / 1.5;
-            if (e > 20 && (this.fixedDistanceHor.max = 6), this.minPlaneWidthTic += 0.1, e > this.count - 20 ? (this.objs.planes.data[e].size.x = 0.1, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = 0.2 + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = 0.2 + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : e > 0 ? (this.objs.planes.data[e].size.x = t, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = t + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = t + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[e].size.x = this.planeWidth, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = this.planeWidth + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = this.planeWidth + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), e == 0 ? (n = 1 - this.planeHeight / 1.5, this.objs.planes.data[e].position.x = 0, this.objs.planes.data[e].position.y = n + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[e].position.x = 0, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2 - 1.5, this.objs.grassPlanes.data[e].position.x = 0, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5 - 1.5) : e == 1 ? (o = 6, this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5) : e > 1 && (this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5), this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - 0.2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.lights.length < this.lightsCount) {
+            if (e > 20 && (this.fixedDistanceHor.max = 4), this.minPlaneWidthTic += 0.1, e > this.count - 20 ? (this.objs.planes.data[e].size.x = 0.1, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = 0.2 + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = 0.2 + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : e > 0 ? (this.objs.planes.data[e].size.x = t, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = t + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = t + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.grassPlanes.geometryPlaneGrass.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth) : (this.objs.planes.data[e].size.x = this.planeWidth, this.objs.planes.data[e].size.y = this.planeHeight, this.objs.topPlanes.data[e].size.x = this.planeWidth + 0.3, this.objs.topPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.x = this.planeWidth + 0.3, this.objs.grassPlanes.data[e].size.y = this.objs.topPlanes.geometryPlaneTop.parameters.height, this.objs.grassPlanes.data[e].size.z = this.objs.grassPlanes.geometryPlaneGrass.parameters.depth), e == 0 ? (n = 1 - this.planeHeight / 1.5, this.objs.planes.data[e].position.x = 0, this.objs.planes.data[e].position.y = n + this.planeHeight / 6 - 1.5, this.objs.topPlanes.data[e].position.x = 0, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2 - 1.5, this.objs.grassPlanes.data[e].position.x = 0, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5 - 1.5) : e == 1 ? (o = 6, this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5) : e > 1 && (this.objs.planes.data[e].position.x = o, this.objs.planes.data[e].position.y = n + this.planeHeight / 6, this.objs.topPlanes.data[e].position.x = o, this.objs.topPlanes.data[e].position.y = n + this.planeHeight / 1.5 + 0.2, this.objs.grassPlanes.data[e].position.x = o, this.objs.grassPlanes.data[e].position.y = n + this.planeHeight / 1.5), this.objs.lamps.data[e].position.x = this.objs.grassPlanes.data[e].position.x, this.objs.lamps.data[e].position.z = -this.planeDepth / 4, this.objs.lamps.data[e].position.y = this.objs.grassPlanes.data[e].position.y + this.objs.grassPlanes.data[e].size.y / 2 + this.objs.lamps.lampHeight - 0.2, this.objs.plafons.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.plafons.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.plafons.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.objs.bulbs.data[e].position.x = this.objs.lamps.data[e].position.x, this.objs.bulbs.data[e].position.z = this.objs.lamps.data[e].position.z, this.objs.bulbs.data[e].position.y = this.objs.lamps.data[e].position.y + 1, this.lights.length < this.lightsCount) {
               const r = new Rs(16247464, 0, 4);
               r.position.set(0, 0, 1.6), this.lights.push(r), this.scene.add(r);
             }
@@ -2124,7 +2130,7 @@ let __tla = (async () => {
     startThunder() {
       if (!this.thunder) return;
       const s = performance.now();
-      this.isThunderActive = true, this.thunderEndTimestampMs = s + 16e3, this.triggerThunderFlashNow(), this.scheduleNextThunderFlash(s);
+      this.isThunderActive = true, this.thunderEndTimestampMs = s + 8e3, this.triggerThunderFlashNow(), this.scheduleNextThunderFlash(s);
     }
     triggerThunderFlashNow() {
       if (!this.thunder) return;
