@@ -72,7 +72,7 @@ export class LevelClass {
 
     this.minPlaneWidthTic = 1;
 
-    this.fixedDistanceHor = { min: 1, max: 3 }
+    this.fixedDistanceHor = { min: 1, max: 2 }
     this.fixedDistanceVert = { min: 3, max: 4 }
 
     this.count = 120;
@@ -1258,7 +1258,7 @@ export class LevelClass {
             let randomX = previousX + randomW / 2 + getRandomNumber(this.fixedDistanceHor.min, this.fixedDistanceHor.max);
             let randomY = getRandomNumber(-1.2, 1.2) - this.planeHeight / 1.5;
 
-            if (i > 20) this.fixedDistanceHor.max = 4;
+            if (i > 20) this.fixedDistanceHor.max = 2.5;
 
             this.minPlaneWidthTic += 0.1;
 
